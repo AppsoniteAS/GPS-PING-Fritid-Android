@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="viewModel"
+            type="no.appsonite.gpsping.viewmodel.LoginFragmentViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <include layout="@layout/top_bar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/form_bg"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <no.appsonite.gpsping.widget.CustomFontTextView
+                    style="@style/AppTheme.widget.FormTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:error="@{viewModel.loginError}">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/userName"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"
+                        app:twoWayText="@{viewModel.login}" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:error="@{viewModel.passwordError}">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        app:onActionDone="@{viewModel.passwordDone}"
+                        app:twoWayText="@{viewModel.password}" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.widget.Button.Green"
+                android:layout_marginTop="24dp"
+                android:onClick="@{viewModel.onLoginClick}"
+                android:text="@string/login" />
+
+            <TextView
+                style="@style/AppTheme.widget.Button.Gray"
+                android:layout_marginTop="28dp"
+                android:onClick="@{viewModel.onRegisterClick}"
+                android:text="@string/register" />
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

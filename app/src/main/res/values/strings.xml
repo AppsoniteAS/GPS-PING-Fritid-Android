@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">GPS Ping</string>
+    <string name="login">Login</string>
+    <string name="userName">Username</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="loginCanNotBeEmpty">Username can not be empty</string>
+    <string name="passwordCanNotBeEmpty">Password can not be empty</string>
+    <string name="email">Email</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="emailCanNotBeEmpty">Email can not be empty</string>
+    <string name="passwordNotConfirmed">Password does not match the confirm password</string>
+</resources>
