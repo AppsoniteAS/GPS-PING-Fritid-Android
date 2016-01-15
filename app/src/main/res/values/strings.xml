@@ -10,4 +10,25 @@
     <string name="confirmPassword">Confirm Password</string>
     <string name="emailCanNotBeEmpty">Email can not be empty</string>
     <string name="passwordNotConfirmed">Password does not match the confirm password</string>
+    <string name="activeTracker">Active tracker:</string>
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+    <string name="mapAndTracking">Map and Tracking</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="trackers">Trackers</string>
+    <string name="connect">Connect</string>
+    <string name="geofence">Geofence</string>
+    <string name="profile">Profile</string>
+    <string name="about">About</string>
+    <string name="visitWebsite">Visit Website</string>
+    <string name="contactUs">Contact Us</string>
+    <string name="aboutApp">About App</string>
+    <string name="youCanOrder">You can order Tracker using Contact Us button</string>
+    <string name="geofenceDesc">Input number of yards in diameter for geofence. <b>Remember to turn off geofence when stopping.</b></string>
+    <string name="yards">Yards</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="save">Save</string>
+    <string name="phoneNumberCanNotBeEmpty">Phone number can not be empty</string>
+    <string name="yardsCanNotBeEmpty">Yards can not be empty</string>
 </resources>

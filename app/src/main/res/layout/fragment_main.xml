@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="no.appsonite.gpsping.viewmodel.MainFragmentViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/top_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/activeTracker"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:visibility="@{viewModel.activeTracker!=null?View.VISIBLE:View.INVISIBLE}" />
+
+                <no.appsonite.gpsping.widget.CustomFontTextView
+                    style="@style/AppTheme.widget.FormTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="-4dp"
+                    android:text='@{viewModel.activeTracker != null ? viewModel.activeTracker.trackerName:"NoName"}'
+                    android:visibility="@{viewModel.activeTracker!=null?View.VISIBLE:View.INVISIBLE}" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:background="@drawable/circle_button"
+                    android:onClick="@{viewModel.onStartClick}"
+                    android:text="@{viewModel.activeTracker != null ? @string/stop : @string/start}"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="52sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="32dp"
+                    android:onClick="@{viewModel.onMapClick}"
+                    android:text="@string/mapAndTracking" />
+
+                <TextView
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:onClick="@{viewModel.onHistoryClick}"
+                    android:text="@string/history" />
+
+                <TextView
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="28dp"
+                    android:onClick="@{viewModel.onSettingsClick}"
+                    android:text="@string/settings" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</layout>
