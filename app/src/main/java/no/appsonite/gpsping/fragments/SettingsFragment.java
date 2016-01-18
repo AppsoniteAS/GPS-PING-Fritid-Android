@@ -49,5 +49,11 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
                 getBaseActivity().replaceFragment(GeofenceFragment.newInstance(), true);
             }
         });
+        getBinding().profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(ProfileFragment.newInstance(), true);
+            }
+        });
     }
 }
