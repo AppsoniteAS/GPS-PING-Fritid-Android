@@ -113,7 +113,7 @@ public class BindingAttributes {
     @BindingAdapter({"app:twoWayBoolean"})
     public static void bindCheckBox(CheckBox view, final ObservableBoolean observableBoolean) {
         if (observableBoolean != null) {
-            if (view.getTag(R.id.bound_observable) != null) {
+            if (view.getTag(R.id.bound_observable) != observableBoolean) {
                 view.setTag(R.id.bound_observable, observableBoolean);
                 view.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override

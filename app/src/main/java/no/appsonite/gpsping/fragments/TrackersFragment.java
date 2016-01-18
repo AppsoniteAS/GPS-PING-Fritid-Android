@@ -79,6 +79,8 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
     }
 
     private void initFakeData() {
+        if(!getModel().trackers.isEmpty())
+            return;
         Tracker tracker = new Tracker();
         tracker.trackerNumber.set("1234");
         tracker.trackerName.set("Julie");
