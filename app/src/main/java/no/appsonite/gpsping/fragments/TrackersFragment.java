@@ -6,16 +6,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.databinding.FragmentProfileBinding;
-import no.appsonite.gpsping.viewmodel.ProfileFragmentViewModel;
+import no.appsonite.gpsping.databinding.FragmentTrackersBinding;
+import no.appsonite.gpsping.viewmodel.TrackersFragmentViewModel;
 
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
  * Date: 18.01.2016
  */
-public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding, ProfileFragmentViewModel> {
-    private static final String TAG = "ProfileFragment";
+public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBinding, TrackersFragmentViewModel> {
+    private static final String TAG = "TrackersFragment";
 
     @Override
     public String getFragmentTag() {
@@ -24,7 +24,7 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
 
     @Override
     protected String getTitle() {
-        return getString(R.string.profile);
+        return getString(R.string.trackers);
     }
 
     @Override
@@ -34,23 +34,25 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_profile, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
-            getModel().logout();
+        if (item.getItemId() == R.id.addTracker) {
+            getBaseActivity().replaceFragment(ChooseTrackerFragment.newInstance(), true);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static ProfileFragment newInstance() {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_trackers, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public static TrackersFragment newInstance() {
+
         Bundle args = new Bundle();
-        ProfileFragment fragment = new ProfileFragment();
+
+        TrackersFragment fragment = new TrackersFragment();
         fragment.setArguments(args);
         return fragment;
     }

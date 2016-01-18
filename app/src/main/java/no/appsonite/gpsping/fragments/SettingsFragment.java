@@ -55,5 +55,12 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
                 getBaseActivity().replaceFragment(ProfileFragment.newInstance(), true);
             }
         });
+
+        getBinding().trackers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(TrackersFragment.newInstance(), true);
+            }
+        });
     }
 }

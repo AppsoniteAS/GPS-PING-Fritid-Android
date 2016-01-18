@@ -32,4 +32,6 @@
     <string name="phoneNumberCanNotBeEmpty">Phone number can not be empty</string>
     <string name="yardsCanNotBeEmpty">Yards can not be empty</string>
     <string name="logout">Logout</string>
+    <string name="chooseTracker">Choose Tracker</string>
+    <string name="addTracker">Add tracker</string>
 </resources>
