@@ -49,7 +49,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="numberSigned"
                     android:singleLine="true"
-                    app:twoWayText="@{viewModel.username}" />
+                    app:twoWayText="@{viewModel.profile.username}" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -65,7 +65,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:singleLine="true"
-                    app:twoWayText="@{viewModel.fullName}" />
+                    app:twoWayText="@{viewModel.profile.fullName}" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -81,7 +81,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:singleLine="true"
-                    app:twoWayText="@{viewModel.email}" />
+                    app:twoWayText="@{viewModel.profile.email}" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
