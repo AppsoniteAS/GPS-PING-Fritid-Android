@@ -8,7 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.utils.BindableString;
+import no.appsonite.gpsping.utils.ObservableString;
 
 /**
  * Created: Belozerov
@@ -16,8 +16,8 @@ import no.appsonite.gpsping.utils.BindableString;
  * Date: 15.01.2016
  */
 public class LoginFragmentViewModel extends BaseFragmentViewModel {
-    public BindableString login = new BindableString();
-    public BindableString password = new BindableString();
+    public ObservableString login = new ObservableString();
+    public ObservableString password = new ObservableString();
     public ObservableField<String> loginError = new ObservableField<>();
     public ObservableField<String> passwordError = new ObservableField<>();
     private ActionListener actionListener;

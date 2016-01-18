@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#8bc34a</color>
     <color name="colorAccent">#757575</color>
     <color name="mainTextColor">#000</color>
+    <color name="whiteHover">#ccffffff</color>
 
 </resources>

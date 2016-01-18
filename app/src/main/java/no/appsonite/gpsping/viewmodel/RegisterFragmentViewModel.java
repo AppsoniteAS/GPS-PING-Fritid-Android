@@ -8,7 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.utils.BindableString;
+import no.appsonite.gpsping.utils.ObservableString;
 
 /**
  * Created: Belozerov
@@ -16,10 +16,10 @@ import no.appsonite.gpsping.utils.BindableString;
  * Date: 15.01.2016
  */
 public class RegisterFragmentViewModel extends BaseFragmentViewModel {
-    public BindableString userName = new BindableString();
-    public BindableString email = new BindableString();
-    public BindableString password = new BindableString();
-    public BindableString passwordRepeat = new BindableString();
+    public ObservableString userName = new ObservableString();
+    public ObservableString email = new ObservableString();
+    public ObservableString password = new ObservableString();
+    public ObservableString passwordRepeat = new ObservableString();
 
     public ObservableField<String> userNameError = new ObservableField<>();
     public ObservableField<String> emailError = new ObservableField<>();

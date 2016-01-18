@@ -45,5 +45,10 @@
         <item name="android:textColor">@color/mainTextColor</item>
     </style>
 
+    <style name="AppTheme.widget.FormFieldLabel">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
 
 </resources>

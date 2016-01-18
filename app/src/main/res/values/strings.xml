@@ -34,4 +34,32 @@
     <string name="logout">Logout</string>
     <string name="chooseTracker">Choose Tracker</string>
     <string name="addTracker">Add tracker</string>
+    <string name="tracker">Tracker</string>
+    <string name="name">Name</string>
+    <string name="imeiNumber">IMEI Number</string>
+    <string name="trackerNumber">Tracker Number</string>
+    <string name="addTrackerButton">Add Tracker</string>
+    <string name="signal">Signal</string>
+    <string name="receiveSignalEvery">Receive signal every</string>
+    <string name="checkThisDog">Check this for dog in stand</string>
+    <string name="trackerNameCanNotBeEmpty">Tracker name can not be empty</string>
+    <string name="imeiCanNotBeEmpty">IMEI Number can not be empty</string>
+    <string name="trackerNumberCanNotBeEmpty">Tracker Number can not be empty</string>
+    <string name="trackerNumberN">Tracker Number:\t\t%1$s</string>
+    <string name="trackerImeiN">IMEI Number:\t\t\t%1$s</string>
+    <string name="removeTracker">Remove\ntracker</string>
+    <string-array name="receiveSignalTime">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="receiveSignalMeasure">
+        <item>Seconds</item>
+        <item>Minutes</item>
+    </string-array>
 </resources>

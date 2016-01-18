@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="no.appsonite.gpsping.utils.BindingHelper" />
+
+        <variable
+            name="item"
+            type="no.appsonite.gpsping.model.Tracker" />
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <com.daimajia.swipe.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/trackerItemHeight">
+
+        <FrameLayout
+            android:id="@+id/bottomWrapper"
+            android:layout_width="100dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/removeTracker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="@{onClickListener}"
+                android:tag="@{item}"
+                android:text="@string/removeTracker"
+                android:textColor="@color/colorAccent" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/trackerIconSmall"
+                android:layout_height="@dimen/trackerIconSmall"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                app:imageRes="@{BindingHelper.getTrackerImage(item.type)}" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/trackerItemHeight"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:singleLine="true"
+                    android:text="@{item.trackerName}"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="24sp" />
+
+                <TextView
+                    style="@style/AppTheme.widget.FormFieldLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40sp"
+                    android:text="@{@string/trackerNumberN(item.trackerNumber.get())}" />
+
+                <TextView
+                    style="@style/AppTheme.widget.FormFieldLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="54sp"
+                    android:text="@{@string/trackerImeiN(item.imeiNumber.get())}" />
+
+                <CheckBox
+                    app:twoWayBoolean="@{item.isEnabled}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:drawableRight="@drawable/tracker_checkbox" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="bottom"
+                    android:background="@color/colorAccent" />
+            </FrameLayout>
+        </LinearLayout>
+    </com.daimajia.swipe.SwipeLayout>
+
+</layout>

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.utils.BindableString;
+import no.appsonite.gpsping.utils.ObservableString;
 
 /**
  * Created: Belozerov
@@ -13,10 +13,10 @@ import no.appsonite.gpsping.utils.BindableString;
  * Date: 15.01.2016
  */
 public class GeofenceFragmentViewModel extends BaseFragmentViewModel {
-    public BindableString yards = new BindableString();
+    public ObservableString yards = new ObservableString();
     public ObservableField<String> yardsError = new ObservableField<>();
 
-    public BindableString phoneNumber = new BindableString();
+    public ObservableString phoneNumber = new ObservableString();
     public ObservableField<String> phoneNumberError = new ObservableField<>();
 
     public void onSaveClick(View v) {

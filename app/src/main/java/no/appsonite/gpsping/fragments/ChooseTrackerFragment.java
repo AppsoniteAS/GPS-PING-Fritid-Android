@@ -1,9 +1,11 @@
 package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
+import android.view.View;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentChooseTrackerBinding;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
 /**
@@ -27,7 +29,31 @@ public class ChooseTrackerFragment extends BaseBindingFragment<FragmentChooseTra
     @Override
     protected void onViewModelCreated(BaseFragmentViewModel model) {
         super.onViewModelCreated(model);
+        View.OnClickListener onTrackerTypeClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.tkAnywhere:
+                        showAddTrackerFragment(Tracker.Type.TK_ANYWHERE);
+                        break;
+                    case R.id.tkStar:
+                        showAddTrackerFragment(Tracker.Type.TK_STAR);
+                        break;
+                    case R.id.tkStarPet:
+                        showAddTrackerFragment(Tracker.Type.TK_STAR_PET);
+                        break;
+                }
+            }
+        };
+        getBinding().tkAnywhere.setOnClickListener(onTrackerTypeClickListener);
+        getBinding().tkStar.setOnClickListener(onTrackerTypeClickListener);
+        getBinding().tkStarPet.setOnClickListener(onTrackerTypeClickListener);
+    }
 
+    private void showAddTrackerFragment(Tracker.Type type) {
+        Tracker tracker = new Tracker();
+        tracker.type.set(type);
+        getBaseActivity().replaceFragment(AddTrackerFragment.newInstance(tracker), true);
     }
 
     public static ChooseTrackerFragment newInstance() {
@@ -36,4 +62,5 @@ public class ChooseTrackerFragment extends BaseBindingFragment<FragmentChooseTra
         fragment.setArguments(args);
         return fragment;
     }
+
 }
