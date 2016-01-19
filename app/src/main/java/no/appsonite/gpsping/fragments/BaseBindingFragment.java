@@ -119,6 +119,7 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
         binding.setVariable(no.appsonite.gpsping.BR.viewModel, model);
         model.onViewCreated();
         onViewModelCreated(model);
+        model.onModelAttached();
     }
 
     protected void onViewModelCreated(M model) {

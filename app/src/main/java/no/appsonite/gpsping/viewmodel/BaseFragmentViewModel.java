@@ -33,4 +33,8 @@ public class BaseFragmentViewModel implements Serializable {
     public void onPause() {
 
     }
+
+    public void onModelAttached(){
+
+    }
 }

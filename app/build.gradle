@@ -31,7 +31,7 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     apt 'com.android.databinding:compiler:1.0-rc1'
     compile 'com.parse.bolts:bolts-android:1.2.1'
-    compile 'com.parse:parse-android:1.10.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    compile 'io.realm:realm-android:0.87.2'
 }

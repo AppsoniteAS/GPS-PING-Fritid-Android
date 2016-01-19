@@ -51,6 +51,8 @@
     <string name="aboutAppText">
         About the abb\n\nThis app let´s you see the gps position of a gps tracker.\n\nBefore you start, go to settings and input the imei number and tracker number. Select signal interval. Tap save and go back to main menu to start the tracker.\n\n        Tap Start Tracker to turn the trackers signal on. You will receive a text message back from the tracker when it is sending. You will see the trackers last position as a green triangle.\n\nEarlier positions are marked with green circle.\n\n
     </string>
+    <string name="editTracker">Edit\ntracker</string>
+    <string name="update">Update</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

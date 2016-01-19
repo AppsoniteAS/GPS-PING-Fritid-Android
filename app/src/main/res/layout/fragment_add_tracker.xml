@@ -56,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/name"
                             android:imeOptions="actionNext"
-                            android:inputType="numberSigned"
+                            android:inputType="textPersonName"
                             android:singleLine="true"
                             app:twoWayText="@{viewModel.tracker.trackerName}" />
                     </android.support.design.widget.TextInputLayout>
@@ -183,7 +183,7 @@
                     android:layout_marginBottom="24dp"
                     android:layout_marginTop="24dp"
                     android:onClick="@{viewModel.addTracker}"
-                    android:text="@string/addTrackerButton" />
+                    android:text="@{viewModel.buttonText}" />
             </LinearLayout>
 
 

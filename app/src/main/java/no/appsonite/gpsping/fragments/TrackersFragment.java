@@ -63,12 +63,17 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
     @Override
     protected void onViewModelCreated(final TrackersFragmentViewModel model) {
         super.onViewModelCreated(model);
-        initFakeData();
-        final TrackersAdapter adapter = new TrackersAdapter(){
+        model.requestTrackers();
+        final TrackersAdapter adapter = new TrackersAdapter() {
             @Override
             public void onClick(View v) {
-                if(v.getId() == R.id.removeTracker){
-                    model.removeTracker((Tracker) v.getTag());
+                switch (v.getId()) {
+                    case R.id.removeTracker:
+                        model.removeTracker((Tracker) v.getTag());
+                        break;
+                    case R.id.editTracker:
+                        getBaseActivity().replaceFragment(AddTrackerFragment.newInstance((Tracker) v.getTag()), true);
+                        break;
                 }
             }
         };
@@ -76,30 +81,5 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
         getBinding().trackersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().trackersRecycler.setAdapter(adapter);
         BindingHelper.bindAdapter(adapter, model.trackers);
-    }
-
-    private void initFakeData() {
-        if(!getModel().trackers.isEmpty())
-            return;
-        Tracker tracker = new Tracker();
-        tracker.trackerNumber.set("1234");
-        tracker.trackerName.set("Julie");
-        tracker.imeiNumber.set("123123213");
-
-        getModel().trackers.add(tracker);
-
-        tracker = new Tracker();
-        tracker.trackerNumber.set("1234");
-        tracker.trackerName.set("Joe");
-        tracker.imeiNumber.set("123123213");
-
-        getModel().trackers.add(tracker);
-
-        tracker = new Tracker();
-        tracker.trackerNumber.set("1234");
-        tracker.imeiNumber.set("123123213");
-        tracker.trackerName.set("Gerald Medina");
-        getModel().trackers.add(tracker);
-
     }
 }
