@@ -1,18 +1,22 @@
 package no.appsonite.gpsping.fragments;
 
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentTrackersBinding;
+import no.appsonite.gpsping.databinding.ItemTrackerBinding;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.TrackersFragmentViewModel;
-import no.appsonite.gpsping.widget.TrackersAdapter;
+import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
 
 /**
  * Created: Belozerov
@@ -64,7 +68,12 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
     protected void onViewModelCreated(final TrackersFragmentViewModel model) {
         super.onViewModelCreated(model);
         model.requestTrackers();
-        final TrackersAdapter adapter = new TrackersAdapter() {
+        GPSPingBaseRecyclerSwipeAdapter<Tracker> adapter = new GPSPingBaseRecyclerSwipeAdapter<Tracker>() {
+            @Override
+            public ViewDataBinding onCreateViewDataBinding(ViewGroup parent, int viewType) {
+                return ItemTrackerBinding.inflate(LayoutInflater.from(getContext()), parent, false);
+            }
+
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {

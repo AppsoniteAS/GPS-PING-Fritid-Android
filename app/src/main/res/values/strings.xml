@@ -53,6 +53,9 @@
     </string>
     <string name="editTracker">Edit\ntracker</string>
     <string name="update">Update</string>
+    <string name="friends">Friends</string>
+    <string name="addFriend">Add friend</string>
+    <string name="removeFriend">Remove\nfriend</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

@@ -5,6 +5,7 @@ import android.databinding.ObservableList;
 import android.support.v7.widget.RecyclerView;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.Tracker;
 
 /**
@@ -21,6 +22,18 @@ public class BindingHelper {
                 return R.drawable.image_tk_star_normal;
             case TK_STAR_PET:
                 return R.drawable.image_tk_star_pet_normal;
+        }
+        return 0;
+    }
+
+    public static int getFriendStatusIcon(Friend.Status status) {
+        switch (status) {
+            case invisible:
+                return R.drawable.ic_invisible;
+            case visible:
+                return R.drawable.ic_visible;
+            case not_confirmed:
+                return R.drawable.ic_warning;
         }
         return 0;
     }

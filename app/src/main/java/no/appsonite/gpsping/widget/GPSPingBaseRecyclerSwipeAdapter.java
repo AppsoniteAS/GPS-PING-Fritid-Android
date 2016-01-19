@@ -1,32 +1,29 @@
 package no.appsonite.gpsping.widget;
 
 import android.databinding.ObservableArrayList;
-import android.view.LayoutInflater;
+import android.databinding.ViewDataBinding;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import no.appsonite.gpsping.BR;
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.databinding.ItemTrackerBinding;
-import no.appsonite.gpsping.model.Tracker;
 
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
- * Date: 18.01.2016
+ * Date: 19.01.2016
  */
-public class TrackersAdapter extends RecyclerSwipeAdapter<BindingViewHolder> implements View.OnClickListener{
-    private ObservableArrayList<Tracker> items = new ObservableArrayList<>();
+public abstract class GPSPingBaseRecyclerSwipeAdapter<T> extends RecyclerSwipeAdapter<BindingViewHolder> implements View.OnClickListener {
+    private ObservableArrayList<T> items = new ObservableArrayList<>();
 
     @Override
     public BindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BindingViewHolder(ItemTrackerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false).getRoot());
+        return new BindingViewHolder(onCreateViewDataBinding(parent, viewType).getRoot());
     }
+
+    public abstract ViewDataBinding onCreateViewDataBinding(ViewGroup parent, int viewType);
 
     @Override
     public void onBindViewHolder(BindingViewHolder holder, int position) {
@@ -39,11 +36,11 @@ public class TrackersAdapter extends RecyclerSwipeAdapter<BindingViewHolder> imp
         return items.size();
     }
 
-    public Tracker getItem(int position) {
+    public T getItem(int position) {
         return items.get(position);
     }
 
-    public void setItems(ObservableArrayList<Tracker> items) {
+    public void setItems(ObservableArrayList<T> items) {
         this.items = items;
         notifyDataSetChanged();
     }
