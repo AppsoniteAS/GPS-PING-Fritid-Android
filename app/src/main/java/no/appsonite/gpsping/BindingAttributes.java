@@ -2,7 +2,6 @@ package no.appsonite.gpsping;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableField;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
@@ -19,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -102,13 +102,19 @@ public class BindingAttributes {
                     new Pair<>(observableString, watcher));
             view.addTextChangedListener(watcher);
         }
-        if(observableString != null) {
+        if (observableString != null) {
             String newValue = observableString.get();
             if (!view.getText().toString().equals(newValue)) {
                 view.setText(newValue);
             }
         }
     }
+
+    @BindingAdapter("app:swipeEnabled")
+    public static void setLayoutWidth(SwipeLayout view, boolean enabled) {
+        view.setSwipeEnabled(enabled);
+    }
+
 
     @BindingAdapter({"app:twoWayBoolean"})
     public static void bindCheckBox(CheckBox view, final ObservableBoolean observableBoolean) {
@@ -147,7 +153,7 @@ public class BindingAttributes {
                 });
             }
             String newValue = observable.get();
-            if(newValue == null)
+            if (newValue == null)
                 return;
             if (!observable.equals(spinner.getSelectedItem())) {
                 SpinnerAdapter spinnerAdapter = spinner.getAdapter();

@@ -34,6 +34,8 @@ public class BindingHelper {
                 return R.drawable.ic_visible;
             case not_confirmed:
                 return R.drawable.ic_warning;
+            case not_added:
+                return R.drawable.ic_add_friend;
         }
         return 0;
     }

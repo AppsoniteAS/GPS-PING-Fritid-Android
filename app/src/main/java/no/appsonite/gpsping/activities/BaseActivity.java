@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.fragments.BaseBindingFragment;
+import no.appsonite.gpsping.utils.Utils;
 
 /**
  * Created: Belozerov
@@ -46,6 +47,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Utils.hideKeyboard(this);
         BaseBindingFragment lastFragment = getLastFragment();
         if (lastFragment != null && lastFragment.onBackPressed()) {
             return;

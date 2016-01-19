@@ -51,7 +51,8 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.addFriend) {
-
+            getBaseActivity().replaceFragment(AddFriendFragment.newInstance(), true);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

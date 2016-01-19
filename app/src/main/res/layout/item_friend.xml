@@ -5,6 +5,8 @@
     <data>
 
         <import type="no.appsonite.gpsping.utils.BindingHelper" />
+        <import type="no.appsonite.gpsping.model.Friend" />
+        <import type="android.view.View" />
 
         <variable
             name="item"
@@ -16,6 +18,7 @@
     </data>
 
     <com.daimajia.swipe.SwipeLayout
+        app:swipeEnabled="@{!Friend.Status.not_added.equals(item.status)}"
         android:layout_width="match_parent"
         android:layout_height="@dimen/friendItemHeight">
 
@@ -76,6 +79,13 @@
                 android:scaleType="centerInside"
                 android:tag="@{item}"
                 app:imageRes="@{BindingHelper.getFriendStatusIcon(item.status)}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorAccent" />
         </FrameLayout>
 
     </com.daimajia.swipe.SwipeLayout>

@@ -15,6 +15,6 @@ public class Friend {
     public ObservableField<Status> status = new ObservableField<>();
 
     public enum Status {
-        not_confirmed, visible, invisible
+        not_confirmed, visible, invisible, not_added
     }
 }

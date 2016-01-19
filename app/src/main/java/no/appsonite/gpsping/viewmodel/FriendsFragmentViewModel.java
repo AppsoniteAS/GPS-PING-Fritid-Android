@@ -17,6 +17,8 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public void initFakeFriend() {
+        if (!friends.isEmpty())
+            return;
         Friend friend = new Friend();
         friend.name.set("John");
         friend.userName.set("McCain");
