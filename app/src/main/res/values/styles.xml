@@ -9,6 +9,13 @@
         <item name="android:windowBackground">@drawable/dog_background</item>
     </style>
 
+    <style name="AppTheme.WithActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
     <style name="AppTheme.widget" />
 
     <style name="AppTheme.widget.FormTitle">
