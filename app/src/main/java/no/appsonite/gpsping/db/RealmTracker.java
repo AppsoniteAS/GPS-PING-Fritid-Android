@@ -1,7 +1,18 @@
 package no.appsonite.gpsping.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.model.Tracker;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created: Belozerov
@@ -32,6 +43,31 @@ public class RealmTracker extends RealmObject {
         realmTracker.setType(tracker.type.get().name());
         realmTracker.setIsEnabled(tracker.isEnabled.get());
         realmTracker.setUuid(tracker.uuid.get());
+    }
+
+    public static void requestTrackersFromRealm(final List<Tracker> result){
+        Observable.create(new Observable.OnSubscribe<ArrayList<Tracker>>() {
+            @Override
+            public void call(Subscriber<? super ArrayList<Tracker>> subscriber) {
+                ArrayList<Tracker> trackers = new ArrayList<>();
+                Realm realm = Realm.getInstance(Application.getContext());
+                RealmResults<RealmTracker> results = realm.where(RealmTracker.class).findAll();
+                for (RealmTracker result : results) {
+                    trackers.add(new Tracker(result));
+                }
+                subscriber.onNext(trackers);
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ArrayList<Tracker>>() {
+                    @Override
+                    public void call(ArrayList<Tracker> trackers) {
+                        result.clear();
+                        result.addAll(trackers);
+                    }
+                });
     }
 
     public RealmTracker(Tracker tracker) {

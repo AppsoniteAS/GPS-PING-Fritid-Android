@@ -1,9 +1,12 @@
 package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentMainBinding;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.MainFragmentViewModel;
 
 /**
@@ -11,7 +14,7 @@ import no.appsonite.gpsping.viewmodel.MainFragmentViewModel;
  * Company: APPGRANULA LLC
  * Date: 15.01.2016
  */
-public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainFragmentViewModel> implements MainFragmentViewModel.ActionsListener {
+public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainFragmentViewModel> implements TrackersDialogFragment.TrackersDialogListener {
     private static final String TAG = "MainFragment";
 
     @Override
@@ -36,26 +39,24 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
     @Override
     protected void onViewModelCreated(MainFragmentViewModel model) {
         super.onViewModelCreated(model);
-        model.setActionsListener(this);
+        getBinding().settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true);
+            }
+        });
+
+        getBinding().startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrackersDialogFragment dialogFragment = new TrackersDialogFragment();
+                dialogFragment.show(getChildFragmentManager(), dialogFragment.getFragmentTag());
+            }
+        });
     }
 
     @Override
-    public void mapAndTrackingClick() {
-
-    }
-
-    @Override
-    public void historyClick() {
-
-    }
-
-    @Override
-    public void settingsClick() {
-        getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true);
-    }
-
-    @Override
-    public void onStartClick() {
-
+    public void onSelect(Tracker tracker) {
+        Toast.makeText(getActivity(), tracker.trackerName.get(), Toast.LENGTH_SHORT).show();
     }
 }

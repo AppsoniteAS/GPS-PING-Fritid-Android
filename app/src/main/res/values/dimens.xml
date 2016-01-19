@@ -7,4 +7,6 @@
     <dimen name="friendItemHeight">68dp</dimen>
     <dimen name="width0">0dp</dimen>
     <dimen name="width100">100dp</dimen>
+    <dimen name="trackerDialogWidth">500dp</dimen>
+    <dimen name="trackerDialogHeight">420dp</dimen>
 </resources>
