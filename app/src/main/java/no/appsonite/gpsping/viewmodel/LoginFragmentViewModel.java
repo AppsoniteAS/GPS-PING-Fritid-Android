@@ -8,7 +8,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.AuthHelper;
+import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.utils.ObservableString;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.observables.ConnectableObservable;
 
 /**
  * Created: Belozerov
@@ -20,14 +25,21 @@ public class LoginFragmentViewModel extends BaseFragmentViewModel {
     public ObservableString password = new ObservableString();
     public ObservableField<String> loginError = new ObservableField<>();
     public ObservableField<String> passwordError = new ObservableField<>();
-    private ActionListener actionListener;
 
-    public void onLoginClick(View v) {
+    public Observable<LoginAnswer> onLoginClick() {
         if (validateData()) {
-            if (actionListener != null) {
-                actionListener.onLogin();
-            }
+            Observable<LoginAnswer> observable = AuthHelper.login(login.get(), password.get());
+            observable.subscribe(new Action1<LoginAnswer>() {
+                @Override
+                public void call(LoginAnswer loginAnswer) {
+                    if (loginAnswer.isSuccess()) {
+                        AuthHelper.putCredentials(loginAnswer);
+                    }
+                }
+            });
+            return observable;
         }
+        return null;
     }
 
     private boolean validateData() {
@@ -44,12 +56,6 @@ public class LoginFragmentViewModel extends BaseFragmentViewModel {
         return true;
     }
 
-    public void onRegisterClick(View v) {
-        if (actionListener != null) {
-            actionListener.onRegisterClick();
-        }
-    }
-
     public TextView.OnEditorActionListener passwordDone = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -57,20 +63,11 @@ public class LoginFragmentViewModel extends BaseFragmentViewModel {
                     actionId == EditorInfo.IME_ACTION_DONE ||
                     event.getAction() == KeyEvent.ACTION_DOWN &&
                             event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                onLoginClick(null);
+                onLoginClick();
                 return true;
             }
             return false;
         }
     };
 
-    public void setActionListener(ActionListener actionListener) {
-        this.actionListener = actionListener;
-    }
-
-    public interface ActionListener {
-        void onLogin();
-
-        void onRegisterClick();
-    }
 }

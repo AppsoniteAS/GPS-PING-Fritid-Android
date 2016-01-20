@@ -61,11 +61,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phoneNumber"
+                    android:hint="@string/fullName"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:singleLine="true"
-                    app:twoWayText="@{viewModel.profile.fullName}" />
+                    app:twoWayText="@{viewModel.profile.displayname}" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -77,9 +77,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phoneNumber"
+                    android:hint="@string/email"
                     android:imeOptions="actionNext"
-                    android:inputType="phone"
+                    android:inputType="textEmailAddress"
                     android:singleLine="true"
                     app:twoWayText="@{viewModel.profile.email}" />
             </android.support.design.widget.TextInputLayout>
@@ -88,7 +88,7 @@
         <TextView
             style="@style/AppTheme.widget.Button.Green"
             android:layout_marginTop="24dp"
-            android:onClick="@{viewModel.onSaveClick}"
+            android:id="@+id/buttonSave"
             android:text="@string/save" />
     </LinearLayout>
 </layout>

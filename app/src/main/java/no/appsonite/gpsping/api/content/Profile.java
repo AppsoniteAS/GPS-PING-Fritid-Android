@@ -1,4 +1,6 @@
-package no.appsonite.gpsping.model;
+package no.appsonite.gpsping.api.content;
+
+import com.google.gson.annotations.SerializedName;
 
 import no.appsonite.gpsping.utils.ObservableString;
 
@@ -9,6 +11,8 @@ import no.appsonite.gpsping.utils.ObservableString;
  */
 public class Profile {
     public ObservableString username = new ObservableString();
-    public ObservableString fullName = new ObservableString();
+    public ObservableString displayname = new ObservableString();
+    public ObservableString password = new ObservableString();
     public ObservableString email = new ObservableString();
+    public Long id;
 }

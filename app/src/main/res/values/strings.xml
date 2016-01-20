@@ -58,6 +58,9 @@
     <string name="removeFriend">Remove\nfriend</string>
     <string name="search">Search</string>
     <string name="selectTracker">Select tracker you want to activate:</string>
+    <string name="wait">Please, wait…</string>
+    <string name="nameCanNotBeEmpty">Name can not be empty</string>
+    <string name="fullName">Full Name</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

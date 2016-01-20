@@ -2,10 +2,13 @@ package no.appsonite.gpsping.viewmodel;
 
 import android.databinding.ObservableField;
 import android.text.TextUtils;
-import android.view.View;
 
+import io.realm.Realm;
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.model.Profile;
+import no.appsonite.gpsping.api.AuthHelper;
+import no.appsonite.gpsping.api.content.LoginAnswer;
+import no.appsonite.gpsping.api.content.Profile;
+import no.appsonite.gpsping.db.RealmTracker;
 
 /**
  * Created: Belozerov
@@ -19,36 +22,28 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<String> fullNameError = new ObservableField<>();
     public ObservableField<String> emailError = new ObservableField<>();
 
-    private ActionsListener actionsListener;
 
-    public void onSaveClick(View v) {
+    public void onSaveClick() {
         if (validateData()) {
-            if (actionsListener != null) {
-                actionsListener.onSave();
-            }
+            LoginAnswer loginAnswer = AuthHelper.getCredentials();
+            loginAnswer.setUser(this.profile.get());
+            AuthHelper.putCredentials(loginAnswer);
         }
     }
 
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        Profile profile = new Profile();
-        profile.email.set("hello@gmail.com");
-        profile.username.set("JSilver");
-        profile.fullName.set("John Silver");
+        Profile profile = AuthHelper.getCredentials().getUser();
         this.profile.set(profile);
     }
 
-    public void setActionsListener(ActionsListener actionsListener) {
-        this.actionsListener = actionsListener;
-    }
-
     public void logout() {
-
-    }
-
-    public interface ActionsListener {
-        void onSave();
+        AuthHelper.clearCredentials();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.clear(RealmTracker.class);
+        realm.commitTransaction();
     }
 
     private boolean validateData() {
@@ -57,6 +52,13 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
             return false;
         }
         usernameError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().displayname.get())) {
+            fullNameError.set(getContext().getString(R.string.nameCanNotBeEmpty));
+            return false;
+        }
+        fullNameError.set(null);
+
         if (TextUtils.isEmpty(profile.get().email.get())) {
             emailError.set(getContext().getString(R.string.emailCanNotBeEmpty));
             return false;

@@ -8,7 +8,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.AuthHelper;
+import no.appsonite.gpsping.api.content.LoginAnswer;
+import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.utils.ObservableString;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.observables.ConnectableObservable;
 
 /**
  * Created: Belozerov
@@ -16,72 +22,57 @@ import no.appsonite.gpsping.utils.ObservableString;
  * Date: 15.01.2016
  */
 public class RegisterFragmentViewModel extends BaseFragmentViewModel {
-    public ObservableString userName = new ObservableString();
-    public ObservableString email = new ObservableString();
-    public ObservableString password = new ObservableString();
+    public ObservableField<Profile> profile = new ObservableField<>(new Profile());
     public ObservableString passwordRepeat = new ObservableString();
 
     public ObservableField<String> userNameError = new ObservableField<>();
+    public ObservableField<String> fullNameError = new ObservableField<>();
     public ObservableField<String> emailError = new ObservableField<>();
     public ObservableField<String> passwordError = new ObservableField<>();
     public ObservableField<String> passwordRepeatError = new ObservableField<>();
 
-    public TextView.OnEditorActionListener passwordDone = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                    actionId == EditorInfo.IME_ACTION_DONE ||
-                    event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                onRegisterClick(null);
-                return true;
-            }
-            return false;
-        }
-    };
-
-    public void onRegisterClick(View view) {
+    public Observable<LoginAnswer> onRegisterClick() {
         if (validateData()) {
-            if (actionListener != null) {
-                actionListener.onRegister();
-            }
+            Observable<LoginAnswer> observable = AuthHelper.register(profile.get());
+            observable.subscribe(new Action1<LoginAnswer>() {
+                @Override
+                public void call(LoginAnswer loginAnswer) {
+                    if (loginAnswer.isSuccess()) {
+                        AuthHelper.putCredentials(loginAnswer);
+                    }
+                }
+            });
+            return observable;
         }
-    }
-
-    private ActionListener actionListener;
-
-    public ActionListener getActionListener() {
-        return actionListener;
-    }
-
-    public void setActionListener(ActionListener actionListener) {
-        this.actionListener = actionListener;
-    }
-
-    public interface ActionListener {
-        void onRegister();
+        return null;
     }
 
     private boolean validateData() {
-        if (TextUtils.isEmpty(userName.get())) {
+        if (TextUtils.isEmpty(profile.get().username.get())) {
             userNameError.set(getContext().getString(R.string.loginCanNotBeEmpty));
             return false;
         }
         userNameError.set(null);
 
-        if (TextUtils.isEmpty(email.get())) {
+        if (TextUtils.isEmpty(profile.get().displayname.get())) {
+            fullNameError.set(getContext().getString(R.string.nameCanNotBeEmpty));
+            return false;
+        }
+        fullNameError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().email.get())) {
             emailError.set(getContext().getString(R.string.emailCanNotBeEmpty));
             return false;
         }
         emailError.set(null);
 
-        if (TextUtils.isEmpty(password.get())) {
+        if (TextUtils.isEmpty(profile.get().password.get())) {
             passwordError.set(getContext().getString(R.string.passwordCanNotBeEmpty));
             return false;
         }
         passwordError.set(null);
 
-        if (!password.get().equals(passwordRepeat.get())) {
+        if (!profile.get().password.get().equals(passwordRepeat.get())) {
             passwordRepeatError.set(getContext().getString(R.string.passwordNotConfirmed));
             return false;
         }

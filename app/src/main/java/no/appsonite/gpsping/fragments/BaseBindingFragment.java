@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.BaseActivity;
 import no.appsonite.gpsping.utils.DataBindingUtils;
+import no.appsonite.gpsping.utils.ProgressDialogFragment;
 import no.appsonite.gpsping.utils.TypeResolver;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
@@ -143,4 +145,23 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     }
 
     protected abstract String getTitle();
+
+    protected void hideProgress() {
+        if (getBaseActivity() == null)
+            return;
+        ProgressDialogFragment.hide(getBaseActivity());
+    }
+
+    protected void showProgress() {
+        if (getBaseActivity() == null)
+            return;
+        ProgressDialogFragment.show(getBaseActivity());
+    }
+
+    protected void showError(Throwable e) {
+        if (getActivity() != null) {
+            hideProgress();
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 }

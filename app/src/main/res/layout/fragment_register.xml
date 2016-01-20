@@ -52,7 +52,22 @@
                             android:hint="@string/userName"
                             android:imeOptions="actionNext"
                             android:singleLine="true"
-                            app:twoWayText="@{viewModel.userName}" />
+                            app:twoWayText="@{viewModel.profile.username}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.fullNameError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/fullName"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.displayname}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -66,8 +81,9 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/email"
                             android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
                             android:singleLine="true"
-                            app:twoWayText="@{viewModel.email}" />
+                            app:twoWayText="@{viewModel.profile.email}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -83,7 +99,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="textPassword"
                             android:singleLine="true"
-                            app:twoWayText="@{viewModel.password}" />
+                            app:twoWayText="@{viewModel.profile.password}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -93,12 +109,12 @@
                         app:error="@{viewModel.passwordRepeatError}">
 
                         <EditText
+                            android:id="@+id/passwordConfirm"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/confirmPassword"
                             android:inputType="textPassword"
                             android:singleLine="true"
-                            app:onActionDone="@{viewModel.passwordDone}"
                             app:twoWayText="@{viewModel.passwordRepeat}" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -106,7 +122,7 @@
                 <TextView
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_marginTop="24dp"
-                    android:onClick="@{viewModel.onRegisterClick}"
+                    android:id="@+id/registerButton"
                     android:text="@string/register" />
             </LinearLayout>
         </ScrollView>

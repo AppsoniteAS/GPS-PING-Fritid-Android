@@ -1,8 +1,10 @@
 package no.appsonite.gpsping.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.fragments.LoginFragment;
 
 public class LoginActivity extends BaseActivity {
@@ -13,6 +15,11 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_container);
         if (savedInstanceState == null) {
             replaceFragment(LoginFragment.newInstance(), false);
+        }
+
+        if (AuthHelper.getCredentials() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 }
