@@ -1,15 +1,18 @@
 package no.appsonite.gpsping.fragments;
 
+import android.databinding.ViewDataBinding;
+
 import com.google.android.gms.maps.GoogleMap;
 
 import no.appsonite.gpsping.activities.MapActivity;
+import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
  * Date: 20.01.2016
  */
-public abstract class BaseMapFragment extends BaseBindingFragment {
+public abstract class BaseMapFragment<B extends ViewDataBinding, M extends BaseFragmentViewModel> extends BaseBindingFragment<B, M> {
     public GoogleMap getMap() {
         return getMapActivity().getMap();
     }

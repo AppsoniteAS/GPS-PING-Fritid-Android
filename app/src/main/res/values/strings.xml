@@ -61,6 +61,13 @@
     <string name="wait">Please, wait…</string>
     <string name="nameCanNotBeEmpty">Name can not be empty</string>
     <string name="fullName">Full Name</string>
+    <string name="satellite">Satellite</string>
+    <string name="standard">Standard</string>
+    <string name="topo">Topo</string>
+    <string name="photo">Photo</string>
+    <string name="removeTracks">Remove tracks</string>
+    <string name="map">Map</string>
+    <string name="all">All</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

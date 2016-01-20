@@ -87,9 +87,9 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
         getBaseActivity().setSupportActionBar(toolbar);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(getTitle());
             boolean isBackStack = getArguments().getBoolean(ADD_TO_BACK_STACK, false);
             if (isBackStack) {
-                actionBar.setTitle(getTitle());
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeButtonEnabled(true);
                 actionBar.setDefaultDisplayHomeAsUpEnabled(true);

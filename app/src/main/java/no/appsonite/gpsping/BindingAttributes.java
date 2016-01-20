@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,8 +22,10 @@ import android.widget.TextView;
 import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.CircleTransformation;
 import no.appsonite.gpsping.utils.ObservableBoolean;
 import no.appsonite.gpsping.utils.ObservableString;
@@ -170,6 +173,16 @@ public class BindingAttributes {
             }
 
         }
+    }
+
+    @BindingAdapter({"android:entries"})
+    public static void setFriendsSpinner(Spinner spinner, ArrayList<Friend> items) {
+        ArrayList<String> strings = new ArrayList<>();
+        for (Friend item : items) {
+            strings.add(item.userName.get());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(spinner.getContext(), R.layout.item_friends_spinner, strings);
+        spinner.setAdapter(adapter);
     }
 
     @BindingAdapter({"app:error"})

@@ -10,6 +10,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.fragments.BaseMapFragment;
+import no.appsonite.gpsping.fragments.TrackersMapFragment;
 
 /**
  * Created: Belozerov
@@ -34,6 +35,9 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        if (savedInstanceState == null) {
+            replaceFragment(TrackersMapFragment.newInstance(), false);
+        }
     }
 
     @Override

@@ -58,6 +58,7 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
         if (item.getItemId() == R.id.logout) {
             getModel().logout();
             getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
