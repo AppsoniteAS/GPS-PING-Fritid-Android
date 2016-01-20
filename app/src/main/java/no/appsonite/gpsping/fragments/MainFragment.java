@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.activities.MapActivity;
 import no.appsonite.gpsping.databinding.FragmentMainBinding;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.MainFragmentViewModel;
@@ -51,6 +52,13 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
             public void onClick(View v) {
                 TrackersDialogFragment dialogFragment = new TrackersDialogFragment();
                 dialogFragment.show(getChildFragmentManager(), dialogFragment.getFragmentTag());
+            }
+        });
+
+        getBinding().mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapActivity.start(getContext());
             }
         });
     }

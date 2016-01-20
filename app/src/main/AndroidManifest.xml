@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyArhJK4ihoIZER3PVlG5aLX563-i5C8qjI"/>
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait">
@@ -34,6 +35,10 @@
             android:name=".activities.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.WithActionBar" />
+
+        <activity
+            android:name=".activities.MapActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
