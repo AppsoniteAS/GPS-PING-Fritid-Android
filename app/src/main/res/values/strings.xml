@@ -68,6 +68,8 @@
     <string name="removeTracks">Remove tracks</string>
     <string name="map">Map</string>
     <string name="all">All</string>
+    <string name="notify_photo_title">Photo</string>
+    <string name="notify_photo_text">GPS Ping</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>
