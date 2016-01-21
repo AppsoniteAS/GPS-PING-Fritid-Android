@@ -70,6 +70,7 @@
     <string name="all">All</string>
     <string name="notify_photo_title">Photo</string>
     <string name="notify_photo_text">GPS Ping</string>
+    <string name="profileSaved">Profile succesfully updated</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

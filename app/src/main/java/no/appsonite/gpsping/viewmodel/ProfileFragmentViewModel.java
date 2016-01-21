@@ -6,9 +6,12 @@ import android.text.TextUtils;
 import io.realm.Realm;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.db.RealmTracker;
+import rx.Observable;
+import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -23,18 +26,37 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<String> emailError = new ObservableField<>();
 
 
-    public void onSaveClick() {
+    public Observable<ApiAnswer> onSaveClick() {
         if (validateData()) {
-            LoginAnswer loginAnswer = AuthHelper.getCredentials();
+            final LoginAnswer loginAnswer = AuthHelper.getCredentials();
             loginAnswer.setUser(this.profile.get());
-            AuthHelper.putCredentials(loginAnswer);
+            Observable<ApiAnswer> observable = AuthHelper.updateUser(this.profile.get());
+            observable.subscribe(new Observer<ApiAnswer>() {
+                @Override
+                public void onCompleted() {
+                    AuthHelper.putCredentials(loginAnswer);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(ApiAnswer apiAnswer) {
+
+                }
+            });
+            return observable;
         }
+        return null;
     }
 
     @Override
     public void onViewCreated() {
         super.onViewCreated();
         Profile profile = AuthHelper.getCredentials().getUser();
+
         this.profile.set(profile);
     }
 

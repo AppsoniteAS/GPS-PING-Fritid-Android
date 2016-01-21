@@ -13,6 +13,7 @@ import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
+import rx.Observer;
 import rx.functions.Action1;
 import rx.observables.ConnectableObservable;
 
@@ -34,9 +35,19 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
     public Observable<LoginAnswer> onRegisterClick() {
         if (validateData()) {
             Observable<LoginAnswer> observable = AuthHelper.register(profile.get());
-            observable.subscribe(new Action1<LoginAnswer>() {
+            observable.subscribe(new Observer<LoginAnswer>() {
                 @Override
-                public void call(LoginAnswer loginAnswer) {
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(LoginAnswer loginAnswer) {
                     if (loginAnswer.isSuccess()) {
                         AuthHelper.putCredentials(loginAnswer);
                     }

@@ -45,9 +45,10 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:hint="@string/userName"
                     android:imeOptions="actionNext"
-                    android:inputType="numberSigned"
+                    android:inputType="textPersonName"
                     android:singleLine="true"
                     app:twoWayText="@{viewModel.profile.username}" />
             </android.support.design.widget.TextInputLayout>
@@ -77,6 +78,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:hint="@string/email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
@@ -86,9 +88,9 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/buttonSave"
             style="@style/AppTheme.widget.Button.Green"
             android:layout_marginTop="24dp"
-            android:id="@+id/buttonSave"
             android:text="@string/save" />
     </LinearLayout>
 </layout>

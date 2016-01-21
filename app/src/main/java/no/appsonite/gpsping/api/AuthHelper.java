@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.NonceAnswer;
 import no.appsonite.gpsping.api.content.Profile;
@@ -32,6 +36,8 @@ public class AuthHelper {
                                 profile.username.get(),
                                 profile.password.get(),
                                 profile.email.get(),
+                                profile.firstName,
+                                profile.lastName,
                                 profile.displayname.get(),
                                 nonceAnswer.getNonce()
                         );
@@ -41,6 +47,35 @@ public class AuthHelper {
                     @Override
                     public Observable<LoginAnswer> call(RegisterAnswer registerAnswer) {
                         return apiService.login(profile.username.get(), profile.password.get());
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Observable<ApiAnswer> updateUser(final Profile profile) {
+        final ApiService apiService = ApiFactory.getService();
+        final LoginAnswer loginAnswer = AuthHelper.getCredentials();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("first_name", profile.firstName);
+        params.put("last_name", profile.lastName);
+//        params.put("email", profile.email.get());
+//        params.put("username", profile.username.get());
+//        params.put("display_name", profile.displayname.get());
+        return Observable.from(params.entrySet())
+
+                .flatMap(new Func1<Map.Entry<String, String>, Observable<ApiAnswer>>() {
+                    @Override
+                    public Observable<ApiAnswer> call(Map.Entry<String, String> entry) {
+                        return apiService.updateUser(loginAnswer.getCookie(), entry.getKey(), entry.getValue());
+                    }
+                }).flatMap(new Func1<ApiAnswer, Observable<ApiAnswer>>() {
+                    @Override
+                    public Observable<ApiAnswer> call(ApiAnswer apiAnswer) {
+                        if (apiAnswer.isError()) {
+                            return Observable.error(new Throwable(apiAnswer.getError()));
+                        }
+                        return Observable.just(apiAnswer);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -66,7 +101,11 @@ public class AuthHelper {
         String serializedCredentials = sharedPreferences.getString("credentials", "");
         if (TextUtils.isEmpty(serializedCredentials))
             return null;
-        return ApiFactory.getGson().fromJson(serializedCredentials, LoginAnswer.class);
+        LoginAnswer loginAnswer = ApiFactory.getGson().fromJson(serializedCredentials, LoginAnswer.class);
+        if (loginAnswer != null) {
+            loginAnswer.getUser().init();
+        }
+        return loginAnswer;
     }
 
     public static void clearCredentials() {

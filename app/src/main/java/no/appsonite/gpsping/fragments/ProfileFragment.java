@@ -6,11 +6,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.LoginActivity;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentProfileBinding;
 import no.appsonite.gpsping.viewmodel.ProfileFragmentViewModel;
+import rx.Observable;
+import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -42,9 +46,35 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
         getBinding().buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getModel().onSaveClick();
+                saveProfile();
             }
         });
+    }
+
+    private void saveProfile() {
+        Observable<ApiAnswer> answer = getModel().onSaveClick();
+        if (answer != null) {
+            showProgress();
+            answer.subscribe(new Observer<ApiAnswer>() {
+                @Override
+                public void onCompleted() {
+                    if (getActivity() == null)
+                        return;
+                    Toast.makeText(getActivity(), getString(R.string.profileSaved), Toast.LENGTH_SHORT).show();
+                    hideProgress();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showError(e);
+                }
+
+                @Override
+                public void onNext(ApiAnswer apiAnswer) {
+
+                }
+            });
+        }
     }
 
     @Override

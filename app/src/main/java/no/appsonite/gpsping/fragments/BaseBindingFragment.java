@@ -12,12 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.BaseActivity;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.utils.DataBindingUtils;
 import no.appsonite.gpsping.utils.ProgressDialogFragment;
 import no.appsonite.gpsping.utils.TypeResolver;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
+import retrofit.HttpException;
 
 
 /**
@@ -161,7 +165,17 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     protected void showError(Throwable e) {
         if (getActivity() != null) {
             hideProgress();
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+            String message = e.getMessage();
+            if (e instanceof HttpException) {
+                try {
+                    message = ((HttpException) e).response().errorBody().string();
+                    ApiAnswer apiAnswer = new Gson().fromJson(message, ApiAnswer.class);
+                    message = apiAnswer.getError();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
     }
 }
