@@ -74,7 +74,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse("file://" + filePath), "image/*");
         PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 12, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext())
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)

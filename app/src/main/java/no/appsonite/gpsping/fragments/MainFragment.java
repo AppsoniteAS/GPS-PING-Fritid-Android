@@ -58,7 +58,14 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
         getBinding().mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapActivity.start(getContext());
+                MapActivity.start(getContext(), MapActivity.Type.ACTIVE);
+            }
+        });
+
+        getBinding().historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapActivity.start(getContext(), MapActivity.Type.HISTORY);
             }
         });
     }

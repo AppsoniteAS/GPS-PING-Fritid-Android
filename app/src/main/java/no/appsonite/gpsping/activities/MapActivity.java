@@ -11,6 +11,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.fragments.BaseMapFragment;
 import no.appsonite.gpsping.fragments.TrackersMapFragment;
+import no.appsonite.gpsping.fragments.TrackersMapHistoryFragment;
 
 /**
  * Created: Belozerov
@@ -18,12 +19,18 @@ import no.appsonite.gpsping.fragments.TrackersMapFragment;
  * Date: 20.01.2016
  */
 public class MapActivity extends BaseActivity implements OnMapReadyCallback {
+    private static final String EXTRA_TYPE = "extra_type";
     private SupportMapFragment mapFragment;
     private boolean mapReady = false;
     private GoogleMap googleMap;
 
-    public static void start(Context context) {
+    public enum Type {
+        HISTORY, ACTIVE
+    }
+
+    public static void start(Context context, Type type) {
         Intent intent = new Intent(context, MapActivity.class);
+        intent.putExtra(EXTRA_TYPE, type.toString());
         context.startActivity(intent);
     }
 
@@ -34,9 +41,9 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
         mapReady = false;
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        Type type = Type.valueOf(getIntent().getStringExtra(EXTRA_TYPE));
         if (savedInstanceState == null) {
-            replaceFragment(TrackersMapFragment.newInstance(), false);
+            replaceFragment(type.equals(Type.ACTIVE) ? TrackersMapFragment.newInstance() : TrackersMapHistoryFragment.newInstance(), false);
         }
     }
 
