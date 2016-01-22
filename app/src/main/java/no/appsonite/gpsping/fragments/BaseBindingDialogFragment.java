@@ -52,12 +52,17 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = (B) DataBindingUtils.getViewDataBinding(bindingClass, LayoutInflater.from(getActivity()), null);
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog)
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), getStyle())
                 .setTitle(getTitle())
                 .setView(binding.getRoot())
                 .create();
         createModel(savedInstanceState);
+        onBeforeDialogCreated(alertDialog);
         return alertDialog;
+    }
+
+    protected int getStyle(){
+        return R.style.AppTheme_Dialog;
     }
 
     protected abstract String getTitle();
@@ -85,6 +90,10 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
         model.onViewCreated();
         onViewModelCreated(model);
         model.onModelAttached();
+    }
+
+    protected void onBeforeDialogCreated(Dialog dialog) {
+
     }
 
     protected void onViewModelCreated(M model) {

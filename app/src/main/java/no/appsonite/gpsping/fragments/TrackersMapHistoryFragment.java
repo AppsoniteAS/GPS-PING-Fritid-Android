@@ -3,6 +3,10 @@ package no.appsonite.gpsping.fragments;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.Date;
 
 import no.appsonite.gpsping.R;
 
@@ -11,7 +15,7 @@ import no.appsonite.gpsping.R;
  * Company: APPGRANULA LLC
  * Date: 21.01.2016
  */
-public class TrackersMapHistoryFragment extends TrackersMapFragment {
+public class TrackersMapHistoryFragment extends TrackersMapFragment implements CalendarDialogFragment.CalendarListener {
     private static final String TAG = "TrackersMapHistoryFragment";
 
     @Override
@@ -19,6 +23,16 @@ public class TrackersMapHistoryFragment extends TrackersMapFragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_map_history, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_calendar) {
+            CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance();
+            calendarDialogFragment.show(getChildFragmentManager(), CalendarDialogFragment.TAG);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static TrackersMapHistoryFragment newInstance() {
@@ -36,5 +50,10 @@ public class TrackersMapHistoryFragment extends TrackersMapFragment {
     @Override
     public String getFragmentTag() {
         return TAG;
+    }
+
+    @Override
+    public void onDateSelected(Date date) {
+        Toast.makeText(getContext(), date.toString(), Toast.LENGTH_SHORT).show();
     }
 }

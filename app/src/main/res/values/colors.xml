@@ -5,5 +5,7 @@
     <color name="colorAccent">#757575</color>
     <color name="mainTextColor">#000</color>
     <color name="whiteHover">#ccffffff</color>
+    <color name="calendarOutMonth">#d7d7d7</color>
+    <color name="colorEvent">#aec2e5</color>
 
 </resources>
