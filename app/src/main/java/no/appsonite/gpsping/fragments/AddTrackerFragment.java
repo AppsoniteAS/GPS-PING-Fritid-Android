@@ -2,10 +2,10 @@ package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerBinding;
-import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.AddTrackerFragmentViewModel;
 import rx.Observable;
@@ -57,10 +57,10 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
     }
 
     private void saveTracker() {
-        Observable<RealmTracker> observable = getModel().addTracker(getActivity());
+        Observable<Boolean> observable = getModel().saveTracker(getActivity());
         if (observable != null) {
             showProgress();
-            observable.subscribe(new Observer<RealmTracker>() {
+            observable.subscribe(new Observer<Boolean>() {
                 @Override
                 public void onCompleted() {
 
@@ -72,9 +72,12 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
                 }
 
                 @Override
-                public void onNext(RealmTracker realmTracker) {
+                public void onNext(Boolean isNew) {
                     hideProgress();
                     getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+                    if (!isNew) {
+                        Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

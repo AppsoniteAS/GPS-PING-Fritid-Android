@@ -21,26 +21,14 @@
 
         <LinearLayout
             android:id="@+id/bottomWrapper"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/editTracker"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:onClick="@{onClickListener}"
-                android:tag="@{item}"
-                android:text="@string/editTracker"
-                android:textColor="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/removeTracker"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:onClick="@{onClickListener}"
@@ -50,9 +38,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/editTracker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{onClickListener}"
+            android:orientation="horizontal"
+            android:tag="@{item}">
 
             <ImageView
                 android:layout_width="@dimen/trackerIconSmall"
@@ -91,11 +83,14 @@
                     android:text="@{@string/trackerImeiN(item.imeiNumber.get())}" />
 
                 <CheckBox
-                    app:twoWayBoolean="@{item.isEnabled}"
-                    android:layout_width="match_parent"
+                    android:layout_width="48dp"
                     android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@null"
                     android:button="@null"
-                    android:drawableRight="@drawable/tracker_checkbox" />
+                    android:drawableRight="@drawable/tracker_checkbox"
+                    android:gravity="center"
+                    app:twoWayBoolean="@{item.isEnabled}" />
 
                 <View
                     android:layout_width="match_parent"

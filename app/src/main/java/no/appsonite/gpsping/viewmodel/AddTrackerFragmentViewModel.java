@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.viewmodel;
 
 import android.app.Activity;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
@@ -33,46 +34,74 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString nameError = new ObservableString();
     public ObservableString imeiNumberError = new ObservableString();
     public ObservableString trackerNumberError = new ObservableString();
-    public ObservableString buttonText = new ObservableString();
+    public ObservableBoolean editMode = new ObservableBoolean();
 
-    public Observable<RealmTracker> addTracker(Activity activity) {
+    public Observable<Boolean> saveTracker(Activity activity) {
         if (validateData()) {
-            return sendSmses(activity, getSMSes())
-                    .last()
-                    .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
-                        @Override
-                        public Observable<ApiAnswer> call(SMS sms) {
-                            LoginAnswer loginAnswer = AuthHelper.getCredentials();
-                            return ApiFactory.getService().addTracker(loginAnswer.getCookie(),
-                                    tracker.get().trackerName.get(),
-                                    Long.parseLong(tracker.get().imeiNumber.get()),
-                                    Long.parseLong(tracker.get().trackerNumber.get()),
-                                    tracker.get().getRepeatTime(),
-                                    tracker.get().checkForStand.get(),
-                                    tracker.get().type.toString()
-                            ).subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread());
-                        }
-                    })
-                    .flatMap(new Func1<ApiAnswer, Observable<RealmTracker>>() {
-                        @Override
-                        public Observable<RealmTracker> call(ApiAnswer apiAnswer) {
-                            Realm realm = Realm.getInstance(getContext());
-                            RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
-                            realm.beginTransaction();
-                            if (realmTracker == null) {
-                                realmTracker = realm.createObject(RealmTracker.class);
-                            }
-                            RealmTracker.initWithTracker(realmTracker, tracker.get());
-                            realm.copyToRealm(realmTracker);
-                            realm.commitTransaction();
-                            return Observable.just(realmTracker);
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
+            if (!editMode.get()) {
+                return addNewTracker(activity);
+            } else {
+                return editTracker(activity);
+            }
         }
         return null;
+    }
+
+    private Observable<Boolean> editTracker(Activity activity) {
+        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+        return ApiFactory.getService().updateTracker(loginAnswer.getCookie(),
+                Long.parseLong(tracker.get().imeiNumber.get()),
+                tracker.get().trackerName.get(),
+                tracker.get().getRepeatTime(),
+                tracker.get().checkForStand.get())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(ApiAnswer apiAnswer) {
+                        Realm realm = Realm.getInstance(getContext());
+                        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
+                        realm.beginTransaction();
+                        RealmTracker.initWithTracker(realmTracker, tracker.get());
+                        realm.copyToRealm(realmTracker);
+                        realm.commitTransaction();
+                        return Observable.just(false);
+                    }
+                });
+    }
+
+    private Observable<Boolean> addNewTracker(Activity activity) {
+        return sendSmses(activity, getSMSes())
+                .last()
+                .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
+                    @Override
+                    public Observable<ApiAnswer> call(SMS sms) {
+                        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+                        return ApiFactory.getService().addTracker(loginAnswer.getCookie(),
+                                tracker.get().trackerName.get(),
+                                Long.parseLong(tracker.get().imeiNumber.get()),
+                                Long.parseLong(tracker.get().trackerNumber.get()),
+                                tracker.get().getRepeatTime(),
+                                tracker.get().checkForStand.get(),
+                                tracker.get().type.toString()
+                        ).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
+                    }
+                })
+                .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(ApiAnswer apiAnswer) {
+                        Realm realm = Realm.getInstance(getContext());
+                        realm.beginTransaction();
+                        RealmTracker realmTracker = realm.createObject(RealmTracker.class);
+                        RealmTracker.initWithTracker(realmTracker, tracker.get());
+                        realm.copyToRealm(realmTracker);
+                        realm.commitTransaction();
+                        return Observable.just(true);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private ArrayList<SMS> getSMSes() {
@@ -100,7 +129,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public void onModelAttached() {
         Realm realm = Realm.getInstance(Application.getContext());
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
-        buttonText.set(Application.getContext().getString(realmTracker == null ? R.string.addTracker : R.string.update));
+        editMode.set(realmTracker != null);
     }
 
     private boolean validateData() {
