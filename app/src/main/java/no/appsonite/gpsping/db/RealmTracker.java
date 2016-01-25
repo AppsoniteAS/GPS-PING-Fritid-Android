@@ -28,7 +28,6 @@ public class RealmTracker extends RealmObject {
     private String signalRepeatTimeMeasurement;
     private boolean isEnabled;
     private String type;
-    private String uuid;
 
     public RealmTracker() {
     }
@@ -42,7 +41,6 @@ public class RealmTracker extends RealmObject {
         realmTracker.setSignalRepeatTimeMeasurement(tracker.signalRepeatTimeMeasurement.get());
         realmTracker.setType(tracker.type.get().name());
         realmTracker.setIsEnabled(tracker.isEnabled.get());
-        realmTracker.setUuid(tracker.uuid.get());
     }
 
     public static void requestTrackersFromRealm(final List<Tracker> result){
@@ -72,14 +70,6 @@ public class RealmTracker extends RealmObject {
 
     public RealmTracker(Tracker tracker) {
         initWithTracker(this, tracker);
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String id) {
-        this.uuid = id;
     }
 
     public String getTrackerName() {

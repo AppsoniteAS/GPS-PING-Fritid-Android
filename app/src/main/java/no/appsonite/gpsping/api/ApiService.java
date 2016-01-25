@@ -25,4 +25,7 @@ public interface ApiService {
 
     @GET("user/update_user_meta/")
     Observable<ApiAnswer> updateUser(@Query("cookie") String cookie, @Query("meta_key") String fieldName, @Query("meta_value") String fieldValue);
+
+    @GET("tracker/add_tracker")
+    Observable<ApiAnswer> addTracker(@Query("cookie") String cookie, @Query("name") String trackerName, @Query("imei_number") long imei, @Query("tracker_number") long number, @Query("reciver_signal_repeat_time") long repeatTime, @Query("check_for_stand") boolean checkForStand, @Query("type") String type);
 }

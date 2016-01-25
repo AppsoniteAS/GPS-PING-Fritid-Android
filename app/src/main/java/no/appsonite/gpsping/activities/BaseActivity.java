@@ -1,5 +1,6 @@
 package no.appsonite.gpsping.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,11 @@ import android.view.MenuItem;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.fragments.BaseBindingFragment;
+import no.appsonite.gpsping.model.SMS;
+import no.appsonite.gpsping.utils.SMSHelper;
 import no.appsonite.gpsping.utils.Utils;
+import no.appsonite.gpsping.viewmodel.BaseFragmentSMSViewModel;
+import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
 /**
  * Created: Belozerov
@@ -62,5 +67,21 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null && intent.hasExtra(SMSHelper.EXTRA_NUMBER)) {
+            String message = intent.getStringExtra(SMSHelper.EXTRA_MSG);
+            String number = intent.getStringExtra(SMSHelper.EXTRA_NUMBER);
+            if (getLastFragment() != null) {
+                BaseFragmentViewModel viewModel = getLastFragment().getModel();
+                if (viewModel instanceof BaseFragmentSMSViewModel) {
+                    SMS sms = new SMS(number, message);
+                    ((BaseFragmentSMSViewModel) viewModel).onNewSms(sms);
+                }
+            }
+        }
     }
 }

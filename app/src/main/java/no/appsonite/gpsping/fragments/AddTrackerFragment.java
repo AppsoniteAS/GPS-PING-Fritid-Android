@@ -1,11 +1,15 @@
 package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
+import android.view.View;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerBinding;
+import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.AddTrackerFragmentViewModel;
+import rx.Observable;
+import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -38,11 +42,41 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
     protected void onViewModelCreated(AddTrackerFragmentViewModel model) {
         super.onViewModelCreated(model);
         model.tracker.set((Tracker) getArguments().getSerializable(ARG_TRACKER));
-        model.setActionListener(new AddTrackerFragmentViewModel.ActionListener() {
+        getBinding().addTrackerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAddTracker() {
-                getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+            public void onClick(View v) {
+                saveTracker();
             }
         });
+//        model.setActionListener(new AddTrackerFragmentViewModel.ActionListener() {
+//            @Override
+//            public void onAddTracker() {
+//                getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+//            }
+//        });
+    }
+
+    private void saveTracker() {
+        Observable<RealmTracker> observable = getModel().addTracker(getActivity());
+        if (observable != null) {
+            showProgress();
+            observable.subscribe(new Observer<RealmTracker>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showError(e);
+                }
+
+                @Override
+                public void onNext(RealmTracker realmTracker) {
+                    hideProgress();
+                    getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+                }
+            });
+        }
     }
 }

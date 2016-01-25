@@ -4,7 +4,6 @@ package no.appsonite.gpsping.model;
 import android.databinding.ObservableField;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.utils.ObservableBoolean;
@@ -24,7 +23,6 @@ public class Tracker implements Serializable {
     public ObservableString signalRepeatTimeMeasurement = new ObservableString();
     public ObservableBoolean isEnabled = new ObservableBoolean(true);
     public ObservableField<Type> type = new ObservableField<>(Type.TK_STAR);
-    public ObservableString uuid = new ObservableString(UUID.randomUUID().toString());
 
     public enum Type {
         TK_STAR, TK_STAR_PET, TK_ANYWHERE
@@ -43,6 +41,17 @@ public class Tracker implements Serializable {
         signalRepeatTimeMeasurement.set(tracker.getSignalRepeatTimeMeasurement());
         isEnabled.set(tracker.isEnabled());
         type.set(Type.valueOf(tracker.getType()));
-        uuid.set(tracker.getUuid());
+    }
+
+    public long getRepeatTime() {
+        long multiplier = 1;
+        switch (signalRepeatTimeMeasurement.get()) {
+            case "seconds":
+                break;
+            case "minutes":
+                multiplier = 60;
+                break;
+        }
+        return Long.parseLong(signalRepeatTime.get()) * multiplier;
     }
 }

@@ -18,7 +18,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
     public void removeTracker(Tracker tracker) {
         trackers.remove(tracker);
         Realm realm = Realm.getInstance(Application.getContext());
-        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("uuid", tracker.uuid.get()).findFirst();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
         realm.beginTransaction();
         realmTracker.removeFromRealm();
         realm.commitTransaction();

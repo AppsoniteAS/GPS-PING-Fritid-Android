@@ -1,10 +1,13 @@
 package no.appsonite.gpsping.fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,14 +17,20 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.BaseActivity;
 import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.utils.DataBindingUtils;
 import no.appsonite.gpsping.utils.ProgressDialogFragment;
+import no.appsonite.gpsping.utils.SMSHelper;
 import no.appsonite.gpsping.utils.TypeResolver;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 import retrofit.HttpException;
+import rx.functions.Action1;
+import rx.subjects.PublishSubject;
 
 
 /**
@@ -57,7 +66,7 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
         return binding;
     }
 
-    protected M getModel() {
+    public M getModel() {
         return model;
     }
 
@@ -177,5 +186,26 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
             }
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void showSmsAlert(String smsCount, DialogInterface.OnClickListener onClickListener) {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.smsAlertDialogTitle)
+                .setMessage(getString(R.string.smsAlertDialogMessage))
+                .setPositiveButton(android.R.string.ok, onClickListener)
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        hideProgress();
+                    }
+                })
+                .create();
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                hideProgress();
+            }
+        });
+        dialog.show();
     }
 }

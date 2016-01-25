@@ -59,9 +59,6 @@ public class AuthHelper {
         HashMap<String, String> params = new HashMap<>();
         params.put("first_name", profile.firstName);
         params.put("last_name", profile.lastName);
-//        params.put("email", profile.email.get());
-//        params.put("username", profile.username.get());
-//        params.put("display_name", profile.displayname.get());
         return Observable.from(params.entrySet())
 
                 .flatMap(new Func1<Map.Entry<String, String>, Observable<ApiAnswer>>() {
