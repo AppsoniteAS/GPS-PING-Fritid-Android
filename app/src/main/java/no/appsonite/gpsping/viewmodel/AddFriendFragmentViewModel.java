@@ -4,13 +4,17 @@ import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.text.TextUtils;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.api.content.UsersAnswer;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.ObservableString;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 /**
@@ -52,18 +56,33 @@ public class AddFriendFragmentViewModel extends BaseFragmentViewModel {
         if (TextUtils.isEmpty(s) || s.length() < 2) {
             searchResults.clear();
         } else {
-            searchResults.clear();
-            for (int i = 0; i < new Random().nextInt(7); i++) {
-                Friend friend = new Friend();
-                friend.name.set(s);
-                friend.userName.set(s);
-                friend.status.set(Friend.Status.not_added);
-                searchResults.add(friend);
-            }
+            ApiFactory.getService().searchFriends(s)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<UsersAnswer>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(UsersAnswer usersAnswer) {
+                            searchResults.clear();
+                            searchResults.addAll(usersAnswer.getUsers());
+                        }
+                    });
         }
     }
 
-    public void addFriend(Friend friend) {
-
+    public rx.Observable<ApiAnswer> addFriend(Friend friend) {
+        return ApiFactory.getService().addFriend(friend.id.get())
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

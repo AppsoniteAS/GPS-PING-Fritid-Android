@@ -1,10 +1,12 @@
 package no.appsonite.gpsping.api;
 
 import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.NonceAnswer;
 import no.appsonite.gpsping.api.content.RegisterAnswer;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
+import no.appsonite.gpsping.api.content.UsersAnswer;
 import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
@@ -44,7 +46,7 @@ public interface ApiService {
     Observable<ApiAnswer> addFriend(@Query("id") long id);
 
     @GET("friends/get/")
-    Observable<ApiAnswer> getFriends();
+    Observable<FriendsAnswer> getFriends();
 
     @GET("friends/set_seeing_trackers/")
     Observable<ApiAnswer> setSeeingTrackers(@Query("id") long id, @Query("is_seeing_trackers") boolean isSeeingTrackers);
@@ -54,4 +56,7 @@ public interface ApiService {
 
     @GET("friends/remove/")
     Observable<ApiAnswer> removeFriend(@Query("id") long id);
+
+    @GET("friends/search/")
+    Observable<UsersAnswer> searchFriends(@Query("q") String searchString);
 }

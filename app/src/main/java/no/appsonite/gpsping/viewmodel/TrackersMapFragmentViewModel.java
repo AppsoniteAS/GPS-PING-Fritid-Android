@@ -35,21 +35,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
 
     public void requestFriends() {
-        Friend all = new Friend();
-        all.userName.set(getContext().getString(R.string.all));
-        friendList.add(all);
 
-        Friend friend = new Friend();
-        friend.userName.set("McCain");
-        friendList.add(friend);
-
-        friend = new Friend();
-        friend.userName.set("Putin");
-        friendList.add(friend);
-
-        friend = new Friend();
-        friend.userName.set("Assad");
-        friendList.add(friend);
     }
 
     public void saveBitmap(final Bitmap bitmap) {

@@ -31,18 +31,23 @@ public class BindingHelper {
         return 0;
     }
 
-    public static int getFriendStatusIcon(Friend.Status status) {
-        switch (status) {
-            case invisible:
-                return R.drawable.ic_invisible;
-            case visible:
-                return R.drawable.ic_visible;
-            case not_confirmed:
-                return R.drawable.ic_warning;
-            case not_added:
-                return R.drawable.ic_add_friend;
+    public static boolean isFriendAdded(Friend friend) {
+        return friend.confirmed.get() != null;
+    }
+
+    public static int getFriendStatusIcon(Boolean isSeeingTrackers, Boolean confirmed) {
+        if (confirmed == null)
+            return R.drawable.ic_add_friend;
+
+        if (!confirmed) {
+            return R.drawable.ic_warning;
         }
-        return 0;
+
+        if (isSeeingTrackers) {
+            return R.drawable.ic_visible;
+        }
+
+        return R.drawable.ic_invisible;
     }
 
     public static void bindAdapter(final RecyclerView.Adapter adapter, ObservableArrayList observable) {

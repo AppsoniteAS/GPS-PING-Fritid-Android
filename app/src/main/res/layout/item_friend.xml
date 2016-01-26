@@ -5,7 +5,9 @@
     <data>
 
         <import type="no.appsonite.gpsping.utils.BindingHelper" />
+
         <import type="no.appsonite.gpsping.model.Friend" />
+
         <import type="android.view.View" />
 
         <variable
@@ -18,9 +20,9 @@
     </data>
 
     <com.daimajia.swipe.SwipeLayout
-        app:swipeEnabled="@{!Friend.Status.not_added.equals(item.status)}"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/friendItemHeight">
+        android:layout_height="@dimen/friendItemHeight"
+        app:swipeEnabled="@{BindingHelper.isFriendAdded(item)}">
 
         <LinearLayout
             android:id="@+id/bottomWrapper"
@@ -55,8 +57,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:paddingRight="32dp"
                     android:singleLine="true"
-                    android:text="@{item.name}"
+                    android:text='@{item.firstName.get() + " " + item.lastName.get()}'
                     android:textColor="@color/mainTextColor"
                     android:textSize="24sp" />
 
@@ -65,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-2dp"
-                    android:text="@{item.userName}" />
+                    android:text="@{item.username}" />
 
             </LinearLayout>
 
@@ -78,7 +81,7 @@
                 android:onClick="@{onClickListener}"
                 android:scaleType="centerInside"
                 android:tag="@{item}"
-                app:imageRes="@{BindingHelper.getFriendStatusIcon(item.status)}" />
+                app:imageRes="@{BindingHelper.getFriendStatusIcon(item.isSeeingTrackers.get(), item.confirmed.get())}" />
 
             <View
                 android:layout_width="match_parent"

@@ -179,7 +179,7 @@ public class BindingAttributes {
     public static void setFriendsSpinner(Spinner spinner, ArrayList<Friend> items) {
         ArrayList<String> strings = new ArrayList<>();
         for (Friend item : items) {
-            strings.add(item.userName.get());
+            strings.add(item.username.get());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(spinner.getContext(), R.layout.item_friends_spinner, strings);
         spinner.setAdapter(adapter);

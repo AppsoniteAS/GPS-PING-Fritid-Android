@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentFriendsBinding;
 import no.appsonite.gpsping.databinding.ItemFriendBinding;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.FriendsFragmentViewModel;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
+import rx.Observer;
+import rx.functions.Action1;
 
 /**
  * Created: Belozerov
@@ -70,19 +73,67 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.removeFriend:
-                        model.removeFriend((Friend) v.getTag());
+                        removeFriend((Friend) v.getTag());
                         break;
                     case R.id.friendStatus:
-                        model.switchStatus((Friend) v.getTag());
+                        switchVisibility((Friend) v.getTag());
                         break;
                 }
             }
         };
-        model.initFakeFriend();
+        model.requestFriends().doOnError(new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                showError(throwable);
+            }
+        });
         adapter.setItems(model.friends);
         getBinding().friendsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().friendsRecycler.setAdapter(adapter);
         BindingHelper.bindAdapter(adapter, model.friends);
+    }
+
+    private void switchVisibility(Friend friend) {
+        if (!friend.confirmed.get())
+            return;
+        showProgress();
+        getModel().switchStatus(friend)
+                .subscribe(new Observer<ApiAnswer>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showError(e);
+                    }
+
+                    @Override
+                    public void onNext(ApiAnswer apiAnswer) {
+                        hideProgress();
+                    }
+                });
+    }
+
+    private void removeFriend(Friend friend) {
+        showProgress();
+        getModel().removeFriend(friend).subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showError(e);
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                hideProgress();
+            }
+        });
     }
 
 

@@ -15,14 +15,14 @@ import java.io.Serializable;
 
 public class ObservableBoolean extends BaseObservable implements Parcelable, Serializable {
     static final long serialVersionUID = 1L;
-    private boolean mValue;
+    private Boolean mValue;
 
     /**
      * Creates an ObservableBoolean with the given initial value.
      *
      * @param value the initial value for the ObservableBoolean
      */
-    public ObservableBoolean(boolean value) {
+    public ObservableBoolean(Boolean value) {
         mValue = value;
     }
 
@@ -32,11 +32,11 @@ public class ObservableBoolean extends BaseObservable implements Parcelable, Ser
     public ObservableBoolean() {
     }
 
-    public boolean get() {
+    public Boolean get() {
         return mValue;
     }
 
-    public void set(boolean value) {
+    public void set(Boolean value) {
         if (value != mValue) {
             mValue = value;
             notifyChange();
@@ -68,7 +68,7 @@ public class ObservableBoolean extends BaseObservable implements Parcelable, Ser
     };
 
     @BindingConversion
-    public static boolean convertToBoolean(ObservableBoolean observableBoolean) {
+    public static Boolean convertToBoolean(ObservableBoolean observableBoolean) {
         return observableBoolean.get();
     }
 }

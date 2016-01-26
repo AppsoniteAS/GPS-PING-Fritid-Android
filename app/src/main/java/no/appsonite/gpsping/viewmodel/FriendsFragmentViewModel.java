@@ -2,7 +2,14 @@ package no.appsonite.gpsping.viewmodel;
 
 import android.databinding.ObservableArrayList;
 
+import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.model.Friend;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created: Belozerov
@@ -12,40 +19,83 @@ import no.appsonite.gpsping.model.Friend;
 public class FriendsFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Friend> friends = new ObservableArrayList<>();
 
-    public void removeFriend(Friend friend) {
-        friends.remove(friend);
+    public Observable<ApiAnswer> removeFriend(final Friend friend) {
+        Observable<ApiAnswer> observable = ApiFactory.getService().removeFriend(friend.id.get())
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                friends.remove(friend);
+            }
+        });
+        return observable;
     }
 
-    public void initFakeFriend() {
-        if (!friends.isEmpty())
-            return;
-        Friend friend = new Friend();
-        friend.name.set("John");
-        friend.userName.set("McCain");
-        friend.status.set(Friend.Status.not_confirmed);
+    public Observable<ApiAnswer> switchStatus(final Friend friend) {
+        final boolean newState = !friend.isSeeingTrackers.get();
+        Observable<ApiAnswer> observable = ApiFactory.getService().setSeeingTrackers(friend.id.get(), newState)
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
 
-        friends.add(friend);
+            }
 
-        friend = new Friend();
-        friend.name.set("Vladimir");
-        friend.userName.set("Putin");
-        friend.status.set(Friend.Status.visible);
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
 
-        friends.add(friend);
-
-        friend = new Friend();
-        friend.name.set("Bashar");
-        friend.userName.set("Assad");
-        friend.status.set(Friend.Status.invisible);
-
-        friends.add(friend);
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                friend.isSeeingTrackers.set(newState);
+            }
+        });
+        return observable;
+//        if (Friend.Status.invisible.equals(friend.status.get())) {
+//            friend.status.set(Friend.Status.visible);
+//        } else if (Friend.Status.visible.equals(friend.status.get())) {
+//            friend.status.set(Friend.Status.invisible);
+//        }
     }
 
-    public void switchStatus(Friend friend) {
-        if (Friend.Status.invisible.equals(friend.status.get())) {
-            friend.status.set(Friend.Status.visible);
-        } else if (Friend.Status.visible.equals(friend.status.get())) {
-            friend.status.set(Friend.Status.invisible);
-        }
+    public Observable<FriendsAnswer> requestFriends() {
+        Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<FriendsAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(FriendsAnswer friendsAnswer) {
+                friends.clear();
+                friends.addAll(friendsAnswer.getFriends());
+                friends.addAll(friendsAnswer.getRequests());
+            }
+        });
+        return observable;
     }
 }

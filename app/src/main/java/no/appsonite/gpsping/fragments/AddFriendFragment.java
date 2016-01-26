@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentAddFriendBinding;
 import no.appsonite.gpsping.databinding.ItemFriendBinding;
 import no.appsonite.gpsping.model.Friend;
@@ -15,6 +16,7 @@ import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.AddFriendFragmentViewModel;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
+import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -56,7 +58,7 @@ public class AddFriendFragment extends BaseBindingFragment<FragmentAddFriendBind
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.friendStatus:
-                        model.addFriend((Friend) v.getTag());
+                        addFriend((Friend) v.getTag());
                         break;
                 }
             }
@@ -67,5 +69,24 @@ public class AddFriendFragment extends BaseBindingFragment<FragmentAddFriendBind
         BindingHelper.bindAdapter(adapter, model.searchResults);
 
         Utils.showKeyboard(getActivity(), getBinding().searchFriend);
+    }
+
+    private void addFriend(Friend friend) {
+        getModel().addFriend(friend).subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showError(e);
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                getFragmentManager().popBackStack();
+            }
+        });
     }
 }
