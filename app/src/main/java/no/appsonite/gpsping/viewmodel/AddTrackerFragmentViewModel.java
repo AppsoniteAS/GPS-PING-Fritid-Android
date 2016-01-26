@@ -47,7 +47,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
 
     private Observable<Boolean> editTracker(Activity activity) {
         return ApiFactory.getService().updateTracker(
-                Long.parseLong(tracker.get().imeiNumber.get()),
+                tracker.get().imeiNumber.get(),
                 tracker.get().trackerName.get(),
                 tracker.get().getRepeatTime(),
                 tracker.get().checkForStand.get())
@@ -62,6 +62,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                         RealmTracker.initWithTracker(realmTracker, tracker.get());
                         realm.copyToRealm(realmTracker);
                         realm.commitTransaction();
+                        realm.close();
                         return Observable.just(false);
                     }
                 });
@@ -75,8 +76,8 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                     public Observable<ApiAnswer> call(SMS sms) {
                         return ApiFactory.getService().addTracker(
                                 tracker.get().trackerName.get(),
-                                Long.parseLong(tracker.get().imeiNumber.get()),
-                                Long.parseLong(tracker.get().trackerNumber.get()),
+                                tracker.get().imeiNumber.get(),
+                                tracker.get().trackerNumber.get(),
                                 tracker.get().getRepeatTime(),
                                 tracker.get().checkForStand.get(),
                                 tracker.get().type.get().toString()
@@ -93,6 +94,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                         RealmTracker.initWithTracker(realmTracker, tracker.get());
                         realm.copyToRealm(realmTracker);
                         realm.commitTransaction();
+                        realm.close();
                         return Observable.just(true);
                     }
                 })
@@ -126,6 +128,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         Realm realm = Realm.getInstance(Application.getContext());
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
         editMode.set(realmTracker != null);
+        realm.close();
     }
 
     private boolean validateData() {

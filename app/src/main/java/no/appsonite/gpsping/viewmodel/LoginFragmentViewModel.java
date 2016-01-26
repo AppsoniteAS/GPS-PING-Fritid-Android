@@ -28,7 +28,7 @@ public class LoginFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<LoginAnswer> onLoginClick() {
         if (validateData()) {
-            Observable<LoginAnswer> observable = AuthHelper.login(login.get(), password.get());
+            Observable<LoginAnswer> observable = AuthHelper.login(login.get(), password.get()).cache();
             observable.subscribe(new Action1<LoginAnswer>() {
                 @Override
                 public void call(LoginAnswer loginAnswer) {

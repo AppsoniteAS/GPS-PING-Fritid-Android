@@ -53,8 +53,10 @@ public class RealmTracker extends RealmObject {
                 for (RealmTracker result : results) {
                     trackers.add(new Tracker(result));
                 }
+                realm.close();
                 subscriber.onNext(trackers);
                 subscriber.onCompleted();
+
             }
         })
                 .subscribeOn(Schedulers.newThread())
@@ -146,5 +148,30 @@ public class RealmTracker extends RealmObject {
         RealmTracker.initWithTracker(realmTracker, tracker);
         realm.copyToRealm(realmTracker);
         realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void sync(ArrayList<Tracker> trackers) {
+        for (Tracker tracker : trackers) {
+            RealmTracker.add(tracker);
+        }
+        Realm realm = Realm.getInstance(Application.getContext());
+        ArrayList<RealmTracker> trackersForRemove = new ArrayList<>();
+        RealmResults<RealmTracker> realmTrackers = realm.where(RealmTracker.class).findAll();
+        for (RealmTracker realmTracker : realmTrackers) {
+            Tracker tracker = new Tracker(realmTracker);
+            if (!trackers.contains(tracker)) {
+                trackersForRemove.add(realmTracker);
+            }
+        }
+
+        if (!trackersForRemove.isEmpty()) {
+            realm.beginTransaction();
+            for (RealmTracker realmTracker : trackersForRemove) {
+                realmTracker.removeFromRealm();
+            }
+            realm.commitTransaction();
+        }
+        realm.close();
     }
 }

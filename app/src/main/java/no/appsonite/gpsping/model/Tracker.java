@@ -60,4 +60,24 @@ public class Tracker implements Serializable {
         }
         return Long.parseLong(signalRepeatTime.get()) * multiplier;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tracker tracker = (Tracker) o;
+
+        if (trackerNumber != null ? !trackerNumber.get().equals(tracker.trackerNumber.get()) : tracker.trackerNumber.get() != null)
+            return false;
+        return !(imeiNumber != null ? !imeiNumber.get().equals(tracker.imeiNumber.get()) : tracker.imeiNumber.get() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = trackerNumber != null ? trackerNumber.get().hashCode() : 0;
+        result = 31 * result + (imeiNumber != null ? imeiNumber.get().hashCode() : 0);
+        return result;
+    }
 }

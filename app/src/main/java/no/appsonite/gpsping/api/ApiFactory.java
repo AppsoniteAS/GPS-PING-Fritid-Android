@@ -3,6 +3,7 @@ package no.appsonite.gpsping.api;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableLong;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -93,6 +94,8 @@ public class ApiFactory {
     }
 
     public static class CookieInterceptor implements Interceptor {
+        private static final String TAG = "API";
+
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
@@ -102,6 +105,7 @@ public class ApiFactory {
                 request = request.newBuilder().url(url).build();
             }
             Response response = chain.proceed(request);
+//            Log.d(TAG, response.body().string());
             return response;
         }
     }

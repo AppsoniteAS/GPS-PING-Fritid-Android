@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentTrackersBinding;
 import no.appsonite.gpsping.databinding.ItemTrackerBinding;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.TrackersFragmentViewModel;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
+import rx.Observable;
+import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -78,7 +81,7 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.removeTracker:
-                        model.removeTracker((Tracker) v.getTag());
+                        removeTracker((Tracker) v.getTag());
                         break;
                     case R.id.editTracker:
                         getBaseActivity().replaceFragment(AddTrackerFragment.newInstance((Tracker) v.getTag()), true);
@@ -90,5 +93,26 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
         getBinding().trackersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().trackersRecycler.setAdapter(adapter);
         BindingHelper.bindAdapter(adapter, model.trackers);
+    }
+
+    private void removeTracker(Tracker tracker) {
+        Observable<ApiAnswer> observable = getModel().removeTracker(tracker);
+        showProgress();
+        observable.subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showError(e);
+            }
+
+            @Override
+            public void onNext(ApiAnswer o) {
+                hideProgress();
+            }
+        });
     }
 }

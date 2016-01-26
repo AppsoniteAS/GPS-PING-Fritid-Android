@@ -30,7 +30,7 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
         if (validateData()) {
             final LoginAnswer loginAnswer = AuthHelper.getCredentials();
             loginAnswer.setUser(this.profile.get());
-            Observable<ApiAnswer> observable = AuthHelper.updateUser(this.profile.get());
+            Observable<ApiAnswer> observable = AuthHelper.updateUser(this.profile.get()).cache();
             observable.subscribe(new Observer<ApiAnswer>() {
                 @Override
                 public void onCompleted() {
