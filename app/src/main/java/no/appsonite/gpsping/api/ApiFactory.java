@@ -1,20 +1,26 @@
 package no.appsonite.gpsping.api;
 
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableLong;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.typeadapters.ObservableBooleanTypeAdapter;
 import no.appsonite.gpsping.api.typeadapters.ObservableIntTypeAdapter;
 import no.appsonite.gpsping.api.typeadapters.ObservableLongTypeAdapter;
 import no.appsonite.gpsping.api.typeadapters.ObservableStringTypeAdapter;
+import no.appsonite.gpsping.utils.ObservableBoolean;
 import no.appsonite.gpsping.utils.ObservableString;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -80,9 +86,23 @@ public class ApiFactory {
                     .client(CLIENT)
                     .build();
             if (INSTANCE.client().interceptors().size() == 0) {
-                INSTANCE.client().interceptors().add(new LoggingInterceptor());
+                INSTANCE.client().interceptors().add(new CookieInterceptor());
             }
             return INSTANCE;
+        }
+    }
+
+    public static class CookieInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            LoginAnswer loginAnswer = AuthHelper.getCredentials();
+            if (loginAnswer != null) {
+                HttpUrl url = request.httpUrl().newBuilder().addQueryParameter("cookie", loginAnswer.getCookie().get()).build();
+                request = request.newBuilder().url(url).build();
+            }
+            Response response = chain.proceed(request);
+            return response;
         }
     }
 }

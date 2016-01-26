@@ -2,30 +2,32 @@ package no.appsonite.gpsping.api.content;
 
 import com.google.gson.annotations.SerializedName;
 
+import no.appsonite.gpsping.utils.ObservableString;
+
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
  * Date: 20.01.2016
  */
 public class LoginAnswer extends ApiAnswer {
-    private String cookie;
+    private ObservableString cookie = new ObservableString();
     @SerializedName("cookie_name")
-    private String cookieName;
+    private ObservableString cookieName = new ObservableString();
     private Profile user;
 
-    public String getCookie() {
+    public ObservableString getCookie() {
         return cookie;
     }
 
-    public void setCookie(String cookie) {
+    public void setCookie(ObservableString cookie) {
         this.cookie = cookie;
     }
 
-    public String getCookieName() {
+    public ObservableString getCookieName() {
         return cookieName;
     }
 
-    public void setCookieName(String cookieName) {
+    public void setCookieName(ObservableString cookieName) {
         this.cookieName = cookieName;
     }
 

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.BaseActivity;
+import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.utils.DataBindingUtils;
@@ -178,8 +179,8 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
             if (e instanceof HttpException) {
                 try {
                     message = ((HttpException) e).response().errorBody().string();
-                    ApiAnswer apiAnswer = new Gson().fromJson(message, ApiAnswer.class);
-                    message = apiAnswer.getError();
+                    ApiAnswer apiAnswer = ApiFactory.getGson().fromJson(message, ApiAnswer.class);
+                    message = apiAnswer.getError().get();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }

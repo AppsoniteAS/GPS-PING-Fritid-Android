@@ -11,9 +11,7 @@ import io.realm.Realm;
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
-import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.ApiAnswer;
-import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
@@ -48,8 +46,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<Boolean> editTracker(Activity activity) {
-        LoginAnswer loginAnswer = AuthHelper.getCredentials();
-        return ApiFactory.getService().updateTracker(loginAnswer.getCookie(),
+        return ApiFactory.getService().updateTracker(
                 Long.parseLong(tracker.get().imeiNumber.get()),
                 tracker.get().trackerName.get(),
                 tracker.get().getRepeatTime(),
@@ -76,14 +73,13 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(SMS sms) {
-                        LoginAnswer loginAnswer = AuthHelper.getCredentials();
-                        return ApiFactory.getService().addTracker(loginAnswer.getCookie(),
+                        return ApiFactory.getService().addTracker(
                                 tracker.get().trackerName.get(),
                                 Long.parseLong(tracker.get().imeiNumber.get()),
                                 Long.parseLong(tracker.get().trackerNumber.get()),
                                 tracker.get().getRepeatTime(),
                                 tracker.get().checkForStand.get(),
-                                tracker.get().type.toString()
+                                tracker.get().type.get().toString()
                         ).subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread());
                     }
@@ -110,7 +106,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         smses.add(new SMS(trackerNumber, "Begin123456"));
         smses.add(new SMS(trackerNumber, "gprs123456"));
         smses.add(new SMS(trackerNumber, "apn123456 netcom"));
-        switch (tracker.get().type.get()) {
+        switch (Tracker.Type.valueOf(tracker.get().type.get())) {
             case TK_STAR_PET:
                 break;
             case TK_ANYWHERE:

@@ -39,11 +39,11 @@ public class RealmTracker extends RealmObject {
         realmTracker.setImeiNumber(tracker.imeiNumber.get());
         realmTracker.setSignalRepeatTime(tracker.signalRepeatTime.get());
         realmTracker.setSignalRepeatTimeMeasurement(tracker.signalRepeatTimeMeasurement.get());
-        realmTracker.setType(tracker.type.get().name());
+        realmTracker.setType(tracker.type.get());
         realmTracker.setIsEnabled(tracker.isEnabled.get());
     }
 
-    public static void requestTrackersFromRealm(final List<Tracker> result){
+    public static void requestTrackersFromRealm(final List<Tracker> result) {
         Observable.create(new Observable.OnSubscribe<ArrayList<Tracker>>() {
             @Override
             public void call(Subscriber<? super ArrayList<Tracker>> subscriber) {
@@ -134,5 +134,17 @@ public class RealmTracker extends RealmObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static void add(Tracker tracker) {
+        Realm realm = Realm.getInstance(Application.getContext());
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
+        realm.beginTransaction();
+        if (realmTracker == null) {
+            realmTracker = realm.createObject(RealmTracker.class);
+        }
+        RealmTracker.initWithTracker(realmTracker, tracker);
+        realm.copyToRealm(realmTracker);
+        realm.commitTransaction();
     }
 }

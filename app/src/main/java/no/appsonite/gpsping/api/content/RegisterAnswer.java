@@ -1,6 +1,10 @@
 package no.appsonite.gpsping.api.content;
 
+import android.databinding.ObservableLong;
+
 import com.google.gson.annotations.SerializedName;
+
+import no.appsonite.gpsping.utils.ObservableString;
 
 /**
  * Created: Belozerov
@@ -8,23 +12,23 @@ import com.google.gson.annotations.SerializedName;
  * Date: 20.01.2016
  */
 public class RegisterAnswer extends ApiAnswer {
-    private String cookie;
+    private ObservableString cookie = new ObservableString();
     @SerializedName("user_id")
-    private long userId;
+    private ObservableLong userId = new ObservableLong();
 
-    public String getCookie() {
+    public ObservableString getCookie() {
         return cookie;
     }
 
-    public void setCookie(String cookie) {
+    public void setCookie(ObservableString cookie) {
         this.cookie = cookie;
     }
 
-    public long getUserId() {
+    public ObservableLong getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(ObservableLong userId) {
         this.userId = userId;
     }
 }

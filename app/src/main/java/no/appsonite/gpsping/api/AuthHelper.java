@@ -36,10 +36,10 @@ public class AuthHelper {
                                 profile.username.get(),
                                 profile.password.get(),
                                 profile.email.get(),
-                                profile.firstName,
-                                profile.lastName,
+                                profile.firstName.get(),
+                                profile.lastName.get(),
                                 profile.displayname.get(),
-                                nonceAnswer.getNonce()
+                                nonceAnswer.getNonce().get()
                         );
                     }
                 })
@@ -55,22 +55,20 @@ public class AuthHelper {
 
     public static Observable<ApiAnswer> updateUser(final Profile profile) {
         final ApiService apiService = ApiFactory.getService();
-        final LoginAnswer loginAnswer = AuthHelper.getCredentials();
         HashMap<String, String> params = new HashMap<>();
-        params.put("first_name", profile.firstName);
-        params.put("last_name", profile.lastName);
+        params.put("first_name", profile.firstName.get());
+        params.put("last_name", profile.lastName.get());
         return Observable.from(params.entrySet())
-
                 .flatMap(new Func1<Map.Entry<String, String>, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(Map.Entry<String, String> entry) {
-                        return apiService.updateUser(loginAnswer.getCookie(), entry.getKey(), entry.getValue());
+                        return apiService.updateUser(entry.getKey(), entry.getValue());
                     }
                 }).flatMap(new Func1<ApiAnswer, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(ApiAnswer apiAnswer) {
                         if (apiAnswer.isError()) {
-                            return Observable.error(new Throwable(apiAnswer.getError()));
+                            return Observable.error(new Throwable(apiAnswer.getError().get()));
                         }
                         return Observable.just(apiAnswer);
                     }

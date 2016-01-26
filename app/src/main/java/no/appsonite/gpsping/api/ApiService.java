@@ -4,6 +4,7 @@ import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.NonceAnswer;
 import no.appsonite.gpsping.api.content.RegisterAnswer;
+import no.appsonite.gpsping.api.content.TrackersAnswer;
 import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
@@ -24,12 +25,15 @@ public interface ApiService {
     Observable<LoginAnswer> login(@Query("username") String username, @Query("password") String password);
 
     @GET("user/update_user_meta/")
-    Observable<ApiAnswer> updateUser(@Query("cookie") String cookie, @Query("meta_key") String fieldName, @Query("meta_value") String fieldValue);
+    Observable<ApiAnswer> updateUser(@Query("meta_key") String fieldName, @Query("meta_value") String fieldValue);
 
-    @GET("tracker/add_tracker")
-    Observable<ApiAnswer> addTracker(@Query("cookie") String cookie, @Query("name") String trackerName, @Query("imei_number") long imei, @Query("tracker_number") long number, @Query("reciver_signal_repeat_time") long repeatTime, @Query("check_for_stand") boolean checkForStand, @Query("type") String type);
+    @GET("tracker/add_tracker/")
+    Observable<ApiAnswer> addTracker(@Query("name") String trackerName, @Query("imei_number") long imei, @Query("tracker_number") long number, @Query("reciver_signal_repeat_time") long repeatTime, @Query("check_for_stand") boolean checkForStand, @Query("type") String type);
 
     //    http://host/api/tracker/update_tracker/?cookie=cookie&tracker_id=long&name=string&reciver_signal_repeat_time=long&check_for_stand=bool
-    @GET("tracker/update_tracker")
-    Observable<ApiAnswer> updateTracker(@Query("cookie") String cookie, @Query("imei_number") long imei, @Query("name") String trackerName, @Query("reciver_signal_repeat_time") long repeatTime, @Query("check_for_stand") boolean checkForStand);
+    @GET("tracker/update_tracker/")
+    Observable<ApiAnswer> updateTracker(@Query("imei_number") long imei, @Query("name") String trackerName, @Query("reciver_signal_repeat_time") long repeatTime, @Query("check_for_stand") boolean checkForStand);
+
+    @GET("tracker/get_trackers/")
+    Observable<TrackersAnswer> getTrackers();
 }

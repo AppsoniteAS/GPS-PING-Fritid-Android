@@ -32,8 +32,6 @@ public class ObservableStringTypeAdapter extends TypeAdapter<ObservableString> {
             return null;
         }
         String str = in.nextString();
-        ObservableString result = new ObservableString();
-        result.set(str);
-        return result;
+        return new ObservableString(str);
     }
 }

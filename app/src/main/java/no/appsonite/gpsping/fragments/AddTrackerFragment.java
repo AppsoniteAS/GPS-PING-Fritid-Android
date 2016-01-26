@@ -48,12 +48,6 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
                 saveTracker();
             }
         });
-//        model.setActionListener(new AddTrackerFragmentViewModel.ActionListener() {
-//            @Override
-//            public void onAddTracker() {
-//                getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
-//            }
-//        });
     }
 
     private void saveTracker() {

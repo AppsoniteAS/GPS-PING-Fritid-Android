@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.api.content;
 
 import android.databinding.Observable;
+import android.databinding.ObservableLong;
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
@@ -18,10 +19,10 @@ public class Profile {
     public ObservableString password = new ObservableString();
     public ObservableString email = new ObservableString();
     @SerializedName("firstname")
-    public String firstName;
+    public ObservableString firstName = new ObservableString();
     @SerializedName("lastname")
-    public String lastName;
-    public Long id;
+    public ObservableString lastName = new ObservableString();
+    public ObservableLong id = new ObservableLong();
 
     public Profile() {
         super();
@@ -34,8 +35,8 @@ public class Profile {
             if (!TextUtils.isEmpty(fullName)) {
                 int splitIndex = fullName.indexOf(" ");
                 if (splitIndex != -1) {
-                    firstName = fullName.substring(0, splitIndex).trim();
-                    lastName = fullName.substring(splitIndex, fullName.length()).trim();
+                    firstName.set(fullName.substring(0, splitIndex).trim());
+                    lastName.set(fullName.substring(splitIndex, fullName.length()).trim());
                 }
             }
         } catch (Exception e) {
@@ -51,11 +52,11 @@ public class Profile {
             }
         });
 
-        if (!TextUtils.isEmpty(firstName)) {
-            if (TextUtils.isEmpty(lastName)) {
-                displayname.set(firstName);
+        if (!TextUtils.isEmpty(firstName.get())) {
+            if (TextUtils.isEmpty(lastName.get())) {
+                displayname.set(firstName.get());
             } else {
-                displayname.set(firstName + " " + lastName);
+                displayname.set(firstName.get() + " " + lastName.get());
             }
         }
     }

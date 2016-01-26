@@ -14,14 +14,19 @@ import no.appsonite.gpsping.model.Tracker;
  * Date: 18.01.2016
  */
 public class BindingHelper {
-    public static int getTrackerImage(Tracker.Type type) {
-        switch (type) {
-            case TK_ANYWHERE:
-                return R.drawable.image_tk_anywhere_normal;
-            case TK_STAR:
-                return R.drawable.image_tk_star_normal;
-            case TK_STAR_PET:
-                return R.drawable.image_tk_star_pet_normal;
+    public static int getTrackerImage(ObservableString type) {
+        try {
+            Tracker.Type trType = Tracker.Type.valueOf(type.get());
+            switch (trType) {
+                case TK_ANYWHERE:
+                    return R.drawable.image_tk_anywhere_normal;
+                case TK_STAR:
+                    return R.drawable.image_tk_star_normal;
+                case TK_STAR_PET:
+                    return R.drawable.image_tk_star_pet_normal;
+            }
+        } catch (Exception e) {
+            return 0;
         }
         return 0;
     }
