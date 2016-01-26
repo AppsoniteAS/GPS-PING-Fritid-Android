@@ -82,15 +82,17 @@
                     android:layout_marginTop="54sp"
                     android:text="@{@string/trackerImeiN(item.imeiNumber.get())}" />
 
-                <CheckBox
+                <ImageView
+                    android:id="@+id/enableTracker"
+                    android:background="?attr/selectableItemBackground"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:background="@null"
-                    android:button="@null"
-                    android:drawableRight="@drawable/tracker_checkbox"
                     android:gravity="center"
-                    app:twoWayBoolean="@{item.isEnabled}" />
+                    android:onClick="@{onClickListener}"
+                    android:scaleType="centerInside"
+                    android:src="@{item.isEnabled?@drawable/checkbox_checked:@drawable/checkbox_unchecked}"
+                    android:tag="@{item}" />
 
                 <View
                     android:layout_width="match_parent"

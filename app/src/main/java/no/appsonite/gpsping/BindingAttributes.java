@@ -131,8 +131,8 @@ public class BindingAttributes {
                     }
                 });
             }
-            boolean newValue = observableBoolean.get();
-            if (view.isChecked() != newValue) {
+            Boolean newValue = observableBoolean.get();
+            if (newValue != null && view.isChecked() != newValue) {
                 view.setChecked(newValue);
             }
         }

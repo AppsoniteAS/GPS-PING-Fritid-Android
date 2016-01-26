@@ -80,7 +80,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                                 tracker.get().trackerNumber.get(),
                                 tracker.get().getRepeatTime(),
                                 tracker.get().checkForStand.get(),
-                                tracker.get().type.get().toString()
+                                tracker.get().type.get()
                         ).subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread());
                     }

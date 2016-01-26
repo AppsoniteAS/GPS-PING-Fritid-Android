@@ -144,6 +144,8 @@ public class RealmTracker extends RealmObject {
         realm.beginTransaction();
         if (realmTracker == null) {
             realmTracker = realm.createObject(RealmTracker.class);
+        } else {
+            tracker.isEnabled.set(realmTracker.isEnabled());
         }
         RealmTracker.initWithTracker(realmTracker, tracker);
         realm.copyToRealm(realmTracker);
@@ -152,6 +154,9 @@ public class RealmTracker extends RealmObject {
     }
 
     public static void sync(ArrayList<Tracker> trackers) {
+        if (trackers.size() == 1) {
+            trackers.get(0).isEnabled.set(true);
+        }
         for (Tracker tracker : trackers) {
             RealmTracker.add(tracker);
         }

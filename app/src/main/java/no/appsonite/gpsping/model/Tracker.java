@@ -22,11 +22,11 @@ public class Tracker implements Serializable {
     @SerializedName("imei_number")
     public ObservableString imeiNumber = new ObservableString();
     @SerializedName("check_for_stand")
-    public ObservableBoolean checkForStand = new ObservableBoolean();
+    public ObservableBoolean checkForStand = new ObservableBoolean(false);
     @SerializedName("reciver_signal_repeat_time")
     public ObservableString signalRepeatTime = new ObservableString();
     public ObservableString signalRepeatTimeMeasurement = new ObservableString();
-    public ObservableBoolean isEnabled = new ObservableBoolean(true);
+    public android.databinding.ObservableBoolean isEnabled = new android.databinding.ObservableBoolean(false);
     @SerializedName("type")
     public ObservableString type = new ObservableString(Type.TK_STAR.toString());
 

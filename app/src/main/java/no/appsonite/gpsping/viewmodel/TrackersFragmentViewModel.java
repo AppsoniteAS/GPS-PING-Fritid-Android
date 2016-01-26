@@ -14,6 +14,7 @@ import no.appsonite.gpsping.model.Tracker;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -51,7 +52,6 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-
             }
 
             @Override
@@ -91,5 +91,29 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
                         RealmTracker.requestTrackersFromRealm(TrackersFragmentViewModel.this.trackers);
                     }
                 });
+    }
+
+    public void enableTracker(Tracker enabledTracker) {
+        if (enabledTracker.isEnabled.get()) {
+            return;
+        }
+        for (Tracker tracker : trackers) {
+            tracker.isEnabled.set(tracker.equals(enabledTracker));
+        }
+        Observable.defer(new Func0<Observable<Boolean>>() {
+            @Override
+            public Observable<Boolean> call() {
+                Realm realm = Realm.getInstance(Application.getContext());
+                realm.beginTransaction();
+                for (Tracker tracker : trackers) {
+                    RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
+                    realmTracker.setIsEnabled(tracker.isEnabled.get());
+                }
+                realm.commitTransaction();
+                realm.close();
+                return Observable.just(true);
+            }
+        }).subscribe();
+
     }
 }
