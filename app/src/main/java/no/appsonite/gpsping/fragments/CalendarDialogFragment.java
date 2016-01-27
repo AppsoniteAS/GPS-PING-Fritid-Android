@@ -27,6 +27,8 @@ import no.appsonite.gpsping.viewmodel.CalendarDialogFragmentViewModel;
  */
 public class CalendarDialogFragment extends BaseBindingDialogFragment<DialogFragmentCalendarBinding, CalendarDialogFragmentViewModel> {
     public static final String TAG = "CalendarDialogFragment";
+    private static final String ARG_FRIEND_ID = "arg_friend_id";
+    private static final String ARG_DATE = "arg_date";
 
     @Override
     public String getFragmentTag() {
@@ -55,9 +57,11 @@ public class CalendarDialogFragment extends BaseBindingDialogFragment<DialogFrag
         return null;
     }
 
-    public static CalendarDialogFragment newInstance() {
+    public static CalendarDialogFragment newInstance(Long friendId, Date date) {
         Bundle args = new Bundle();
         CalendarDialogFragment fragment = new CalendarDialogFragment();
+        args.putLong(ARG_FRIEND_ID, friendId);
+        args.putSerializable(ARG_DATE, date);
         fragment.setArguments(args);
         return fragment;
     }
@@ -116,6 +120,8 @@ public class CalendarDialogFragment extends BaseBindingDialogFragment<DialogFrag
     }
 
     private void initCalendar() {
+        getModel().friendId.set(getArguments().getLong(ARG_FRIEND_ID));
+
         getBinding().calendarView.setShowDatesOutsideMonth(true);
 
         getBinding().calendarView.setOnDateClickListener(new FlexibleCalendarView.OnDateClickListener() {
@@ -196,6 +202,18 @@ public class CalendarDialogFragment extends BaseBindingDialogFragment<DialogFrag
             @Override
             public void onItemRangeRemoved(ObservableList sender, int positionStart, int itemCount) {
                 getBinding().calendarView.refresh();
+            }
+        });
+
+        getBinding().calendarView.post(new Runnable() {
+            @Override
+            public void run() {
+                Date date = (Date) getArguments().getSerializable(ARG_DATE);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                getModel().setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                getBinding().calendarView.selectDate(date);
+                getBinding().calendarView.selectDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             }
         });
     }

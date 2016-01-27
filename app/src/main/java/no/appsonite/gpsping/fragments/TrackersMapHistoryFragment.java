@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.Date;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
+import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.viewmodel.TrackersMapHistoryFragmentViewModel;
 
 /**
@@ -30,7 +29,8 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_calendar) {
-            CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance();
+            Friend currentFriend = getModel().currentFriend.get();
+            CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance(currentFriend.id.get(), getModel().historyDate.get());
             calendarDialogFragment.show(getChildFragmentManager(), CalendarDialogFragment.TAG);
             return true;
         }

@@ -3,6 +3,7 @@ package no.appsonite.gpsping.viewmodel;
 import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.databinding.ObservableLong;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class CalendarDialogFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<SimpleDate> selectedDate = new ObservableField<>();
     public ObservableString currentMonth = new ObservableString();
     public ObservableField<Date> currentDate = new ObservableField<>(new Date());
+    public ObservableLong friendId = new ObservableLong(-1);
 
     public CalendarDialogFragmentViewModel() {
         super();
@@ -79,7 +81,13 @@ public class CalendarDialogFragmentViewModel extends BaseFragmentViewModel {
         long from = calendar.getTimeInMillis() / 1000l;
         calendar.add(Calendar.MONTH, 6);
         long to = calendar.getTimeInMillis() / 1000l;
-        ApiFactory.getService().getGeoDates(from, to)
+        rx.Observable<GeoDatesAnswer> observable;
+        if (friendId.get() == -1) {
+            observable = ApiFactory.getService().getGeoDates(from, to);
+        } else {
+            observable = ApiFactory.getService().getGeoDates(from, to, friendId.get());
+        }
+        observable
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
