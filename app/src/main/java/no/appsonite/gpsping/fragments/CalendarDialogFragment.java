@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.fragments;
 
 import android.app.Activity;
+import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,6 +169,33 @@ public class CalendarDialogFragment extends BaseBindingDialogFragment<DialogFrag
             @Override
             public String getDayOfWeekDisplayValue(int dayOfWeek, String defaultValue) {
                 return null;
+            }
+        });
+
+        getModel().eventList.addOnListChangedCallback(new ObservableList.OnListChangedCallback() {
+            @Override
+            public void onChanged(ObservableList sender) {
+
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList sender, int positionStart, int itemCount) {
+                getBinding().calendarView.refresh();
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList sender, int positionStart, int itemCount) {
+
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList sender, int fromPosition, int toPosition, int itemCount) {
+
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList sender, int positionStart, int itemCount) {
+                getBinding().calendarView.refresh();
             }
         });
     }

@@ -7,6 +7,7 @@ import no.appsonite.gpsping.api.content.NonceAnswer;
 import no.appsonite.gpsping.api.content.RegisterAnswer;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.api.content.UsersAnswer;
+import no.appsonite.gpsping.api.content.geo.GeoDatesAnswer;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -66,4 +67,7 @@ public interface ApiService {
 
     @GET("tracker/get_points/")
     Observable<GeoPointsAnswer> getGeoPoints(@Query("from") long timeStampFrom, @Query("to") long longTimeStampTo);
+
+    @GET("tracker/get_dates/")
+    Observable<GeoDatesAnswer> getGeoDates(@Query("from") long timeStampFrom, @Query("to") long longTimeStampTo);
 }
