@@ -9,13 +9,15 @@ import android.widget.Toast;
 import java.util.Date;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
+import no.appsonite.gpsping.viewmodel.TrackersMapHistoryFragmentViewModel;
 
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
  * Date: 21.01.2016
  */
-public class TrackersMapHistoryFragment extends TrackersMapFragment implements CalendarDialogFragment.CalendarListener {
+public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<TrackersMapHistoryFragmentViewModel> implements CalendarDialogFragment.CalendarListener {
     private static final String TAG = "TrackersMapHistoryFragment";
 
     @Override
@@ -54,6 +56,6 @@ public class TrackersMapHistoryFragment extends TrackersMapFragment implements C
 
     @Override
     public void onDateSelected(Date date) {
-        Toast.makeText(getContext(), date.toString(), Toast.LENGTH_SHORT).show();
+        getModel().historyDate.set(date);
     }
 }

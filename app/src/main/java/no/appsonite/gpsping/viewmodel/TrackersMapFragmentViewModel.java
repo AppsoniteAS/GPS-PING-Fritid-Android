@@ -17,14 +17,27 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.content.FriendsAnswer;
+import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
+import no.appsonite.gpsping.api.content.geo.GeoItem;
+import no.appsonite.gpsping.api.content.geo.GeoPoint;
+import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import no.appsonite.gpsping.model.Friend;
+import no.appsonite.gpsping.model.MapPoint;
 import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+import rx.schedulers.TimeInterval;
 
 /**
  * Created: Belozerov
@@ -32,11 +45,110 @@ import rx.functions.Func0;
  * Date: 20.01.2016
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
+    private static final long INTERVAL = 5;
+    boolean isActive = false;
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
+    public ObservableArrayList<MapPoint> mapPoints = new ObservableArrayList<>();
 
-    public void requestFriends() {
+    public Observable<FriendsAnswer> requestFriends() {
+        Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<FriendsAnswer>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(FriendsAnswer friendsAnswer) {
+                friendList.clear();
+                Friend all = new Friend();
+                all.firstName.set("All");
+                friendList.add(all);
+                friendList.addAll(friendsAnswer.getFriends());
+            }
+        });
+        return observable;
     }
+
+    @Override
+    public void onViewCreated() {
+        super.onViewCreated();
+        isActive = true;
+        requestPoints();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isActive = false;
+    }
+
+    protected Observable<GeoPointsAnswer> requestPoints(final long from, final long to, final boolean repeat) {
+        Observable<GeoPointsAnswer> observable = Observable.interval(INTERVAL, TimeUnit.SECONDS)
+                .takeUntil(new Func1<Long, Boolean>() {
+                    @Override
+                    public Boolean call(Long aLong) {
+                        return !isActive || !repeat;
+                    }
+                })
+                .timeInterval()
+                .flatMap(new Func1<TimeInterval<Long>, Observable<GeoPointsAnswer>>() {
+                    @Override
+                    public Observable<GeoPointsAnswer> call(TimeInterval<Long> aLong) {
+                        return ApiFactory.getService().getGeoPoints(from, to)
+                                .cache()
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
+                    }
+                })
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<GeoPointsAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(GeoPointsAnswer geoPointsAnswer) {
+                ArrayList<MapPoint> mapPoints = new ArrayList<>();
+                for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
+                    for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
+                        for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
+                            mapPoints.add(new MapPoint(geoItem.getUser(), geoPoint.getLat(), geoPoint.getLon()));
+                        }
+                        if (mapPoints.size() > 0) {
+                            mapPoints.get(mapPoints.size() - 1).setLast(true);
+                        }
+                    }
+                }
+                TrackersMapFragmentViewModel.this.mapPoints.clear();
+                TrackersMapFragmentViewModel.this.mapPoints.addAll(mapPoints);
+            }
+        });
+        return observable;
+    }
+
+    public Observable<GeoPointsAnswer> requestPoints() {
+        long to = new Date().getTime() / 1000l;
+        long from = to - 15 * 60;
+        return requestPoints(from, to, true);
+    }
+
 
     public void saveBitmap(final Bitmap bitmap) {
         Observable.defer(new Func0<Observable<String>>() {

@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.model;
 
 import android.databinding.ObservableLong;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,4 +23,15 @@ public class Friend {
     public ObservableBoolean confirmed = new ObservableBoolean();
     @SerializedName("is_seeing_trackers")
     public ObservableBoolean isSeeingTrackers = new ObservableBoolean();
+
+    public String getName() {
+        String name;
+        if (TextUtils.isEmpty(firstName.get()))
+            return username.get();
+        name = firstName.get();
+        if (!TextUtils.isEmpty(lastName.get())) {
+            name = name + " " + lastName.get();
+        }
+        return name;
+    }
 }

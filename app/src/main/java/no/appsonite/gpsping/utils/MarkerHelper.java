@@ -9,8 +9,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 
+import com.github.lzyzsd.randomcolor.RandomColor;
+
+import java.util.HashMap;
+
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.model.Friend;
 
 /**
  * Created: Belozerov
@@ -18,17 +23,45 @@ import no.appsonite.gpsping.R;
  * Date: 26.01.2016
  */
 public class MarkerHelper {
+    private static HashMap<Long, Integer> colorsMap = new HashMap<>();
+    private static HashMap<Long, Bitmap> userBitmaps = new HashMap<>();
+    private static HashMap<Long, Bitmap> trackerBitmaps = new HashMap<>();
+    private static HashMap<Long, Bitmap> trackerHistoryBitmaps = new HashMap<>();
 
-    public static Bitmap getUserBitmap(int userColor) {
-        return getMarkerBitmap(userColor, R.drawable.ic_ellipse, R.drawable.ic_user_marker);
+    public static Bitmap getUserBitmap(Friend friend) {
+        Bitmap bitmap = userBitmaps.get(friend.id.get());
+        if (bitmap == null) {
+            bitmap = getMarkerBitmap(getFriendColor(friend), R.drawable.ic_ellipse, R.drawable.ic_user_marker);
+            userBitmaps.put(friend.id.get(), bitmap);
+        }
+        return bitmap;
     }
 
-    public static Bitmap getTrackerBitmap(int trackerColor) {
-        return getMarkerBitmap(trackerColor, R.drawable.ic_triangle, R.drawable.ic_triangle_marker);
+    public static Bitmap getTrackerBitmap(Friend friend) {
+        Bitmap bitmap = trackerBitmaps.get(friend.id.get());
+        if (bitmap == null) {
+            bitmap = getMarkerBitmap(getFriendColor(friend), R.drawable.ic_triangle, R.drawable.ic_triangle_marker);
+            trackerBitmaps.put(friend.id.get(), bitmap);
+        }
+        return bitmap;
     }
 
-    public static Bitmap getTrackerHistoryBitmap(int trackerColor) {
-        return getMarkerBitmap(trackerColor, R.drawable.ic_small_ellipse, R.drawable.ic_ellipse_marker);
+    public static Bitmap getTrackerHistoryBitmap(Friend friend) {
+        Bitmap bitmap = trackerHistoryBitmaps.get(friend.id.get());
+        if (bitmap == null) {
+            bitmap = getMarkerBitmap(getFriendColor(friend), R.drawable.ic_small_ellipse, R.drawable.ic_ellipse_marker);
+            trackerHistoryBitmaps.put(friend.id.get(), bitmap);
+        }
+        return bitmap;
+    }
+
+    public static int getFriendColor(Friend friend) {
+        Integer color = colorsMap.get(friend.id.get());
+        if (color == null) {
+            color = new RandomColor().randomColor();
+            colorsMap.put(friend.id.get(), color);
+        }
+        return color;
     }
 
     private static Bitmap getMarkerBitmap(int color, int bottomRes, int topRes) {

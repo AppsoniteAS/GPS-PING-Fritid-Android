@@ -66,11 +66,6 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
             }
         });
         return observable;
-//        if (Friend.Status.invisible.equals(friend.status.get())) {
-//            friend.status.set(Friend.Status.visible);
-//        } else if (Friend.Status.visible.equals(friend.status.get())) {
-//            friend.status.set(Friend.Status.invisible);
-//        }
     }
 
     public Observable<FriendsAnswer> requestFriends() {
