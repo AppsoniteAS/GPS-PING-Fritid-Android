@@ -28,6 +28,7 @@ public class RealmTracker extends RealmObject {
     private String signalRepeatTimeMeasurement;
     private boolean isEnabled;
     private String type;
+    private boolean isRunning;
 
     public RealmTracker() {
     }
@@ -68,6 +69,14 @@ public class RealmTracker extends RealmObject {
                         result.addAll(trackers);
                     }
                 });
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setIsRunning(boolean isRunning) {
+        this.isRunning = isRunning;
     }
 
     public RealmTracker(Tracker tracker) {
@@ -158,6 +167,7 @@ public class RealmTracker extends RealmObject {
             trackers.get(0).isEnabled.set(true);
         }
         for (Tracker tracker : trackers) {
+            tracker.fixRepeatTime();
             RealmTracker.add(tracker);
         }
         Realm realm = Realm.getInstance(Application.getContext());

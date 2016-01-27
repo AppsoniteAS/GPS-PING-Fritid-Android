@@ -4,7 +4,10 @@ package no.appsonite.gpsping.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
+import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.utils.ObservableBoolean;
 import no.appsonite.gpsping.utils.ObservableString;
@@ -30,6 +33,19 @@ public class Tracker implements Serializable {
     @SerializedName("type")
     public ObservableString type = new ObservableString(Type.TK_STAR.toString());
 
+    public android.databinding.ObservableBoolean isRunning = new android.databinding.ObservableBoolean(false);
+
+    public void fixRepeatTime() {
+        long repeatSeconds = Long.parseLong(signalRepeatTime.get());
+        String[] timeArray = Application.getContext().getResources().getStringArray(R.array.receiveSignalTime);
+        if (repeatSeconds % 60 == 0 && Arrays.asList(timeArray).contains(String.valueOf(repeatSeconds / 60))) {
+            signalRepeatTime.set(String.valueOf(repeatSeconds / 60));
+            signalRepeatTimeMeasurement.set("minutes");
+        } else {
+            signalRepeatTimeMeasurement.set("seconds");
+        }
+    }
+
     public enum Type {
         TK_STAR, TK_STAR_PET, TK_ANYWHERE
     }
@@ -47,6 +63,7 @@ public class Tracker implements Serializable {
         signalRepeatTimeMeasurement.set(tracker.getSignalRepeatTimeMeasurement());
         isEnabled.set(tracker.isEnabled());
         type.set(tracker.getType());
+        isRunning.set(tracker.isRunning());
     }
 
     public long getRepeatTime() {

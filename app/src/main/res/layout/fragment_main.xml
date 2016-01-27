@@ -54,7 +54,7 @@
                     android:layout_marginTop="4dp"
                     android:background="@drawable/circle_button"
                     android:gravity="center"
-                    android:text="@string/start"
+                    android:text="@{viewModel.activeTracker.isRunning?@string/stop:@string/start}"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="52sp"

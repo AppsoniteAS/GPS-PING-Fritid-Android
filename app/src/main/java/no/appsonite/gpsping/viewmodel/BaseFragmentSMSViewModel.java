@@ -17,18 +17,6 @@ import rx.subjects.PublishSubject;
 public class BaseFragmentSMSViewModel extends BaseFragmentViewModel {
     private PublishSubject<SMS> smsPublishSubject;
 
-    protected PublishSubject<SMS> sendSms(Activity activity, SMS sms) {
-        smsPublishSubject = PublishSubject.create();
-        smsPublishSubject.subscribe(new Action1<SMS>() {
-            @Override
-            public void call(SMS sms) {
-                smsPublishSubject.onCompleted();
-            }
-        });
-        SMSHelper.sendSMS(activity, sms);
-        return smsPublishSubject;
-    }
-
     public void onNewSms(SMS sms) {
         if (smsPublishSubject != null) {
             smsPublishSubject.onNext(sms);

@@ -7,8 +7,11 @@ import android.widget.Toast;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.MapActivity;
 import no.appsonite.gpsping.databinding.FragmentMainBinding;
+import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.MainFragmentViewModel;
+import rx.Observer;
+import rx.functions.Action1;
 
 /**
  * Created: Belozerov
@@ -50,8 +53,7 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
         getBinding().startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TrackersDialogFragment dialogFragment = new TrackersDialogFragment();
-                dialogFragment.show(getChildFragmentManager(), dialogFragment.getFragmentTag());
+                switchTrackerState();
             }
         });
 
@@ -66,6 +68,26 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
             @Override
             public void onClick(View v) {
                 MapActivity.start(getContext(), MapActivity.Type.HISTORY);
+            }
+        });
+    }
+
+    private void switchTrackerState() {
+        showProgress();
+        getModel().switchState(getActivity()).subscribe(new Observer<SMS>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showError(e);
+            }
+
+            @Override
+            public void onNext(SMS sms) {
+                hideProgress();
             }
         });
     }

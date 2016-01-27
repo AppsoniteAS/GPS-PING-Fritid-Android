@@ -42,7 +42,7 @@ public class SMSHelper {
                             e.printStackTrace();
                         }
                     }
-                }, 100);
+                }, 300);
             }
 
         }
