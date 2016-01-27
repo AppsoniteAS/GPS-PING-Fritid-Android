@@ -19,7 +19,7 @@ public class Friend {
     @SerializedName("last_name")
     public ObservableString lastName = new ObservableString();
     public ObservableString username = new ObservableString();
-    public ObservableLong id = new ObservableLong();
+    public ObservableLong id = new ObservableLong(-1);
     public ObservableBoolean confirmed = new ObservableBoolean();
     @SerializedName("is_seeing_trackers")
     public ObservableBoolean isSeeingTrackers = new ObservableBoolean();

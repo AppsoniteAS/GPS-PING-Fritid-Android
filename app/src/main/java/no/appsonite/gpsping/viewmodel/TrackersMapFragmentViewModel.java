@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -38,6 +39,7 @@ import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
+import rx.subjects.PublishSubject;
 
 /**
  * Created: Belozerov
@@ -46,7 +48,7 @@ import rx.schedulers.TimeInterval;
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private static final long INTERVAL = 5;
-    boolean isActive = false;
+    public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
     public ObservableArrayList<MapPoint> mapPoints = new ObservableArrayList<>();
 
@@ -81,37 +83,57 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        isActive = true;
         requestPoints();
+
+        currentFriend.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
+                cancelRequest.onNext(new Object());
+                requestPoints();
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        isActive = false;
+        cancelRequest.onNext(new Object());
     }
 
+    PublishSubject<Object> cancelRequest = PublishSubject.create();
+
     protected Observable<GeoPointsAnswer> requestPoints(final long from, final long to, final boolean repeat) {
-        Observable<GeoPointsAnswer> observable = Observable.interval(INTERVAL, TimeUnit.SECONDS)
-                .takeUntil(new Func1<Long, Boolean>() {
-                    @Override
-                    public Boolean call(Long aLong) {
-                        return !isActive || !repeat;
-                    }
-                })
-                .timeInterval()
+        Observable<TimeInterval<Long>> intervalObservable;
+        if (repeat) {
+            intervalObservable = Observable.interval(INTERVAL, TimeUnit.SECONDS)
+                    .takeUntil(cancelRequest)
+                    .timeInterval();
+        } else {
+            intervalObservable = Observable.just(new TimeInterval<>(0l, 0l));
+        }
+
+        Observable<GeoPointsAnswer> observable = intervalObservable
                 .flatMap(new Func1<TimeInterval<Long>, Observable<GeoPointsAnswer>>() {
                     @Override
                     public Observable<GeoPointsAnswer> call(TimeInterval<Long> aLong) {
-                        return ApiFactory.getService().getGeoPoints(from, to)
-                                .cache()
-                                .subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread());
+                        if (currentFriend.get() == null || currentFriend.get().id.get() == -1) {
+                            return ApiFactory.getService().getGeoPoints(from, to)
+                                    .cache()
+                                    .subscribeOn(Schedulers.newThread())
+                                    .observeOn(AndroidSchedulers.mainThread());
+                        } else {
+                            return ApiFactory.getService().getGeoPoints(from, to, currentFriend.get().id.get())
+                                    .cache()
+                                    .subscribeOn(Schedulers.newThread())
+                                    .observeOn(AndroidSchedulers.mainThread());
+                        }
+
                     }
                 })
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
+
         observable.subscribe(new Observer<GeoPointsAnswer>() {
             @Override
             public void onCompleted() {

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -157,13 +158,25 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
 
+        getBinding().friendSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getModel().currentFriend.set(getModel().friendList.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         subscribeOnPoints();
     }
 
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
+        getMap().clear();
         if (mapPoints.size() > 0) {
-            getMap().clear();
             for (MapPoint mapPoint : mapPoints) {
                 getMap().addMarker(new MarkerOptions()
                         .position(mapPoint.getLatLng())
@@ -199,7 +212,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
             @Override
             public void onItemRangeRemoved(ObservableList sender, int positionStart, int itemCount) {
-
+                updatePoints();
             }
         });
     }
