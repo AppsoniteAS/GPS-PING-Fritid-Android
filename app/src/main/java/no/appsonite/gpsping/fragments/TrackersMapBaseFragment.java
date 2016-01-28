@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -184,6 +185,11 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 return false;
             }
         });
+
+        TypedValue typedValue = new TypedValue();
+        getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
+        int actionBarSize = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
+        getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
     }
 
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
