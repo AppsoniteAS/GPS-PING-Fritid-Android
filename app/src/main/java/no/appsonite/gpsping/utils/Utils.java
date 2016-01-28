@@ -3,10 +3,14 @@ package no.appsonite.gpsping.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.R;
 
 /**
  * Created: Belozerov
@@ -30,5 +34,20 @@ public class Utils {
         Display display = manager.getDefaultDisplay();
         display.getSize(point);
         return point;
+    }
+
+
+    public static int getActionBarSize(Activity activity) {
+        TypedValue typedValue = new TypedValue();
+        activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
+        return TypedValue.complexToDimensionPixelSize(typedValue.data, activity.getResources().getDisplayMetrics());
+    }
+
+    public static String getDistanceText(float distance) {
+        if (distance >= 1000f) {
+            return Application.getContext().getString(R.string.distanceKm, ((int) Math.ceil(distance / 1000)));
+        } else {
+            return Application.getContext().getString(R.string.distanceM, ((int) Math.ceil(distance)));
+        }
     }
 }

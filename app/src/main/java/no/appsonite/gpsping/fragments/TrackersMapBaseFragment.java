@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -29,21 +29,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.services.LocationMapService;
 import no.appsonite.gpsping.utils.MarkerHelper;
+import no.appsonite.gpsping.utils.RxBus;
+import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
+import rx.Subscription;
+import rx.functions.Action1;
 
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
  * Date: 27.01.2016
  */
-public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseMapFragment<FragmentTrackersMapBinding, T> {
+public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseMapFragment<FragmentTrackersMapBinding, T> implements GoogleMap.OnMarkerClickListener {
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private MediaPlayer mediaPlayer;
+    private Subscription locationSubscription;
+    private long myId = AuthHelper.getCredentials().getUser().id.get();
 
     @Override
     protected String getTitle() {
@@ -118,11 +127,40 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     @Override
+    public String getFragmentTag() {
+        return null;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.removeTracks) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (trackUserLocation())
+            LocationMapService.startService(context);
+        locationSubscription = RxBus.getInstance().register(Location.class, new Action1<Location>() {
+            @Override
+            public void call(Location location) {
+                onLocationUpdate(location);
+            }
+        });
+    }
+
+    protected void onLocationUpdate(Location location) {
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LocationMapService.stopService(Application.getContext());
+        locationSubscription.unsubscribe();
     }
 
     @Override
@@ -178,29 +216,28 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onMapReady() {
         super.onMapReady();
-        getMap().setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
-                return false;
-            }
-        });
-
-        TypedValue typedValue = new TypedValue();
-        getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
-        int actionBarSize = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
+        getMap().setOnMarkerClickListener(this);
+        int actionBarSize = Utils.getActionBarSize(getActivity());
         getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
     }
 
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
 
+    protected boolean drawMyHistoryUserPosition() {
+        return true;
+    }
+
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
-        getMap().clear();
+        for (Marker marker : markerMapPointHashMap.keySet()) {
+            marker.remove();
+        }
         markerMapPointHashMap.clear();
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
                 if (mapPoint.isBelongsToUser()) {
+                    if (!drawMyHistoryUserPosition() && myId == mapPoint.getUser().id.get())
+                        continue;
                     markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
                             .icon((
@@ -214,9 +251,15 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                             ))), mapPoint);
                 }
             }
-            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
+//            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
         }
     }
+
+
+    protected boolean trackUserLocation() {
+        return false;
+    }
+
 
     private void subscribeOnPoints() {
         getModel().mapPoints.addOnListChangedCallback(new ObservableList.OnListChangedCallback() {
@@ -266,5 +309,11 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
+        return false;
     }
 }

@@ -87,6 +87,8 @@
     <string name="lonNMap">Lon:\t\t\t\t%1$s</string>
     <string name="grsmNMap">GRSM:\t\t\t\t%1$s</string>
     <string name="you">You</string>
+    <string name="distanceKm">%1$s km</string>
+    <string name="distanceM">%1$s m</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

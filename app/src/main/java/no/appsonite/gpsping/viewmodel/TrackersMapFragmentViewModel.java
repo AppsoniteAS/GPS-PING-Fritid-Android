@@ -35,6 +35,7 @@ import no.appsonite.gpsping.api.content.geo.GeoPoint;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -52,6 +53,7 @@ import rx.subjects.PublishSubject;
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private static final long INTERVAL = 5;
+    public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
     public ObservableArrayList<MapPoint> mapPoints = new ObservableArrayList<>();
