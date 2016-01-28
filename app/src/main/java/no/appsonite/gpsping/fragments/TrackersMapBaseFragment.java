@@ -10,7 +10,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,7 +51,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private TileOverlay topoWorldOverlay;
     private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
-    private long myId = AuthHelper.getCredentials().getUser().id.get();
 
     @Override
     protected String getTitle() {
@@ -223,10 +221,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
 
-    protected boolean drawMyHistoryUserPosition() {
-        return true;
-    }
-
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
         for (Marker marker : markerMapPointHashMap.keySet()) {
@@ -236,8 +230,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
                 if (mapPoint.isBelongsToUser()) {
-                    if (!drawMyHistoryUserPosition() && myId == mapPoint.getUser().id.get())
+                    if (skipMapPoint(mapPoint)) {
                         continue;
+                    }
                     markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
                             .icon((
@@ -253,6 +248,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
 //            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
         }
+    }
+
+    protected boolean skipMapPoint(MapPoint mapPoint) {
+        if (mapPoint.getLat() == 0 && mapPoint.getLon() == 0)
+            return true;
+        return false;
     }
 
 

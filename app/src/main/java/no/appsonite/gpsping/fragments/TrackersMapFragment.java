@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,6 +33,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     private Marker userMarker;
     private MapPoint userMapPoint;
     private Location lastLocation;
+    private long myId = AuthHelper.getCredentials().getUser().id.get();
 
     @Override
     public String getFragmentTag() {
@@ -72,6 +74,9 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
                         .icon((
                                         MarkerHelper.getUserBitmapDescriptor(userMapPoint.getUser()))
                         ));
+                updateDistance();
+                getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 15));
+
             } else {
                 userMapPoint.setLat(location.getLatitude());
                 userMapPoint.setLon(location.getLongitude());
@@ -87,16 +92,20 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         getMap().setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                if (lastLocation == null)
-                    return;
-                float[] dis = new float[1];
-                Rect visibleRect = new Rect();
-                getBinding().mapTarget.getLocalVisibleRect(visibleRect);
-                LatLng latLng = getMap().getProjection().fromScreenLocation(new Point(visibleRect.centerX(), visibleRect.centerY()));
-                Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(), latLng.latitude, latLng.longitude, dis);
-                getModel().distance.set(Utils.getDistanceText(dis[0]));
+                updateDistance();
             }
         });
+    }
+
+    private void updateDistance() {
+        if (lastLocation == null)
+            return;
+        float[] dis = new float[1];
+        Rect visibleRect = new Rect();
+        getBinding().mapTarget.getLocalVisibleRect(visibleRect);
+        LatLng latLng = getMap().getProjection().fromScreenLocation(new Point(visibleRect.centerX(), visibleRect.centerY()));
+        Location.distanceBetween(lastLocation.getLatitude(), lastLocation.getLongitude(), latLng.latitude, latLng.longitude, dis);
+        getModel().distance.set(Utils.getDistanceText(dis[0]));
     }
 
     private void updateLine(Location location) {
@@ -142,7 +151,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     }
 
     @Override
-    protected boolean drawMyHistoryUserPosition() {
-        return false;
+    protected boolean skipMapPoint(MapPoint mapPoint) {
+        return myId == mapPoint.getUser().id.get() || super.skipMapPoint(mapPoint);
     }
 }
