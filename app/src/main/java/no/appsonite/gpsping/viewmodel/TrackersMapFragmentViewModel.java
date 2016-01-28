@@ -22,9 +22,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
+import no.appsonite.gpsping.api.content.LoginAnswer;
+import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPoint;
@@ -51,6 +55,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
     public ObservableArrayList<MapPoint> mapPoints = new ObservableArrayList<>();
+    public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
 
     public Observable<FriendsAnswer> requestFriends() {
         Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
@@ -72,8 +77,14 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             public void onNext(FriendsAnswer friendsAnswer) {
                 friendList.clear();
                 Friend all = new Friend();
-                all.firstName.set("All");
+                all.firstName.set(Application.getContext().getString(R.string.all));
                 friendList.add(all);
+                Friend you = new Friend();
+                LoginAnswer loginAnswer = AuthHelper.getCredentials();
+                Profile profile = loginAnswer.getUser();
+                you.id.set(profile.id.get());
+                you.firstName.set(Application.getContext().getString(R.string.you));
+                friendList.add(you);
                 friendList.addAll(friendsAnswer.getFriends());
             }
         });
@@ -92,7 +103,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 requestPoints();
             }
         });
+
     }
+
 
     @Override
     public void onDestroyView() {
@@ -151,13 +164,27 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
                     for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
                         for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
-                            mapPoints.add(new MapPoint(geoItem.getUser(), geoPoint.getLat(), geoPoint.getLon()));
+                            mapPoints.add(
+                                    new MapPoint(geoItem.getUser(),
+                                            geoPoint.getLat(),
+                                            geoPoint.getLon(),
+                                            geoDevicePoints.getDevice().getName(),
+                                            geoDevicePoints.getDevice().getImeiNumber(),
+                                            geoDevicePoints.getDevice().getTrackerNumber(),
+                                            geoPoint.getTimestamp()));
                         }
                         if (mapPoints.size() > 0) {
                             mapPoints.get(mapPoints.size() - 1).setLast(true);
                         }
                     }
-                    MapPoint userMapPoint = new MapPoint(geoItem.getUser(), geoItem.getUser().lat, geoItem.getUser().lon);
+                    MapPoint userMapPoint = new MapPoint(
+                            geoItem.getUser(),
+                            geoItem.getUser().lat,
+                            geoItem.getUser().lon,
+                            geoItem.getUser().getName(),
+                            null,
+                            null,
+                            geoItem.getUser().lastUpdate);
                     userMapPoint.setBelongsToUser(true);
                     mapPoints.add(userMapPoint);
                 }

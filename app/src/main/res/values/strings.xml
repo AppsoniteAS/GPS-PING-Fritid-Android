@@ -78,6 +78,15 @@
     <string name="friendShipRequest">Friendship request</string>
     <string name="friendShipRequestMessage">%1$s wants to be friends with you. Do you confirm your friendship?</string>
     <string name="confirm">Confirm</string>
+    <string name="owner">Owner:</string>
+
+    <string name="trackerNumberNMap">Tracker Number:\t%1$s</string>
+    <string name="trackerImeiNMap">IMEI Number:\t\t\t%1$s</string>
+    <string name="logTimeNMap">Log Time:\t\t\t\t%1$s</string>
+    <string name="latNMap">Lat:\t\t\t\t%1$s</string>
+    <string name="lonNMap">Lon:\t\t\t\t%1$s</string>
+    <string name="grsmNMap">GRSM:\t\t\t\t%1$s</string>
+    <string name="you">You</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

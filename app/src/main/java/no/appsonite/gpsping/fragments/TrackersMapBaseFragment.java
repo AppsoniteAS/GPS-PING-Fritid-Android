@@ -18,7 +18,7 @@ import android.widget.RadioGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
@@ -173,23 +174,38 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         subscribeOnPoints();
     }
 
+    @Override
+    public void onMapReady() {
+        super.onMapReady();
+        getMap().setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
+                return false;
+            }
+        });
+    }
+
+    private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
+
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
         getMap().clear();
+        markerMapPointHashMap.clear();
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
                 if (mapPoint.isBelongsToUser()) {
-                    getMap().addMarker(new MarkerOptions()
+                    markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
-                            .icon(BitmapDescriptorFactory.fromBitmap(
-                                            MarkerHelper.getUserBitmap(mapPoint.getUser()))
-                            ));
+                            .icon((
+                                            MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
+                            )), mapPoint);
                 } else {
-                    getMap().addMarker(new MarkerOptions()
+                    markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
-                            .icon(BitmapDescriptorFactory.fromBitmap(
-                                    mapPoint.isLast() ? MarkerHelper.getTrackerBitmap(mapPoint.getUser()) : MarkerHelper.getTrackerHistoryBitmap(mapPoint.getUser())
-                            )));
+                            .icon((
+                                    mapPoint.isLast() ? MarkerHelper.getTrackerBitmapDescriptor(mapPoint.getUser()) : MarkerHelper.getTrackerHistoryBitmapDescriptor(mapPoint.getUser())
+                            ))), mapPoint);
                 }
             }
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));

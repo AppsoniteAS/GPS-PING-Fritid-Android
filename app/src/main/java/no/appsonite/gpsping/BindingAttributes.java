@@ -2,6 +2,7 @@ package no.appsonite.gpsping;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
@@ -58,6 +59,11 @@ public class BindingAttributes {
             typefaceHashMap.put(font, tf);
         }
         textView.setTypeface(tf);
+    }
+
+    @BindingAdapter("android:src")
+    public static void setBitmap(ImageView imageView, Bitmap bitmap) {
+        imageView.setImageBitmap(bitmap);
     }
 
 
