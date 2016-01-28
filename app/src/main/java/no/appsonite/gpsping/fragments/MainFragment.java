@@ -11,7 +11,6 @@ import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.MainFragmentViewModel;
 import rx.Observer;
-import rx.functions.Action1;
 
 /**
  * Created: Belozerov
@@ -73,6 +72,8 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
     }
 
     private void switchTrackerState() {
+        if (getModel().activeTracker.get() == null)
+            return;
         showProgress();
         getModel().switchState(getActivity()).subscribe(new Observer<SMS>() {
             @Override

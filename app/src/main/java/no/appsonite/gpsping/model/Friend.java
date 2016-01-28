@@ -25,7 +25,7 @@ public class Friend {
     public ObservableBoolean isSeeingTrackers = new ObservableBoolean();
     public double lat = 0d;
     public double lon = 0d;
-    @SerializedName("last_update")
+    @SerializedName("timestamp")
     public long lastUpdate;
 
 
