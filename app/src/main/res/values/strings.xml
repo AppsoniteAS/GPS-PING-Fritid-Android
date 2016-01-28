@@ -74,6 +74,7 @@
     <string name="smsAlertDialogTitle">SMS</string>
     <string name="smsAlertDialogMessage">This will send an sms to your tracker</string>
     <string name="trackerUpdated">Tracker successfully updated</string>
+    <string name="locationMessage">Location tracking</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

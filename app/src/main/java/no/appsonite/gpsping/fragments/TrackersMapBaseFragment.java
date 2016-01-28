@@ -178,12 +178,19 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getMap().clear();
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
-                getMap().addMarker(new MarkerOptions()
-                        .position(mapPoint.getLatLng())
-                        .icon(BitmapDescriptorFactory.fromBitmap(
-                                mapPoint.isLast() ? MarkerHelper.getTrackerBitmap(mapPoint.getUser()) : MarkerHelper.getTrackerHistoryBitmap(mapPoint.getUser())
-                        )));
-
+                if (mapPoint.isBelongsToUser()) {
+                    getMap().addMarker(new MarkerOptions()
+                            .position(mapPoint.getLatLng())
+                            .icon(BitmapDescriptorFactory.fromBitmap(
+                                            MarkerHelper.getUserBitmap(mapPoint.getUser()))
+                            ));
+                } else {
+                    getMap().addMarker(new MarkerOptions()
+                            .position(mapPoint.getLatLng())
+                            .icon(BitmapDescriptorFactory.fromBitmap(
+                                    mapPoint.isLast() ? MarkerHelper.getTrackerBitmap(mapPoint.getUser()) : MarkerHelper.getTrackerHistoryBitmap(mapPoint.getUser())
+                            )));
+                }
             }
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
         }

@@ -12,6 +12,15 @@ public class MapPoint {
     private double lat;
     private double lon;
     private boolean last;
+    private boolean belongsToUser = false;
+
+    public boolean isBelongsToUser() {
+        return belongsToUser;
+    }
+
+    public void setBelongsToUser(boolean belongsToUser) {
+        this.belongsToUser = belongsToUser;
+    }
 
     public boolean isLast() {
         return last;

@@ -157,6 +157,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                             mapPoints.get(mapPoints.size() - 1).setLast(true);
                         }
                     }
+                    MapPoint userMapPoint = new MapPoint(geoItem.getUser(), geoItem.getUser().lat, geoItem.getUser().lon);
+                    userMapPoint.setBelongsToUser(true);
+                    mapPoints.add(userMapPoint);
                 }
                 TrackersMapFragmentViewModel.this.mapPoints.clear();
                 TrackersMapFragmentViewModel.this.mapPoints.addAll(mapPoints);

@@ -23,6 +23,9 @@ public class Friend {
     public ObservableBoolean confirmed = new ObservableBoolean();
     @SerializedName("is_seeing_trackers")
     public ObservableBoolean isSeeingTrackers = new ObservableBoolean();
+    public double lat = 0d;
+    public double lon = 0d;
+
 
     public String getName() {
         String name;
