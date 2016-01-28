@@ -75,6 +75,9 @@
     <string name="smsAlertDialogMessage">This will send an sms to your tracker</string>
     <string name="trackerUpdated">Tracker successfully updated</string>
     <string name="locationMessage">Location tracking</string>
+    <string name="friendShipRequest">Friendship request</string>
+    <string name="friendShipRequestMessage">%1$s wants to be friends with you. Do you confirm your friendship?</string>
+    <string name="confirm">Confirm</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

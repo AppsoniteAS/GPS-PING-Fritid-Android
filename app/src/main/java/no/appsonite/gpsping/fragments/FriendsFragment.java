@@ -18,6 +18,7 @@ import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.FriendsFragmentViewModel;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
+import rx.Observable;
 import rx.Observer;
 import rx.functions.Action1;
 
@@ -76,7 +77,7 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
                         removeFriend((Friend) v.getTag());
                         break;
                     case R.id.friendStatus:
-                        switchVisibility((Friend) v.getTag());
+                        friendAction((Friend) v.getTag());
                         break;
                 }
             }
@@ -93,27 +94,36 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
         BindingHelper.bindAdapter(adapter, model.friends);
     }
 
-    private void switchVisibility(Friend friend) {
-        if (!friend.confirmed.get())
-            return;
+
+    private void friendAction(Friend friend) {
+        Observable<ApiAnswer> observable = null;
+        if (friend.confirmed.get() == null) {
+            observable = getModel().confirmFriendShip(friend);
+        } else {
+            if (!friend.confirmed.get())
+                return;
+        }
+        if (observable == null) {
+            observable = getModel().switchStatus(friend);
+        }
         showProgress();
-        getModel().switchStatus(friend)
-                .subscribe(new Observer<ApiAnswer>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
+        observable.subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        showError(e);
-                    }
+            }
 
-                    @Override
-                    public void onNext(ApiAnswer apiAnswer) {
-                        hideProgress();
-                    }
-                });
+            @Override
+            public void onError(Throwable e) {
+                showError(e);
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                hideProgress();
+            }
+        });
     }
 
     private void removeFriend(Friend friend) {

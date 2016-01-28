@@ -93,4 +93,29 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
         });
         return observable;
     }
+
+    public Observable<ApiAnswer> confirmFriendShip(final Friend friend) {
+        Observable<ApiAnswer> observable = ApiFactory.getService().confirmFriendship(friend.id.get())
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                friend.isSeeingTrackers.set(false);
+                friend.confirmed.set(true);
+            }
+        });
+        return observable;
+    }
 }
