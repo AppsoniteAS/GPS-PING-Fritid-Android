@@ -70,6 +70,10 @@ public interface ApiService {
 
     @GET("tracker/get_dates/")
     Observable<GeoDatesAnswer> getGeoDates(@Query("from") long timeStampFrom, @Query("to") long longTimeStampTo);
+
     @GET("tracker/get_dates/")
     Observable<GeoDatesAnswer> getGeoDates(@Query("from") long timeStampFrom, @Query("to") long longTimeStampTo, @Query("id") long id);
+
+    @GET("user/set_position/")
+    Observable<ApiAnswer> setUserPosition(@Query("lat") double lat, @Query("lon") double lon);
 }

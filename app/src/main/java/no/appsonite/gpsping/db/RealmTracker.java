@@ -1,5 +1,7 @@
 package no.appsonite.gpsping.db;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class RealmTracker extends RealmObject {
             @Override
             public void call(Subscriber<? super ArrayList<Tracker>> subscriber) {
                 ArrayList<Tracker> trackers = new ArrayList<>();
-                Realm realm = Realm.getInstance(Application.getContext());
+                Realm realm = Realm.getDefaultInstance();
                 RealmResults<RealmTracker> results = realm.where(RealmTracker.class).findAll();
                 for (RealmTracker result : results) {
                     trackers.add(new Tracker(result));
@@ -148,7 +150,7 @@ public class RealmTracker extends RealmObject {
     }
 
     public static void add(Tracker tracker) {
-        Realm realm = Realm.getInstance(Application.getContext());
+        Realm realm = Realm.getDefaultInstance();
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
         realm.beginTransaction();
         if (realmTracker == null) {
@@ -170,7 +172,7 @@ public class RealmTracker extends RealmObject {
             tracker.fixRepeatTime();
             RealmTracker.add(tracker);
         }
-        Realm realm = Realm.getInstance(Application.getContext());
+        Realm realm = Realm.getDefaultInstance();
         ArrayList<RealmTracker> trackersForRemove = new ArrayList<>();
         RealmResults<RealmTracker> realmTrackers = realm.where(RealmTracker.class).findAll();
         for (RealmTracker realmTracker : realmTrackers) {
@@ -188,5 +190,13 @@ public class RealmTracker extends RealmObject {
             realm.commitTransaction();
         }
         realm.close();
+    }
+
+    public static boolean hasRunning() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("isRunning", true).findFirst();
+        boolean isRunning = realmTracker != null;
+        realm.close();
+        return isRunning;
     }
 }

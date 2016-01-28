@@ -9,10 +9,10 @@ import io.realm.Realm;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
+import no.appsonite.gpsping.services.LocationService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
 
 /**
  * Created: Belozerov
@@ -49,6 +49,9 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 message = String.format("T%ss***n123456", tracker.getRepeatTime());
                 break;
         }
+
+        LocationService.startService(activity);
+
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.trackerNumber.get(), message));
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
@@ -61,6 +64,11 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         String message = "Notn123456";
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.trackerNumber.get(), message));
+
+        if (!RealmTracker.hasRunning()) {
+            LocationService.stopService(activity);
+        }
+
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
