@@ -94,6 +94,9 @@
     <string name="passwordRestoreDesc">Input your email and we will send you instructions for password restore</string>
     <string name="emailSent">Link for password reset has been emailed to you. Please check your email.</string>
     <string name="forgetYourPassword"><u>Forget your password?</u></string>
+    <string name="displayOptions">Display options</string>
+    <string name="showOnMapTracker">Show on map trackers position during:</string>
+    <string name="trackingHistory">Tracking History</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>
@@ -108,4 +111,11 @@
         <item>Seconds</item>
         <item>Minutes</item>
     </string-array>
+    <string-array name="showDuring">
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
+    </string-array>
+
 </resources>

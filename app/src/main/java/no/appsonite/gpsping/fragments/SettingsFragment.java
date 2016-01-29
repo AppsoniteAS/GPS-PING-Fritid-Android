@@ -69,5 +69,12 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
                 getBaseActivity().replaceFragment(FriendsFragment.newInstance(), true);
             }
         });
+
+        getBinding().displayOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true);
+            }
+        });
     }
 }

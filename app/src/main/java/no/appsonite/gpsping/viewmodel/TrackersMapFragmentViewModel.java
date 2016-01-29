@@ -199,7 +199,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<GeoPointsAnswer> requestPoints() {
         long to = new Date().getTime() / 1000l;
-        long from = to - 15 * 60;
+        long from = to - DisplayOptionsFragmentViewModel.getHistoryValueSeconds();
         return requestPoints(from, to, true);
     }
 

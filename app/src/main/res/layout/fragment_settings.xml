@@ -59,6 +59,13 @@
                 android:text="@string/profile" />
 
             <TextView
+                android:id="@+id/displayOptions"
+                style="@style/AppTheme.widget.Button.Green"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="@string/displayOptions" />
+
+            <TextView
                 android:id="@+id/about"
                 style="@style/AppTheme.widget.Button.Green"
                 android:layout_gravity="center_horizontal"
