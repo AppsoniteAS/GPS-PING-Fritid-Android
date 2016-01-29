@@ -28,6 +28,9 @@ public interface ApiService {
     @GET("user/generate_auth_cookie/?seconds=999999999")
     Observable<LoginAnswer> login(@Query("username") String username, @Query("password") String password);
 
+    @GET("user/retrieve_password/")
+    Observable<ApiAnswer> restorePassword(@Query("user_login") String email);
+
     @GET("user/update_user_meta/")
     Observable<ApiAnswer> updateUser(@Query("meta_key") String fieldName, @Query("meta_value") String fieldValue);
 

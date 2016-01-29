@@ -89,6 +89,10 @@
     <string name="you">You</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>
+    <string name="restore">Restore</string>
+    <string name="passwordRestoreDesc">Input your email and we will send you instructions for password restore</string>
+    <string name="emailSent">Link for password reset has been emailed to you. Please check your email.</string>
+    <string name="forgetYourPassword"><u>Forget your password?</u></string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

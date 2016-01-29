@@ -3,7 +3,6 @@ package no.appsonite.gpsping.viewmodel;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -13,7 +12,6 @@ import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.functions.Action1;
-import rx.observables.ConnectableObservable;
 
 /**
  * Created: Belozerov

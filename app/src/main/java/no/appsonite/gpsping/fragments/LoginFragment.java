@@ -52,6 +52,13 @@ public class LoginFragment extends BaseBindingFragment<FragmentLoginBinding, Log
                 startLogin();
             }
         });
+
+        getBinding().forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(RestoreFragment.newInstance(), true);
+            }
+        });
     }
 
     private void startLogin() {
