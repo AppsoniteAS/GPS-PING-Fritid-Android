@@ -34,6 +34,7 @@ public interface ApiService {
     @GET("user/update_user_meta/")
     Observable<ApiAnswer> updateUser(@Query("meta_key") String fieldName, @Query("meta_value") String fieldValue);
 
+
     @GET("tracker/add_tracker/")
     Observable<ApiAnswer> addTracker(@Query("name") String trackerName, @Query("imei_number") String imei, @Query("tracker_number") String number, @Query("reciver_signal_repeat_time") long repeatTime, @Query("check_for_stand") boolean checkForStand, @Query("type") String type);
 
@@ -46,6 +47,9 @@ public interface ApiService {
 
     @GET("tracker/remove_tracker/")
     Observable<ApiAnswer> removeTracker(@Query("imei_number") String imei);
+
+    @GET("friends/register_gcm/")
+    Observable<ApiAnswer> registerGCM(@Query("uuid") String uuid, @Query("push_id") String token);
 
     @GET("friends/add/")
     Observable<ApiAnswer> addFriend(@Query("id") long id);

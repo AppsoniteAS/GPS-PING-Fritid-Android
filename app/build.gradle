@@ -47,4 +47,5 @@ dependencies {
     compile 'info.hoang8f:android-segmented:1.0.6'
     compile 'com.p_v:flexiblecalendar:1.1.4'
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
+    compile "com.google.android.gms:play-services-gcm:8.4.0"
 }

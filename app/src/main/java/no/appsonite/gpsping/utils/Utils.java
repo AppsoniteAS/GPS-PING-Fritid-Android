@@ -2,12 +2,17 @@ package no.appsonite.gpsping.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import java.util.UUID;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
@@ -49,5 +54,24 @@ public class Utils {
         } else {
             return Application.getContext().getString(R.string.distanceM, ((int) Math.ceil(distance)));
         }
+    }
+
+
+    public static String getUniqueId() {
+        SharedPreferences sharedPreferences = Application.getContext().getSharedPreferences("UUID", Context.MODE_PRIVATE);
+        String id = sharedPreferences.getString("UUID", null);
+        if (!TextUtils.isEmpty(id))
+            return id;
+        try {
+            id = Settings.Secure.getString(Application.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        } catch (Exception ignore) {
+
+        }
+
+        if (TextUtils.isEmpty(id)) {
+            id = UUID.randomUUID().toString();
+        }
+        sharedPreferences.edit().putString("UUID", id).apply();
+        return id;
     }
 }

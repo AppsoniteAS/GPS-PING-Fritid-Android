@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <include layout="@layout/top_bar" />
 
             <LinearLayout

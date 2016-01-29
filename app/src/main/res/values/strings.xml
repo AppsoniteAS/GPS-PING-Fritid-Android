@@ -77,6 +77,7 @@
     <string name="locationMessage">Location tracking</string>
     <string name="friendShipRequest">Friendship request</string>
     <string name="friendShipRequestMessage">%1$s wants to be friends with you. Do you confirm your friendship?</string>
+    <string name="friendShipRequestNotifyMessage">wants to be friends with you</string>
     <string name="confirm">Confirm</string>
     <string name="owner">Owner:</string>
 
