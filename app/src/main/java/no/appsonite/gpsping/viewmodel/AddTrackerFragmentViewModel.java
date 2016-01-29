@@ -71,6 +71,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     private Observable<Boolean> addNewTracker(Activity activity) {
         return sendSmses(activity, getSMSes())
                 .last()
+                .cache()
                 .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(SMS sms) {

@@ -34,6 +34,7 @@ public class Tracker implements Serializable {
     public ObservableString type = new ObservableString(Type.TK_STAR.toString());
 
     public android.databinding.ObservableBoolean isRunning = new android.databinding.ObservableBoolean(false);
+    public android.databinding.ObservableBoolean isGeofenceRunning = new android.databinding.ObservableBoolean(false);
 
     public void fixRepeatTime() {
         long repeatSeconds = Long.parseLong(signalRepeatTime.get());
@@ -64,6 +65,7 @@ public class Tracker implements Serializable {
         isEnabled.set(tracker.isEnabled());
         type.set(tracker.getType());
         isRunning.set(tracker.isRunning());
+        isGeofenceRunning.set(tracker.isGeofenceRunning());
     }
 
     public long getRepeatTime() {

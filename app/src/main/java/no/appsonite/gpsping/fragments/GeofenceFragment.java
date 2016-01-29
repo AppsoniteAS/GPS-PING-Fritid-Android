@@ -1,10 +1,14 @@
 package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
+import android.view.View;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentGeofenceBinding;
+import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.viewmodel.GeofenceFragmentViewModel;
+import rx.Observable;
+import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -29,5 +33,41 @@ public class GeofenceFragment extends BaseBindingFragment<FragmentGeofenceBindin
     @Override
     protected String getTitle() {
         return getString(R.string.geofence);
+    }
+
+    @Override
+    protected void onViewModelCreated(GeofenceFragmentViewModel model) {
+        super.onViewModelCreated(model);
+        getBinding().startGeoFence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchGeofence();
+            }
+        });
+    }
+
+    private void switchGeofence() {
+        if (getModel().activeTracker.get() == null)
+            return;
+        Observable<SMS> observable = getModel().switchGeofence(getActivity());
+        if (observable != null) {
+            showProgress();
+            observable.subscribe(new Observer<SMS>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showError(e);
+                }
+
+                @Override
+                public void onNext(SMS sms) {
+                    hideProgress();
+                }
+            });
+        }
     }
 }

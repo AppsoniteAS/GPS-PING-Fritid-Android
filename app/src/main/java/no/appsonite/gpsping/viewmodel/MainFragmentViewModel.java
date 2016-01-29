@@ -56,7 +56,9 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.trackerNumber.get(), message));
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .last()
+                .cache();
     }
 
     private Observable<SMS> stopTracker(Activity activity) {
@@ -71,7 +73,9 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         }
 
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .last()
+                .cache();
     }
 
     public Observable<SMS> switchState(Activity activity) {

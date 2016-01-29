@@ -70,9 +70,10 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/startGeoFence"
             style="@style/AppTheme.widget.Button.Green"
             android:layout_marginTop="24dp"
-            android:onClick="@{viewModel.onSaveClick}"
-            android:text="@string/save" />
+            android:textAllCaps="true"
+            android:text="@{viewModel.activeTracker.isGeofenceRunning?@string/stop:@string/start}" />
     </LinearLayout>
 </layout>

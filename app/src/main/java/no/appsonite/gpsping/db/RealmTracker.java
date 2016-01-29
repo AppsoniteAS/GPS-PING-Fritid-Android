@@ -1,14 +1,11 @@
 package no.appsonite.gpsping.db;
 
-import android.app.Activity;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
-import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.model.Tracker;
 import rx.Observable;
 import rx.Subscriber;
@@ -31,6 +28,15 @@ public class RealmTracker extends RealmObject {
     private boolean isEnabled;
     private String type;
     private boolean isRunning;
+    private boolean isGeofenceRunning;
+
+    public boolean isGeofenceRunning() {
+        return isGeofenceRunning;
+    }
+
+    public void setIsGeofenceRunning(boolean isGeofenceRunning) {
+        this.isGeofenceRunning = isGeofenceRunning;
+    }
 
     public RealmTracker() {
     }
