@@ -5,13 +5,17 @@ import android.text.TextUtils;
 
 import io.realm.Realm;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.db.RealmTracker;
+import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created: Belozerov
@@ -60,12 +64,32 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
         this.profile.set(profile);
     }
 
-    public void logout() {
-        AuthHelper.clearCredentials();
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.clear(RealmTracker.class);
-        realm.commitTransaction();
+    public Observable<ApiAnswer> logout() {
+        Observable<ApiAnswer> observable = ApiFactory.getService().unregisterGCM(Utils.getUniqueId())
+                .cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                AuthHelper.clearCredentials();
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                realm.clear(RealmTracker.class);
+                realm.commitTransaction();
+            }
+        });
+        return observable;
     }
 
     private boolean validateData() {

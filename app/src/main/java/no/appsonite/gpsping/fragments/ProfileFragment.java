@@ -86,12 +86,33 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout) {
-            getModel().logout();
-            getContext().startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish();
+            logout();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        showProgress();
+        getModel().logout().subscribe(new Observer<ApiAnswer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showError(e);
+            }
+
+            @Override
+            public void onNext(ApiAnswer apiAnswer) {
+                hideProgress();
+                getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+                getActivity().finish();
+            }
+        });
     }
 
     public static ProfileFragment newInstance() {

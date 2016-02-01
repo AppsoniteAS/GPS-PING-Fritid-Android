@@ -83,4 +83,7 @@ public interface ApiService {
 
     @GET("tracker/add_position/")
     Observable<ApiAnswer> setUserPosition(@Query("lat") double lat, @Query("lon") double lon);
+
+    @GET("friends/unregister_gcm/")
+    Observable<ApiAnswer> unregisterGCM(@Query("uuid") String uuid);
 }
