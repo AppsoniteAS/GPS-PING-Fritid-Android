@@ -34,6 +34,11 @@ public class LoginFragmentViewModel extends BaseFragmentViewModel {
                         AuthHelper.putCredentials(loginAnswer);
                     }
                 }
+            }, new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             });
             return observable;
         }

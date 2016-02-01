@@ -2,10 +2,6 @@ package no.appsonite.gpsping.viewmodel;
 
 import android.databinding.ObservableField;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
@@ -14,8 +10,6 @@ import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.Observer;
-import rx.functions.Action1;
-import rx.observables.ConnectableObservable;
 
 /**
  * Created: Belozerov
@@ -43,7 +37,7 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
 
                 @Override
                 public void onError(Throwable e) {
-
+                    e.printStackTrace();
                 }
 
                 @Override
