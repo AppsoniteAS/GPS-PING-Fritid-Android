@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import io.realm.Realm;
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
@@ -33,6 +35,7 @@ import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPoint;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
+import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.utils.ObservableString;
@@ -52,8 +55,10 @@ import rx.subjects.PublishSubject;
  * Date: 20.01.2016
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
-    private static final long INTERVAL = 5;
+    private static final long INTERVAL = 30;
     private Date removeTracksDate = new Date(0l);
+    private MediaPlayer mediaPlayer;
+    private int standSound = R.raw.bleep;
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
@@ -175,20 +180,24 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 ArrayList<MapPoint> mapPoints = new ArrayList<>();
                 for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
                     for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
+                        ArrayList<MapPoint> devicePoints = new ArrayList<>();
                         for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
-                            mapPoints.add(
-                                    new MapPoint(geoItem.getUser(),
-                                            geoPoint.getLat(),
-                                            geoPoint.getLon(),
-                                            geoDevicePoints.getDevice().getName(),
-                                            geoDevicePoints.getDevice().getImeiNumber(),
-                                            geoDevicePoints.getDevice().getTrackerNumber(),
-                                            geoPoint.getTimestamp()));
+                            MapPoint mapPoint = new MapPoint(geoItem.getUser(),
+                                    geoPoint.getLat(),
+                                    geoPoint.getLon(),
+                                    geoDevicePoints.getDevice().getName(),
+                                    geoDevicePoints.getDevice().getImeiNumber(),
+                                    geoDevicePoints.getDevice().getTrackerNumber(),
+                                    geoPoint.getTimestamp());
+                            devicePoints.add(mapPoint);
+                            mapPoints.add(mapPoint);
                         }
                         if (mapPoints.size() > 0) {
                             mapPoints.get(mapPoints.size() - 1).setLast(true);
                         }
+                        checkForStand(devicePoints);
                     }
+
                     MapPoint userMapPoint = new MapPoint(
                             geoItem.getUser(),
                             geoItem.getUser().lat,
@@ -205,6 +214,36 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             }
         });
         return observable;
+    }
+
+    private void checkForStand(ArrayList<MapPoint> mapPoints) {
+        if (mapPoints.size() > 1) {
+            final MapPoint last = mapPoints.get(mapPoints.size() - 1);
+            final MapPoint prev = mapPoints.get(mapPoints.size() - 2);
+            Observable.defer(new Func0<Observable<Boolean>>() {
+                @Override
+                public Observable<Boolean> call() {
+                    Realm realm = Realm.getDefaultInstance();
+                    RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", prev.getImeiNumber()).findFirst();
+                    Boolean checkForStand = false;
+                    if (tracker != null) {
+                        checkForStand = tracker.isCheckForStand();
+                    }
+                    realm.close();
+                    return Observable.just(checkForStand);
+                }
+            }).subscribe(new Action1<Boolean>() {
+                @Override
+                public void call(Boolean checkForStand) {
+                    if (checkForStand) {
+                        if (Math.abs(prev.getDistanceFor(last)) <= 10) {
+                            playStandSound();
+                        }
+                    }
+                }
+            });
+
+        }
     }
 
     public Observable<GeoPointsAnswer> requestPoints() {
@@ -274,5 +313,16 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void playStandSound() {
+        mediaPlayer = MediaPlayer.create(Application.getContext(), standSound);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
     }
 }

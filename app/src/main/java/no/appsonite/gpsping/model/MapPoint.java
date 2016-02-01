@@ -1,6 +1,6 @@
 package no.appsonite.gpsping.model;
 
-import android.text.TextUtils;
+import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -25,7 +25,7 @@ public class MapPoint {
     private long logTime;
 
     public String getImeiNumber() {
-        if(imeiNumber == null)
+        if (imeiNumber == null)
             return "";
         return imeiNumber;
     }
@@ -35,7 +35,7 @@ public class MapPoint {
     }
 
     public String getTrackerNumber() {
-        if(trackerNumber == null)
+        if (trackerNumber == null)
             return "";
         return trackerNumber;
     }
@@ -116,5 +116,11 @@ public class MapPoint {
 
     public LatLng getLatLng() {
         return new LatLng(lat, lon);
+    }
+
+    public float getDistanceFor(MapPoint mapPoint) {
+        float[] results = new float[1];
+        Location.distanceBetween(lat, lon, mapPoint.lat, mapPoint.lon, results);
+        return results[0];
     }
 }
