@@ -40,4 +40,9 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
             }
         });
     }
+
+    @Override
+    protected void playStandSound() {
+        //ignore
+    }
 }

@@ -135,7 +135,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     protected Observable<GeoPointsAnswer> requestPoints(final long from, final long to, final boolean repeat) {
         Observable<TimeInterval<Long>> intervalObservable;
         if (repeat) {
-            intervalObservable = Observable.interval(INTERVAL, TimeUnit.SECONDS)
+            intervalObservable = Observable.interval(0, INTERVAL, TimeUnit.SECONDS)
                     .takeUntil(cancelRequest)
                     .timeInterval();
         } else {
@@ -315,7 +315,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         return null;
     }
 
-    private void playStandSound() {
+    protected void playStandSound() {
         mediaPlayer = MediaPlayer.create(Application.getContext(), standSound);
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
