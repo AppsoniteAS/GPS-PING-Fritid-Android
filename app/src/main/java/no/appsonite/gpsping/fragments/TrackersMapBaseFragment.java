@@ -26,11 +26,11 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.services.LocationMapService;
@@ -132,6 +132,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.removeTracks) {
+            clearTracks();
+            getModel().setRemoveTracksDate(new Date());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -223,10 +225,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
-        for (Marker marker : markerMapPointHashMap.keySet()) {
-            marker.remove();
-        }
-        markerMapPointHashMap.clear();
+        clearTracks();
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
                 if (mapPoint.isBelongsToUser()) {
@@ -248,6 +247,13 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
 //            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
         }
+    }
+
+    private void clearTracks() {
+        for (Marker marker : markerMapPointHashMap.keySet()) {
+            marker.remove();
+        }
+        markerMapPointHashMap.clear();
     }
 
     protected boolean skipMapPoint(MapPoint mapPoint) {

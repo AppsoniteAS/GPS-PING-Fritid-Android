@@ -53,6 +53,7 @@ import rx.subjects.PublishSubject;
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private static final long INTERVAL = 5;
+    private Date removeTracksDate = new Date(0l);
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
@@ -93,6 +94,11 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         return observable;
     }
 
+    public void setRemoveTracksDate(Date removeTracksDate) {
+        this.removeTracksDate = removeTracksDate;
+        restartRequest();
+    }
+
     @Override
     public void onViewCreated() {
         super.onViewCreated();
@@ -101,11 +107,15 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         currentFriend.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
-                cancelRequest.onNext(new Object());
-                requestPoints();
+                restartRequest();
             }
         });
 
+    }
+
+    private void restartRequest() {
+        cancelRequest.onNext(new Object());
+        requestPoints();
     }
 
 
@@ -199,7 +209,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<GeoPointsAnswer> requestPoints() {
         long to = new Date().getTime() / 1000l;
-        long from = to - DisplayOptionsFragmentViewModel.getHistoryValueSeconds();
+        long from = Math.max(removeTracksDate.getTime() / 1000l, to - DisplayOptionsFragmentViewModel.getHistoryValueSeconds());
         return requestPoints(from, to, true);
     }
 
