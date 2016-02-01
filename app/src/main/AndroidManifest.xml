@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
     <permission android:name="no.appsonite.gpsping.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="no.appsonite.gpsping.permission.C2D_MESSAGE" />
