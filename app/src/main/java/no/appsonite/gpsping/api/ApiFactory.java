@@ -33,7 +33,8 @@ import retrofit.RxJavaCallAdapterFactory;
  * Date: 20.01.2016
  */
 public class ApiFactory {
-    private static final String BASE_URL = "http://192.168.139.201/api/";
+//    private static final String BASE_URL = "http://192.168.139.201/api/";
+    private static final String BASE_URL = "http://appgranula.mooo.com/api/";
     private static final int CONNECT_TIMEOUT = 15;
     private static final int WRITE_TIMEOUT = 60;
     private static final int TIMEOUT = 15;

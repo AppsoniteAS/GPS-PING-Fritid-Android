@@ -5,6 +5,8 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -18,6 +20,7 @@ import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -45,6 +48,25 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         return null;
     }
 
+    private Observable<String> resolveAddress() {
+        //http://appgranula.mooo.com
+        return Observable.defer(new Func0<Observable<String>>() {
+            @Override
+            public Observable<String> call() {
+                String ipAddress;
+                InetAddress address = null;
+                try {
+                    address = InetAddress.getByName("appgranula.mooo.com");
+                    ipAddress = address.getHostAddress();
+                } catch (UnknownHostException e) {
+                    ipAddress = "null";
+                }
+                return Observable.just(ipAddress).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        });
+    }
+
     private Observable<Boolean> editTracker(Activity activity) {
         return ApiFactory.getService().updateTracker(
                 tracker.get().imeiNumber.get(),
@@ -68,8 +90,13 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 });
     }
 
-    private Observable<Boolean> addNewTracker(Activity activity) {
-        return sendSmses(activity, getSMSes())
+    private Observable<Boolean> addNewTracker(final Activity activity) {
+        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
+            @Override
+            public Observable<SMS> call(String address) {
+                return sendSmses(activity, getSMSes(address));
+            }
+        })
                 .last()
                 .cache()
                 .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
@@ -103,7 +130,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private ArrayList<SMS> getSMSes() {
+    private ArrayList<SMS> getSMSes(String address) {
         ArrayList<SMS> smses = new ArrayList<>();
         String trackerNumber = tracker.get().trackerNumber.get();
         smses.add(new SMS(trackerNumber, "Begin123456"));
@@ -113,10 +140,11 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             case TK_STAR_PET:
                 break;
             case TK_ANYWHERE:
-                smses.add(new SMS(trackerNumber, "adminip123456 46.137.82.251 5000"));
+                //46.137.82.251
+                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5000", address)));
                 break;
             case TK_STAR:
-                smses.add(new SMS(trackerNumber, "adminip123456 46.137.82.251 5013"));
+                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
                 break;
         }
         smses.add(new SMS(trackerNumber, "sleep123456 off"));
