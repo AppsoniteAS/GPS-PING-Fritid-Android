@@ -7,6 +7,7 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import no.appsonite.gpsping.model.Tracker;
+import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,6 +49,9 @@ public class RealmTracker extends RealmObject {
         realmTracker.setImeiNumber(tracker.imeiNumber.get());
         realmTracker.setSignalRepeatTime(tracker.signalRepeatTime.get());
         realmTracker.setSignalRepeatTimeMeasurement(tracker.signalRepeatTimeMeasurement.get());
+        if(tracker.type == null){
+            tracker.type = new ObservableString(Tracker.Type.TK_ANYWHERE.toString());
+        }
         realmTracker.setType(tracker.type.get());
         realmTracker.setIsEnabled(tracker.isEnabled.get());
     }

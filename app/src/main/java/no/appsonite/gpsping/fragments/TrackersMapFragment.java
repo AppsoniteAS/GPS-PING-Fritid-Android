@@ -152,6 +152,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
 
     @Override
     protected boolean skipMapPoint(MapPoint mapPoint) {
-        return myId == mapPoint.getUser().id.get() || super.skipMapPoint(mapPoint);
+        return (mapPoint.isBelongsToUser() && myId == mapPoint.getUser().id.get()) || super.skipMapPoint(mapPoint);
     }
 }

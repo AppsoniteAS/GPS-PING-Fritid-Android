@@ -30,7 +30,10 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_calendar) {
             Friend currentFriend = getModel().currentFriend.get();
-            CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance(currentFriend.id.get(), getModel().historyDate.get());
+            Date date = getModel().historyDate.get();
+            if(date == null)
+                date = new Date();
+            CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance(currentFriend.id.get(), date);
             calendarDialogFragment.show(getChildFragmentManager(), CalendarDialogFragment.TAG);
             return true;
         }

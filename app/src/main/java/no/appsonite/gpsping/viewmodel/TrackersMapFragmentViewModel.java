@@ -177,43 +177,47 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
             @Override
             public void onNext(GeoPointsAnswer geoPointsAnswer) {
-                ArrayList<MapPoint> mapPoints = new ArrayList<>();
-                for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
-                    for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
-                        ArrayList<MapPoint> devicePoints = new ArrayList<>();
-                        for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
-                            MapPoint mapPoint = new MapPoint(geoItem.getUser(),
-                                    geoPoint.getLat(),
-                                    geoPoint.getLon(),
-                                    geoDevicePoints.getDevice().getName(),
-                                    geoDevicePoints.getDevice().getImeiNumber(),
-                                    geoDevicePoints.getDevice().getTrackerNumber(),
-                                    geoPoint.getTimestamp());
-                            devicePoints.add(mapPoint);
-                            mapPoints.add(mapPoint);
-                        }
-                        if (mapPoints.size() > 0) {
-                            mapPoints.get(mapPoints.size() - 1).setLast(true);
-                        }
-                        checkForStand(devicePoints);
-                    }
-
-                    MapPoint userMapPoint = new MapPoint(
-                            geoItem.getUser(),
-                            geoItem.getUser().lat,
-                            geoItem.getUser().lon,
-                            geoItem.getUser().getName(),
-                            null,
-                            null,
-                            geoItem.getUser().lastUpdate);
-                    userMapPoint.setBelongsToUser(true);
-                    mapPoints.add(userMapPoint);
-                }
-                TrackersMapFragmentViewModel.this.mapPoints.clear();
-                TrackersMapFragmentViewModel.this.mapPoints.addAll(mapPoints);
+                parseGeoPointsAnswer(geoPointsAnswer);
             }
         });
         return observable;
+    }
+
+    protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
+        ArrayList<MapPoint> mapPoints = new ArrayList<>();
+        for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
+            for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
+                ArrayList<MapPoint> devicePoints = new ArrayList<>();
+                for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
+                    MapPoint mapPoint = new MapPoint(geoItem.getUser(),
+                            geoPoint.getLat(),
+                            geoPoint.getLon(),
+                            geoDevicePoints.getDevice().getName(),
+                            geoDevicePoints.getDevice().getImeiNumber(),
+                            geoDevicePoints.getDevice().getTrackerNumber(),
+                            geoPoint.getTimestamp());
+                    devicePoints.add(mapPoint);
+                    mapPoints.add(mapPoint);
+                }
+                if (mapPoints.size() > 0) {
+                    mapPoints.get(mapPoints.size() - 1).setLast(true);
+                }
+                checkForStand(devicePoints);
+            }
+
+            MapPoint userMapPoint = new MapPoint(
+                    geoItem.getUser(),
+                    geoItem.getUser().lat,
+                    geoItem.getUser().lon,
+                    geoItem.getUser().getName(),
+                    null,
+                    null,
+                    geoItem.getUser().lastUpdate);
+            userMapPoint.setBelongsToUser(true);
+            mapPoints.add(userMapPoint);
+        }
+        TrackersMapFragmentViewModel.this.mapPoints.clear();
+        TrackersMapFragmentViewModel.this.mapPoints.addAll(mapPoints);
     }
 
     private void checkForStand(ArrayList<MapPoint> mapPoints) {

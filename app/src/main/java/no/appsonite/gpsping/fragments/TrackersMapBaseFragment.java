@@ -228,10 +228,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         clearTracks();
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
+                if (skipMapPoint(mapPoint)) {
+                    continue;
+                }
                 if (mapPoint.isBelongsToUser()) {
-                    if (skipMapPoint(mapPoint)) {
-                        continue;
-                    }
                     markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
                             .icon((
