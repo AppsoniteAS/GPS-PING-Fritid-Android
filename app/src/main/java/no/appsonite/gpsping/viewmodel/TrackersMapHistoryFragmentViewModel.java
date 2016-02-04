@@ -22,19 +22,35 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
 
     @Override
     public Observable<GeoPointsAnswer> requestPoints() {
+        return requestPoints(false);
+    }
+
+    @Override
+    protected long getFrom() {
         if (historyDate.get() == null) {
-            return super.requestPoints();
+            return super.getFrom();
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(historyDate.get());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        long from = calendar.getTimeInMillis() / 1000l;
+        return calendar.getTimeInMillis() / 1000l;
+    }
+
+    @Override
+    protected long getTo() {
+        if (historyDate.get() == null) {
+            return super.getTo();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(historyDate.get());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.add(Calendar.SECOND, -1);
-        long to = calendar.getTimeInMillis() / 1000l;
-        return requestPoints(from, to, false);
+        return calendar.getTimeInMillis() / 1000l;
     }
 
     @Override

@@ -104,12 +104,14 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void showStandard() {
         clearTile();
-        getMap().setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (getMap() != null)
+            getMap().setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
     private void showSatellite() {
         clearTile();
-        getMap().setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        if (getMap() != null)
+            getMap().setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
     @Override
@@ -167,6 +169,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     protected void onViewModelCreated(T model) {
         super.onViewModelCreated(model);
         model.requestFriends();
+        getBinding().mapType.check(R.id.topo);
 
         getBinding().mapType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -184,6 +187,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
             }
         });
+
 
         getBinding().takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,12 +214,22 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
 
+        getBinding().mapPointInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getModel().currentMapPoint.set(null);
+            }
+        });
+
         subscribeOnPoints();
     }
 
     @Override
     public void onMapReady() {
         super.onMapReady();
+        getMap().setTrafficEnabled(false);
+        getMap().getUiSettings().setMapToolbarEnabled(false);
+        showTopo();
         getMap().setOnMarkerClickListener(this);
         int actionBarSize = Utils.getActionBarSize(getActivity());
         getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
@@ -231,6 +245,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 if (skipMapPoint(mapPoint)) {
                     continue;
                 }
+                onMapPoint(mapPoint);
                 if (mapPoint.isBelongsToUser()) {
                     markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
@@ -247,6 +262,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
 //            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
         }
+    }
+
+    protected void onMapPoint(MapPoint mapPoint) {
+
     }
 
     private void clearTracks() {

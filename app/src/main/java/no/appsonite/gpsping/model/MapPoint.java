@@ -7,6 +7,9 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import gov.nasa.worldwind.geom.Angle;
+import gov.nasa.worldwind.geom.coords.MGRSCoord;
+
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
@@ -44,8 +47,19 @@ public class MapPoint {
         this.trackerNumber = trackerNumber;
     }
 
+    private String mgrsFromLatLon(double lat, double lon) {
+
+        Angle latitude = Angle.fromDegrees(lat);
+
+        Angle longitude = Angle.fromDegrees(lon);
+
+        return MGRSCoord
+                .fromLatLon(latitude, longitude)
+                .toString();
+    }
+
     public String getGRSM() {
-        return "";
+        return mgrsFromLatLon(lat, lon);
     }
 
     public String getLogTime() {

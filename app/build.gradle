@@ -22,6 +22,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "no.appsonite.gpsping"
         minSdkVersion 15
         targetSdkVersion 22
@@ -66,4 +67,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+    compile 'gov.nasa:worldwind:2.0.0-986'
+    compile 'com.android.support:multidex:1.0.1'
+
 }

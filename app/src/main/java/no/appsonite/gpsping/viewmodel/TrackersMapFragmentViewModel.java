@@ -132,7 +132,15 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
     PublishSubject<Object> cancelRequest = PublishSubject.create();
 
-    protected Observable<GeoPointsAnswer> requestPoints(final long from, final long to, final boolean repeat) {
+    protected long getFrom(){
+        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - DisplayOptionsFragmentViewModel.getHistoryValueSeconds());
+    }
+
+    protected long getTo(){
+        return new Date().getTime()/1000l;
+    }
+
+    protected Observable<GeoPointsAnswer> requestPoints(final boolean repeat) {
         Observable<TimeInterval<Long>> intervalObservable;
         if (repeat) {
             intervalObservable = Observable.interval(0, INTERVAL, TimeUnit.SECONDS)
@@ -147,12 +155,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                     @Override
                     public Observable<GeoPointsAnswer> call(TimeInterval<Long> aLong) {
                         if (currentFriend.get() == null || currentFriend.get().id.get() == -1) {
-                            return ApiFactory.getService().getGeoPoints(from, to)
+                            return ApiFactory.getService().getGeoPoints(getFrom(), getTo())
                                     .cache()
                                     .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread());
                         } else {
-                            return ApiFactory.getService().getGeoPoints(from, to, currentFriend.get().id.get())
+                            return ApiFactory.getService().getGeoPoints(getFrom(), getTo(), currentFriend.get().id.get())
                                     .cache()
                                     .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread());
@@ -251,9 +259,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public Observable<GeoPointsAnswer> requestPoints() {
-        long to = new Date().getTime() / 1000l;
-        long from = Math.max(removeTracksDate.getTime() / 1000l, to - DisplayOptionsFragmentViewModel.getHistoryValueSeconds());
-        return requestPoints(from, to, true);
+        return requestPoints(true);
     }
 
 
