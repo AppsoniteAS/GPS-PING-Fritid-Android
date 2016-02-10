@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import no.appsonite.gpsping.utils.ObservableBoolean;
 import no.appsonite.gpsping.utils.ObservableString;
 
@@ -13,7 +15,7 @@ import no.appsonite.gpsping.utils.ObservableString;
  * Company: APPGRANULA LLC
  * Date: 19.01.2016
  */
-public class Friend {
+public class Friend implements Serializable{
     @SerializedName("first_name")
     public ObservableString firstName = new ObservableString();
     @SerializedName("last_name")

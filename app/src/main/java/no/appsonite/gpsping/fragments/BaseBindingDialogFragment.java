@@ -8,11 +8,17 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.activities.BaseActivity;
+import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.utils.DataBindingUtils;
+import no.appsonite.gpsping.utils.ProgressDialogFragment;
 import no.appsonite.gpsping.utils.TypeResolver;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
+import retrofit.HttpException;
 
 /**
  * Created: Belozerov
@@ -52,16 +58,49 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         binding = (B) DataBindingUtils.getViewDataBinding(bindingClass, LayoutInflater.from(getActivity()), null);
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), getStyle())
-                .setTitle(getTitle())
-                .setView(binding.getRoot())
-                .create();
         createModel(savedInstanceState);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity(), getStyle())
+                .setTitle(getTitle())
+                .setView(binding.getRoot());
         onBeforeDialogCreated(alertDialog);
-        return alertDialog;
+        return alertDialog.create();
     }
 
-    protected int getStyle(){
+    protected void hideProgress() {
+        if (getBaseActivity() == null)
+            return;
+        ProgressDialogFragment.hide(getBaseActivity());
+    }
+
+    protected void showProgress() {
+        if (getBaseActivity() == null)
+            return;
+        ProgressDialogFragment.show(getBaseActivity());
+    }
+
+    protected void showError(Throwable e) {
+        if (getActivity() != null) {
+            hideProgress();
+            String message = e.getMessage();
+            if (e instanceof HttpException) {
+                try {
+                    message = ((HttpException) e).response().errorBody().string();
+                    ApiAnswer apiAnswer = ApiFactory.getGson().fromJson(message, ApiAnswer.class);
+                    message = apiAnswer.getError().get();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    protected BaseActivity getBaseActivity() {
+        return (BaseActivity) getActivity();
+    }
+
+
+    protected int getStyle() {
         return R.style.AppTheme_Dialog;
     }
 
@@ -92,7 +131,7 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
         model.onModelAttached();
     }
 
-    protected void onBeforeDialogCreated(Dialog dialog) {
+    protected void onBeforeDialogCreated(AlertDialog.Builder dialog) {
 
     }
 

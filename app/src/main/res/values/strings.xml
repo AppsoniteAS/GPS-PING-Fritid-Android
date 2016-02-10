@@ -94,9 +94,15 @@
     <string name="passwordRestoreDesc">Input your email and we will send you instructions for password restore</string>
     <string name="emailSent">Link for password reset has been emailed to you. Please check your email.</string>
     <string name="forgetYourPassword"><u>Forget your password?</u></string>
+    <string name="editPoi"><u>Edit Point of Interest</u></string>
+    <string name="editPoiTitle">Edit Point of Interest</string>
+    <string name="createPoiTitle">Create Point of Interest</string>
+    <string name="deletePoi"><u>Remove Point of Interest</u></string>
     <string name="displayOptions">Display options</string>
     <string name="showOnMapTracker">Show on map trackers position during:</string>
     <string name="trackingHistory">Tracking History</string>
+    <string name="poiName">Point of Interest name</string>
+    <string name="poiNameCanNotBeEmpty">Point of interest name can not be empty</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>

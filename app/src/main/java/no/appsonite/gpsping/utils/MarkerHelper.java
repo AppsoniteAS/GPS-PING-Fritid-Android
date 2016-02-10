@@ -1,7 +1,5 @@
 package no.appsonite.gpsping.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,11 +9,9 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
-import android.text.TextUtils;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.gson.Gson;
 
 import java.util.HashMap;
 
@@ -56,8 +52,18 @@ public class MarkerHelper {
 //    }
 
     private static HashMap<Long, BitmapDescriptor> userBitmaps = new HashMap<>();
+    private static HashMap<Long, BitmapDescriptor> poiBitmaps = new HashMap<>();
     private static HashMap<Long, BitmapDescriptor> trackerBitmaps = new HashMap<>();
     private static HashMap<Long, BitmapDescriptor> trackerHistoryBitmaps = new HashMap<>();
+
+    public static BitmapDescriptor getPoiBitmapDescriptor(Friend friend) {
+        BitmapDescriptor bitmap = poiBitmaps.get(friend.id.get());
+        if (bitmap == null) {
+            bitmap = BitmapDescriptorFactory.fromBitmap(getMarkerBitmap(getFriendColor(friend), R.drawable.poi_marker, R.drawable.poi_marker));
+            poiBitmaps.put(friend.id.get(), bitmap);
+        }
+        return bitmap;
+    }
 
     public static BitmapDescriptor getUserBitmapDescriptor(Friend friend) {
         BitmapDescriptor bitmap = userBitmaps.get(friend.id.get());

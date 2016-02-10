@@ -86,4 +86,7 @@ public interface ApiService {
 
     @GET("friends/unregister_gcm/")
     Observable<ApiAnswer> unregisterGCM(@Query("uuid") String uuid);
+
+    @GET("poi/add/")
+    Observable<ApiAnswer> addPoi(@Query("name") String name, @Query("lat") double lat, @Query("lon") double lon);
 }

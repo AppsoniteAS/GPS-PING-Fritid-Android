@@ -47,7 +47,7 @@ public class MapPoint {
         this.trackerNumber = trackerNumber;
     }
 
-    private String mgrsFromLatLon(double lat, double lon) {
+    public static String mgrsFromLatLon(double lat, double lon) {
 
         Angle latitude = Angle.fromDegrees(lat);
 

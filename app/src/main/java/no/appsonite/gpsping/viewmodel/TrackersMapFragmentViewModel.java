@@ -30,6 +30,7 @@ import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
+import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
@@ -64,6 +65,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
     public ObservableArrayList<MapPoint> mapPoints = new ObservableArrayList<>();
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
+    public ObservableField<Poi> currentPoi = new ObservableField<>();
 
     public Observable<FriendsAnswer> requestFriends() {
         Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
@@ -132,12 +134,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
     PublishSubject<Object> cancelRequest = PublishSubject.create();
 
-    protected long getFrom(){
+    protected long getFrom() {
         return Math.max(removeTracksDate.getTime() / 1000l, getTo() - DisplayOptionsFragmentViewModel.getHistoryValueSeconds());
     }
 
-    protected long getTo(){
-        return new Date().getTime()/1000l;
+    protected long getTo() {
+        return new Date().getTime() / 1000l;
     }
 
     protected Observable<GeoPointsAnswer> requestPoints(final boolean repeat) {
@@ -334,5 +336,26 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 mp.release();
             }
         });
+    }
+
+    public Observable<ArrayList<Poi>> requestPois() {
+        ArrayList<Poi> fake = new ArrayList<>();
+        Friend me = new Friend();
+        me.id.set(AuthHelper.getCredentials().getUser().id.get());
+        me.username.set(AuthHelper.getCredentials().getUser().username.get());
+        Poi poi = new Poi();
+        poi.setLat(1);
+        poi.setLon(1);
+        poi.name.set("hello");
+        poi.setUser(me);
+        fake.add(poi);
+
+        poi = new Poi();
+        poi.setLat(2);
+        poi.setLon(2);
+        poi.name.set("hello1");
+        poi.setUser(me);
+        fake.add(poi);
+        return Observable.just(fake);
     }
 }

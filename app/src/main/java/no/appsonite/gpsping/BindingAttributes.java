@@ -114,7 +114,9 @@ public class BindingAttributes {
         if (observableString != null) {
             String newValue = observableString.get();
             if (!view.getText().toString().equals(newValue)) {
-                view.setText(newValue);
+                view.setText("");
+                if (newValue != null)
+                    view.append(newValue);
             }
         }
     }

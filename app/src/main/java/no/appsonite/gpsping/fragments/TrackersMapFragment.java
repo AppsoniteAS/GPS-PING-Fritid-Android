@@ -59,6 +59,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
                 Friend me = new Friend();
                 me.lastName.set(profile.lastName.get());
                 me.firstName.set(profile.firstName.get());
+                me.username.set(profile.username.get());
                 me.id.set(profile.id.get());
 
                 userMapPoint = new MapPoint(me,
@@ -145,6 +146,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(userMarker)) {
             getModel().currentMapPoint.set(userMapPoint);
+            getModel().currentPoi.set(null);
             return false;
         }
         return super.onMarkerClick(marker);

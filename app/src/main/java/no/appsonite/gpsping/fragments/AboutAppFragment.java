@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentAboutAppBinding;
@@ -25,9 +26,7 @@ public class AboutAppFragment extends BaseBindingFragment<FragmentAboutAppBindin
     }
 
     public static AboutAppFragment newInstance() {
-
         Bundle args = new Bundle();
-
         AboutAppFragment fragment = new AboutAppFragment();
         fragment.setArguments(args);
         return fragment;

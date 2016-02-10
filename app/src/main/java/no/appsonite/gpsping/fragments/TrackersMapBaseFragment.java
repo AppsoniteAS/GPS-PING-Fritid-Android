@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -26,11 +27,13 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.services.LocationMapService;
@@ -38,6 +41,7 @@ import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.RxBus;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
+import rx.Observer;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -46,7 +50,7 @@ import rx.functions.Action1;
  * Company: APPGRANULA LLC
  * Date: 27.01.2016
  */
-public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseMapFragment<FragmentTrackersMapBinding, T> implements GoogleMap.OnMarkerClickListener {
+public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseMapFragment<FragmentTrackersMapBinding, T> implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private MediaPlayer mediaPlayer;
@@ -214,14 +218,41 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
 
-        getBinding().mapPointInfo.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onInfoClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getModel().currentMapPoint.set(null);
+                getModel().currentPoi.set(null);
+            }
+        };
+
+        getBinding().mapPointInfo.setOnClickListener(onInfoClick);
+
+        getBinding().poiInfo.setOnClickListener(onInfoClick);
+
+        getBinding().editPoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editPoi(getModel().currentPoi.get());
+            }
+        });
+
+        getBinding().deletePoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletePoi();
             }
         });
 
         subscribeOnPoints();
+    }
+
+    private void deletePoi() {
+
+    }
+
+    private void editPoi(Poi poi) {
+        EditPoiDialogFragment.newInstance(poi).show(getChildFragmentManager(), EditPoiDialogFragment.TAG);
     }
 
     @Override
@@ -233,9 +264,13 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getMap().setOnMarkerClickListener(this);
         int actionBarSize = Utils.getActionBarSize(getActivity());
         getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
+
+        getMap().setOnMapLongClickListener(this);
+        requestPois();
     }
 
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
+    private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
 
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
@@ -340,6 +375,50 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public boolean onMarkerClick(Marker marker) {
         getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
+        getModel().currentPoi.set(markerPoiHashMap.get(marker));
         return false;
+    }
+
+    private void requestPois() {
+        getModel().requestPois().subscribe(new Observer<ArrayList<Poi>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ArrayList<Poi> pois) {
+                addPoisForMap(pois);
+            }
+        });
+    }
+
+    private void addPoisForMap(ArrayList<Poi> pois) {
+        for (Marker marker : markerPoiHashMap.keySet()) {
+            marker.remove();
+        }
+        markerPoiHashMap.clear();
+        for (Poi poi : pois) {
+            markerPoiHashMap.put(
+                    getMap().addMarker(new MarkerOptions()
+                            .position(poi.getLatLng())
+                            .icon((
+                                            MarkerHelper.getPoiBitmapDescriptor(poi.getUser()))
+                            ))
+                    , poi);
+        }
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        Poi poi = new Poi();
+        poi.setLon(latLng.latitude);
+        poi.setLon(latLng.longitude);
+        editPoi(poi);
     }
 }
