@@ -248,7 +248,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void deletePoi() {
-
+        RemovePoiFragmentDialog.newInstance(getModel().currentPoi.get()).show(getChildFragmentManager(), RemovePoiFragmentDialog.TAG);
     }
 
     private void editPoi(Poi poi) {

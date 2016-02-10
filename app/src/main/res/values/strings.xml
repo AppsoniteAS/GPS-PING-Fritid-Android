@@ -103,6 +103,9 @@
     <string name="trackingHistory">Tracking History</string>
     <string name="poiName">Point of Interest name</string>
     <string name="poiNameCanNotBeEmpty">Point of interest name can not be empty</string>
+    <string name="areYouSureRemovePoi">Are you sure you want to delete this point of interest?</string>
+    <string name="removePoiTitle">Remove Point of Interest</string>
+    <string name="remove">Remove</string>
     <string-array name="receiveSignalTime">
         <item>3</item>
         <item>5</item>
