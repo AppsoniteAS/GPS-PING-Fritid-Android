@@ -46,7 +46,10 @@ public class PoiFragmentViewModel extends BaseFragmentViewModel {
     }
 
     private Observable<ApiAnswer> updatePoi() {
-        throw new RuntimeException("Not implemented");
+        return ApiFactory.getService().updatePoi(poi.get().getId(), poi.get().name.get(), poi.get().getLat(), poi.get().getLon())
+                .cache()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private Observable<ApiAnswer> createPoi() {

@@ -89,4 +89,7 @@ public interface ApiService {
 
     @GET("poi/add/")
     Observable<ApiAnswer> addPoi(@Query("name") String name, @Query("lat") double lat, @Query("lon") double lon);
+
+    @GET("poi/update/")
+    Observable<ApiAnswer> updatePoi(@Query("id") long id, @Query("name") String name, @Query("lat") double lat, @Query("lon") double lon);
 }
