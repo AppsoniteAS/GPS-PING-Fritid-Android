@@ -64,14 +64,14 @@
                     android:id="@+id/mapButton"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/mapAndTracking" />
 
                 <TextView
                     android:id="@+id/historyButton"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/history" />
 
                 <TextView
@@ -79,7 +79,7 @@
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="28dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/settings" />
             </LinearLayout>
         </ScrollView>

@@ -35,21 +35,23 @@
                 android:id="@+id/website"
                 style="@style/AppTheme.widget.Button.Green"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/button_margin_top"
                 android:text="@string/visitWebsite" />
 
             <TextView
                 android:id="@+id/contactUs"
                 style="@style/AppTheme.widget.Button.Green"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/button_margin_top"
+
                 android:text="@string/contactUs" />
 
             <TextView
                 android:id="@+id/aboutApp"
                 style="@style/AppTheme.widget.Button.Green"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/button_margin_top"
+
                 android:text="@string/aboutApp" />
 
         </LinearLayout>

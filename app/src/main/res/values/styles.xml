@@ -45,20 +45,22 @@
     </style>
 
     <style name="AppTheme.widget.Button.Green">
-        <item name="android:background">@drawable/button_green</item>
+        <item name="android:background">@drawable/button_green_new</item>
         <item name="android:textColor">#fff</item>
     </style>
 
     <style name="AppTheme.widget.Button.Gray">
-        <item name="android:background">@drawable/button_gray</item>
+        <item name="android:background">@drawable/button_gray_new</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.widget.Button">
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minWidth">210dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:minHeight">56dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:textSize">20sp</item>

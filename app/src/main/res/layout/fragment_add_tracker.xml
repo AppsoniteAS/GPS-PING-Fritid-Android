@@ -184,7 +184,7 @@
                     android:id="@+id/addTrackerButton"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_marginBottom="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@{viewModel.editMode?@string/update:@string/addTrackerButton}" />
             </LinearLayout>
 
