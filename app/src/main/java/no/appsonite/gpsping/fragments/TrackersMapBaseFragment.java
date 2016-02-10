@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -248,11 +250,25 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void deletePoi() {
-        RemovePoiFragmentDialog.newInstance(getModel().currentPoi.get()).show(getChildFragmentManager(), RemovePoiFragmentDialog.TAG);
+        BaseBindingDialogFragment dialogFragment = RemovePoiFragmentDialog.newInstance(getModel().currentPoi.get());
+        dialogFragment.show(getChildFragmentManager(), RemovePoiFragmentDialog.TAG);
+        dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                requestPois();
+            }
+        });
     }
 
     private void editPoi(Poi poi) {
-        EditPoiDialogFragment.newInstance(poi).show(getChildFragmentManager(), EditPoiDialogFragment.TAG);
+        BaseBindingDialogFragment dialogFragment = EditPoiDialogFragment.newInstance(poi);
+        dialogFragment.show(getChildFragmentManager(), EditPoiDialogFragment.TAG);
+        dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                requestPois();
+            }
+        });
     }
 
     @Override

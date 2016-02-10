@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.fragments;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +33,8 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
     private M model;
     private static final String EXTRA_MODEL = "extra_model";
 
+    private DialogInterface.OnDismissListener onDismissListener;
+
     public BaseBindingDialogFragment() {
         Class<?>[] typeArguments = TypeResolver.resolveRawArguments(BaseBindingDialogFragment.class, getClass());
         this.bindingClass = (Class<B>) typeArguments[0];
@@ -54,6 +57,14 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
         return model;
     }
 
+    public DialogInterface.OnDismissListener getOnDismissListener() {
+        return onDismissListener;
+    }
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -63,7 +74,15 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
                 .setTitle(getTitle())
                 .setView(binding.getRoot());
         onBeforeDialogCreated(alertDialog);
-        return alertDialog.create();
+        AlertDialog dialog = alertDialog.create();
+        return dialog;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null)
+            onDismissListener.onDismiss(dialog);
     }
 
     protected void hideProgress() {

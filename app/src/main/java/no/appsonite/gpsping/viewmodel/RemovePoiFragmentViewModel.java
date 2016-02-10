@@ -2,6 +2,7 @@ package no.appsonite.gpsping.viewmodel;
 
 import android.databinding.ObservableField;
 
+import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import rx.Observable;
@@ -17,7 +18,7 @@ public class RemovePoiFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<Poi> poi = new ObservableField<>();
 
     public Observable<ApiAnswer> removePoi() {
-        return Observable.just(new ApiAnswer())
+        return ApiFactory.getService().removePoi(poi.get().getId())
                 .cache()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
