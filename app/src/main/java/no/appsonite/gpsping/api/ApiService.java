@@ -4,6 +4,7 @@ import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.NonceAnswer;
+import no.appsonite.gpsping.api.content.PoiAnswer;
 import no.appsonite.gpsping.api.content.RegisterAnswer;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.api.content.UsersAnswer;
@@ -95,4 +96,7 @@ public interface ApiService {
 
     @GET("poi/remove/")
     Observable<ApiAnswer> removePoi(@Query("id") long id);
+
+    @GET("poi/get/")
+    Observable<PoiAnswer> getPois(@Query("id") long id);
 }

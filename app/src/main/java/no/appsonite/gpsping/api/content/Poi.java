@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.api.content;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -14,13 +15,23 @@ import no.appsonite.gpsping.utils.ObservableString;
  * Company: APPGRANULA LLC
  * Date: 10.02.2016
  */
-public class Poi extends ApiAnswer implements Serializable{
+public class Poi implements Serializable {
     private long id = -1;
     private double lat;
     private double lon;
     public ObservableString name = new ObservableString("");
     private Friend user;
+    @SerializedName("user_id")
+    private long userId;
     private long myId = AuthHelper.getCredentials().getUser().id.get();
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public long getId() {
         return id;

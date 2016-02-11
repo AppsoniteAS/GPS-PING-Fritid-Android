@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/fullName"
                     android:imeOptions="actionNext"
-                    android:inputType="phone"
+                    android:inputType="textPersonName"
                     android:singleLine="true"
                     app:twoWayText="@{viewModel.profile.displayname}" />
             </android.support.design.widget.TextInputLayout>

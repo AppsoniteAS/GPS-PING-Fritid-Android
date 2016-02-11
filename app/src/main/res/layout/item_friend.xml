@@ -59,7 +59,7 @@
                     android:layout_marginTop="10dp"
                     android:paddingRight="32dp"
                     android:singleLine="true"
-                    android:text='@{item.firstName.get() + " " + item.lastName.get()}'
+                    android:text='@{item.getName()}'
                     android:textColor="@color/mainTextColor"
                     android:textSize="24sp" />
 

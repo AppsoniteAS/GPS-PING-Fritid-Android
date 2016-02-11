@@ -10,7 +10,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +28,6 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -43,7 +41,6 @@ import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.RxBus;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
-import rx.Observer;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -247,6 +244,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
 
         subscribeOnPoints();
+        subscribeOnPois();
     }
 
     private void deletePoi() {
@@ -255,7 +253,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                requestPois();
+                getModel().requestPois();
+                getModel().currentPoi.set(null);
             }
         });
     }
@@ -266,7 +265,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                requestPois();
+                getModel().requestPois();
+                getModel().currentPoi.set(null);
             }
         });
     }
@@ -282,7 +282,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
 
         getMap().setOnMapLongClickListener(this);
-        requestPois();
     }
 
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
@@ -337,6 +336,34 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         return false;
     }
 
+    private void subscribeOnPois() {
+        getModel().pois.addOnListChangedCallback(new ObservableList.OnListChangedCallback() {
+            @Override
+            public void onChanged(ObservableList sender) {
+
+            }
+
+            @Override
+            public void onItemRangeChanged(ObservableList sender, int positionStart, int itemCount) {
+                updatePois();
+            }
+
+            @Override
+            public void onItemRangeInserted(ObservableList sender, int positionStart, int itemCount) {
+                updatePois();
+            }
+
+            @Override
+            public void onItemRangeMoved(ObservableList sender, int fromPosition, int toPosition, int itemCount) {
+
+            }
+
+            @Override
+            public void onItemRangeRemoved(ObservableList sender, int positionStart, int itemCount) {
+                updatePois();
+            }
+        });
+    }
 
     private void subscribeOnPoints() {
         getModel().mapPoints.addOnListChangedCallback(new ObservableList.OnListChangedCallback() {
@@ -395,31 +422,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         return false;
     }
 
-    private void requestPois() {
-        getModel().requestPois().subscribe(new Observer<ArrayList<Poi>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(ArrayList<Poi> pois) {
-                addPoisForMap(pois);
-            }
-        });
-    }
-
-    private void addPoisForMap(ArrayList<Poi> pois) {
+    private void updatePois() {
         for (Marker marker : markerPoiHashMap.keySet()) {
             marker.remove();
         }
         markerPoiHashMap.clear();
-        for (Poi poi : pois) {
+        for (Poi poi : getModel().pois) {
             markerPoiHashMap.put(
                     getMap().addMarker(new MarkerOptions()
                             .position(poi.getLatLng())
@@ -433,7 +441,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onMapLongClick(LatLng latLng) {
         Poi poi = new Poi();
-        poi.setLon(latLng.latitude);
+        poi.setLat(latLng.latitude);
         poi.setLon(latLng.longitude);
         editPoi(poi);
     }

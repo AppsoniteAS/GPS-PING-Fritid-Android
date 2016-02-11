@@ -31,6 +31,7 @@ import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Poi;
+import no.appsonite.gpsping.api.content.PoiAnswer;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
@@ -66,6 +67,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<MapPoint> mapPoints = new ObservableArrayList<>();
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
+    public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
 
     public Observable<FriendsAnswer> requestFriends() {
         Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
@@ -123,6 +125,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private void restartRequest() {
         cancelRequest.onNext(new Object());
         requestPoints();
+        requestPois();
     }
 
 
@@ -338,24 +341,41 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         });
     }
 
-    public Observable<ArrayList<Poi>> requestPois() {
-        ArrayList<Poi> fake = new ArrayList<>();
-        Friend me = new Friend();
-        me.id.set(AuthHelper.getCredentials().getUser().id.get());
-        me.username.set(AuthHelper.getCredentials().getUser().username.get());
-        Poi poi = new Poi();
-        poi.setLat(1);
-        poi.setLon(1);
-        poi.name.set("hello");
-        poi.setUser(me);
-        fake.add(poi);
+    private Friend getFriendById(long id) {
+        for (Friend friend : friendList) {
+            if (friend.id.get() == id) {
+                return friend;
+            }
+        }
+        return null;
+    }
 
-        poi = new Poi();
-        poi.setLat(2);
-        poi.setLon(2);
-        poi.name.set("hello1");
-        poi.setUser(me);
-        fake.add(poi);
-        return Observable.just(fake);
+    public void requestPois() {
+        long currentFriendId = 0;
+        if (currentFriend.get() != null && currentFriend.get().id.get() != -1) {
+            currentFriendId = currentFriend.get().id.get();
+        }
+        ApiFactory.getService().getPois(currentFriendId).cache()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<PoiAnswer, Observable<ArrayList<Poi>>>() {
+            @Override
+            public Observable<ArrayList<Poi>> call(PoiAnswer poiAnswer) {
+                ArrayList<Poi> result = new ArrayList<>();
+                for (Poi poi : poiAnswer.getPoi()) {
+                    Friend friend = getFriendById(poi.getUserId());
+                    if (friend != null) {
+                        poi.setUser(friend);
+                        result.add(poi);
+                    }
+                }
+                return Observable.just(result);
+            }
+        }).subscribe(new Action1<ArrayList<Poi>>() {
+            @Override
+            public void call(ArrayList<Poi> pois) {
+                TrackersMapFragmentViewModel.this.pois.clear();
+                TrackersMapFragmentViewModel.this.pois.addAll(pois);
+            }
+        });
     }
 }
