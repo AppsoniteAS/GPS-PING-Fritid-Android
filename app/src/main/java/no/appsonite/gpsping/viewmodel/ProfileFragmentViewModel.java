@@ -33,6 +33,27 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public Observable<ApiAnswer> onSaveClick() {
         if (validateData()) {
             final LoginAnswer loginAnswer = AuthHelper.getCredentials();
+            String fullName = profile.get().displayname.get().trim();
+            if (fullName != null) {
+                int spaceIndex = fullName.indexOf(" ");
+                if (spaceIndex == -1) {
+                    profile.get().firstName.set(fullName);
+                } else {
+                    String firstName = fullName.substring(0, spaceIndex).trim();
+                    String lastName = fullName.substring(spaceIndex, fullName.length()).trim();
+                    profile.get().firstName.set(firstName);
+                    profile.get().lastName.set(lastName);
+                }
+            }
+
+            if (TextUtils.isEmpty(profile.get().firstName.get())) {
+                profile.get().firstName.set(" ");
+            }
+
+            if (TextUtils.isEmpty(profile.get().lastName.get())) {
+                profile.get().lastName.set(" ");
+            }
+
             loginAnswer.setUser(this.profile.get());
             Observable<ApiAnswer> observable = AuthHelper.updateUser(this.profile.get()).cache();
             observable.subscribe(new Observer<ApiAnswer>() {
@@ -60,7 +81,7 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public void onViewCreated() {
         super.onViewCreated();
         Profile profile = AuthHelper.getCredentials().getUser();
-
+        profile.displayname.set(profile.firstName.get() + " " + profile.lastName.get());
         this.profile.set(profile);
     }
 
