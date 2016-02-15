@@ -5,8 +5,6 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -20,7 +18,6 @@ import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -30,7 +27,7 @@ import rx.schedulers.Schedulers;
  * Date: 18.01.2016
  */
 public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
-
+    private static final String TRACCAR_IP = "52.49.162.223";
     public ObservableField<Tracker> tracker = new ObservableField<>();
     public ObservableString nameError = new ObservableString();
     public ObservableString imeiNumberError = new ObservableString();
@@ -49,22 +46,24 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<String> resolveAddress() {
-        //http://appgranula.mooo.com
-        return Observable.defer(new Func0<Observable<String>>() {
-            @Override
-            public Observable<String> call() {
-                String ipAddress;
-                InetAddress address = null;
-                try {
-                    address = InetAddress.getByName("appgranula.mooo.com");
-                    ipAddress = address.getHostAddress();
-                } catch (UnknownHostException e) {
-                    ipAddress = "null";
-                }
-                return Observable.just(ipAddress).subscribeOn(Schedulers.io())
+        return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
-            }
-        });
+        //http://appgranula.mooo.com
+//        return Observable.defer(new Func0<Observable<String>>() {
+//            @Override
+//            public Observable<String> call() {
+//                String ipAddress;
+//                InetAddress address = null;
+//                try {
+//                    address = InetAddress.getByName("appgranula.mooo.com");
+//                    ipAddress = address.getHostAddress();
+//                } catch (UnknownHostException e) {
+//                    ipAddress = "null";
+//                }
+//                return Observable.just(ipAddress).subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread());
+//            }
+//        });
     }
 
     private Observable<Boolean> editTracker(Activity activity) {
