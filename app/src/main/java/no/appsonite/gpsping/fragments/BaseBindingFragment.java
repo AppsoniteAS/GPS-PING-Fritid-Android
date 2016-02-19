@@ -1,6 +1,5 @@
 package no.appsonite.gpsping.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -15,23 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.BaseActivity;
+import no.appsonite.gpsping.activities.MainActivity;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
-import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.utils.DataBindingUtils;
 import no.appsonite.gpsping.utils.ProgressDialogFragment;
-import no.appsonite.gpsping.utils.SMSHelper;
+import no.appsonite.gpsping.utils.RxBus;
 import no.appsonite.gpsping.utils.TypeResolver;
+import no.appsonite.gpsping.utils.bus.ErrorEvent;
+import no.appsonite.gpsping.utils.bus.LogoutEvent;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 import retrofit.HttpException;
+import rx.Subscription;
 import rx.functions.Action1;
-import rx.subjects.PublishSubject;
 
 
 /**
@@ -46,6 +44,7 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     private B binding;
     private M model;
     private static final String EXTRA_MODEL = "extra_model";
+    private Subscription logoutSubscription;
 
 
     public BaseBindingFragment() {
@@ -59,6 +58,22 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     public void onResume() {
         super.onResume();
         model.onResume();
+
+        subscribeForEvents();
+    }
+
+    private void subscribeForEvents() {
+
+
+        logoutSubscription = RxBus.getInstance().register(LogoutEvent.class, new Action1<LogoutEvent>() {
+            @Override
+            public void call(LogoutEvent logoutEvent) {
+                hideProgress();
+                MainActivity.logout(getActivity());
+                getActivity().finish();
+                logoutSubscription.unsubscribe();
+            }
+        });
     }
 
     public abstract String getFragmentTag();
@@ -146,7 +161,16 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     public void onPause() {
         super.onPause();
         model.onPause();
+
+        unsubscribeFromEvents();
     }
+
+    private void unsubscribeFromEvents() {
+        if (logoutSubscription != null && !logoutSubscription.isUnsubscribed()) {
+            logoutSubscription.unsubscribe();
+        }
+    }
+
 
     @Override
     public void onDestroyView() {

@@ -1,5 +1,6 @@
 package no.appsonite.gpsping.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import no.appsonite.gpsping.utils.PushHelper;
  */
 public class MainActivity extends BaseActivity implements DialogInterface.OnCancelListener {
     private static final String EXTRA_FRIENDS = "extra_friends";
+    private static final String EXTRA_LOGOUT = "extra_logout";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,21 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
         PushHelper.sendPushToken();
     }
 
+    public static void logout(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_LOGOUT, true);
+        context.startActivity(intent);
+    }
+
     private void parseIntent(Intent intent) {
         if (intent == null)
             return;
         if (intent.getBooleanExtra(EXTRA_FRIENDS, false)) {
             replaceFragment(FriendsFragment.newInstance(), true);
+        }
+        if (intent.getBooleanExtra(EXTRA_LOGOUT, false)) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
     }
 

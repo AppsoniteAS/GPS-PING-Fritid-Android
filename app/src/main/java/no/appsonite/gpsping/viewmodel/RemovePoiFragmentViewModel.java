@@ -18,7 +18,7 @@ public class RemovePoiFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<Poi> poi = new ObservableField<>();
 
     public Observable<ApiAnswer> removePoi() {
-        return ApiFactory.getService().removePoi(poi.get().getId())
+        return execute(ApiFactory.getService().removePoi(poi.get().getId()))
                 .cache()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

@@ -56,7 +56,7 @@ public class AddFriendFragmentViewModel extends BaseFragmentViewModel {
         if (TextUtils.isEmpty(s) || s.length() < 2) {
             searchResults.clear();
         } else {
-            ApiFactory.getService().searchFriends(s)
+            execute(ApiFactory.getService().searchFriends(s))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<UsersAnswer>() {
@@ -80,7 +80,7 @@ public class AddFriendFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public rx.Observable<ApiAnswer> addFriend(Friend friend) {
-        return ApiFactory.getService().addFriend(friend.id.get())
+        return execute(ApiFactory.getService().addFriend(friend.id.get()))
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());

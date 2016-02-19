@@ -1,5 +1,7 @@
 package no.appsonite.gpsping.api.content;
 
+import android.databinding.ObservableLong;
+
 import no.appsonite.gpsping.utils.ObservableString;
 
 /**
@@ -10,6 +12,15 @@ import no.appsonite.gpsping.utils.ObservableString;
 public class ApiAnswer {
     private ObservableString status = new ObservableString();
     private ObservableString error = new ObservableString();
+    private ObservableLong code = new ObservableLong();
+
+    public ObservableLong getCode() {
+        return code;
+    }
+
+    public void setCode(ObservableLong code) {
+        this.code = code;
+    }
 
     public boolean isSuccess() {
         return "ok".equals(status.get());

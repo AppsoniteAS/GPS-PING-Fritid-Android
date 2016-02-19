@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
+import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.model.SMS;
 import rx.Observable;
 
@@ -19,7 +20,7 @@ public class SMSHelper {
     public static final int REQUEST_SMS_SENT = 12;
     public static final String EXTRA_NUMBER = "extra_number";
     public static final String EXTRA_MSG = "extra_msg";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = BuildConfig.DEBUG;
 
     public static void sendSMS(Activity activity, SMS sms) {
         Intent intent = new Intent(activity, activity.getClass());

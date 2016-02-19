@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
@@ -171,7 +172,17 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     protected void onViewModelCreated(T model) {
         super.onViewModelCreated(model);
-        model.requestFriends();
+        model.requestFriends().subscribe(new Action1<FriendsAnswer>() {
+            @Override
+            public void call(FriendsAnswer friendsAnswer) {
+
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                showError(throwable);
+            }
+        });
         getBinding().mapType.check(R.id.topo);
 
         getBinding().mapType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

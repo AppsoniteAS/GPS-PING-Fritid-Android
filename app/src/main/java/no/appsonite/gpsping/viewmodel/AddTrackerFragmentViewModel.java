@@ -5,10 +5,13 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
@@ -18,6 +21,7 @@ import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -46,32 +50,36 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<String> resolveAddress() {
-        return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+        if(BuildConfig.DEBUG) {
+            return Observable.defer(new Func0<Observable<String>>() {
+                @Override
+                public Observable<String> call() {
+                    String ipAddress;
+                    InetAddress address = null;
+                    try {
+                        address = InetAddress.getByName("appgranula.mooo.com");
+                        ipAddress = address.getHostAddress();
+                    } catch (UnknownHostException e) {
+                        ipAddress = "null";
+                    }
+                    return Observable.just(ipAddress).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread());
+                }
+            });
+        } else {
+            return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
         //http://appgranula.mooo.com
-//        return Observable.defer(new Func0<Observable<String>>() {
-//            @Override
-//            public Observable<String> call() {
-//                String ipAddress;
-//                InetAddress address = null;
-//                try {
-//                    address = InetAddress.getByName("appgranula.mooo.com");
-//                    ipAddress = address.getHostAddress();
-//                } catch (UnknownHostException e) {
-//                    ipAddress = "null";
-//                }
-//                return Observable.just(ipAddress).subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread());
-//            }
-//        });
+
     }
 
     private Observable<Boolean> editTracker(Activity activity) {
-        return ApiFactory.getService().updateTracker(
+        return execute(ApiFactory.getService().updateTracker(
                 tracker.get().imeiNumber.get(),
                 tracker.get().trackerName.get(),
                 tracker.get().getRepeatTime(),
-                tracker.get().checkForStand.get())
+                tracker.get().checkForStand.get()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
@@ -101,14 +109,14 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(SMS sms) {
-                        return ApiFactory.getService().addTracker(
+                        return execute(ApiFactory.getService().addTracker(
                                 tracker.get().trackerName.get(),
                                 tracker.get().imeiNumber.get(),
                                 tracker.get().trackerNumber.get(),
                                 tracker.get().getRepeatTime(),
                                 tracker.get().checkForStand.get(),
                                 tracker.get().type.get()
-                        ).subscribeOn(Schedulers.io())
+                        )).subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread());
                     }
                 })

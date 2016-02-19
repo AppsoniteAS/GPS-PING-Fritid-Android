@@ -70,10 +70,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
 
     public Observable<FriendsAnswer> requestFriends() {
-        Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
-                .cache()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        Observable<FriendsAnswer> observable = execute(ApiFactory.getService().getFriends());
         observable.subscribe(new Observer<FriendsAnswer>() {
             @Override
             public void onCompleted() {
@@ -160,12 +157,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                     @Override
                     public Observable<GeoPointsAnswer> call(TimeInterval<Long> aLong) {
                         if (currentFriend.get() == null || currentFriend.get().id.get() == -1) {
-                            return ApiFactory.getService().getGeoPoints(getFrom(), getTo())
+                            return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo()))
                                     .cache()
                                     .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread());
                         } else {
-                            return ApiFactory.getService().getGeoPoints(getFrom(), getTo(), currentFriend.get().id.get())
+                            return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo(), currentFriend.get().id.get()))
                                     .cache()
                                     .subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread());
@@ -355,7 +352,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         if (currentFriend.get() != null && currentFriend.get().id.get() != -1) {
             currentFriendId = currentFriend.get().id.get();
         }
-        ApiFactory.getService().getPois(currentFriendId).cache()
+        execute(ApiFactory.getService().getPois(currentFriendId)).cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<PoiAnswer, Observable<ArrayList<Poi>>>() {
             @Override
@@ -375,6 +372,11 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             public void call(ArrayList<Poi> pois) {
                 TrackersMapFragmentViewModel.this.pois.clear();
                 TrackersMapFragmentViewModel.this.pois.addAll(pois);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                throwable.printStackTrace();
             }
         });
     }

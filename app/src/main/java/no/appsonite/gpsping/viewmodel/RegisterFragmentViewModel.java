@@ -28,7 +28,7 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<LoginAnswer> onRegisterClick() {
         if (validateData()) {
-            Observable<LoginAnswer> observable = AuthHelper.register(profile.get()).cache();
+            Observable<LoginAnswer> observable = execute(AuthHelper.register(profile.get())).cache();
             observable.subscribe(new Observer<LoginAnswer>() {
                 @Override
                 public void onCompleted() {

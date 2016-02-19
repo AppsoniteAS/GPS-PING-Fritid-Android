@@ -50,6 +50,8 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     protected void onLocationUpdate(Location location) {
         super.onLocationUpdate(location);
+        if(AuthHelper.getCredentials() == null)
+            return;
         lastLocation = location;
         if (getMap() != null) {
             getBinding().mapTarget.setVisibility(View.VISIBLE);

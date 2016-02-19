@@ -20,7 +20,7 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Friend> friends = new ObservableArrayList<>();
 
     public Observable<ApiAnswer> removeFriend(final Friend friend) {
-        Observable<ApiAnswer> observable = ApiFactory.getService().removeFriend(friend.id.get())
+        Observable<ApiAnswer> observable = execute(ApiFactory.getService().removeFriend(friend.id.get()))
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -45,7 +45,7 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<ApiAnswer> switchStatus(final Friend friend) {
         final boolean newState = !friend.isSeeingTrackers.get();
-        Observable<ApiAnswer> observable = ApiFactory.getService().setSeeingTrackers(friend.id.get(), newState)
+        Observable<ApiAnswer> observable = execute(ApiFactory.getService().setSeeingTrackers(friend.id.get(), newState))
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -69,7 +69,7 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public Observable<FriendsAnswer> requestFriends() {
-        Observable<FriendsAnswer> observable = ApiFactory.getService().getFriends()
+        Observable<FriendsAnswer> observable = execute(ApiFactory.getService().getFriends())
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -95,7 +95,7 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public Observable<ApiAnswer> confirmFriendShip(final Friend friend) {
-        Observable<ApiAnswer> observable = ApiFactory.getService().confirmFriendship(friend.id.get())
+        Observable<ApiAnswer> observable = execute(ApiFactory.getService().confirmFriendship(friend.id.get()))
                 .cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());

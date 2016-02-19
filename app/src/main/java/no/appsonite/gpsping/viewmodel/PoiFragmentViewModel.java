@@ -46,14 +46,14 @@ public class PoiFragmentViewModel extends BaseFragmentViewModel {
     }
 
     private Observable<ApiAnswer> updatePoi() {
-        return ApiFactory.getService().updatePoi(poi.get().getId(), poi.get().name.get(), poi.get().getLat(), poi.get().getLon())
+        return execute(ApiFactory.getService().updatePoi(poi.get().getId(), poi.get().name.get(), poi.get().getLat(), poi.get().getLon()))
                 .cache()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     private Observable<ApiAnswer> createPoi() {
-        return ApiFactory.getService().addPoi(poi.get().name.get(), poi.get().getLat(), poi.get().getLon())
+        return execute(ApiFactory.getService().addPoi(poi.get().name.get(), poi.get().getLat(), poi.get().getLon()))
                 .cache()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

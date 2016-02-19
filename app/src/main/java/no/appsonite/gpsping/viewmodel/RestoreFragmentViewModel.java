@@ -31,7 +31,7 @@ public class RestoreFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<ApiAnswer> restorePassword() {
         if (validateData()) {
-            return ApiFactory.getService().restorePassword(email.get())
+            return execute(ApiFactory.getService().restorePassword(email.get()))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .cache();

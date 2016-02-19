@@ -78,14 +78,10 @@ public class LoginFragment extends BaseBindingFragment<FragmentLoginBinding, Log
 
                 @Override
                 public void onNext(LoginAnswer loginAnswer) {
-                    if (loginAnswer.isError()) {
-                        showError(new Throwable(loginAnswer.getError().get()));
-                    } else {
-                        hideProgress();
-                        if (getActivity() != null) {
-                            startActivity(new Intent(getActivity(), MainActivity.class));
-                            getActivity().finish();
-                        }
+                    hideProgress();
+                    if (getActivity() != null) {
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
                     }
                 }
             });

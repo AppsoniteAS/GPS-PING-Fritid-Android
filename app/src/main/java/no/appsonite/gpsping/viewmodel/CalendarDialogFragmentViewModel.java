@@ -83,9 +83,9 @@ public class CalendarDialogFragmentViewModel extends BaseFragmentViewModel {
         long to = calendar.getTimeInMillis() / 1000l;
         rx.Observable<GeoDatesAnswer> observable;
         if (friendId.get() == -1) {
-            observable = ApiFactory.getService().getGeoDates(from, to);
+            observable = execute(ApiFactory.getService().getGeoDates(from, to));
         } else {
-            observable = ApiFactory.getService().getGeoDates(from, to, friendId.get());
+            observable = execute(ApiFactory.getService().getGeoDates(from, to, friendId.get()));
         }
         observable
                 .cache()

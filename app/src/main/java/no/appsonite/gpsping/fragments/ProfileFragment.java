@@ -1,6 +1,5 @@
 package no.appsonite.gpsping.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.activities.LoginActivity;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentProfileBinding;
 import no.appsonite.gpsping.viewmodel.ProfileFragmentViewModel;
@@ -95,24 +93,7 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
 
     private void logout() {
         showProgress();
-        getModel().logout().subscribe(new Observer<ApiAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showError(e);
-            }
-
-            @Override
-            public void onNext(ApiAnswer apiAnswer) {
-                hideProgress();
-                getContext().startActivity(new Intent(getContext(), LoginActivity.class));
-                getActivity().finish();
-            }
-        });
+        getModel().logout();
     }
 
     public static ProfileFragment newInstance() {

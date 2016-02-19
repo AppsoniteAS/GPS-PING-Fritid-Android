@@ -27,7 +27,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Tracker> trackers = new ObservableArrayList<>();
 
     public Observable<ApiAnswer> removeTracker(final Tracker tracker) {
-        Observable<ApiAnswer> observable = ApiFactory.getService().removeTracker(tracker.imeiNumber.get())
+        Observable<ApiAnswer> observable = execute(ApiFactory.getService().removeTracker(tracker.imeiNumber.get()))
                 .flatMap(new Func1<ApiAnswer, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(ApiAnswer apiAnswer) {
@@ -64,7 +64,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public void requestTrackers() {
-        ApiFactory.getService().getTrackers().flatMap(new Func1<TrackersAnswer, Observable<ArrayList<Tracker>>>() {
+        execute(ApiFactory.getService().getTrackers()).flatMap(new Func1<TrackersAnswer, Observable<ArrayList<Tracker>>>() {
             @Override
             public Observable<ArrayList<Tracker>> call(TrackersAnswer trackersAnswer) {
                 ArrayList<Tracker> trackers = trackersAnswer.getTrackers();
