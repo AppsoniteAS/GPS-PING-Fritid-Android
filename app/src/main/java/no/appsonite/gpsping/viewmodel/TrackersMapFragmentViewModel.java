@@ -57,7 +57,7 @@ import rx.subjects.PublishSubject;
  * Date: 20.01.2016
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
-    private static final long INTERVAL = 30;
+    private static final long INTERVAL = 10;
     private Date removeTracksDate = new Date(0l);
     private MediaPlayer mediaPlayer;
     private int standSound = R.raw.bleep;
