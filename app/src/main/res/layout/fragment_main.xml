@@ -68,6 +68,13 @@
                     android:text="@string/mapAndTracking" />
 
                 <TextView
+                    android:id="@+id/trackers"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/button_margin_top"
+                    android:text="@string/trackers" />
+
+                <TextView
                     android:id="@+id/historyButton"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"

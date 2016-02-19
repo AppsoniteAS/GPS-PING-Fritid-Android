@@ -49,6 +49,13 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
             }
         });
 
+        getBinding().trackers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(TrackersFragment.newInstance(), true);
+            }
+        });
+
         getBinding().startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
