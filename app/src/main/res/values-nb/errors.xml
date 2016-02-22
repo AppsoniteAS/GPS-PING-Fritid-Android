@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_code_1">Kontakten er allerede lagt til</string>
+    <string name="error_code_2">Kan ikke legge inn ny kontakt</string>
+    <string name="error_code_3">Vennerforespørsel er ikke funnet</string>
+    <string name="error_code_4">Kan ikke registrere bruker for varslinger</string>
+    <string name="error_code_5">Autoriserings feil. Prøv å logg inn på nytt</string>
+    <string name="error_code_6">Feil - kan ikke legge til interesse punkt</string>
+    <string name="error_code_7">Trackeren er allerede lagt til</string>
+    <string name="error_code_8">Feil - ny enhet kan ikke legges til</string>
+    <string name="error_code_9">Finner ikke ny enhet</string>
+    <string name="error_code_10">Finner ikke tracker</string>
+    <string name="error_code_11">Kan ikke lage punkt</string>
+
+
+    <string name="error_code_201">Registreringsfeil - vennligst prøv på nytt</string>
+    <string name="error_code_202">Brukernavnet er feil</string>
+    <string name="error_code_203">Brukernavnet eksisterer allerede.</string>
+    <string name="error_code_204">Epost adressen er feil</string>
+    <string name="error_code_205">Epost adressen eksisterer allerede.</string>
+    <string name="error_code_206">Kan ikke finne epost adressen!</string>
+    <string name="error_code_207">Passordet kan ikke resettes!</string>
+    <string name="error_code_208">En feil har oppstått!</string>
+    <string name="error_code_209">Kan ikke sende epost.</string>
+    <string name="error_code_210">Feilt brukernavn og passord.</string>
+    <string name="error_code_211">Feil - vennligst prøv å logg inn på nytt.</string>
+</resources>

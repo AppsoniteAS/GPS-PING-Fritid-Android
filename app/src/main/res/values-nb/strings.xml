@@ -1,0 +1,130 @@
+<resources>
+    <string name="app_name">GPS Ping</string>
+    <string name="login">Logg inn</string>
+    <string name="userName">Brukernavn</string>
+    <string name="register">Registrer</string>
+    <string name="password">Passord</string>
+    <string name="loginCanNotBeEmpty">Vennligsht legg inn brukernavn</string>
+    <string name="passwordCanNotBeEmpty">Vennligst legg inn passord</string>
+    <string name="email">Epost</string>
+    <string name="confirmPassword">Bekreft passord</string>
+    <string name="emailCanNotBeEmpty">Vennligst legg inn epost</string>
+    <string name="passwordNotConfirmed">Passordene matcher ikke hverandre</string>
+    <string name="activeTracker">Aktiv tracker:</string>
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+    <string name="mapAndTracking">Kart og tracking</string>
+    <string name="history">Historie</string>
+    <string name="settings">Innstillinger</string>
+    <string name="trackers">Trackere</string>
+    <string name="connect">Venner</string>
+    <string name="geofence">Geofence</string>
+    <string name="profile">Profil</string>
+    <string name="about">Om</string>
+    <string name="visitWebsite">Besøk websiden vår</string>
+    <string name="contactUs">Kontakt oss</string>
+    <string name="aboutApp">Om Appen</string>
+    <string name="youCanOrder">Du kan bestille tracker på vår hjemmeside</string>
+    <string name="geofenceDesc">Legg inn antall meter i diameter for Geofence <b>Husk å slå av Geofence når du slår av trackeren</b></string>
+    <string name="yards">Meter</string>
+    <string name="phoneNumber">Telefon nummer</string>
+    <string name="save">Lagre</string>
+    <string name="phoneNumberCanNotBeEmpty">Vennligst legg inn telefonnummer</string>
+    <string name="yardsCanNotBeEmpty">Vennligst legg inn antall meter</string>
+    <string name="logout">Logg ut</string>
+    <string name="chooseTracker">Velg tracker</string>
+    <string name="addTracker">Legg til tracker</string>
+    <string name="tracker">Tracker</string>
+    <string name="name">Navn</string>
+    <string name="imeiNumber">IMEI Nummer</string>
+    <string name="trackerNumber">Tracker Nummer</string>
+    <string name="addTrackerButton">Legg til tracker</string>
+    <string name="signal">Signal</string>
+    <string name="receiveSignalEvery">Motta signal hvert</string>
+    <string name="checkThisDog">Marker for hund i stand varsling</string>
+    <string name="trackerNameCanNotBeEmpty">Vennligst legg inn tracker navn</string>
+    <string name="imeiCanNotBeEmpty">Vennligst legg inn IMEI Nummer</string>
+    <string name="trackerNumberCanNotBeEmpty">Vennligst legg inn Tracker mobil nummer</string>
+    <string name="trackerNumberN">Tracker Mobil Nummer:\t\t%1$s</string>
+    <string name="trackerImeiN">IMEI Nummer:\t\t\t%1$s</string>
+    <string name="removeTracker">Slett\ntracker</string>
+    <string name="aboutAppText">
+        Om appen\n\nDenne appen lar deg se gps posisjonen til en eller flere gps trackere. \n\nTrackere kan bestilles på vår webside. \n\n Når tracker er mottatt og aktivert legges tracker nummer og imei nummer inn i appen. \n\n Gå tilbake til hoved menyen og trykk på start\n\n
+    </string>
+    <string name="editTracker">Edit\ntracker</string>
+    <string name="update">Oppdater</string>
+    <string name="friends">Venner</string>
+    <string name="addFriend">Legg til venn</string>
+    <string name="removeFriend">Slett \n venn</string>
+    <string name="search">Søk</string>
+    <string name="selectTracker">Velg traker du vil aktivere:</string>
+    <string name="wait">Vennlist vent</string>
+    <string name="nameCanNotBeEmpty">Vennligst legg inn navn</string>
+    <string name="fullName">Navn</string>
+    <string name="satellite">Satellitt</string>
+    <string name="standard">Standard</string>
+    <string name="topo">Topo</string>
+    <string name="photo">Foto</string>
+    <string name="removeTracks">Fjern spor</string>
+    <string name="map">Kart</string>
+    <string name="all">Alle</string>
+    <string name="notify_photo_title">Foto</string>
+    <string name="notify_photo_text">GPS Ping</string>
+    <string name="profileSaved">Profilen din ble oppdatert</string>
+    <string name="smsAlertDialogTitle">SMS</string>
+    <string name="smsAlertDialogMessage">Dette vil sende en sms til trackeren din</string>
+    <string name="trackerUpdated">Trackeren ble oppdatert</string>
+    <string name="locationMessage">Lokasjons tracking</string>
+    <string name="friendShipRequest">Venneforespørsel</string>
+    <string name="friendShipRequestMessage">%1$s vil være venn med deg. Vennlist bekreft?</string>
+    <string name="friendShipRequestNotifyMessage">vil være venn med deg</string>
+    <string name="confirm">Bekreft</string>
+    <string name="owner">Eier:</string>
+
+    <string name="trackerNumberNMap">Tracker Nummer:\t%1$s</string>
+    <string name="trackerImeiNMap">IMEI Nummer:\t\t\t%1$s</string>
+    <string name="logTimeNMap">Logg Tid:\t\t\t\t%1$s</string>
+    <string name="latNMap">Lat:\t\t\t%1$s</string>
+    <string name="lonNMap">Lon:\t\t\t%1$s</string>
+    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="you">Du</string>
+    <string name="distanceKm">%1$s km</string>
+    <string name="distanceM">%1$s m</string>
+    <string name="restore">Restore</string>
+    <string name="passwordRestoreDesc">Legg inn epost adresse så sender vi deg passor reset instruksjoner</string>
+    <string name="emailSent">Link til passord reset er sendt til deg. Vennligst sjekk eposten din.</string>
+    <string name="forgetYourPassword"><u>Glemt passordet?</u></string>
+    <string name="editPoi"><u>Endre interesse punkt</u></string>
+    <string name="editPoiTitle">Endre interesse punkt</string>
+    <string name="createPoiTitle">Lag interesse punkt</string>
+    <string name="deletePoi"><u>Slett interesse punkt</u></string>
+    <string name="displayOptions">Visnings alternativer</string>
+    <string name="showOnMapTracker">Vis trackere :</string>
+    <string name="trackingHistory">Tracking Historie</string>
+    <string name="poiName">Navn på interesse punkt</string>
+    <string name="poiNameCanNotBeEmpty">Vennligst legg inn inn navn på interesse punkt</string>
+    <string name="areYouSureRemovePoi">Er du sikker på at du vil slette dette interesse punktet</string>
+    <string name="removePoiTitle">Slett interesse punkt</string>
+    <string name="remove">Slett</string>
+    <string-array name="receiveSignalTime">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="receiveSignalMeasure">
+        <item>Sekunder</item>
+        <item>Minutter</item>
+    </string-array>
+    <string-array name="showDuring">
+        <item>10 minutter</item>
+        <item>15 minutter</item>
+        <item>30 minutter</item>
+        <item>60 minutter</item>
+    </string-array>
+
+</resources>
