@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -31,6 +32,25 @@
             android:padding="16dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/activeTracker"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                android:visibility="@{viewModel.activeTracker!=null?View.VISIBLE:View.INVISIBLE}" />
+
+            <no.appsonite.gpsping.widget.CustomFontTextView
+                style="@style/AppTheme.widget.FormTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-4dp"
+                android:text='@{viewModel.activeTracker != null ? viewModel.activeTracker.trackerName.get():"NoName"}'
+                android:visibility="@{viewModel.activeTracker!=null?View.VISIBLE:View.INVISIBLE}" />
+
+            <TextView
                 style="@style/AppTheme.widget.FormDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,21 +72,6 @@
                     app:twoWayText="@{viewModel.yards}" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:error="@{viewModel.phoneNumberError}">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/phoneNumber"
-                    android:imeOptions="actionNext"
-                    android:inputType="phone"
-                    android:singleLine="true"
-                    app:twoWayText="@{viewModel.phoneNumber}" />
-            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
         <TextView

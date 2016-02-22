@@ -27,8 +27,6 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<String> yardsError = new ObservableField<>();
     public ObservableField<Tracker> activeTracker = new ObservableField<>();
 
-    public ObservableString phoneNumber = new ObservableString();
-    public ObservableField<String> phoneNumberError = new ObservableField<>();
 
     @Override
     public void onModelAttached() {
@@ -42,7 +40,6 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
         Geofence geofence = realm.where(Geofence.class).findFirst();
         if (geofence != null) {
             yards.set(geofence.getYards());
-            phoneNumber.set(geofence.getPhone());
         }
         realm.close();
     }
@@ -66,7 +63,6 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
         if (geofence == null) {
             geofence = realm.createObject(Geofence.class);
         }
-        geofence.setPhone(phoneNumber.get());
         geofence.setYards(yards.get());
         realm.commitTransaction();
         realm.close();
@@ -76,7 +72,7 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
         Tracker tracker = activeTracker.get();
         setTrackerGeofenceRunning(tracker, true);
         ArrayList<SMS> smses = new ArrayList<>();
-        smses.add(new SMS(tracker.trackerNumber.get(), String.format("admin123456 %s", phoneNumber.get())));
+        //smses.add(new SMS(tracker.trackerNumber.get(), String.format("admin123456 %s", activeTracker.get().trackerNumber.get())));
         smses.add(new SMS(tracker.trackerNumber.get(), String.format("move123456 %s", yards.get())));
 
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
@@ -111,11 +107,6 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
             return false;
         }
         yardsError.set(null);
-        if (TextUtils.isEmpty(phoneNumber.get())) {
-            phoneNumberError.set(getContext().getString(R.string.phoneNumberCanNotBeEmpty));
-            return false;
-        }
-        phoneNumberError.set(null);
         return true;
     }
 }
