@@ -7,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
@@ -38,6 +37,8 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_calendar) {
             Friend currentFriend = getModel().currentFriend.get();
+            if (currentFriend == null)
+                return true;
             Date date = getModel().historyDate.get();
             if (date == null)
                 date = new Date();
@@ -72,7 +73,7 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
 
     @Override
     protected void onMapPoint(MapPoint mapPoint) {
-        if(mapPoint.isBelongsToUser() && mapPoint.getUser().id.get() == myId){
+        if (mapPoint.isBelongsToUser() && mapPoint.getUser().id.get() == myId) {
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
         }
     }

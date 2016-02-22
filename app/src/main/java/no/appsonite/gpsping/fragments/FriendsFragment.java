@@ -147,7 +147,6 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
             observable = getModel().switchStatus(friend);
         }
         showProgress();
-
         observable.subscribe(new Observer<ApiAnswer>() {
             @Override
             public void onCompleted() {
