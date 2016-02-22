@@ -1,10 +1,14 @@
 package no.appsonite.gpsping.viewmodel;
 
+import android.app.Activity;
 import android.databinding.ObservableArrayList;
+import android.support.v7.app.AlertDialog;
 
+import io.realm.Realm;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
+import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import rx.Observable;
 import rx.Observer;
@@ -16,7 +20,7 @@ import rx.schedulers.Schedulers;
  * Company: APPGRANULA LLC
  * Date: 19.01.2016
  */
-public class FriendsFragmentViewModel extends BaseFragmentViewModel {
+public class FriendsFragmentViewModel extends SubscriptionViewModel {
     public ObservableArrayList<Friend> friends = new ObservableArrayList<>();
 
     public Observable<ApiAnswer> removeFriend(final Friend friend) {
@@ -118,4 +122,12 @@ public class FriendsFragmentViewModel extends BaseFragmentViewModel {
         });
         return observable;
     }
+
+    public boolean isSubscriptionRequired() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).findFirst();
+        return realmTracker == null && !isSubscribed();
+    }
+
+
 }

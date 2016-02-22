@@ -13,6 +13,7 @@ import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.fragments.FriendsFragment;
 import no.appsonite.gpsping.fragments.MainFragment;
 import no.appsonite.gpsping.utils.PushHelper;
+import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 
 /**
  * Created: Belozerov
@@ -79,6 +80,18 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
             return false;
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (getLastFragment() != null) {
+            if (getLastFragment().getModel() instanceof SubscriptionViewModel) {
+                if (((SubscriptionViewModel) getLastFragment().getModel()).onActivityResult(requestCode, resultCode, data)) {
+                    return;
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

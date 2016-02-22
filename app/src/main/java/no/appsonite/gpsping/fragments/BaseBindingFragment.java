@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.BaseActivity;
 import no.appsonite.gpsping.activities.MainActivity;
@@ -24,7 +23,6 @@ import no.appsonite.gpsping.utils.DataBindingUtils;
 import no.appsonite.gpsping.utils.ProgressDialogFragment;
 import no.appsonite.gpsping.utils.RxBus;
 import no.appsonite.gpsping.utils.TypeResolver;
-import no.appsonite.gpsping.utils.bus.ErrorEvent;
 import no.appsonite.gpsping.utils.bus.LogoutEvent;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 import retrofit.HttpException;

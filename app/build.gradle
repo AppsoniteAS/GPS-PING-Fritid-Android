@@ -26,7 +26,7 @@ android {
         applicationId "no.appsonite.gpsping"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 2
+        versionCode 15
         versionName "1.0"
     }
     dataBinding {
@@ -69,5 +69,6 @@ dependencies {
     }
     compile 'gov.nasa:worldwind:2.0.0-986'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.anjlab.android.iab.v3:library:1.0.31'
 
 }

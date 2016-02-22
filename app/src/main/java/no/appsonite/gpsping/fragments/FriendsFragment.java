@@ -1,7 +1,9 @@
 package no.appsonite.gpsping.fragments;
 
+import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import no.appsonite.gpsping.databinding.ItemFriendBinding;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.FriendsFragmentViewModel;
+import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
 import rx.Observable;
 import rx.Observer;
@@ -92,6 +95,43 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
         getBinding().friendsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().friendsRecycler.setAdapter(adapter);
         BindingHelper.bindAdapter(adapter, model.friends);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getModel().setBillingListener(new SubscriptionViewModel.BillingListener() {
+            @Override
+            public void onInit() {
+                if (getModel().isSubscriptionRequired()) {
+                    showSubscriptionDialog();
+                }
+            }
+        });
+        if(getModel().isBillingInit()){
+            if (getModel().isSubscriptionRequired()) {
+                showSubscriptionDialog();
+            }
+        }
+    }
+
+    private void showSubscriptionDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.friends)
+                .setMessage(R.string.friendsRequiresSubscription)
+                .setCancelable(false)
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                })
+                .setPositiveButton(R.string.buySubscription, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getModel().requestSubscription(getActivity());
+                    }
+                }).show();
     }
 
 
