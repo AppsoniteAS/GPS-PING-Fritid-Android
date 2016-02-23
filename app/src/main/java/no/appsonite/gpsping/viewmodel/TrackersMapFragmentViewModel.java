@@ -328,6 +328,8 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     }
 
     protected void playStandSound() {
+        if (true)
+            return;
         mediaPlayer = MediaPlayer.create(Application.getContext(), standSound);
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

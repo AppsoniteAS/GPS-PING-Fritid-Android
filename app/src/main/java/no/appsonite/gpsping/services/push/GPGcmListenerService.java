@@ -3,12 +3,14 @@ package no.appsonite.gpsping.services.push;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.MainActivity;
 import no.appsonite.gpsping.api.ApiFactory;
@@ -28,14 +30,32 @@ public class GPGcmListenerService extends GcmListenerService {
         super.onMessageReceived(from, data);
         try {
             String type = data.getString("type");
-            if ("friend_request".equals(type)) {
-                Friend friend = ApiFactory.getGson().fromJson(data.getString("data"), Friend.class);
-                showNotify(getString(R.string.friendShipRequestNotifyMessage), friend.getName(),
-                        PendingIntent.getActivity(this, REQUEST_FRIENDS, MainActivity.getFriendsIntent(), PendingIntent.FLAG_UPDATE_CURRENT));
+            if (type != null) {
+                switch (type) {
+                    case "friend_request":
+                        Friend friend = ApiFactory.getGson().fromJson(data.getString("data"), Friend.class);
+                        showNotify(getString(R.string.friendShipRequestNotifyMessage), friend.getName(),
+                                PendingIntent.getActivity(this, REQUEST_FRIENDS, MainActivity.getFriendsIntent(), PendingIntent.FLAG_UPDATE_CURRENT));
+                        break;
+                    case "device_is_froze":
+                        playStandSound();
+                        break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void playStandSound() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(Application.getContext(), R.raw.bleep);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
     }
 
     private void showNotify(String message, String title, PendingIntent pendingIntent) {
