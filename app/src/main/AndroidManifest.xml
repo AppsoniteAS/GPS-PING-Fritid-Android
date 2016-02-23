@@ -23,9 +23,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--release-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyArhJK4ihoIZER3PVlG5aLX563-i5C8qjI" />
+            android:value="AIzaSyAN-4XQggySXobdR7CxY-i0tsaKY_8a8Yk" />
+        <!--debug-->
+        <!--<meta-data-->
+        <!--android:name="com.google.android.geo.API_KEY"-->
+        <!--android:value="AIzaSyArhJK4ihoIZER3PVlG5aLX563-i5C8qjI" />-->
 
         <activity
             android:name=".activities.LoginActivity"

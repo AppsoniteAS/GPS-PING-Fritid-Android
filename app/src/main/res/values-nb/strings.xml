@@ -106,10 +106,9 @@
     <string name="areYouSureRemovePoi">Er du sikker på at du vil slette dette interesse punktet</string>
     <string name="removePoiTitle">Slett interesse punkt</string>
     <string name="remove">Slett</string>
+    <string name="friendsRequiresSubscription">To use this action you should add your tracker first or buy annual subscription.</string>
+    <string name="buySubscription">Buy subscription</string>
     <string-array name="receiveSignalTime">
-        <item>3</item>
-        <item>5</item>
-        <item>10</item>
         <item>20</item>
         <item>30</item>
         <item>40</item>
