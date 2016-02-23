@@ -7,6 +7,7 @@ import android.view.View;
 import no.appsonite.gpsping.activities.MainActivity;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.databinding.FragmentLoginBinding;
+import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.LoginFragmentViewModel;
 import rx.Observable;
 import rx.Observer;
@@ -62,6 +63,7 @@ public class LoginFragment extends BaseBindingFragment<FragmentLoginBinding, Log
     }
 
     private void startLogin() {
+        Utils.hideKeyboard(getActivity());
         Observable<LoginAnswer> observable = getModel().onLoginClick();
         if (observable != null) {
             showProgress();
