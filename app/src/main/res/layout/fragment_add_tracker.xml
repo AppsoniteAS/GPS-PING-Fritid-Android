@@ -180,12 +180,33 @@
                     </FrameLayout>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/addTrackerButton"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_marginBottom="24dp"
-                    android:layout_marginTop="@dimen/button_margin_top"
-                    android:text="@{viewModel.editMode?@string/update:@string/addTrackerButton}" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/addTrackerButton"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_width="0dp"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:layout_weight="1"
+                        android:text="@{viewModel.editMode?@string/update:@string/addTrackerButton}" />
+
+                    <TextView
+                        android:id="@+id/resetButton"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_width="0dp"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:layout_weight="1"
+                        android:text="@string/reset"
+                        android:visibility="@{viewModel.editMode}" />
+                </LinearLayout>
+
             </LinearLayout>
 
 

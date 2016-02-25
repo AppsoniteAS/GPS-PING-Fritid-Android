@@ -50,7 +50,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<String> resolveAddress() {
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             return Observable.defer(new Func0<Observable<String>>() {
                 @Override
                 public Observable<String> call() {
@@ -186,5 +186,18 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         }
         trackerNumberError.set(null);
         return true;
+    }
+
+    public Observable<SMS> resetTracker(final Activity activity) {
+        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
+            @Override
+            public Observable<SMS> call(String address) {
+                return sendSmses(activity, getSMSes(address));
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .last()
+                .cache();
     }
 }

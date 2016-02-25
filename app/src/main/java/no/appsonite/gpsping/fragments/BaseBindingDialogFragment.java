@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -109,6 +110,9 @@ public abstract class BaseBindingDialogFragment<B extends ViewDataBinding, M ext
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
+            }
+            if (TextUtils.isEmpty(message)) {
+                message = getString(R.string.error_code_208);
             }
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }

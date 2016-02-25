@@ -72,6 +72,11 @@ public class BindingAttributes {
         imageView.setImageResource(res);
     }
 
+    @BindingAdapter({"android:visibility"})
+    public static void setVisibility(View view, boolean visible) {
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     @BindingAdapter({"bind:imageResName"})
     public static void setImageResName(ImageView imageView, String resName) {
         Context context = imageView.getContext();

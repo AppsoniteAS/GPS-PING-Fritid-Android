@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerBinding;
+import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.AddTrackerFragmentViewModel;
 import rx.Observable;
@@ -48,6 +49,36 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
                 saveTracker();
             }
         });
+        getBinding().resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetTracker();
+            }
+        });
+    }
+
+    private void resetTracker() {
+        Observable<SMS> observable = getModel().resetTracker(getActivity());
+        if (observable != null) {
+            showProgress();
+            observable.subscribe(new Observer<SMS>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showError(e);
+                }
+
+                @Override
+                public void onNext(SMS sms) {
+                    hideProgress();
+                    Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void saveTracker() {
