@@ -144,13 +144,12 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         smses.add(new SMS(trackerNumber, "gprs123456"));
         smses.add(new SMS(trackerNumber, "apn123456 netcom"));
         switch (Tracker.Type.valueOf(tracker.get().type.get())) {
-            case TK_STAR_PET:
-                break;
             case TK_ANYWHERE:
                 //46.137.82.251
                 smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5000", address)));
                 break;
             case TK_STAR:
+            case TK_STAR_PET:
                 smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
                 break;
         }
