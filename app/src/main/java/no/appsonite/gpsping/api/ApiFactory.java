@@ -3,7 +3,6 @@ package no.appsonite.gpsping.api;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableLong;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,11 +33,11 @@ import retrofit.RxJavaCallAdapterFactory;
  * Date: 20.01.2016
  */
 public class ApiFactory {
-//    private static final String BASE_URL = "http://192.168.139.201/api/";
-    private static final String BASE_URL = BuildConfig.DEBUG?"http://appgranula.mooo.com/api/":"https://fritid.gpsping.no/api/";
-    private static final int CONNECT_TIMEOUT = 15;
+    //    private static final String BASE_URL = "http://192.168.139.201/api/";
+    private static final String BASE_URL = BuildConfig.DEBUG ? "http://appgranula.mooo.com/api/" : "https://fritid.gpsping.no/api/";
+    private static final int CONNECT_TIMEOUT = 60;
     private static final int WRITE_TIMEOUT = 60;
-    private static final int TIMEOUT = 15;
+    private static final int TIMEOUT = 60;
 
     private static final OkHttpClient CLIENT = new OkHttpClient();
     private static Retrofit INSTANCE = null;
