@@ -50,26 +50,26 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<String> resolveAddress() {
-        if (BuildConfig.DEBUG) {
-            return Observable.defer(new Func0<Observable<String>>() {
-                @Override
-                public Observable<String> call() {
-                    String ipAddress;
-                    InetAddress address = null;
-                    try {
-                        address = InetAddress.getByName("appgranula.mooo.com");
-                        ipAddress = address.getHostAddress();
-                    } catch (UnknownHostException e) {
-                        ipAddress = "null";
-                    }
-                    return Observable.just(ipAddress).subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread());
-                }
-            });
-        } else {
+//        if (BuildConfig.DEBUG) {
+//            return Observable.defer(new Func0<Observable<String>>() {
+//                @Override
+//                public Observable<String> call() {
+//                    String ipAddress;
+//                    InetAddress address = null;
+//                    try {
+//                        address = InetAddress.getByName("appgranula.mooo.com");
+//                        ipAddress = address.getHostAddress();
+//                    } catch (UnknownHostException e) {
+//                        ipAddress = "null";
+//                    }
+//                    return Observable.just(ipAddress).subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread());
+//                }
+//            });
+//        } else {
             return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-        }
+//        }
         //http://appgranula.mooo.com
 
     }

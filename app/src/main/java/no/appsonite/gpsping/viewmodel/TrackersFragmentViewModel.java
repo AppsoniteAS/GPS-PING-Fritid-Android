@@ -64,6 +64,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public void requestTrackers() {
+        RealmTracker.requestTrackersFromRealm(trackers);
         execute(ApiFactory.getService().getTrackers()).flatMap(new Func1<TrackersAnswer, Observable<ArrayList<Tracker>>>() {
             @Override
             public Observable<ArrayList<Tracker>> call(TrackersAnswer trackersAnswer) {
