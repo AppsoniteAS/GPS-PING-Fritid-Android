@@ -58,7 +58,7 @@
     <string name="removeFriend">Slett \n venn</string>
     <string name="search">Søk</string>
     <string name="selectTracker">Velg traker du vil aktivere:</string>
-    <string name="wait">Vennlist vent</string>
+    <string name="wait">Vennligst vent</string>
     <string name="nameCanNotBeEmpty">Vennligst legg inn navn</string>
     <string name="fullName">Navn</string>
     <string name="satellite">Satellitt</string>
@@ -76,7 +76,7 @@
     <string name="trackerUpdated">Trackeren ble oppdatert</string>
     <string name="locationMessage">Lokasjons tracking</string>
     <string name="friendShipRequest">Venneforespørsel</string>
-    <string name="friendShipRequestMessage">%1$s vil være venn med deg. Vennlist bekreft?</string>
+    <string name="friendShipRequestMessage">%1$s vil være venn med deg. Vennligst bekreft?</string>
     <string name="friendShipRequestNotifyMessage">vil være venn med deg</string>
     <string name="confirm">Bekreft</string>
     <string name="owner">Eier:</string>
@@ -102,7 +102,7 @@
     <string name="showOnMapTracker">Vis trackere :</string>
     <string name="trackingHistory">Tracking Historie</string>
     <string name="poiName">Navn på interesse punkt</string>
-    <string name="poiNameCanNotBeEmpty">Vennligst legg inn inn navn på interesse punkt</string>
+    <string name="poiNameCanNotBeEmpty">Vennligst legg inn navn på interesse punkt</string>
     <string name="areYouSureRemovePoi">Er du sikker på at du vil slette dette interesse punktet</string>
     <string name="removePoiTitle">Slett interesse punkt</string>
     <string name="remove">Slett</string>
