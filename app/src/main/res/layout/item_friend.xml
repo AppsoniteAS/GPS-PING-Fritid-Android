@@ -15,6 +15,10 @@
             type="no.appsonite.gpsping.model.Friend" />
 
         <variable
+            name="isSwipeEnabled"
+            type="java.lang.Boolean" />
+
+        <variable
             name="onClickListener"
             type="android.view.View.OnClickListener" />
     </data>
@@ -22,7 +26,7 @@
     <com.daimajia.swipe.SwipeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/friendItemHeight"
-        app:swipeEnabled="@{BindingHelper.isFriendAdded(item)}">
+        app:swipeEnabled="@{isSwipeEnabled}">
 
         <LinearLayout
             android:id="@+id/bottomWrapper"

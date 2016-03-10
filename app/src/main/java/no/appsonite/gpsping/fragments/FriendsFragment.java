@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import no.appsonite.gpsping.BR;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentFriendsBinding;
@@ -20,6 +21,7 @@ import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.FriendsFragmentViewModel;
 import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
+import no.appsonite.gpsping.widget.BindingViewHolder;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
 import rx.Observable;
 import rx.Observer;
@@ -74,6 +76,12 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
             }
 
             @Override
+            public void onBindViewHolder(BindingViewHolder holder, int position) {
+                super.onBindViewHolder(holder, position);
+                holder.viewDataBinding.setVariable(BR.isSwipeEnabled, true);
+            }
+
+            @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.removeFriend:
@@ -108,7 +116,7 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
                 }
             }
         });
-        if(getModel().isBillingInit()){
+        if (getModel().isBillingInit()) {
             if (getModel().isSubscriptionRequired()) {
                 showSubscriptionDialog();
             }

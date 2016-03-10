@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import no.appsonite.gpsping.BR;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentAddFriendBinding;
@@ -15,6 +16,7 @@ import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.AddFriendFragmentViewModel;
+import no.appsonite.gpsping.widget.BindingViewHolder;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
 import rx.Observer;
 
@@ -61,6 +63,13 @@ public class AddFriendFragment extends BaseBindingFragment<FragmentAddFriendBind
                         addFriend((Friend) v.getTag());
                         break;
                 }
+            }
+
+            @Override
+            public void onBindViewHolder(BindingViewHolder holder, int position) {
+                super.onBindViewHolder(holder, position);
+                holder.viewDataBinding.setVariable(BR.isSwipeEnabled, false);
+
             }
         };
         adapter.setItems(model.searchResults);
