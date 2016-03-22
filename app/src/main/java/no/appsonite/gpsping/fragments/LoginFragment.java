@@ -2,7 +2,10 @@ package no.appsonite.gpsping.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import no.appsonite.gpsping.activities.MainActivity;
 import no.appsonite.gpsping.api.content.LoginAnswer;
@@ -58,6 +61,20 @@ public class LoginFragment extends BaseBindingFragment<FragmentLoginBinding, Log
             @Override
             public void onClick(View v) {
                 getBaseActivity().replaceFragment(RestoreFragment.newInstance(), true);
+            }
+        });
+        getBinding().password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getAction() == KeyEvent.ACTION_DOWN &&
+                                event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    startLogin();
+                    Utils.hideKeyboard(getActivity());
+                    return true;
+                }
+                return false;
             }
         });
     }
