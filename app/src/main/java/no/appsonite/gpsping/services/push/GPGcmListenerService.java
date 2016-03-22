@@ -27,7 +27,6 @@ public class GPGcmListenerService extends GcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        super.onMessageReceived(from, data);
         try {
             String type = data.getString("type");
             if (type != null) {
