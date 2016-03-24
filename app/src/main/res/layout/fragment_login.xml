@@ -65,7 +65,6 @@
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:singleLine="true"
-                        app:onActionDone="@{viewModel.passwordDone}"
                         app:twoWayText="@{viewModel.password}" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>

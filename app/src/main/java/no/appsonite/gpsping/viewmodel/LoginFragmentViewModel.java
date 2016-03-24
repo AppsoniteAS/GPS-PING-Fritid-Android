@@ -58,19 +58,4 @@ public class LoginFragmentViewModel extends BaseFragmentViewModel {
         passwordError.set(null);
         return true;
     }
-
-    public TextView.OnEditorActionListener passwordDone = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                    actionId == EditorInfo.IME_ACTION_DONE ||
-                    event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                onLoginClick();
-                return true;
-            }
-            return false;
-        }
-    };
-
 }
