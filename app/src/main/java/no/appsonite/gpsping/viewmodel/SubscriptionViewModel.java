@@ -20,7 +20,8 @@ import rx.subjects.Subject;
  * Date: 19.02.2016
  */
 public class SubscriptionViewModel extends BaseFragmentViewModel implements BillingProcessor.IBillingHandler {
-    private static final String SUBSCRIPTION_ID = "monthsub";
+    private static final String SUBSCRIPTION_ID = "abononnementmnd";
+    //    private static final String SUBSCRIPTION_ID = "monthsub";
     //    private static final String SUBSCRIPTION_ID = "android.test.purchased";
     BillingProcessor billingProcessor;
     private static final String APP_KEY = null;
