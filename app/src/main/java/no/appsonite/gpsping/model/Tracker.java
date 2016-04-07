@@ -4,10 +4,7 @@ package no.appsonite.gpsping.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
-import no.appsonite.gpsping.Application;
-import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.utils.ObservableBoolean;
 import no.appsonite.gpsping.utils.ObservableString;
@@ -27,25 +24,14 @@ public class Tracker implements Serializable {
     @SerializedName("check_for_stand")
     public ObservableBoolean checkForStand = new ObservableBoolean(false);
     @SerializedName("reciver_signal_repeat_time")
-    public ObservableString signalRepeatTime = new ObservableString();
-    public ObservableString signalRepeatTimeMeasurement = new ObservableString();
+    public ObservableString signalRepeatTime = new ObservableString("60");
+
     public android.databinding.ObservableBoolean isEnabled = new android.databinding.ObservableBoolean(false);
     @SerializedName("type")
     public ObservableString type = new ObservableString(Type.TK_STAR.toString());
 
     public android.databinding.ObservableBoolean isRunning = new android.databinding.ObservableBoolean(false);
     public android.databinding.ObservableBoolean isGeofenceRunning = new android.databinding.ObservableBoolean(false);
-
-    public void fixRepeatTime() {
-        long repeatSeconds = Long.parseLong(signalRepeatTime.get());
-        String[] timeArray = Application.getContext().getResources().getStringArray(R.array.receiveSignalTime);
-        if (repeatSeconds % 60 == 0 && Arrays.asList(timeArray).contains(String.valueOf(repeatSeconds / 60))) {
-            signalRepeatTime.set(String.valueOf(repeatSeconds / 60));
-            signalRepeatTimeMeasurement.set("minutes");
-        } else {
-            signalRepeatTimeMeasurement.set("seconds");
-        }
-    }
 
     public enum Type {
         TK_STAR, TK_STAR_PET, TK_ANYWHERE
@@ -61,7 +47,6 @@ public class Tracker implements Serializable {
         imeiNumber.set(tracker.getImeiNumber());
         checkForStand.set(tracker.isCheckForStand());
         signalRepeatTime.set(tracker.getSignalRepeatTime());
-        signalRepeatTimeMeasurement.set(tracker.getSignalRepeatTimeMeasurement());
         isEnabled.set(tracker.isEnabled());
         type.set(tracker.getType());
         isRunning.set(tracker.isRunning());
@@ -69,15 +54,7 @@ public class Tracker implements Serializable {
     }
 
     public long getRepeatTime() {
-        long multiplier = 1;
-        switch (signalRepeatTimeMeasurement.get()) {
-            case "seconds":
-                break;
-            case "minutes":
-                multiplier = 60;
-                break;
-        }
-        return Long.parseLong(signalRepeatTime.get()) * multiplier;
+        return Long.parseLong(signalRepeatTime.get());
     }
 
     @Override

@@ -48,7 +48,6 @@ public class RealmTracker extends RealmObject {
         realmTracker.setCheckForStand(tracker.checkForStand.get());
         realmTracker.setImeiNumber(tracker.imeiNumber.get());
         realmTracker.setSignalRepeatTime(tracker.signalRepeatTime.get());
-        realmTracker.setSignalRepeatTimeMeasurement(tracker.signalRepeatTimeMeasurement.get());
         if(tracker.type == null){
             tracker.type = new ObservableString(Tracker.Type.TK_ANYWHERE.toString());
         }
@@ -179,7 +178,6 @@ public class RealmTracker extends RealmObject {
             trackers.get(0).isEnabled.set(true);
         }
         for (Tracker tracker : trackers) {
-            tracker.fixRepeatTime();
             RealmTracker.add(tracker);
         }
         Realm realm = Realm.getDefaultInstance();

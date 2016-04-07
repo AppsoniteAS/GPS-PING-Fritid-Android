@@ -2,8 +2,10 @@ package no.appsonite.gpsping.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerBinding;
 import no.appsonite.gpsping.model.SMS;
@@ -53,6 +55,31 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
             @Override
             public void onClick(View view) {
                 resetTracker();
+            }
+        });
+        initRepeatTime();
+    }
+
+    private void initRepeatTime() {
+        String repeatTime = getModel().tracker.get().signalRepeatTime.get();
+        final String[] variants = Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
+        int selected = 4;
+        for (int i = 0; i < variants.length; i++) {
+            if (variants[i].equals(repeatTime)) {
+                selected = i;
+                break;
+            }
+        }
+        getBinding().signalTimeSpinner.setSelection(selected);
+        getBinding().signalTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                getModel().tracker.get().signalRepeatTime.set(variants[i]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }

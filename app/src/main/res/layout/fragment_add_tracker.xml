@@ -131,29 +131,11 @@
                             android:layout_weight="1">
 
                             <Spinner
+                                android:id="@+id/signalTimeSpinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:entries="@array/receiveSignalTime"
-                                app:twoWaySpinner="@{viewModel.tracker.signalRepeatTime}" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:layout_gravity="bottom"
-                                android:background="@color/colorAccent" />
-                        </FrameLayout>
-
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="16dp"
-                            android:layout_weight="1">
-
-                            <Spinner
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:entries="@array/receiveSignalMeasure"
-                                app:twoWaySpinner="@{viewModel.tracker.signalRepeatTimeMeasurement}" />
+                                />
 
                             <View
                                 android:layout_width="match_parent"
