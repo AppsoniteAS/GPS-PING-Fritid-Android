@@ -15,7 +15,7 @@ import no.appsonite.gpsping.utils.ObservableString;
  * Company: APPGRANULA LLC
  * Date: 19.01.2016
  */
-public class Friend implements Serializable{
+public class Friend implements Serializable {
     @SerializedName("first_name")
     public ObservableString firstName = new ObservableString();
     @SerializedName("last_name")
@@ -33,8 +33,12 @@ public class Friend implements Serializable{
 
     public String getName() {
         String name;
-        if (TextUtils.isEmpty(firstName.get()))
-            return username.get();
+        if (firstName == null || TextUtils.isEmpty(firstName.get())) {
+            if (username != null) {
+                return username.get();
+            }
+            return "NoName";
+        }
         name = firstName.get();
         if (!TextUtils.isEmpty(lastName.get())) {
             name = name + " " + lastName.get();

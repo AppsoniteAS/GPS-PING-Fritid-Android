@@ -1,8 +1,6 @@
 package no.appsonite.gpsping.viewmodel;
 
-import android.app.Activity;
 import android.databinding.ObservableArrayList;
-import android.support.v7.app.AlertDialog;
 
 import io.realm.Realm;
 import no.appsonite.gpsping.api.ApiFactory;
@@ -91,8 +89,16 @@ public class FriendsFragmentViewModel extends SubscriptionViewModel {
             @Override
             public void onNext(FriendsAnswer friendsAnswer) {
                 friends.clear();
-                friends.addAll(friendsAnswer.getFriends());
-                friends.addAll(friendsAnswer.getRequests());
+                for (Friend friend : friendsAnswer.getFriends()) {
+                    if (friend.username != null) {
+                        friends.add(friend);
+                    }
+                }
+                for (Friend friend : friendsAnswer.getRequests()) {
+                    if (friend.username != null) {
+                        friends.add(friend);
+                    }
+                }
             }
         });
         return observable;

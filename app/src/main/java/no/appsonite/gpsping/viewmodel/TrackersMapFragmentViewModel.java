@@ -94,7 +94,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 you.id.set(profile.id.get());
                 you.firstName.set(Application.getContext().getString(R.string.you));
                 friendList.add(you);
-                friendList.addAll(friendsAnswer.getFriends());
+                for (Friend friend : friendsAnswer.getFriends()) {
+                    if (friend.username != null) {
+                        friendList.add(friend);
+                    }
+                }
+
             }
         });
         return observable;
