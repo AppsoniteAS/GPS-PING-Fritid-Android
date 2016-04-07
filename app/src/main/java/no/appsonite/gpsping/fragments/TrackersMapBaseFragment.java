@@ -42,6 +42,7 @@ import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.RxBus;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
+import no.appsonite.gpsping.widget.Compass;
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -55,6 +56,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private TileOverlay topoWorldOverlay;
     private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
+    private Compass compass;
 
     @Override
     protected String getTitle() {
@@ -256,6 +258,28 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         subscribeOnPoints();
         subscribeOnPois();
+
+        initCompass();
+    }
+
+    private void initCompass() {
+        compass = new Compass(getActivity());
+        compass.arrowView = getBinding().compass;
+        compass.start();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (compass != null)
+            compass.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (compass != null)
+            compass.stop();
     }
 
     private void deletePoi() {
