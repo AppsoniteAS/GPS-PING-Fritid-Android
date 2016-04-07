@@ -114,19 +114,20 @@
         <item>30 seconds</item>
         <item>40 seconds</item>
         <item>50 seconds</item>
-        <item>60 seconds</item>
+        <item>1 minute</item>
         <item>2 minutes</item>
         <item>3 minutes</item>
-        <item>4 minutes</item>
         <item>5 minutes</item>
         <item>7 minutes</item>
         <item>10 minutes</item>
         <item>20 minutes</item>
         <item>30 minutes</item>
+        <item>40 minutes</item>
+        <item>50 minutes</item>
         <item>60 minutes</item>
     </string-array>
 
-    <string-array name="receiveSignalTimeValues">
+    <string-array name="receiveSignalTimeValues" translatable="false">
         <item>20</item>
         <item>30</item>
         <item>40</item>
@@ -134,12 +135,13 @@
         <item>60</item>
         <item>120</item>
         <item>180</item>
-        <item>240</item>
         <item>300</item>
         <item>420</item>
         <item>600</item>
         <item>1200</item>
         <item>1800</item>
+        <item>2400</item>
+        <item>3000</item>
         <item>3600</item>
     </string-array>
 

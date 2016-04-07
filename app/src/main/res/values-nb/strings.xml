@@ -114,17 +114,19 @@
         <item>30 sekunder</item>
         <item>40 sekunder</item>
         <item>50 sekunder</item>
-        <item>60 sekunder</item>
+        <item>1 minutt</item>
         <item>2 minutter</item>
         <item>3 minutter</item>
-        <item>4 minutter</item>
         <item>5 minutter</item>
         <item>7 minutter</item>
         <item>10 minutter</item>
         <item>20 minutter</item>
         <item>30 minutter</item>
+        <item>40 minutter</item>
+        <item>50 minutter</item>
         <item>60 minutter</item>
     </string-array>
+
     <string-array name="receiveSignalMeasure">
         <item>Sekunder</item>
         <item>Minutter</item>
