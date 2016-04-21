@@ -78,6 +78,9 @@
     <string name="friendShipRequest">Venneforespørsel</string>
     <string name="friendShipRequestMessage">%1$s vil være venn med deg. Vennligst bekreft?</string>
     <string name="friendShipRequestNotifyMessage">vil være venn med deg</string>
+    <string name="PUSH_MESSSAGE_FRIEND_REQUEST">%1$s vil være venn med deg</string>
+    <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Hunden din står i stand.</string>
+
     <string name="confirm">Bekreft</string>
     <string name="owner">Eier:</string>
 

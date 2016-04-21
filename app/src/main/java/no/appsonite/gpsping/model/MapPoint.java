@@ -16,7 +16,7 @@ import gov.nasa.worldwind.geom.coords.MGRSCoord;
  * Date: 27.01.2016
  */
 public class MapPoint {
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private Friend user;
     private double lat;
     private double lon;

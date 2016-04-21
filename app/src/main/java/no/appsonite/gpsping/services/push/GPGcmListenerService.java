@@ -3,6 +3,7 @@ package no.appsonite.gpsping.services.push;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -27,17 +28,20 @@ public class GPGcmListenerService extends GcmListenerService {
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        super.onMessageReceived(from, data);
         try {
             String type = data.getString("type");
             if (type != null) {
                 switch (type) {
                     case "friend_request":
                         Friend friend = ApiFactory.getGson().fromJson(data.getString("data"), Friend.class);
-                        showNotify(getString(R.string.friendShipRequestNotifyMessage), friend.getName(),
+                        showNotify(getString(R.string.PUSH_MESSSAGE_FRIEND_REQUEST, friend.getName()), getString(R.string.app_name),
                                 PendingIntent.getActivity(this, REQUEST_FRIENDS, MainActivity.getFriendsIntent(), PendingIntent.FLAG_UPDATE_CURRENT));
                         break;
                     case "device_is_froze":
-                        playStandSound();
+//                        playStandSound();
+                        showNotify(getString(R.string.PUSH_MESSSAGE_CHECK_FOR_STAND), getString(R.string.app_name),
+                                PendingIntent.getActivity(this, 1, new Intent(Application.getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
                         break;
                 }
             }
@@ -70,4 +74,6 @@ public class GPGcmListenerService extends GcmListenerService {
 
         nm.notify(notification_id++, builder.build());
     }
+
+
 }

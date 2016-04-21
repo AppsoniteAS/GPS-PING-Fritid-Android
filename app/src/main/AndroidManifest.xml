@@ -32,6 +32,10 @@
         <!--android:name="com.google.android.geo.API_KEY"-->
         <!--android:value="AIzaSyArhJK4ihoIZER3PVlG5aLX563-i5C8qjI" />-->
 
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyAryS5XJOCNUg1ITia5kDsROi2DauQfsVI" />-->
+
         <activity
             android:name=".activities.LoginActivity"
             android:launchMode="singleTask"

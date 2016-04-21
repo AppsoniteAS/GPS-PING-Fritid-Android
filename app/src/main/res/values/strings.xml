@@ -78,6 +78,8 @@
     <string name="friendShipRequest">Friendship request</string>
     <string name="friendShipRequestMessage">%1$s wants to be friends with you. Do you confirm your friendship?</string>
     <string name="friendShipRequestNotifyMessage">wants to be friends with you</string>
+    <string name="PUSH_MESSSAGE_FRIEND_REQUEST">%1$s wants to be friends with you</string>
+    <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Your tracker is now standing still in the same position.</string>
     <string name="confirm">Confirm</string>
     <string name="owner">Owner:</string>
 

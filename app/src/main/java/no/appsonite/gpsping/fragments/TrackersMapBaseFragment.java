@@ -263,23 +263,23 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void initCompass() {
-        compass = new Compass(getActivity());
-        compass.arrowView = getBinding().compass;
-        compass.start();
+//        compass = new Compass(getActivity());
+//        compass.arrowView = getBinding().compass;
+//        compass.start();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (compass != null)
-            compass.start();
+//        if (compass != null)
+//            compass.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (compass != null)
-            compass.stop();
+//        if (compass != null)
+//            compass.stop();
     }
 
     private void deletePoi() {
