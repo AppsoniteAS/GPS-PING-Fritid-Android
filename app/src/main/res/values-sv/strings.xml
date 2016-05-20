@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GPS Ping</string>
+    <string name="login">Logga in</string>
+    <string name="userName">Användarnamn</string>
+    <string name="register">Registrera</string>
+    <string name="password">Lösenord</string>
+    <string name="loginCanNotBeEmpty">Användarnamn måste fyllas i </string>
+    <string name="passwordCanNotBeEmpty">Lösenord måste fyllas i </string>
+    <string name="email">E-postadress</string>
+    <string name="confirmPassword">Bekräfta lösenord</string>
+    <string name="emailCanNotBeEmpty">E-postadress måste fyllas i </string>
+    <string name="passwordNotConfirmed">Lösenorden matchar inte </string>
+    <string name="activeTracker">Aktiverad GPS-spårare:</string>
+    <string name="start">Starta GPS-spåraren</string>
+    <string name="stop">Stoppa GPS-spåraren</string>
+    <string name="mapAndTracking">Karta och GPS-spårning</string>
+    <string name="history">Historik</string>
+    <string name="settings">Inställningar</string>
+    <string name="trackers">GPS-spårare</string>
+    <string name="connect">Anslut</string>
+    <string name="geofence">Geostaket</string>
+    <string name="profile">Profil</string>
+    <string name="about">Om</string>
+    <string name="visitWebsite">Besök vår hemsida</string>
+    <string name="contactUs">Kontakta oss</string>
+    <string name="aboutApp">Om appen</string>
+    <string name="youCanOrder">Du kan beställa GPS-spårare genom att klicka på Kontakta oss-knappen </string>
+    <string name="geofenceDesc">Skriv in antal meter i diameter för geostaketet. <b>Glöm inte att stänga av geostaketet när du stoppar. </b></string>
+    <string name="yards">Meter</string>
+    <string name="phoneNumber">Telefonnummer</string>
+    <string name="save">Spara</string>
+    <string name="phoneNumberCanNotBeEmpty">Telefonnummer måste fyllas i </string>
+    <string name="yardsCanNotBeEmpty"> Antal fyllas i meter måste</string>
+    <string name="logout">Logga ut</string>
+    <string name="chooseTracker">Välj GPS-spårare</string>
+    <string name="addTracker">Lägg till GPS-spårare</string>
+    <string name="tracker">GPS-spårare</string>
+    <string name="name">Namn</string>
+    <string name="imeiNumber">IMEI-nummer</string>
+    <string name="trackerNumber">Nummer på GPS-spåraren </string>
+    <string name="addTrackerButton">Lägg till GPS-spårare</string>
+    <string name="signal">Signal</string>
+    <string name="receiveSignalEvery">Ta emot signal varje</string>
+    <string name="checkThisDog">Kolla här för  hundar.</string>
+    <string name="trackerNameCanNotBeEmpty">Namn på GPS-spåraren måste fyllas i </string>
+    <string name="imeiCanNotBeEmpty">IMEI-nummer måste fyllas i </string>
+    <string name="trackerNumberCanNotBeEmpty">Nummer på GPS-spåraren måste fyllas i </string>
+    <string name="trackerNumberN">Nummer på GPS-spåraren:\t\t%1$s</string>
+    <string name="trackerImeiN">IMEI-nummer:\t\t\t%1$s</string>
+    <string name="removeTracker">Ta bort GPS-spåraren</string><string name="aboutAppText">
+	        Om appen\n\nMed den här appen kan du se en GPS-enhets position. \n\n Innan du börjar, gå till inställningar och skriv in IMEI-nummer och GPS-spårarens nummer. Välj intervall för signal. Klicka på Spara och gå tillbaka till huvudmenyn för att starta GPS-spåraren. \n\n Klicka Starta GPS-spåraren för att sätta igång GPS-signalen. Du får ett sms från GPS-spåraren när den sänder. En grön triangel visar GPS-spårarens senaste position. \n\n Tidigare positioner visas i form av gröna cirklar. \n\n
+	    </string>
+    <string name="editTracker">Redigera GPS-spåraren</string>
+    <string name="update">Uppdatera</string>
+    <string name="friends">Vänner</string>
+    <string name="addFriend">Lägg till vän</string>
+    <string name="removeFriend">Ta bort vän\avvänna</string>
+    <string name="search">Sök</string>
+    <string name="selectTracker">Välj GPS-spårare som du vill aktivera:</string>
+    <string name="wait">Vänta…</string>
+    <string name="nameCanNotBeEmpty">Namn måste fyllas i </string>
+    <string name="fullName">Fullständigt namn</string>
+    <string name="satellite">Satellit</string>
+    <string name="standard">Standard</string>
+    <string name="topo">Topografi</string>
+    <string name="photo">Foto</string>
+    <string name="removeTracks">Ta bort spår</string>
+    <string name="map">Karta</string>
+    <string name="all">Alla</string>
+    <string name="notify_photo_title">Foto</string>
+    <string name="notify_photo_text">GPS Ping</string>
+    <string name="profileSaved">Uppdateringen av profilen lyckades</string>
+    <string name="smsAlertDialogTitle">sms</string>
+    <string name="smsAlertDialogMessage">Ett sms kommer skickas till din GPS-spårare </string>
+    <string name="trackerUpdated">Uppdateringen av GPS-spåraren lyckades </string>
+    <string name="locationMessage">Spåra plats</string>
+    <string name="friendShipRequest">Vänförfrågan</string>
+    <string name="friendShipRequestMessage">%1$s vill bli vän med dig. Bekräfta vänförfrågan? </string>
+    <string name="friendShipRequestNotifyMessage">vill bli vän med dig </string>
+    <string name="PUSH_MESSSAGE_FRIEND_REQUEST">%1$s vill bli vän med dig </string>
+    <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Din GPS-spårare står nu stilla i samma position.</string>
+    <string name="confirm">Bekräfta</string>
+    <string name="owner">Ägare:</string>
+
+
+    <string name="trackerNumberNMap">Nummer på GPS-spåraren:\t%1$s</string>
+    <string name="trackerImeiNMap">IMEI-nummer:\t\t\t%1$s</string>
+    <string name="logTimeNMap">Loggningstid:\t\t\t\t%1$s</string>
+    <string name="latNMap">Latitud:\t\t\t%1$s</string>
+    <string name="lonNMap">Longitud:\t\t\t%1$s</string>
+    <string name="grsmNMap">GSM:\t%1$s</string>
+    <string name="you">Din position</string>
+    <string name="distanceKm">%1$s km</string>
+    <string name="distanceM">%1$s m</string>
+    <string name="restore">Återställ</string>
+    <string name="passwordRestoreDesc">Fyll i din e-postadress så skickar vi instruktioner om hur du återställer ditt lösenord </string>
+    <string name="emailSent">En länk som du kan använder för att återställa ditt lösenord har skickats till dig. Kolla dina mejl. </string>
+    <string name="forgetYourPassword"><u>Har du glömt ditt lösenord? </u></string>
+    <string name="editPoi"><u>Redigera intressepunkt </u></string>
+    <string name="editPoiTitle"> Redigera intressepunkt </string>
+    <string name="createPoiTitle">Skapa intressepunkt</string>
+    <string name="deletePoi"><u>Ta bort intressepunkt</u></string>
+    <string name="displayOptions">Visa alternativ</string>
+    <string name="showOnMapTracker">Visa GPS-spårarens position på kartan under:</string>
+    <string name="trackingHistory">Spårningshistorik</string>
+    <string name="poiName">Namn på intressepunkt </string>
+    <string name="poiNameCanNotBeEmpty">Namn på intressepunkt måste fyllas i </string>
+    <string name="areYouSureRemovePoi">Är du säker på att du vill ta bort den här intressepunkten?</string>
+    <string name="removePoiTitle">Ta bort intressepunkt</string>
+    <string name="remove">Ta bort</string>
+    <string name="friendsRequiresSubscription">För att använda den här funktionen måste du först lägga till din GPS-spårare eller beställa en årsprenumeration.</string>
+    <string name="buySubscription">Beställ prenumeration</string>
+    <string name="reset">Återställ</string>
+    <string-array name="receiveSignalTime">
+        <item>20 sekunder</item>
+        <item>30 sekunder</item>
+        <item>40 sekunder</item>
+        <item>50 sekunder</item>
+        <item>1 minut</item>
+        <item>2 minuter</item>
+        <item>3 minuter</item>
+        <item>5 minuter</item>
+        <item>7 minuter</item>
+        <item>10 minuter</item>
+        <item>20 minuter</item>
+        <item>30 minuter</item>
+        <item>40 minuter</item>
+        <item>50 minuter</item>
+        <item>60 minuter</item>
+    </string-array>
+
+
+    <string-array name="receiveSignalMeasure">
+        <item>Sekunder</item>
+        <item>Minuter</item>
+    </string-array>
+    <string-array name="showDuring">
+        <item>10 minuter</item>
+        <item>15 minuter</item>
+        <item>30 minuter</item>
+        <item>60 minuter</item>
+    </string-array>
+
+
+</resources>
+

@@ -18,14 +18,15 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
+
 
     defaultConfig {
         multiDexEnabled true
         applicationId "no.appsonite.gpsping"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 23
+        versionCode 24
         versionName "1.0"
     }
     dataBinding {
@@ -45,8 +46,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -60,7 +61,7 @@ dependencies {
 
 
     compile 'org.slf4j:slf4j-simple:1.6.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.3.0'
     compile 'info.hoang8f:android-segmented:1.0.6'
     compile 'com.p_v:flexiblecalendar:1.1.4'
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
