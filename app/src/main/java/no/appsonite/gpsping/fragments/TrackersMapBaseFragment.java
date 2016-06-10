@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
@@ -41,6 +42,7 @@ import no.appsonite.gpsping.services.LocationMapService;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.RxBus;
 import no.appsonite.gpsping.utils.Utils;
+import no.appsonite.gpsping.utils.map.WMSTileProvider;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
 import no.appsonite.gpsping.widget.Compass;
 import rx.Subscription;
@@ -54,6 +56,7 @@ import rx.functions.Action1;
 public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseMapFragment<FragmentTrackersMapBinding, T> implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
+    private TileOverlay topoSwedenOverlay;
     private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
     private Compass compass;
@@ -69,6 +72,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         }
         if (topoWorldOverlay != null) {
             topoWorldOverlay.remove();
+        }
+        if (topoSwedenOverlay != null) {
+            topoSwedenOverlay.remove();
         }
     }
 
@@ -103,8 +109,32 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
             }
         });
-        norwayOptions.zIndex(6);
+        norwayOptions.zIndex(7);
         topoNorwayOverlay = map.addTileOverlay(norwayOptions);
+
+        TileOverlayOptions swedenOptions = new TileOverlayOptions();
+        swedenOptions.tileProvider(new WMSTileProvider(256, 256) {
+            final String URL = "http://industri.gpsping.no:5057/service?LAYERS=sweden&FORMAT=image/png&" +
+                    "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
+                    "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
+                    "BBOX=%f,%f,%f,%f&" +
+                    "WIDTH=256&HEIGHT=256";
+            @Override
+            public URL getTileUrl(int x, int y, int zoom) {
+                double[] bbox = getBoundingBox(x, y, zoom);
+                String s = String.format(Locale.US, URL, bbox[MINX],
+                        bbox[MINY], bbox[MAXX], bbox[MAXY]);
+                URL url = null;
+                try {
+                    url = new URL(s);
+                } catch (MalformedURLException e) {
+                    throw new AssertionError(e);
+                }
+                return url;
+            }
+        });
+        swedenOptions.zIndex(6);
+//        topoSwedenOverlay = map.addTileOverlay(swedenOptions);
     }
 
 
@@ -335,7 +365,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                     markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
                             .position(mapPoint.getLatLng())
                             .icon((
-                                            MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
+                                    MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
                             )), mapPoint);
                 } else {
                     markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
@@ -467,7 +497,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                     getMap().addMarker(new MarkerOptions()
                             .position(poi.getLatLng())
                             .icon((
-                                            MarkerHelper.getPoiBitmapDescriptor(poi.getUser()))
+                                    MarkerHelper.getPoiBitmapDescriptor(poi.getUser()))
                             ))
                     , poi);
         }
