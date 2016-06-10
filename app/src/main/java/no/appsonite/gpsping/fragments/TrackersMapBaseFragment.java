@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -34,6 +35,7 @@ import java.util.Locale;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
@@ -119,6 +121,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
                     "BBOX=%f,%f,%f,%f&" +
                     "WIDTH=256&HEIGHT=256";
+
             @Override
             public URL getTileUrl(int x, int y, int zoom) {
                 double[] bbox = getBoundingBox(x, y, zoom);
@@ -373,9 +376,16 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                             .icon((
                                     mapPoint.isLast() ? MarkerHelper.getTrackerBitmapDescriptor(mapPoint.getUser()) : MarkerHelper.getTrackerHistoryBitmapDescriptor(mapPoint.getUser())
                             ))), mapPoint);
+                    try {
+                        if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
+                            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
+                        }
+                    } catch (Exception ignore) {
+
+                    }
+
                 }
             }
-//            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoints.get(mapPoints.size() - 1).getLatLng(), 15));
         }
     }
 

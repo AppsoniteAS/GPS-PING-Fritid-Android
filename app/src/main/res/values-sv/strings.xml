@@ -12,8 +12,8 @@
     <string name="emailCanNotBeEmpty">E-postadress måste fyllas i </string>
     <string name="passwordNotConfirmed">Lösenorden matchar inte </string>
     <string name="activeTracker">Aktiverad GPS-spårare:</string>
-    <string name="start">Starta GPS-spåraren</string>
-    <string name="stop">Stoppa GPS-spåraren</string>
+    <string name="start">Starta</string>
+    <string name="stop">Stoppa</string>
     <string name="mapAndTracking">Karta och GPS-spårning</string>
     <string name="history">Historik</string>
     <string name="settings">Inställningar</string>
