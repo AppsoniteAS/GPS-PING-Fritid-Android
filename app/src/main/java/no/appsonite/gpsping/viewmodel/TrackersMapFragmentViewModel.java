@@ -214,6 +214,17 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                     devicePoints.add(mapPoint);
                     mapPoints.add(mapPoint);
                 }
+                try {
+                    if (devicePoints.isEmpty()) {
+                        MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevicePoints.getDevice().getLastLat(), geoDevicePoints.getDevice().getLastLon(),
+                                geoDevicePoints.getDevice().getName(), geoDevicePoints.getDevice().getImeiNumber(), geoDevicePoints.getDevice().getTrackerNumber(),
+                                geoDevicePoints.getDevice().getLastTimestamp());
+                        devicePoints.add(mapPoint);
+                        mapPoints.add(mapPoint);
+                    }
+                } catch (Exception ignore) {
+
+                }
                 if (mapPoints.size() > 0) {
                     mapPoints.get(mapPoints.size() - 1).setLast(true);
                 }
