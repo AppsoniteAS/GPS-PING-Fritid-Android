@@ -59,6 +59,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
+    private TileOverlay topoFinnishOverlay;
+    private TileOverlay topoDanishOverlay;
     private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
     private Compass compass;
@@ -78,6 +80,13 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (topoSwedenOverlay != null) {
             topoSwedenOverlay.remove();
         }
+        if (topoFinnishOverlay != null) {
+            topoFinnishOverlay.remove();
+        }
+        if (topoDanishOverlay != null) {
+            topoDanishOverlay.remove();
+        }
+
     }
 
     private void showTopo() {
@@ -116,7 +125,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         TileOverlayOptions swedenOptions = new TileOverlayOptions();
         swedenOptions.tileProvider(new WMSTileProvider(256, 256) {
-            final String URL = "http://industri.gpsping.no:5057/service?LAYERS=sweden&FORMAT=image/png&" +
+            final String URL = "http://industri.gpsping.no:6057/service?LAYERS=sweden&FORMAT=image/png&" +
                     "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
                     "BBOX=%f,%f,%f,%f&" +
@@ -138,6 +147,66 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
         swedenOptions.zIndex(6);
         topoSwedenOverlay = map.addTileOverlay(swedenOptions);
+
+        TileOverlayOptions finnishOptions = new TileOverlayOptions();
+        finnishOptions.tileProvider(new UrlTileProvider(256, 256) {
+            @Override
+            public URL getTileUrl(int x, int y, int zoom) {
+                int oymZ = 18 - zoom;
+                int oymX = (int) (x - Math.pow(2, zoom));
+                int oymY = (int) (Math.pow(2, zoom) - 1 - y);
+                try {
+                    return new URL(String.format("https://t3-kartta.fonecta.fi/oym?f=m&ft=png_std_256&x=%d&y=%d&z=%d&key=FO1349G5NGDTJ52H913SFRK63924", oymX, oymY, oymZ));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
+        finnishOptions.zIndex(10);
+//        topoFinnishOverlay = map.addTileOverlay(finnishOptions);
+
+        TileOverlayOptions danishOptions = new TileOverlayOptions();
+        danishOptions.tileProvider(new WMSTileProvider(256, 256) {
+//            final String URL = "http://services.kortforsyningen.dk/service?servicename=topo_skaermkort&service=WMS&version=1.1.1&request=GetMap" +
+//                    "&LAYERS=dtk_skaermkort_774&srs=EPSG:3857&" +
+//                    "bbox=%f,%f,%f,%f&" +
+//                    "width=256&height=256&format=image/png&" +
+//                    "styles=default&bgcolor=0xff0000&transparent=TRUE&" +
+//                    "ignoreillegallayers=TRUE&exceptions=application/vnd.ogc.se_inimage&" +
+//                    "login=kms1&password=adgang";
+
+//            final String URL = "http://services.kortforsyningen.dk/service?servicename=topo25&service=WMS&version=1.1.1&request=GetMap" +
+//                    "&LAYERS=topo25_graa&srs=EPSG:3857&" +
+//                    "bbox=%f,%f,%f,%f&" +
+//                    "width=256&height=256&format=image/png&" +
+//                    "styles=default&bgcolor=0xffffff&transparent=TRUE&" +
+//                    "ignoreillegallayers=TRUE&exceptions=application/vnd.ogc.se_inimage&" +
+//                    "login=kms1&password=adgang";
+
+            final String URL = "http://kortforsyningen.kms.dk/topo100?LAYERS=dtk_1cm&FORMAT=image/png&" +
+                    "BGCOLOR=0xFFFFFF&TICKET=8b4e36fe4c851004fd1e69463fbabe3b&PROJECTION=EPSG:3857&" +
+                    "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&" +
+                    "STYLES=&SRS=EPSG:3857&" +
+                    "BBOX=%f,%f,%f,%f&" +
+                    "WIDTH=256&HEIGHT=256";
+
+            @Override
+            public URL getTileUrl(int x, int y, int zoom) {
+                double[] bbox = getBoundingBox(x, y, zoom);
+                String s = String.format(Locale.US, URL, bbox[MINX],
+                        bbox[MINY], bbox[MAXX], bbox[MAXY]);
+                URL url = null;
+                try {
+                    url = new URL(s);
+                } catch (MalformedURLException e) {
+                    throw new AssertionError(e);
+                }
+                return url;
+            }
+        });
+        danishOptions.zIndex(10);
+        topoDanishOverlay = map.addTileOverlay(danishOptions);
     }
 
 
