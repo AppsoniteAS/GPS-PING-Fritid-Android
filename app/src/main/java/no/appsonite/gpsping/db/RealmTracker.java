@@ -30,6 +30,9 @@ public class RealmTracker extends RealmObject {
     private String type;
     private boolean isRunning;
     private boolean isGeofenceRunning;
+    private boolean ledActive;
+    private boolean shockAlarmActive;
+    private boolean shockFlashActive;
 
     public boolean isGeofenceRunning() {
         return isGeofenceRunning;
@@ -48,11 +51,14 @@ public class RealmTracker extends RealmObject {
         realmTracker.setCheckForStand(tracker.checkForStand.get());
         realmTracker.setImeiNumber(tracker.imeiNumber.get());
         realmTracker.setSignalRepeatTime(tracker.signalRepeatTime.get());
-        if(tracker.type == null){
+        if (tracker.type == null) {
             tracker.type = new ObservableString(Tracker.Type.TK_ANYWHERE.toString());
         }
         realmTracker.setType(tracker.type.get());
         realmTracker.setIsEnabled(tracker.isEnabled.get());
+        realmTracker.setLedActive(tracker.ledActive.get());
+        realmTracker.setShockAlarmActive(tracker.shockAlarmActive.get());
+        realmTracker.setShockFlashActive(tracker.shockFlashActive.get());
     }
 
     public static void requestTrackersFromRealm(final List<Tracker> result) {
@@ -140,6 +146,30 @@ public class RealmTracker extends RealmObject {
 
     public void setSignalRepeatTimeMeasurement(String signalRepeatTimeMeasurement) {
         this.signalRepeatTimeMeasurement = signalRepeatTimeMeasurement;
+    }
+
+    public boolean isShockAlarmActive() {
+        return shockAlarmActive;
+    }
+
+    public void setShockAlarmActive(boolean shockAlarmActive) {
+        this.shockAlarmActive = shockAlarmActive;
+    }
+
+    public boolean isLedActive() {
+        return ledActive;
+    }
+
+    public void setLedActive(boolean ledActive) {
+        this.ledActive = ledActive;
+    }
+
+    public boolean isShockFlashActive() {
+        return shockFlashActive;
+    }
+
+    public void setShockFlashActive(boolean shockFlashActive) {
+        this.shockFlashActive = shockFlashActive;
     }
 
     public boolean isEnabled() {

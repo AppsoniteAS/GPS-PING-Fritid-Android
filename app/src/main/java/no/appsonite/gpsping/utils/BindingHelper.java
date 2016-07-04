@@ -24,6 +24,8 @@ public class BindingHelper {
                     return R.drawable.image_tk_star_normal;
                 case TK_STAR_PET:
                     return R.drawable.image_tk_star_pet_normal;
+                case TK_BIKE:
+                    return R.drawable.image_tk_bike;
             }
         } catch (Exception e) {
             return 0;

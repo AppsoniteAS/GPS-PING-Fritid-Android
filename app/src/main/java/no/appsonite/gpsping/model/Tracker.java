@@ -30,11 +30,15 @@ public class Tracker implements Serializable {
     @SerializedName("type")
     public ObservableString type = new ObservableString(Type.TK_STAR.toString());
 
+    public android.databinding.ObservableBoolean ledActive = new android.databinding.ObservableBoolean(false);
+    public android.databinding.ObservableBoolean shockAlarmActive = new android.databinding.ObservableBoolean(false);
+    public android.databinding.ObservableBoolean shockFlashActive = new android.databinding.ObservableBoolean(false);
+
     public android.databinding.ObservableBoolean isRunning = new android.databinding.ObservableBoolean(false);
     public android.databinding.ObservableBoolean isGeofenceRunning = new android.databinding.ObservableBoolean(false);
 
     public enum Type {
-        TK_STAR, TK_STAR_PET, TK_ANYWHERE
+        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE
     }
 
     public Tracker() {
