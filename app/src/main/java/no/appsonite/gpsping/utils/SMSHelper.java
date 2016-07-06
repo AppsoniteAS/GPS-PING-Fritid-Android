@@ -20,7 +20,7 @@ public class SMSHelper {
     public static final int REQUEST_SMS_SENT = 12;
     public static final String EXTRA_NUMBER = "extra_number";
     public static final String EXTRA_MSG = "extra_msg";
-    private static final boolean DEBUG = true;//BuildConfig.DEBUG;
+    private static final boolean DEBUG = false;//BuildConfig.DEBUG;
 
     public static void sendSMS(Activity activity, SMS sms) {
         Intent intent = new Intent(activity, activity.getClass());
