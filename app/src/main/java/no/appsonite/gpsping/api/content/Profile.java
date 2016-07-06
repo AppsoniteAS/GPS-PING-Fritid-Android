@@ -23,7 +23,9 @@ public class Profile {
     @SerializedName("lastname")
     public ObservableString lastName = new ObservableString();
     public ObservableLong id = new ObservableLong();
+    @SerializedName("Phone_pref")
     public ObservableString phoneCode = new ObservableString("+");
+    @SerializedName("Phone_num")
     public ObservableString phoneNumber = new ObservableString();
 
     public Profile() {

@@ -39,6 +39,8 @@ public class AuthHelper {
                                 profile.firstName.get(),
                                 profile.lastName.get(),
                                 profile.displayname.get(),
+                                profile.phoneCode.get(),
+                                profile.phoneNumber.get(),
                                 nonceAnswer.getNonce().get()
                         );
                     }
@@ -58,6 +60,8 @@ public class AuthHelper {
         HashMap<String, String> params = new HashMap<>();
         params.put("first_name", profile.firstName.get());
         params.put("last_name", profile.lastName.get());
+        params.put("Phone_pref", profile.phoneCode.get());
+        params.put("Phone_num", profile.phoneNumber.get());
         return Observable.from(params.entrySet())
                 .flatMap(new Func1<Map.Entry<String, String>, Observable<ApiAnswer>>() {
                     @Override

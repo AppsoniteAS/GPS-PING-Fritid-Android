@@ -76,6 +76,9 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public void onViewCreated() {
         super.onViewCreated();
         Profile profile = AuthHelper.getCredentials().getUser();
+        if (TextUtils.isEmpty(profile.phoneCode.get())) {
+            profile.phoneCode.set("+");
+        }
         profile.displayname.set(profile.firstName.get() + " " + profile.lastName.get());
         this.profile.set(profile);
     }
