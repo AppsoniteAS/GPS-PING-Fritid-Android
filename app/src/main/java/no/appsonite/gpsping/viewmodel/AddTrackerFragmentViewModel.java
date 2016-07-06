@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit;
 import io.realm.Realm;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
@@ -27,7 +29,10 @@ import rx.schedulers.Schedulers;
  * Date: 18.01.2016
  */
 public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
-    private static final String TRACCAR_IP = "52.49.162.223";
+    //fritid
+//    private static final String TRACCAR_IP = "52.49.162.223";
+    //industri
+    private static final String TRACCAR_IP = "52.51.183.199";
     public ObservableField<Tracker> tracker = new ObservableField<>();
     public ObservableString nameError = new ObservableString();
     public ObservableString imeiNumberError = new ObservableString();
@@ -200,24 +205,40 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private ArrayList<SMS> getSMSes(String address) {
+
         ArrayList<SMS> smses = new ArrayList<>();
         String trackerNumber = tracker.get().trackerNumber.get();
-        smses.add(new SMS(trackerNumber, "Begin123456"));
-        smses.add(new SMS(trackerNumber, "gprs123456"));
-        smses.add(new SMS(trackerNumber, "apn123456 netcom"));
+        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+//        smses.add(new SMS(trackerNumber, "Begin123456"));
+//        smses.add(new SMS(trackerNumber, "gprs123456"));
+//        smses.add(new SMS(trackerNumber, "apn123456 netcom"));
         switch (Tracker.Type.valueOf(tracker.get().type.get())) {
             case TK_ANYWHERE:
                 //46.137.82.251
-                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5000", address)));
-                break;
+//                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5000", address)));
+//                break;
             case TK_STAR:
             case TK_STAR_PET:
+                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get(), loginAnswer.getUser().phoneNumber.get())));
+                smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                 smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
+                smses.add(new SMS(trackerNumber, "gprs123456"));
+                smses.add(new SMS(trackerNumber, "sleep123456 off"));
+//                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
                 break;
             case TK_BIKE:
+//                admin123456 00+countrycode+phonenumber
+//                apn123456 internet.ts.m2m
+//                adminip123456 52.49.162.223 5093
+//                gprs123456
+//                sleep123456 off
+                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get(), loginAnswer.getUser().phoneNumber.get())));
+                smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
+                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
+                smses.add(new SMS(trackerNumber, "gprs123456"));
+                smses.add(new SMS(trackerNumber, "sleep123456 off"));
                 break;
         }
-        smses.add(new SMS(trackerNumber, "sleep123456 off"));
         return smses;
     }
 

@@ -112,6 +112,21 @@
     <string name="friendsRequiresSubscription">To use this action you should add your tracker first or buy annual subscription.</string>
     <string name="buySubscription">Buy subscription</string>
     <string name="reset">Reset</string>
+    <string name="bikeTracking">Bike Tracking</string>
+    <string name="ledLight">LED Light</string>
+    <string name="active">Active</string>
+    <string name="turnOff">Turn Off</string>
+    <string name="turnOn">Turn On</string>
+    <string name="inactive">Inactive</string>
+    <string name="shockAlarm">Shock Alarm</string>
+    <string name="shockFlashAlarm">Shock Flash Alarm</string>
+    <string name="code">Code</string>
+    <string name="phoneCodeCanNotBeEmpty">Phone code can not be empty</string>
+    <string name="pinCode">PIN Code</string>
+    <string name="pinCodeLengthError">Input %1$s characters PIN code</string>
+    <string name="trackerPinCode">Tracker PIN Code</string>
+    <string name="last4DigitsError">Input tracker number last 4 digits</string>
+    <string name="trackerLast4Digits">Tracker number last 4 digits</string>
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
         <item>30 sekunder</item>

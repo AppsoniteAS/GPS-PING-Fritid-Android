@@ -206,7 +206,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
         danishOptions.zIndex(10);
-        topoDanishOverlay = map.addTileOverlay(danishOptions);
+//        topoDanishOverlay = map.addTileOverlay(danishOptions);
     }
 
 
