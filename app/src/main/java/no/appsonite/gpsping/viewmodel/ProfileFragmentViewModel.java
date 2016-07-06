@@ -22,7 +22,8 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<String> usernameError = new ObservableField<>();
     public ObservableField<String> fullNameError = new ObservableField<>();
     public ObservableField<String> emailError = new ObservableField<>();
-
+    public ObservableField<String> phoneCodeError = new ObservableField<>();
+    public ObservableField<String> phoneNumberError = new ObservableField<>();
 
     public Observable<ApiAnswer> onSaveClick() {
         if (validateData()) {
@@ -98,6 +99,19 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
             return false;
         }
         emailError.set(null);
+
+        if (profile.get().phoneCode.get().length() < 2) {
+            phoneCodeError.set(getContext().getString(R.string.phoneCodeCanNotBeEmpty));
+            return false;
+        }
+        phoneCodeError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().phoneNumber.get())) {
+            phoneNumberError.set(getContext().getString(R.string.phoneNumberCanNotBeEmpty));
+            return false;
+        }
+        phoneNumberError.set(null);
+
         return true;
     }
 }

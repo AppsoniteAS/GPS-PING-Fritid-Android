@@ -94,6 +94,51 @@
                             android:singleLine="true"
                             app:twoWayText="@{viewModel.profile.email}" />
                     </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="72dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:error="@{viewModel.phoneCodeError}">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/code"
+                                android:imeOptions="actionNext"
+                                android:singleLine="true"
+                                android:maxLength="4"
+                                android:inputType="number"
+                                android:digits="0123456789+"
+                                android:text="+"
+                                app:twoWayText="@{viewModel.profile.phoneCode}" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:error="@{viewModel.phoneNumberError}">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/phoneNumber"
+                                android:imeOptions="actionNext"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="10"
+                                app:twoWayText="@{viewModel.profile.phoneNumber}" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <TextView

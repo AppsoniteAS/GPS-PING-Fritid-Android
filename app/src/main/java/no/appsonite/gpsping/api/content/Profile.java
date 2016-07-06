@@ -23,6 +23,8 @@ public class Profile {
     @SerializedName("lastname")
     public ObservableString lastName = new ObservableString();
     public ObservableLong id = new ObservableLong();
+    public ObservableString phoneCode = new ObservableString("+");
+    public ObservableString phoneNumber = new ObservableString();
 
     public Profile() {
         super();
@@ -59,5 +61,16 @@ public class Profile {
                 displayname.set(firstName.get() + " " + lastName.get());
             }
         }
+
+        phoneCode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                String code = phoneCode.get();
+                if (code.lastIndexOf("+") > 0 || code.lastIndexOf("+") == -1) {
+                    String result = code.replace("+", "");
+                    phoneCode.set("+" + result);
+                }
+            }
+        });
     }
 }

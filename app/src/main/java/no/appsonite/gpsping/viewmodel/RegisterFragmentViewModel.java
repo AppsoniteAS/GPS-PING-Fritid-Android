@@ -26,6 +26,9 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<String> passwordError = new ObservableField<>();
     public ObservableField<String> passwordRepeatError = new ObservableField<>();
 
+    public ObservableField<String> phoneCodeError = new ObservableField<>();
+    public ObservableField<String> phoneNumberError = new ObservableField<>();
+
     public Observable<LoginAnswer> onRegisterClick() {
         if (validateData()) {
             Observable<LoginAnswer> observable = execute(AuthHelper.register(profile.get())).cache();
@@ -70,6 +73,18 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
             return false;
         }
         emailError.set(null);
+
+        if (profile.get().phoneCode.get().length() < 2) {
+            phoneCodeError.set(getContext().getString(R.string.phoneCodeCanNotBeEmpty));
+            return false;
+        }
+        phoneCodeError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().phoneNumber.get())) {
+            phoneNumberError.set(getContext().getString(R.string.phoneNumberCanNotBeEmpty));
+            return false;
+        }
+        phoneNumberError.set(null);
 
         if (TextUtils.isEmpty(profile.get().password.get())) {
             passwordError.set(getContext().getString(R.string.passwordCanNotBeEmpty));

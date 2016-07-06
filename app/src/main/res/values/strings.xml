@@ -119,6 +119,13 @@
     <string name="inactive">Inactive</string>
     <string name="shockAlarm">Shock Alarm</string>
     <string name="shockFlashAlarm">Shock Flash Alarm</string>
+    <string name="code">Code</string>
+    <string name="phoneCodeCanNotBeEmpty">Phone code can not be empty</string>
+    <string name="pinCode">PIN Code</string>
+    <string name="pinCodeLengthError">Input %1$s characters PIN code</string>
+    <string name="trackerPinCode">Tracker PIN Code</string>
+    <string name="last4DigitsError">Input tracker number last 4 digits</string>
+    <string name="trackerLast4Digits">Tracker number last 4 digits</string>
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>
         <item>30 seconds</item>
