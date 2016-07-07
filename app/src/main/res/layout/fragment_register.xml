@@ -135,6 +135,70 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        app:error="@{viewModel.addressError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/address"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPostalAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.address}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.cityError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/city"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPostalAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.city}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.countryError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/country"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPostalAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.country}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.zipCodeError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/zipCode"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.zipCode}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         app:error="@{viewModel.passwordError}">
 
                         <EditText
@@ -166,6 +230,7 @@
 
                 <TextView
                     android:id="@+id/registerButton"
+                    android:layout_marginBottom="24dp"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/register" />

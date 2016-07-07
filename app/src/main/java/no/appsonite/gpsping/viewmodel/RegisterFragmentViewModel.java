@@ -28,6 +28,10 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
 
     public ObservableField<String> phoneCodeError = new ObservableField<>();
     public ObservableField<String> phoneNumberError = new ObservableField<>();
+    public ObservableField<String> addressError = new ObservableField<>();
+    public ObservableField<String> cityError = new ObservableField<>();
+    public ObservableField<String> countryError = new ObservableField<>();
+    public ObservableField<String> zipCodeError = new ObservableField<>();
 
     public Observable<LoginAnswer> onRegisterClick() {
         if (validateData()) {
@@ -85,6 +89,30 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
             return false;
         }
         phoneNumberError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().address.get())) {
+            addressError.set(getContext().getString(R.string.addressCanNotBeEmpty));
+            return false;
+        }
+        addressError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().city.get())) {
+            cityError.set(getContext().getString(R.string.cityCanNotBeEmpty));
+            return false;
+        }
+        cityError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().country.get())) {
+            countryError.set(getContext().getString(R.string.countryCanNotBeEmpty));
+            return false;
+        }
+        countryError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().zipCode.get())) {
+            zipCodeError.set(getContext().getString(R.string.zipCodeCanNotBeEmpty));
+            return false;
+        }
+        zipCodeError.set(null);
 
         if (TextUtils.isEmpty(profile.get().password.get())) {
             passwordError.set(getContext().getString(R.string.passwordCanNotBeEmpty));

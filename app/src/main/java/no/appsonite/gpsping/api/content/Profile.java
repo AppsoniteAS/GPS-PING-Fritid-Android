@@ -27,6 +27,14 @@ public class Profile {
     public ObservableString phoneCode = new ObservableString("+");
     @SerializedName("Phone_num")
     public ObservableString phoneNumber = new ObservableString();
+    @SerializedName("m_address")
+    public ObservableString address = new ObservableString();
+    @SerializedName("m_city")
+    public ObservableString city = new ObservableString();
+    @SerializedName("m_country")
+    public ObservableString country = new ObservableString();
+    @SerializedName("m_zipcode")
+    public ObservableString zipCode = new ObservableString();
 
     public Profile() {
         super();

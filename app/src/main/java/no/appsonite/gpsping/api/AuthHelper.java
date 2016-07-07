@@ -41,6 +41,10 @@ public class AuthHelper {
                                 profile.displayname.get(),
                                 profile.phoneCode.get(),
                                 profile.phoneNumber.get(),
+                                profile.address.get(),
+                                profile.city.get(),
+                                profile.country.get(),
+                                profile.zipCode.get(),
                                 nonceAnswer.getNonce().get()
                         );
                     }
@@ -62,6 +66,11 @@ public class AuthHelper {
         params.put("last_name", profile.lastName.get());
         params.put("Phone_pref", profile.phoneCode.get());
         params.put("Phone_num", profile.phoneNumber.get());
+
+        params.put("m_address", profile.address.get());
+        params.put("m_city", profile.city.get());
+        params.put("m_country", profile.country.get());
+        params.put("m_zipcode", profile.zipCode.get());
         return Observable.from(params.entrySet())
                 .flatMap(new Func1<Map.Entry<String, String>, Observable<ApiAnswer>>() {
                     @Override
