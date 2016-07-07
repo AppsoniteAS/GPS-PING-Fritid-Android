@@ -44,7 +44,7 @@ public interface ApiService {
     @GET("user/retrieve_password/")
     Observable<ApiAnswer> restorePassword(@Query("user_login") String email);
 
-    @GET("user/update_user_meta_byid/?meta_userid=8209")
+    @GET("user/update_user_meta/")
     Observable<ApiAnswer> updateUser(@Query("meta_key") String fieldName, @Query("meta_value") String fieldValue);
 
 
