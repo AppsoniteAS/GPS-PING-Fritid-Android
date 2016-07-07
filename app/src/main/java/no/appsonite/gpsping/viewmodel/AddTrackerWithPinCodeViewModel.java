@@ -1,5 +1,6 @@
 package no.appsonite.gpsping.viewmodel;
 
+import android.databinding.ObservableBoolean;
 import android.text.TextUtils;
 
 import no.appsonite.gpsping.R;
@@ -20,6 +21,7 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentViewModel {
     public ObservableString trackerIMEIError = new ObservableString();
     public ObservableString trackerLast4DigitsOfNumber = new ObservableString();
     public ObservableString trackerLast4DigitsOfNumberError = new ObservableString();
+    public ObservableBoolean afterReg = new ObservableBoolean(false);
 
     public boolean isTrackerValid() {
         if (TextUtils.isEmpty(trackerIMEI.get())) {

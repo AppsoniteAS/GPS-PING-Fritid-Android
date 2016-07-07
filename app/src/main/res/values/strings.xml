@@ -134,6 +134,7 @@
     <string name="cityCanNotBeEmpty">City can not be empty</string>
     <string name="countryCanNotBeEmpty">Country can not be empty</string>
     <string name="zipCodeCanNotBeEmpty">Zip code can not be empty</string>
+    <string name="skip"><u>Skip</u></string>
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>
         <item>30 seconds</item>

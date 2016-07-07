@@ -15,7 +15,6 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.typeadapters.ObservableBooleanTypeAdapter;
 import no.appsonite.gpsping.api.typeadapters.ObservableIntTypeAdapter;

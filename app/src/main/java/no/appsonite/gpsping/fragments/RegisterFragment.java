@@ -88,8 +88,9 @@ public class RegisterFragment extends BaseBindingFragment<FragmentRegisterBindin
                     } else {
                         hideProgress();
                         if (getActivity() != null) {
-                            startActivity(new Intent(getActivity(), MainActivity.class));
-                            getActivity().finish();
+//                            startActivity(new Intent(getActivity(), MainActivity.class));
+//                            getActivity().finish();
+                            getBaseActivity().replaceFragment(AddTrackerWithPinCodeFragment.newInstance(true), false);
                         }
                     }
                 }

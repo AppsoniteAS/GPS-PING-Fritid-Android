@@ -1,9 +1,11 @@
 package no.appsonite.gpsping.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.activities.MainActivity;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerWithPinCodeBinding;
 import no.appsonite.gpsping.viewmodel.AddTrackerWithPinCodeViewModel;
 import rx.Observable;
@@ -16,6 +18,8 @@ import rx.Observer;
  * Date: 05/07/16
  */
 public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentAddTrackerWithPinCodeBinding, AddTrackerWithPinCodeViewModel> {
+    private static final String ARG_AFTER_REG = "arg_after_reg";
+
     @Override
     public String getFragmentTag() {
         return "AddTrackerWithPinCodeFragment";
@@ -35,12 +39,26 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
                 bindTracker();
             }
         });
+
+        getBinding().skipAddTracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MainActivity.class));
+                getActivity().finish();
+            }
+        });
+
+        boolean afterReg = getArguments().getBoolean(ARG_AFTER_REG, false);
+        getModel().afterReg.set(afterReg);
     }
 
     public static AddTrackerWithPinCodeFragment newInstance() {
+        return newInstance(false);
+    }
 
+    public static AddTrackerWithPinCodeFragment newInstance(boolean afterRegistration) {
         Bundle args = new Bundle();
-
+        args.putBoolean(ARG_AFTER_REG, afterRegistration);
         AddTrackerWithPinCodeFragment fragment = new AddTrackerWithPinCodeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -65,7 +83,12 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
             @Override
             public void onNext(Boolean aBoolean) {
                 hideProgress();
-                getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+                if (getModel().afterReg.get()) {
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+                } else {
+                    getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+                }
             }
         });
     }
