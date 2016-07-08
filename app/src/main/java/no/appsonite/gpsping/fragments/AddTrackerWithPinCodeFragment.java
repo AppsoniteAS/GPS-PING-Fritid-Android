@@ -65,14 +65,20 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
     }
 
     private void bindTracker() {
-        Observable<Boolean> observable = getModel().addTracker();
+        Observable<Boolean> observable = getModel().addTracker(getBaseActivity());
         if (observable == null)
             return;
         showProgress();
         observable.subscribe(new Observer<Boolean>() {
             @Override
             public void onCompleted() {
-
+                hideProgress();
+                if (getModel().afterReg.get()) {
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+                } else {
+                    getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
+                }
             }
 
             @Override
@@ -82,13 +88,7 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
 
             @Override
             public void onNext(Boolean aBoolean) {
-                hideProgress();
-                if (getModel().afterReg.get()) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                } else {
-                    getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
-                }
+
             }
         });
     }

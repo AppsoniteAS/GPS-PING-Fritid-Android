@@ -4,7 +4,10 @@ package no.appsonite.gpsping.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import no.appsonite.gpsping.api.AuthHelper;
+import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.utils.ObservableBoolean;
 import no.appsonite.gpsping.utils.ObservableString;
@@ -79,5 +82,30 @@ public class Tracker implements Serializable {
         int result = trackerNumber != null ? trackerNumber.get().hashCode() : 0;
         result = 31 * result + (imeiNumber != null ? imeiNumber.get().hashCode() : 0);
         return result;
+    }
+
+    public ArrayList<SMS> getResetSms(String address) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        String trackerNumber = this.trackerNumber.get();
+        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+        switch (Tracker.Type.valueOf(this.type.get())) {
+            case TK_ANYWHERE:
+            case TK_STAR:
+            case TK_STAR_PET:
+                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get(), loginAnswer.getUser().phoneNumber.get())));
+                smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
+                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
+                smses.add(new SMS(trackerNumber, "gprs123456"));
+                smses.add(new SMS(trackerNumber, "sleep123456 off"));
+                break;
+            case TK_BIKE:
+                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get(), loginAnswer.getUser().phoneNumber.get())));
+                smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
+                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
+                smses.add(new SMS(trackerNumber, "gprs123456"));
+                smses.add(new SMS(trackerNumber, "sleep123456 off"));
+                break;
+        }
+        return smses;
     }
 }
