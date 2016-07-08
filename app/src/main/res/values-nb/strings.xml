@@ -127,6 +127,15 @@
     <string name="trackerPinCode">Tracker PIN Code</string>
     <string name="last4DigitsError">Input tracker number last 4 digits</string>
     <string name="trackerLast4Digits">Tracker number last 4 digits</string>
+    <string name="address">Address</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="zipCode">Zip Code</string>
+    <string name="addressCanNotBeEmpty">Address can not be empty</string>
+    <string name="cityCanNotBeEmpty">City can not be empty</string>
+    <string name="countryCanNotBeEmpty">Country can not be empty</string>
+    <string name="zipCodeCanNotBeEmpty">Zip code can not be empty</string>
+    <string name="skip"><u>Skip</u></string>
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
         <item>30 sekunder</item>
