@@ -120,7 +120,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
             }
         });
-        norwayOptions.zIndex(7);
+        norwayOptions.zIndex(9);
         topoNorwayOverlay = map.addTileOverlay(norwayOptions);
 
         TileOverlayOptions swedenOptions = new TileOverlayOptions();
@@ -145,26 +145,32 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 return url;
             }
         });
-        swedenOptions.zIndex(6);
+        swedenOptions.zIndex(8);
         topoSwedenOverlay = map.addTileOverlay(swedenOptions);
 
         TileOverlayOptions finnishOptions = new TileOverlayOptions();
-        finnishOptions.tileProvider(new UrlTileProvider(256, 256) {
+        finnishOptions.tileProvider(new WMSTileProvider(256,256) {
+            final String URL = "http://industri.gpsping.no:6057/service?LAYERS=finnish&FORMAT=image/png&" +
+                    "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
+                    "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
+                    "BBOX=%f,%f,%f,%f&" +
+                    "WIDTH=256&HEIGHT=256";
             @Override
             public URL getTileUrl(int x, int y, int zoom) {
-                int oymZ = 18 - zoom;
-                int oymX = (int) (x - Math.pow(2, zoom));
-                int oymY = (int) (Math.pow(2, zoom) - 1 - y);
+                double[] bbox = getBoundingBox(x, y, zoom);
+                String s = String.format(Locale.US, URL, bbox[MINX],
+                        bbox[MINY], bbox[MAXX], bbox[MAXY]);
+                URL url = null;
                 try {
-                    return new URL(String.format("https://t3-kartta.fonecta.fi/oym?f=m&ft=png_std_256&x=%d&y=%d&z=%d&key=FO1349G5NGDTJ52H913SFRK63924", oymX, oymY, oymZ));
+                    url = new URL(s);
                 } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    throw new AssertionError(e);
                 }
-                return null;
+                return url;
             }
         });
-        finnishOptions.zIndex(10);
-//        topoFinnishOverlay = map.addTileOverlay(finnishOptions);
+        finnishOptions.zIndex(6);
+        topoFinnishOverlay = map.addTileOverlay(finnishOptions);
 
         TileOverlayOptions danishOptions = new TileOverlayOptions();
         danishOptions.tileProvider(new WMSTileProvider(256, 256) {
@@ -205,7 +211,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 return url;
             }
         });
-        danishOptions.zIndex(10);
+        danishOptions.zIndex(7);
 //        topoDanishOverlay = map.addTileOverlay(danishOptions);
     }
 
