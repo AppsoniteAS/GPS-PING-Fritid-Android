@@ -218,36 +218,34 @@
 
     <string name="remove">Poista</string>
 
-    <string name="friendsRequiresSubscription">Tämän toiminnon käyttämiseksi sinun tulee lisätä ensin paikannin tai ostaa lisenssi. </string>
-
+    <string name="friendsRequiresSubscription">Tämän ominaisuuden käyttämiseksi sinun tulee lisätä ensin paikannin tai ostaa lisenssi</string>
     <string name="buySubscription">Osta lisenssi</string>
-
     <string name="reset">Palauta</string>
-
-    <string name="bikeTracking">Bike Tracking</string>
-    <string name="ledLight">LED Light</string>
-    <string name="active">Active</string>
-    <string name="turnOff">Turn Off</string>
-    <string name="turnOn">Turn On</string>
-    <string name="inactive">Inactive</string>
+    <string name="bikeTracking">Pyörän paikannus</string>
+    <string name="ledLight">LED-valo</string>
+    <string name="active">Aktiivinen</string>
+    <string name="turnOff">Poista käytöstä</string>
+    <string name="turnOn">Ota käyttöön</string>
+    <string name="inactive">Poissa käytöstä</string>
     <string name="shockAlarm">Shock Alarm</string>
     <string name="shockFlashAlarm">Shock Flash Alarm</string>
-    <string name="code">Code</string>
-    <string name="phoneCodeCanNotBeEmpty">Phone code can not be empty</string>
-    <string name="pinCode">PIN Code</string>
-    <string name="pinCodeLengthError">Input %1$s characters PIN code</string>
-    <string name="trackerPinCode">Tracker PIN Code</string>
-    <string name="last4DigitsError">Input tracker number last 4 digits</string>
-    <string name="trackerLast4Digits">Tracker number last 4 digits</string>
-    <string name="address">Address</string>
-    <string name="country">Country</string>
-    <string name="city">City</string>
-    <string name="zipCode">Zip Code</string>
-    <string name="addressCanNotBeEmpty">Address can not be empty</string>
-    <string name="cityCanNotBeEmpty">City can not be empty</string>
-    <string name="countryCanNotBeEmpty">Country can not be empty</string>
-    <string name="zipCodeCanNotBeEmpty">Zip code can not be empty</string>
-    <string name="skip"><u>Skip</u></string>
+    <string name="code">Koodi</string>
+    <string name="phoneCodeCanNotBeEmpty">Puhelimen koodi ei voi olla tyhjä</string>
+    <string name="pinCode">PIN-koodi</string>
+    <string name="pinCodeLengthError">Syötä %1$s merkin pituinen PIN-koodi</string>
+    <string name="trackerPinCode">Paikantimen PIN-koodi</string>
+    <string name="last4DigitsError">Syötä paikantimen numeron 4 viimeistä merkkiä</string>
+    <string name="trackerLast4Digits"> Paikantimen numeron 4 viimeistä merkkiä </string>
+    <string name="address">Osoite</string>
+    <string name="country">Maa</string>
+    <string name="city">Kaupunki</string>
+    <string name="zipCode">Postinumero</string>
+    <string name="addressCanNotBeEmpty">Osoite ei voi olla tyhjä</string>
+    <string name="cityCanNotBeEmpty">Kaupunki ei voi olla tyhjä </string>
+    <string name="countryCanNotBeEmpty"> Maa ei voi olla tyhjä </string>
+    <string name="zipCodeCanNotBeEmpty">Postinumero ei voi olla tyhjä </string>
+    <string name="skip"><u>Ohita</u></string>
+
 
     <string-array name="receiveSignalTime">
 
