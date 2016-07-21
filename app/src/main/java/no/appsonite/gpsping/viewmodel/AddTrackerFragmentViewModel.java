@@ -30,9 +30,9 @@ import rx.schedulers.Schedulers;
  */
 public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     //fritid
-//    private static final String TRACCAR_IP = "52.49.162.223";
+    public static final String TRACCAR_IP = "52.49.162.223";
     //industri
-    public static final String TRACCAR_IP = "52.51.183.199";
+//    public static final String TRACCAR_IP = "52.51.183.199";
     public ObservableField<Tracker> tracker = new ObservableField<>();
     public ObservableString nameError = new ObservableString();
     public ObservableString imeiNumberError = new ObservableString();

@@ -26,8 +26,8 @@ android {
         applicationId "no.appsonite.gpsping"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 26
-        versionName "1.0"
+        versionCode 27
+        versionName "1.1"
     }
     dataBinding {
         enabled = true
