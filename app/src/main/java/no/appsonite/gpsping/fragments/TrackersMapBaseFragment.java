@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import android.widget.RadioGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -64,6 +66,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
     private Compass compass;
+    private boolean firstTime = false;
 
     @Override
     protected String getTitle() {
@@ -87,6 +90,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             topoDanishOverlay.remove();
         }
 
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        firstTime = true;
     }
 
     private void showTopo() {
@@ -149,12 +158,13 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         topoSwedenOverlay = map.addTileOverlay(swedenOptions);
 
         TileOverlayOptions finnishOptions = new TileOverlayOptions();
-        finnishOptions.tileProvider(new WMSTileProvider(256,256) {
+        finnishOptions.tileProvider(new WMSTileProvider(256, 256) {
             final String URL = "http://industri.gpsping.no:6057/service?LAYERS=finnish&FORMAT=image/png&" +
                     "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
                     "BBOX=%f,%f,%f,%f&" +
                     "WIDTH=256&HEIGHT=256";
+
             @Override
             public URL getTileUrl(int x, int y, int zoom) {
                 double[] bbox = getBoundingBox(x, y, zoom);
@@ -435,6 +445,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
         clearTracks();
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
                 if (skipMapPoint(mapPoint)) {
@@ -455,7 +469,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                             ))), mapPoint);
                     try {
                         if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
-                            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
+                            builder.include(mapPoint.getLatLng());
                         }
                     } catch (Exception ignore) {
 
@@ -464,6 +478,15 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
             }
         }
+        try {
+            if (firstTime) {
+                firstTime = false;
+                getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+            }
+        } catch (Exception ignore) {
+
+        }
+
     }
 
     protected void onMapPoint(MapPoint mapPoint) {
