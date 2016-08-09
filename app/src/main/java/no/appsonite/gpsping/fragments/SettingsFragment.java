@@ -1,10 +1,14 @@
 package no.appsonite.gpsping.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.api.AuthHelper;
+import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.databinding.FragmentSettingsBinding;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
@@ -67,6 +71,38 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
             @Override
             public void onClick(View v) {
                 getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true);
+            }
+        });
+
+        getBinding().pauseSubscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Profile user = AuthHelper.getCredentials().getUser();
+                String email = "support@gpsping.no";
+                String body = getString(R.string.pauseSubscriptionEmailBody, user.firstName.get() + " " + user.lastName.get(), user.address.get(), user.username.get());
+                String subject = getString(R.string.pauseSubscription);
+
+
+                Intent gmail = new Intent(Intent.ACTION_VIEW);
+                gmail.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+                gmail.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+                gmail.putExtra(Intent.EXTRA_SUBJECT, subject);
+                gmail.setType("plain/text");
+                gmail.putExtra(Intent.EXTRA_TEXT, body);
+                try {
+                    startActivity(gmail);
+                } catch (Exception e) {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("message/rfc822");
+                    i.setData(Uri.parse("mailto:"));
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+                    i.putExtra(Intent.EXTRA_SUBJECT, subject);
+                    i.putExtra(Intent.EXTRA_TEXT, body);
+
+                    startActivity(Intent.createChooser(i, getString(R.string.pauseSubscription)));
+                }
+
+
             }
         });
     }
