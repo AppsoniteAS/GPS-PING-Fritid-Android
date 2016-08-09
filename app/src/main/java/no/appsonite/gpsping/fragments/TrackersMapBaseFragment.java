@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.location.Location;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
@@ -433,8 +436,23 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         showTopo();
         getMap().setOnMarkerClickListener(this);
-        int actionBarSize = Utils.getActionBarSize(getActivity());
-        getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
+
+        getBinding().friendSpinner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    getBinding().friendSpinner.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    //noinspection deprecation
+                    getBinding().friendSpinner.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+
+                int actionBarSize = Utils.getActionBarSize(getActivity());
+                Rect rect = new Rect();
+                getBinding().friendSpinner.getGlobalVisibleRect(rect);
+                getMap().setPadding(0, rect.bottom, 0, actionBarSize);
+            }
+        });
 
         getMap().setOnMapLongClickListener(this);
     }
