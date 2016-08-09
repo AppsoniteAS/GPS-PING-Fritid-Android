@@ -180,7 +180,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
         finnishOptions.zIndex(6);
-        topoFinnishOverlay = map.addTileOverlay(finnishOptions);
+//        topoFinnishOverlay = map.addTileOverlay(finnishOptions);
 
         TileOverlayOptions danishOptions = new TileOverlayOptions();
         danishOptions.tileProvider(new WMSTileProvider(256, 256) {
