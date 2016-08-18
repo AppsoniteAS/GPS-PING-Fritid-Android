@@ -71,7 +71,9 @@ public class Profile {
                 displayname.set(firstName.get() + " " + lastName.get());
             }
         }
-
+        if (phoneCode == null) {
+            phoneCode = new ObservableString("+");
+        }
         phoneCode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
