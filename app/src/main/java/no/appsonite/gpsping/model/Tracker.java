@@ -92,14 +92,14 @@ public class Tracker implements Serializable {
             case TK_ANYWHERE:
             case TK_STAR:
             case TK_STAR_PET:
-                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get(), loginAnswer.getUser().phoneNumber.get())));
+                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
                 smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                 smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
                 smses.add(new SMS(trackerNumber, "gprs123456"));
                 smses.add(new SMS(trackerNumber, "sleep123456 off"));
                 break;
             case TK_BIKE:
-                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get(), loginAnswer.getUser().phoneNumber.get())));
+                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
                 smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                 smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
                 smses.add(new SMS(trackerNumber, "gprs123456"));
