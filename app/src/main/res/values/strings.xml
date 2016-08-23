@@ -138,6 +138,7 @@
     <string name="pauseSubscription" translatable="false">Pause Subscription</string>
     <string name="pauseSubscriptionEmailBody" translatable="false">
         Name: %1$s\nAddress: %2$s\nUsername: %3$s\n</string>
+    <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>
         <item>30 seconds</item>

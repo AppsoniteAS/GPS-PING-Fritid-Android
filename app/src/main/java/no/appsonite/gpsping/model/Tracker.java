@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
@@ -88,23 +90,27 @@ public class Tracker implements Serializable {
         ArrayList<SMS> smses = new ArrayList<>();
         String trackerNumber = this.trackerNumber.get();
         LoginAnswer loginAnswer = AuthHelper.getCredentials();
-        switch (Tracker.Type.valueOf(this.type.get())) {
-            case TK_ANYWHERE:
-            case TK_STAR:
-            case TK_STAR_PET:
-                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
-                smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
-                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
-                smses.add(new SMS(trackerNumber, "gprs123456"));
-                smses.add(new SMS(trackerNumber, "sleep123456 off"));
-                break;
-            case TK_BIKE:
-                smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
-                smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
-                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
-                smses.add(new SMS(trackerNumber, "gprs123456"));
-                smses.add(new SMS(trackerNumber, "sleep123456 off"));
-                break;
+        try {
+            switch (Tracker.Type.valueOf(this.type.get())) {
+                case TK_ANYWHERE:
+                case TK_STAR:
+                case TK_STAR_PET:
+                    smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
+                    smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
+                    smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
+                    smses.add(new SMS(trackerNumber, "gprs123456"));
+                    smses.add(new SMS(trackerNumber, "sleep123456 off"));
+                    break;
+                case TK_BIKE:
+                    smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
+                    smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
+                    smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
+                    smses.add(new SMS(trackerNumber, "gprs123456"));
+                    smses.add(new SMS(trackerNumber, "sleep123456 off"));
+                    break;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(Application.getContext().getString(R.string.inputPhoneInProfileError));
         }
         return smses;
     }
