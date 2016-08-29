@@ -24,7 +24,7 @@ public class Profile {
     public ObservableString lastName = new ObservableString();
     public ObservableLong id = new ObservableLong();
     @SerializedName("Phone_pref")
-    public ObservableString phoneCode = new ObservableString("+");
+    public ObservableString phoneCode = new ObservableString("");
     @SerializedName("Phone_num")
     public ObservableString phoneNumber = new ObservableString();
     @SerializedName("m_address")
@@ -72,17 +72,7 @@ public class Profile {
             }
         }
         if (phoneCode == null) {
-            phoneCode = new ObservableString("+");
+            phoneCode = new ObservableString("");
         }
-        phoneCode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                String code = phoneCode.get();
-                if (code.lastIndexOf("+") > 0 || code.lastIndexOf("+") == -1) {
-                    String result = code.replace("+", "");
-                    phoneCode.set("+" + result);
-                }
-            }
-        });
     }
 }

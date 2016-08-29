@@ -63,7 +63,7 @@ public class RegisterFragment extends BaseBindingFragment<FragmentRegisterBindin
             }
         });
 
-        getBinding().passwordConfirm.setOnEditorActionListener(passwordDone);
+        getBinding().phoneNumber.setOnEditorActionListener(passwordDone);
     }
 
     private void startRegister() {
