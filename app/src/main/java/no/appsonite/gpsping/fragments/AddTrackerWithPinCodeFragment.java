@@ -1,7 +1,11 @@
 package no.appsonite.gpsping.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import no.appsonite.gpsping.R;
@@ -50,6 +54,14 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
 
         boolean afterReg = getArguments().getBoolean(ARG_AFTER_REG, false);
         getModel().afterReg.set(afterReg);
+
+        getBinding().newTrackerHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HelpBottomSheet helpBottomSheet = new HelpBottomSheet();
+                helpBottomSheet.show(getChildFragmentManager(), "Help");
+            }
+        });
     }
 
     public static AddTrackerWithPinCodeFragment newInstance() {
@@ -91,5 +103,23 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
 
             }
         });
+    }
+
+    public static class HelpBottomSheet extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+            View view = layoutInflater.inflate(R.layout.dialog_new_tracker_help, null);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog_FullScreen)
+                    .setTitle(null)
+                    .setView(view);
+            view.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+            return alertDialog.create();
+        }
     }
 }

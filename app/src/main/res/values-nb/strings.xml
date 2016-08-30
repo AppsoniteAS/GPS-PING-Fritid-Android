@@ -165,5 +165,6 @@
         <item>30 minutter</item>
         <item>60 minutter</item>
     </string-array>
+    <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
 
 </resources>
