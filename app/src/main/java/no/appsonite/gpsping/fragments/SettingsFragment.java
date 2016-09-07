@@ -74,6 +74,13 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
             }
         });
 
+        getBinding().faq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getBaseActivity().replaceFragment(FAQFragment.newInstance(), true);
+            }
+        });
+
         getBinding().pauseSubscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

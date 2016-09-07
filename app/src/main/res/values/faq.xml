@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_questions_answers">
+        <item>I have pushed "Start" and received "upload ok" sms back, but I am not able to see the
+        tracker.</item>
+        <item>Make sure the tracker is outside of house. If it is inside, it will have problem
+        connecting to the satellites. When the tracker has contact with satellites then the blue
+        light will start flashing.</item>
+
+
+        <item>I have pushed "Start", but I am not able to receive SMS message back from tracker.</item>
+        <item>Make sure you fill in your country code and phone number in your profile. Then go to
+        Trackers->Edit tracker and push reset. You should now get sms answers from the tracker when
+        you send sms through the app to it.</item>
+
+
+        <item>The tracker has no lights on.</item>
+        <item>Make sure the tracker is charged. When you charge it, you should see a red light on the
+        tracker. After it is fully charged turns off, then press the "On" button on top of the
+        tracker.</item>
+
+
+        <item>When I push the "Start" button in the app, nothing happens.</item>
+        <item>Go to main menu->Trackers and tap on the small circle to the right of the tracker name. Go
+        back to Main Menu. The name of the tracker should be printed over the "Start" button. Push
+        "Start" again, and the app will send sms to the tracker.</item>
+
+
+        <item>The Green light on the tracker is not flashing.</item>
+        <item>This means you are not connected to GSM network. Make sure you have mobile coverage. Go to
+        Main Menu->Trackers->Tap on the tracker and scroll down to the reset button. Push "Reset".
+        This will send 5 sms`es to the tracker to reset it. On Android devices these five sms´es
+        will be sent with one button push. On iPhone devices the sms function will open and you will
+        need to send 5 sms`es one by one.</item>
+
+
+        <item>I want to change the frequency of the gps position updates.</item>
+        <item>Go to Main Menu->Tracker->Tap on the tracker and scroll down to Signal section. Tap on the
+        Signal Frequency. A scroller will appear and you can choose the signal frequency. Tap
+        Update. Go back to Main Menu and push "Start"</item>
+
+
+        <item>I can only see a few of the gps position on the map</item>
+        <item>You can set the length of the tracking history by going to Main Menu->Settings->Display
+        Options. Here you can set how long back you want to see tracking positions on the map.</item>
+
+
+        <item>I want to see my friends tracker / I want to give my friend access to see my tracker.</item>
+        <item>Go to Settings->Connect and tap the "+" sign in the top right corner. Search for your
+        friends username. When the username appear, tap the "+" sign on the right of it. When you
+        have added it, your username will be added to your friends list. He then needs to tap "+"
+        sign to add you as friend. Then he needs to tap the "Eye" icon to allow you to view his
+        tracker. The "eye" icon will change from grey with a line through, to green.</item>
+
+
+        <item>I want to stop my friend to seeing my tracker.</item>
+        <item>Go to Settings->Connect and tap on the "Eye" icon to the right of your friends username.
+        The icon will change from green to grey and will get a line through it.</item>
+
+
+        <item>I want to see my friends tracker, but it says I have to pay for it.</item>
+        <item>If you do not have a tracker yourself, you must pay a small subscription fee to use the
+        service and see your friends tracker. The subscription is monthly. You can turn it off at
+        any time. </item>
+
+
+        <item>I want to pause my subscription for the tracker</item>
+        <item>Go to Settings and push "Pause Subscription". And email will be sent to GPS Ping and we
+        will put your subscription on pause.</item>
+
+
+        <item>My trackers position comes up in the middle of the ocean.</item>
+        <item>This means your tracker has not updated its gps position and it is not connected to any
+        satellites. Take the tracker outside and try to restart it.</item>
+
+
+        <item>I want to stop the subscription I bought in the app in order to view my friends tracker.</item>
+        <item>This must be stopped on your user in app store. For iPhone go to your App Store app and
+        scroll down to your user. Tap on your apple id and then View Apple id, put in your password
+        , go to subscriptions and stop it. On Android: Open the Google Play Store on your Android
+        smartphone or tablet. Open the My Apps section via the Google Play Store menu.
+        To the left of Installed apps is a list of your subscriptions. Here you can select the one
+        you wish to cancel. Click the Cancel button and confirm the action by hitting Yes."</item>
+
+        <item>I can not see my own position.</item>
+        <item>This means you have not given the app access to the device´s gps. Go to settings on the
+        device (not on the app) and give the GPS Ping app access to the GPS system.</item>
+
+        <item>How do I set Geofence on my tracker</item>
+        <item>Go to Settings-Geofence and put in the number of meters of geofence you want. Push
+        "Start". The app will send an sms to the tracker and you should get "Move ok" response from
+        tracker. When the tracker moves outside the set parameter you will receive SMS from tracker
+        with "Move Alarm".</item>
+
+        <item>I want to change the name of the tracker</item>
+        <item>Go to Trackers and tap on your tracker. Edit tracker screen will open. You can change the
+        name by typing in the desired name.</item>
+
+        <item>How do I see the history/daily log of the tracker</item>
+        <item>Go to History and tap the calendar icon in top right hand corner. Choose the desired date
+        and the app will get the gps positions for that day</item>
+
+        <item>How do I find north on the map?</item>
+        <item>Open Map and tracking and put two fingers on the map and turn it. A compass will appear on
+        the left-hand side of the screen. This compass show north on the map.</item>
+
+        <item>What does the compass that is always on the screen show.</item>
+        <item>This compass shows real North</item>
+
+        <item>How many trackers can I add to the app?</item>
+        <item>You can purchase and view as many apps as you want</item>
+    </string-array>
+</resources>
