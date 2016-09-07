@@ -169,5 +169,6 @@
     <string name="canBeFoundInside">can be found inside the box with tracker:</string>
     <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
     <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
+    <string name="faq">Problem løsning</string>
 
 </resources>
