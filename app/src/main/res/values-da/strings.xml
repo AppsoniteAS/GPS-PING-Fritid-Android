@@ -302,10 +302,12 @@
 
     </string-array>
     <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
-    <string name="canBeFoundInside">can be found inside the box with tracker:</string>
-    <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
-    <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
+
     <string name="faq">Problemløsning</string>
+    <string name="canBeFoundInside">finder du inde i sporerens boks</string>
+    <string name="helpNewTracker">Hvor finder jeg sporerens <b>mobil</b>- og <b>IMEI nummer</b>?</string>
+    <string name="isPlacedOnTheBack">findes på bagsiden af selve sporeren</string>
+    <string name="pauseSubscription">Sæt abonnement i bero</string>
 
 
 </resources>

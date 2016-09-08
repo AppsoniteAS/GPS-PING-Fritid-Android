@@ -167,10 +167,11 @@
         <item>60 minuter</item>
     </string-array>
     <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
-    <string name="canBeFoundInside">can be found inside the box with tracker:</string>
-    <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
-    <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
     <string name="faq">Problemlösning</string>
+    <string name="canBeFoundInside">hittar du inuti GPS-spårarens kartong.</string>
+    <string name="helpNewTracker">Var hittar jag <b>GPS-spårarens mobil-</b> och <b>IMEI-nummer</b>?</string>
+    <string name="isPlacedOnTheBack">finns på baksidan av din GPS-spårare.</string>
+    <string name="pauseSubscription">Pausa prenumerationen</string>
 
 
 </resources>

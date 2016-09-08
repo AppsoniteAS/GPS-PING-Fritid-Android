@@ -135,7 +135,7 @@
     <string name="countryCanNotBeEmpty">Country can not be empty</string>
     <string name="zipCodeCanNotBeEmpty">Zip code can not be empty</string>
     <string name="skip"><u>Skip</u></string>
-    <string name="pauseSubscription" translatable="false">Pause Subscription</string>
+    <string name="pauseSubscription">Pause Subscription</string>
     <string name="pauseSubscriptionEmailBody" translatable="false">
         Name: %1$s\nAddress: %2$s\nUsername: %3$s\n</string>
     <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
