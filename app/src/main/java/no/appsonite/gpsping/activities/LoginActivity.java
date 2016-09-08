@@ -21,13 +21,6 @@ public class LoginActivity extends BaseActivity {
         if (AuthHelper.getCredentials() != null) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-            return;
-        }
-
-        SharedPreferences sharedPreferences = getSharedPreferences("INTRO", MODE_PRIVATE);
-        boolean introCompleted = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
-        if (!introCompleted) {
-            startActivity(new Intent(this, IntroActivity.class));
         }
     }
 }

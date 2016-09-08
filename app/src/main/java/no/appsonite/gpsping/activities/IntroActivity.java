@@ -54,11 +54,6 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        if (AuthHelper.getCredentials() != null) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         Adapter adapter = new Adapter(getSupportFragmentManager());
         viewPager.setOffscreenPageLimit(adapter.getCount());

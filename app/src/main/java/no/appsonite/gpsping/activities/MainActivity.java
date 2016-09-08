@@ -3,6 +3,7 @@ package no.appsonite.gpsping.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,6 +36,12 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
         parseIntent(getIntent());
 
         PushHelper.sendPushToken();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("INTRO", MODE_PRIVATE);
+        boolean introCompleted = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
+        if (!introCompleted) {
+            startActivity(new Intent(this, IntroActivity.class));
+        }
     }
 
     public static void logout(Context context) {
