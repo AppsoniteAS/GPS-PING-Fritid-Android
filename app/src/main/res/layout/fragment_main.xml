@@ -15,8 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/top_bar" />
+            <ImageView
+                android:background="?attr/selectableItemBackground"
+                android:scaleType="centerInside"
+                android:id="@+id/introAgain"
+                android:src="@drawable/ic_action_action_help"
+                android:layout_gravity="end"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+        </FrameLayout>
 
-        <include layout="@layout/top_bar" />
 
         <ScrollView
             android:layout_width="match_parent"
