@@ -171,5 +171,6 @@
     <string name="helpNewTracker">Hvor finner jeg <b>trackerens mobil</b> og <b>IMEI nummer</b></string>
     <string name="isPlacedOnTheBack">er på baksiden av selve trackeren</string>
     <string name="pauseSubscription">Pause abonnement</string>
+    <string name="intro_step_5">Trykk på den lille sirkelen til høyre for trackeren.</string>
 
 </resources>

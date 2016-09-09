@@ -308,6 +308,7 @@
     <string name="helpNewTracker">Mistä löydän paikantimen <b>matkapuhelinnumeron</b> ja <b>imei-numeron</b></string>
     <string name="isPlacedOnTheBack">sijaitsee paikantimen takakuoressa</string>
     <string name="pauseSubscription">Keskeytä Tilaus</string>
+    <string name="intro_step_5">Napauta paikantimen oikealla puolella sijaitsevaa pientä ympyrää sen merkitsemistä varten.</string>
 
 
 </resources>

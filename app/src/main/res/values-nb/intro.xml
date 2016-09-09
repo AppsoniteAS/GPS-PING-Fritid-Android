@@ -4,5 +4,5 @@
     <string name="intro_step_2">Sett trackeren på ladding i minst åtte timer. Trackeren er ferdig laddet når det røde lyset slår seg av.</string>
     <string name="intro_step_3">Ta trackeren ut og trykk på "På" knappen som er på toppen av trackeren. Et grønt og blue lyst vil så lyse. Trackeren er har mobilnett når det grønne lyset blinker, og satelitt kontakt når det blå lyset blinker.</string>
     <string name="intro_step_4">Trykk på Trackere i hovedmenyen på din app.</string>
-    <string name="intro_step_5">Gå tilbake til hovedmenyen. Forsikre deg om at navnet på din tracker står over start knappen. Trykk Start.</string>
+    <string name="intro_step_6">Gå tilbake til hovedmenyen. Forsikre deg om at navnet på din tracker står over start knappen. Trykk Start.</string>
 </resources>

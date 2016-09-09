@@ -308,6 +308,7 @@
     <string name="helpNewTracker">Hvor finder jeg sporerens <b>mobil</b>- og <b>IMEI nummer</b>?</string>
     <string name="isPlacedOnTheBack">findes på bagsiden af selve sporeren</string>
     <string name="pauseSubscription">Sæt abonnement i bero</string>
+    <string name="intro_step_5">Tryk på den lille cirkel til højre for din sporer for at markere den.</string>
 
 
 </resources>

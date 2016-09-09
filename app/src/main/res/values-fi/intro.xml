@@ -4,5 +4,5 @@
     <string name="intro_step_2">Lataa paikanninta vähintään 8 tuntia ennen sen käyttöönottoa. Paikannin on täysin latautunut kun punainen valo on sammunut.</string>
     <string name="intro_step_3">Vie paikannin ulos ja paina sen päällä olevaa käynnistyspainiketta. Vihreä ja sininen valo syttyvät</string>
     <string name="intro_step_4">Avaa sovellus ja napauta päävalikossa sijaitsevaa "Paikantimet"-painiketta tarkastellaksesi paikannintasi.</string>
-    <string name="intro_step_5">Palaa päävalikkoon. Varmista, että paikantimen nimi näkyy käynnistyspainikkeen yläpuolella. Paina käynnistyspainiketta.</string>
+    <string name="intro_step_6">Palaa päävalikkoon. Varmista, että paikantimen nimi näkyy käynnistyspainikkeen yläpuolella. Paina käynnistyspainiketta.</string>
 </resources>

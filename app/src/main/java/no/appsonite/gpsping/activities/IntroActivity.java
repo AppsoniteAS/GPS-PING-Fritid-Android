@@ -1,8 +1,6 @@
 package no.appsonite.gpsping.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -18,14 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
 import java.util.ArrayList;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.api.AuthHelper;
-import no.appsonite.gpsping.utils.Utils;
 
 /**
  * Created: Belozerov Sergei
@@ -91,6 +84,7 @@ public class IntroActivity extends AppCompatActivity {
             items.add(new Pair<>(R.drawable.intro_03, R.string.intro_step_3));
             items.add(new Pair<>(R.drawable.intro_04, R.string.intro_step_4));
             items.add(new Pair<>(R.drawable.intro_05, R.string.intro_step_5));
+            items.add(new Pair<>(R.drawable.intro_04, R.string.intro_step_6));
         }
 
         public Adapter(FragmentManager fm) {

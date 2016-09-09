@@ -42,8 +42,8 @@
             android:paddingRight="24dp"
             android:textColor="#fff"
             android:textColorLink="#fff"
-            android:textSize="22sp"
-            tools:text="Hello world" />
+            android:textSize="17sp"
+            tools:text="Velkommen til GPS Ping! Hvis du har kjøpt en GPS Tracker skal vi vise deg hvordan du setter den opp. Hvis ikke, vennligst gå til vår nettbutikk og kjøp din GPS Tracker: www.gpsping.no" />
     </LinearLayout>
 
 </FrameLayout>
