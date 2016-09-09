@@ -99,7 +99,7 @@ public class IntroActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return items.size();
         }
     }
 
