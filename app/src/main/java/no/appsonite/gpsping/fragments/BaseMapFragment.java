@@ -22,7 +22,7 @@ public abstract class BaseMapFragment<B extends ViewDataBinding, M extends BaseF
     }
 
     public void onMapReady() {
-        getMap().setMaxZoomPreference(18);
+        getMap().setMaxZoomPreference(15);
     }
 
     @Override
