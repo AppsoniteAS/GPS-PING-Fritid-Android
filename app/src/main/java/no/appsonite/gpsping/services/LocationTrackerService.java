@@ -22,6 +22,7 @@ public class LocationTrackerService extends LocationService {
     private static final int NOTIFICATION_ID = 11;
     private static final long LOCATION_INTERVAL = 30 * 1000;
     private static final long LOCATION_INTERVAL_FASTEST = 15 * 1000;
+    private static boolean running = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -71,5 +72,21 @@ public class LocationTrackerService extends LocationService {
                         throwable.printStackTrace();
                     }
                 });
+    }
+
+    public static boolean isRunning() {
+        return running;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        running = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        running = false;
+        super.onDestroy();
     }
 }

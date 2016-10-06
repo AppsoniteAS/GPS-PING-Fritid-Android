@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,10 +16,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.services.LocationTrackerService;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
@@ -50,7 +53,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     protected void onLocationUpdate(Location location) {
         super.onLocationUpdate(location);
-        if(AuthHelper.getCredentials() == null)
+        if (AuthHelper.getCredentials() == null)
             return;
         lastLocation = location;
         if (getMap() != null) {
@@ -75,7 +78,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
                 userMarker = getMap().addMarker(new MarkerOptions()
                         .position(userMapPoint.getLatLng())
                         .icon((
-                                        MarkerHelper.getUserBitmapDescriptor(userMapPoint.getUser()))
+                                MarkerHelper.getUserBitmapDescriptor(userMapPoint.getUser()))
                         ));
                 updateDistance();
                 getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 15));
@@ -157,5 +160,29 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     protected boolean skipMapPoint(MapPoint mapPoint) {
         return (mapPoint.isBelongsToUser() && myId == mapPoint.getUser().id.get()) || super.skipMapPoint(mapPoint);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getBinding().showUserPosition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (LocationTrackerService.isRunning()) {
+                    LocationTrackerService.stopService(getContext());
+                    getBinding().showUserPosition.setImageResource(R.drawable.ic_visible_white);
+                } else {
+                    LocationTrackerService.startService(getContext());
+                    getBinding().showUserPosition.setImageResource(R.drawable.ic_invisible_white);
+                }
+
+            }
+        });
+        updateShowPositionButton();
+
+    }
+
+    private void updateShowPositionButton() {
+        getBinding().showUserPosition.setImageResource(LocationTrackerService.isRunning() ? R.drawable.ic_invisible_white : R.drawable.ic_visible_white);
     }
 }

@@ -53,7 +53,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 break;
         }
 
-        LocationTrackerService.startService(activity);
+//        LocationTrackerService.startService(activity);
 
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.trackerNumber.get(), message));
@@ -71,7 +71,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         smses.add(new SMS(tracker.trackerNumber.get(), message));
 
         if (!RealmTracker.hasRunning()) {
-            LocationTrackerService.stopService(activity);
+//            LocationTrackerService.stopService(activity);
         }
 
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
