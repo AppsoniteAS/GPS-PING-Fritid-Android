@@ -78,7 +78,7 @@ public class RegisterFragmentViewModel extends BaseFragmentViewModel {
         }
         emailError.set(null);
 
-        if (profile.get().phoneCode.get().length() < 2) {
+        if (profile.get().phoneCode.get().length() == 0) {
             phoneCodeError.set(getContext().getString(R.string.phoneCodeCanNotBeEmpty));
             return false;
         }
