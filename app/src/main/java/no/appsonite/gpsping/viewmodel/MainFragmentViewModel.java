@@ -44,9 +44,11 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         String message;
         switch (Tracker.Type.valueOf(tracker.type.get())) {
             case TK_BIKE:
+                message = String.format("Upload123456 %s", tracker.getRepeatTime());
+                break;
             case TK_STAR_PET:
             case TK_STAR:
-                message = String.format("Upload123456 %s", tracker.getRepeatTime());
+                message = "gprs123456";
                 break;
             default:
                 message = String.format("T%ss***n123456", tracker.getRepeatTime());
@@ -66,7 +68,17 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
     private Observable<SMS> stopTracker(Activity activity) {
         Tracker tracker = activeTracker.get();
         setTrackerRunning(tracker, false);
-        String message = "Notn123456";
+        String message;
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case TK_STAR_PET:
+            case TK_STAR:
+                message = "nogprs123456";
+                break;
+            default:
+                message = "Notn123456";
+                break;
+        }
+
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.trackerNumber.get(), message));
 

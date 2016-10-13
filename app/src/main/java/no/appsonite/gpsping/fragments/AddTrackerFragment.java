@@ -3,6 +3,7 @@ package no.appsonite.gpsping.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import no.appsonite.gpsping.Application;
@@ -61,6 +62,11 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
     }
 
     private void initRepeatTime() {
+        final String[] variantsTexts = Application.getContext().getResources().getStringArray(getModel().isBikeTracker() ? R.array.receiveSignalTime : R.array.receiveSignalTimeDog);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, variantsTexts);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        getBinding().signalTimeSpinner.setAdapter(spinnerArrayAdapter);
+
         String repeatTime = getModel().tracker.get().signalRepeatTime.get();
         final String[] variants = Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
         int selected = 4;
@@ -70,7 +76,8 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
                 break;
             }
         }
-        getBinding().signalTimeSpinner.setSelection(selected);
+
+        getBinding().signalTimeSpinner.setSelection(Math.min(selected, variantsTexts.length - 1));
         getBinding().signalTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

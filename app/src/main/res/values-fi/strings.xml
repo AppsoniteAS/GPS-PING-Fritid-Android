@@ -248,39 +248,31 @@
 
 
     <string-array name="receiveSignalTime">
-
         <item>20 sekuntia</item>
-
         <item>30 sekuntia</item>
-
         <item>40 sekuntia</item>
-
         <item>50 sekuntia</item>
-
         <item>1 minuutti</item>
-
         <item>2 minuuttia</item>
-
         <item>3 minuuttia</item>
-
         <item>5 minuuttia</item>
-
         <item>7 minuuttia</item>
-
         <item>10 minuuttia</item>
-
         <item>20 minuuttia</item>
-
         <item>30 minuuttia</item>
-
         <item>40 minuuttia</item>
-
         <item>50 minuuttia</item>
-
         <item>60 minuuttia</item>
-
     </string-array>
-
+    <string-array name="receiveSignalTimeDog">
+        <item>20 sekuntia</item>
+        <item>30 sekuntia</item>
+        <item>40 sekuntia</item>
+        <item>50 sekuntia</item>
+        <item>1 minuutti</item>
+        <item>2 minuuttia</item>
+        <item>3 minuuttia</item>
+    </string-array>
 
 
     <string-array name="receiveSignalMeasure">

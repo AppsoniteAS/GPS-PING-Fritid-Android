@@ -34,8 +34,8 @@ import retrofit.RxJavaCallAdapterFactory;
 public class ApiFactory {
     //    private static final String BASE_URL = "http://192.168.139.201/api/";
 //    private static final String BASE_URL = BuildConfig.DEBUG ? "http://appgranula.mooo.com/api/" : "https://fritid.gpsping.no/api/";
-    private static final String BASE_URL = "https://fritid.gpsping.no/api/";
-//    private static final String BASE_URL = "https://industri.gpsping.no/api/";
+//    private static final String BASE_URL = "https://fritid.gpsping.no/api/";
+    private static final String BASE_URL = "https://industri.gpsping.no/api/";
     private static final int CONNECT_TIMEOUT = 60;
     private static final int WRITE_TIMEOUT = 60;
     private static final int TIMEOUT = 60;
