@@ -5,23 +5,21 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
-import no.appsonite.gpsping.Application;
-import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -31,7 +29,10 @@ import rx.schedulers.Schedulers;
  * Date: 18.01.2016
  */
 public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
-    private static final String TRACCAR_IP = "52.49.162.223";
+    //fritid
+    public static final String TRACCAR_IP = "52.19.58.234";
+    //industri
+//    public static final String TRACCAR_IP = "52.51.183.199";
     public ObservableField<Tracker> tracker = new ObservableField<>();
     public ObservableString nameError = new ObservableString();
     public ObservableString imeiNumberError = new ObservableString();
@@ -47,6 +48,10 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             }
         }
         return null;
+    }
+
+    public boolean isBikeTracker() {
+        return Tracker.Type.TK_BIKE.toString().equalsIgnoreCase(tracker.get().type.get());
     }
 
     private Observable<String> resolveAddress() {
@@ -67,11 +72,73 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
 //                }
 //            });
 //        } else {
-            return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
+        return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 //        }
         //http://appgranula.mooo.com
 
+    }
+
+    public Observable<Boolean> updateLed(Activity activity) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        if (tracker.get().ledActive.get()) {
+            smses.add(new SMS(tracker.get().trackerNumber.get(), "Led123456 on"));
+        } else {
+            smses.add(new SMS(tracker.get().trackerNumber.get(), "Led123456 off"));
+        }
+        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
+            @Override
+            public Observable<Boolean> call(SMS sms) {
+                saveTrackerToDb();
+
+                return Observable.just(true);
+            }
+        });
+    }
+
+    public Observable<Boolean> updateShockAlarm(Activity activity) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        if (tracker.get().shockAlarmActive.get()) {
+            smses.add(new SMS(tracker.get().trackerNumber.get(), "shock123456"));
+        } else {
+            smses.add(new SMS(tracker.get().trackerNumber.get(), "sleep123456 time"));
+        }
+        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
+            @Override
+            public Observable<Boolean> call(SMS sms) {
+                saveTrackerToDb();
+                return Observable.just(true);
+            }
+        });
+    }
+
+    public Observable<Boolean> updateShockFlashAlarm(Activity activity) {
+        if (tracker.get().shockFlashActive.get()) {
+            ArrayList<SMS> smses = new ArrayList<>();
+            smses.add(new SMS(tracker.get().trackerNumber.get(), "LED123456 shock"));
+            return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
+                @Override
+                public Observable<Boolean> call(SMS sms) {
+                    saveTrackerToDb();
+                    return Observable.just(true);
+                }
+            });
+        } else {
+            saveTrackerToDb();
+            return Observable.just(true).delay(200, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
+    }
+
+    private void saveTrackerToDb() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
+        realm.beginTransaction();
+        RealmTracker.initWithTracker(realmTracker, tracker.get());
+        realm.copyToRealm(realmTracker);
+        realm.commitTransaction();
+        realm.close();
     }
 
     private Observable<Boolean> editTracker(Activity activity) {
@@ -85,7 +152,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
                     @Override
                     public Observable<Boolean> call(ApiAnswer apiAnswer) {
-                        Realm realm = Realm.getInstance(getContext());
+                        Realm realm = Realm.getDefaultInstance();
                         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
                         realm.beginTransaction();
                         RealmTracker.initWithTracker(realmTracker, tracker.get());
@@ -101,7 +168,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
             @Override
             public Observable<SMS> call(String address) {
-                return sendSmses(activity, getSMSes(address));
+                return sendSmses(activity, tracker.get().getResetSms(address));
             }
         })
                 .last()
@@ -123,7 +190,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
                     @Override
                     public Observable<Boolean> call(ApiAnswer apiAnswer) {
-                        Realm realm = Realm.getInstance(getContext());
+                        Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
                         RealmTracker realmTracker = realm.createObject(RealmTracker.class);
                         RealmTracker.initWithTracker(realmTracker, tracker.get());
@@ -137,30 +204,12 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private ArrayList<SMS> getSMSes(String address) {
-        ArrayList<SMS> smses = new ArrayList<>();
-        String trackerNumber = tracker.get().trackerNumber.get();
-        smses.add(new SMS(trackerNumber, "Begin123456"));
-        smses.add(new SMS(trackerNumber, "gprs123456"));
-        smses.add(new SMS(trackerNumber, "apn123456 netcom"));
-        switch (Tracker.Type.valueOf(tracker.get().type.get())) {
-            case TK_ANYWHERE:
-                //46.137.82.251
-                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5000", address)));
-                break;
-            case TK_STAR:
-            case TK_STAR_PET:
-                smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
-                break;
-        }
-        smses.add(new SMS(trackerNumber, "sleep123456 off"));
-        return smses;
-    }
+
 
 
     @Override
     public void onModelAttached() {
-        Realm realm = Realm.getInstance(Application.getContext());
+        Realm realm = Realm.getDefaultInstance();
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
         editMode.set(realmTracker != null);
         realm.close();
@@ -191,7 +240,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
             @Override
             public Observable<SMS> call(String address) {
-                return sendSmses(activity, getSMSes(address));
+                return sendSmses(activity, tracker.get().getResetSms(address));
             }
         })
                 .subscribeOn(Schedulers.io())

@@ -11,8 +11,10 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-    <permission android:name="no.appsonite.gpsping.permission.C2D_MESSAGE"
+    <permission
+        android:name="no.appsonite.gpsping.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="no.appsonite.gpsping.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
@@ -33,8 +35,15 @@
         <!--android:value="AIzaSyArhJK4ihoIZER3PVlG5aLX563-i5C8qjI" />-->
 
         <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyAryS5XJOCNUg1ITia5kDsROi2DauQfsVI" />-->
+        <!--android:name="com.google.android.geo.API_KEY"-->
+        <!--android:value="AIzaSyAryS5XJOCNUg1ITia5kDsROi2DauQfsVI" />-->
+
+
+        <activity
+            android:name=".activities.IntroActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".activities.LoginActivity"
@@ -50,7 +59,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <service android:name=".services.LocationTrackerService" />
         <service android:name=".services.LocationMapService" />
@@ -67,15 +76,16 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".services.push.GPGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -87,6 +97,7 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3a07a946aea34bb88040f1c6289e132a980f7e0c" />

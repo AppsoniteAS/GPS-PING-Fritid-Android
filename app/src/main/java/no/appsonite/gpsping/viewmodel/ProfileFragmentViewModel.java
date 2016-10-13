@@ -22,7 +22,12 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<String> usernameError = new ObservableField<>();
     public ObservableField<String> fullNameError = new ObservableField<>();
     public ObservableField<String> emailError = new ObservableField<>();
-
+    public ObservableField<String> phoneCodeError = new ObservableField<>();
+    public ObservableField<String> phoneNumberError = new ObservableField<>();
+    public ObservableField<String> addressError = new ObservableField<>();
+    public ObservableField<String> cityError = new ObservableField<>();
+    public ObservableField<String> countryError = new ObservableField<>();
+    public ObservableField<String> zipCodeError = new ObservableField<>();
 
     public Observable<ApiAnswer> onSaveClick() {
         if (validateData()) {
@@ -75,6 +80,9 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
     public void onViewCreated() {
         super.onViewCreated();
         Profile profile = AuthHelper.getCredentials().getUser();
+        if (TextUtils.isEmpty(profile.phoneCode.get())) {
+            profile.phoneCode.set("+");
+        }
         profile.displayname.set(profile.firstName.get() + " " + profile.lastName.get());
         this.profile.set(profile);
     }
@@ -98,6 +106,43 @@ public class ProfileFragmentViewModel extends BaseFragmentViewModel {
             return false;
         }
         emailError.set(null);
+
+        if (profile.get().phoneCode.get().length() == 0) {
+            phoneCodeError.set(getContext().getString(R.string.phoneCodeCanNotBeEmpty));
+            return false;
+        }
+        phoneCodeError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().phoneNumber.get())) {
+            phoneNumberError.set(getContext().getString(R.string.phoneNumberCanNotBeEmpty));
+            return false;
+        }
+        phoneNumberError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().address.get())) {
+            addressError.set(getContext().getString(R.string.addressCanNotBeEmpty));
+            return false;
+        }
+        addressError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().city.get())) {
+            cityError.set(getContext().getString(R.string.cityCanNotBeEmpty));
+            return false;
+        }
+        cityError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().country.get())) {
+            countryError.set(getContext().getString(R.string.countryCanNotBeEmpty));
+            return false;
+        }
+        countryError.set(null);
+
+        if (TextUtils.isEmpty(profile.get().zipCode.get())) {
+            zipCodeError.set(getContext().getString(R.string.zipCodeCanNotBeEmpty));
+            return false;
+        }
+        zipCodeError.set(null);
+
         return true;
     }
 }

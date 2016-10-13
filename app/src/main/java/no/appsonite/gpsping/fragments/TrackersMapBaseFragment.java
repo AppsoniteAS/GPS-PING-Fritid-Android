@@ -5,22 +5,27 @@ import android.content.DialogInterface;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.location.Location;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -59,9 +64,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
+    private TileOverlay topoFinnishOverlay;
+    private TileOverlay topoDanishOverlay;
     private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
     private Compass compass;
+    private boolean firstTime = false;
 
     @Override
     protected String getTitle() {
@@ -78,6 +86,19 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (topoSwedenOverlay != null) {
             topoSwedenOverlay.remove();
         }
+        if (topoFinnishOverlay != null) {
+            topoFinnishOverlay.remove();
+        }
+        if (topoDanishOverlay != null) {
+            topoDanishOverlay.remove();
+        }
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        firstTime = true;
     }
 
     private void showTopo() {
@@ -111,12 +132,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
             }
         });
-        norwayOptions.zIndex(7);
+        norwayOptions.zIndex(9);
         topoNorwayOverlay = map.addTileOverlay(norwayOptions);
 
         TileOverlayOptions swedenOptions = new TileOverlayOptions();
         swedenOptions.tileProvider(new WMSTileProvider(256, 256) {
-            final String URL = "http://industri.gpsping.no:5057/service?LAYERS=sweden&FORMAT=image/png&" +
+            final String URL = "http://industri.gpsping.no:6057/service?LAYERS=sweden&FORMAT=image/png&" +
                     "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
                     "BBOX=%f,%f,%f,%f&" +
@@ -136,8 +157,75 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 return url;
             }
         });
-        swedenOptions.zIndex(6);
+        swedenOptions.zIndex(8);
         topoSwedenOverlay = map.addTileOverlay(swedenOptions);
+
+        TileOverlayOptions finnishOptions = new TileOverlayOptions();
+        finnishOptions.tileProvider(new WMSTileProvider(256, 256) {
+            final String URL = "http://industri.gpsping.no:6057/service?LAYERS=finnish&FORMAT=image/png&" +
+                    "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
+                    "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
+                    "BBOX=%f,%f,%f,%f&" +
+                    "WIDTH=256&HEIGHT=256";
+
+            @Override
+            public URL getTileUrl(int x, int y, int zoom) {
+                double[] bbox = getBoundingBox(x, y, zoom);
+                String s = String.format(Locale.US, URL, bbox[MINX],
+                        bbox[MINY], bbox[MAXX], bbox[MAXY]);
+                URL url = null;
+                try {
+                    url = new URL(s);
+                } catch (MalformedURLException e) {
+                    throw new AssertionError(e);
+                }
+                return url;
+            }
+        });
+        finnishOptions.zIndex(6);
+//        topoFinnishOverlay = map.addTileOverlay(finnishOptions);
+
+        TileOverlayOptions danishOptions = new TileOverlayOptions();
+        danishOptions.tileProvider(new WMSTileProvider(256, 256) {
+//            final String URL = "http://services.kortforsyningen.dk/service?servicename=topo_skaermkort&service=WMS&version=1.1.1&request=GetMap" +
+//                    "&LAYERS=dtk_skaermkort_774&srs=EPSG:3857&" +
+//                    "bbox=%f,%f,%f,%f&" +
+//                    "width=256&height=256&format=image/png&" +
+//                    "styles=default&bgcolor=0xff0000&transparent=TRUE&" +
+//                    "ignoreillegallayers=TRUE&exceptions=application/vnd.ogc.se_inimage&" +
+//                    "login=kms1&password=adgang";
+
+//            final String URL = "http://services.kortforsyningen.dk/service?servicename=topo25&service=WMS&version=1.1.1&request=GetMap" +
+//                    "&LAYERS=topo25_graa&srs=EPSG:3857&" +
+//                    "bbox=%f,%f,%f,%f&" +
+//                    "width=256&height=256&format=image/png&" +
+//                    "styles=default&bgcolor=0xffffff&transparent=TRUE&" +
+//                    "ignoreillegallayers=TRUE&exceptions=application/vnd.ogc.se_inimage&" +
+//                    "login=kms1&password=adgang";
+
+            final String URL = "http://kortforsyningen.kms.dk/topo100?LAYERS=dtk_1cm&FORMAT=image/png&" +
+                    "BGCOLOR=0xFFFFFF&TICKET=8b4e36fe4c851004fd1e69463fbabe3b&PROJECTION=EPSG:3857&" +
+                    "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&" +
+                    "STYLES=&SRS=EPSG:3857&" +
+                    "BBOX=%f,%f,%f,%f&" +
+                    "WIDTH=256&HEIGHT=256";
+
+            @Override
+            public URL getTileUrl(int x, int y, int zoom) {
+                double[] bbox = getBoundingBox(x, y, zoom);
+                String s = String.format(Locale.US, URL, bbox[MINX],
+                        bbox[MINY], bbox[MAXX], bbox[MAXY]);
+                URL url = null;
+                try {
+                    url = new URL(s);
+                } catch (MalformedURLException e) {
+                    throw new AssertionError(e);
+                }
+                return url;
+            }
+        });
+        danishOptions.zIndex(7);
+//        topoDanishOverlay = map.addTileOverlay(danishOptions);
     }
 
 
@@ -348,8 +436,23 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         showTopo();
         getMap().setOnMarkerClickListener(this);
-        int actionBarSize = Utils.getActionBarSize(getActivity());
-        getMap().setPadding(0, actionBarSize * 2, 0, actionBarSize);
+
+        getBinding().friendSpinner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    getBinding().friendSpinner.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    //noinspection deprecation
+                    getBinding().friendSpinner.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+
+                int actionBarSize = Utils.getActionBarSize(getActivity());
+                Rect rect = new Rect();
+                getBinding().friendSpinner.getGlobalVisibleRect(rect);
+                getMap().setPadding(0, rect.bottom, 0, actionBarSize);
+            }
+        });
 
         getMap().setOnMapLongClickListener(this);
     }
@@ -360,6 +463,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
         clearTracks();
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+
         if (mapPoints.size() > 0) {
             for (MapPoint mapPoint : mapPoints) {
                 if (skipMapPoint(mapPoint)) {
@@ -380,7 +487,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                             ))), mapPoint);
                     try {
                         if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
-                            getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
+                            builder.include(mapPoint.getLatLng());
                         }
                     } catch (Exception ignore) {
 
@@ -389,6 +496,15 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
             }
         }
+        try {
+            if (firstTime) {
+                firstTime = false;
+                getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+            }
+        } catch (Exception ignore) {
+
+        }
+
     }
 
     protected void onMapPoint(MapPoint mapPoint) {

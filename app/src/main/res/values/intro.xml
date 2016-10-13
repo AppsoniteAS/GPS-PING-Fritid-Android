@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_step_1">Welcome to GPS Ping! If you have bought a GPS tracker we will show you how to set it up. If not, please check out our store: www.gpsping.no</string>
+    <string name="intro_step_2">First charge your tracker for at least 8 hours. The tracker is fully charged when the red charge light turns off.</string>
+    <string name="intro_step_3">Take the tracker outside and push the "On" button on top of the tracker. A green and a blue light will light up.</string>
+    <string name="intro_step_4">Open the app and tap on Trackers on the main menu to view your tracker.</string>
+    <string name="intro_step_5">Tap on small circle to the right of tracker to mark it.</string>
+    <string name="intro_step_6">Go back to main menu. Make sure the name of the tracker is shown over the start button. Push start.</string>
+</resources>

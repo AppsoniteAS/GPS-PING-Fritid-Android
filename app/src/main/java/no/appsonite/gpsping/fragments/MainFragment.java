@@ -1,10 +1,12 @@
 package no.appsonite.gpsping.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.activities.IntroActivity;
 import no.appsonite.gpsping.activities.MapActivity;
 import no.appsonite.gpsping.databinding.FragmentMainBinding;
 import no.appsonite.gpsping.model.SMS;
@@ -33,7 +35,6 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
     public static MainFragment newInstance() {
 
         Bundle args = new Bundle();
-
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
@@ -74,6 +75,13 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
             @Override
             public void onClick(View v) {
                 MapActivity.start(getContext(), MapActivity.Type.HISTORY);
+            }
+        });
+
+        getBinding().introAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), IntroActivity.class));
             }
         });
     }

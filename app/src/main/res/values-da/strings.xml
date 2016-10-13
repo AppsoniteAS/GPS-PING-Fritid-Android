@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GPS Ping</string>
+
+    <string name="login">Log-ind</string>
+
+    <string name="userName">Brugernavn</string>
+
+    <string name="register">Tilmeld</string>
+
+    <string name="password">Kodeord</string>
+
+    <string name="loginCanNotBeEmpty">Brugernavnet kan ikke være tomt</string>
+
+    <string name="passwordCanNotBeEmpty">Kodeordet kan ikke være tomt</string>
+
+    <string name="email">Email</string>
+
+    <string name="confirmPassword">Bekræft kodeord</string>
+
+    <string name="emailCanNotBeEmpty">Email kan ikke være tom</string>
+
+    <string name="passwordNotConfirmed">Kodeordet matcher ikke det bekræftede kodeord </string>
+
+    <string name="activeTracker">Aktiv sporingsenhed:</string>
+
+    <string name="start">start</string>
+
+    <string name="stop">stop</string>
+
+    <string name="mapAndTracking">Kort og Sporing</string>
+
+    <string name="history">Historik</string>
+
+    <string name="settings">Indstillinger</string>
+
+    <string name="trackers">Sporingsenheder</string>
+
+    <string name="connect">Forbind</string>
+
+    <string name="geofence">Geofence</string>
+
+    <string name="profile">Profil</string>
+
+    <string name="about">Om</string>
+
+    <string name="visitWebsite">Besøg Hjemmeside</string>
+
+    <string name="contactUs">Kontakt Os</string>
+
+    <string name="aboutApp">Om App</string>
+
+    <string name="youCanOrder">Du kan bestille Sporing ved at bruge Kontakt Os knappen </string>
+
+    <string name="geofenceDesc">Indtast antallet af yards I diameter for geofence. <b>Husk at slukke for geofence ved afslutning.</b></string>
+
+    <string name="yards">Yards</string>
+
+    <string name="phoneNumber">Telefon nummer</string>
+
+    <string name="save">Gem</string>
+
+    <string name="phoneNumberCanNotBeEmpty">Telefon nummer kan ikke være tom</string>
+
+    <string name="yardsCanNotBeEmpty">Yards kan ikke være tom</string>
+
+    <string name="logout">Log-ud</string>
+
+    <string name="chooseTracker">Vælg Sporingsenhed</string>
+
+    <string name="addTracker">Tilføj Sporingsenhed</string>
+
+    <string name="tracker">Sporingsenheder</string>
+
+    <string name="name">Navn</string>
+
+    <string name="imeiNumber">IMEI Nummer</string>
+
+    <string name="trackerNumber">Sporingsenheds Nummer</string>
+
+    <string name="addTrackerButton">Tilføj Sporingsenhed</string>
+
+    <string name="signal">Signal</string>
+
+    <string name="receiveSignalEvery">Modtag signal hvert</string>
+
+    <string name="checkThisDog">Check dette for DIS </string>
+
+    <string name="trackerNameCanNotBeEmpty">Sporings navnet kan ikke være tomt</string>
+
+    <string name="imeiCanNotBeEmpty">IMEI nummeret kan ikke være tom</string>
+
+    <string name="trackerNumberCanNotBeEmpty">Sporings nummeret kan ikke være tom</string>
+
+    <string name="trackerNumberN">Sporings Nummer:\t\t%1$s</string>
+
+    <string name="trackerImeiN">IMEI Nummer:\t\t\t%1$s</string>
+
+    <string name="removeTracker">Fjern\nsporingsenhed</string>
+
+    <string name="aboutAppText">
+
+        Om abb\n\nDenne app lader dig se GPS positionen hos en gps sporingsenhed.\n\nFør at du starter, gå da til indstillinger og intast imei nummeret og sporings nummeret. Vælg signal intervallet. Vælg Gem og gå tilbage til hovedmenuen for at starte sporingsenheden.\n\n        Vælg Start Sporingsenhed for at tænde for sporingssignalet. Du vil modtage en besked fra sporingsenheden når den afsender. Du vil se sporingsenhedens sidste position vist som en grøn trekant.\n\nTidligere positioner er markerede med en grøn cirkel.\n\n
+
+    </string>
+
+    <string name="editTracker">Rediger\nsporingsenhed</string>
+
+    <string name="update">Opdater</string>
+
+    <string name="friends">Venner</string>
+
+    <string name="addFriend">Tilføj Ven</string>
+
+    <string name="removeFriend">Fjern\nven</string>
+
+    <string name="search">Søg</string>
+
+    <string name="selectTracker">Vælg Sporingsenhed som du ønsker at aktivere:</string>
+
+    <string name="wait">Vent venligst…</string>
+
+    <string name="nameCanNotBeEmpty">Navnet kan ikke være tomt</string>
+
+    <string name="fullName">Fulde navn</string>
+
+    <string name="satellite">Satelit</string>
+
+    <string name="standard">Standard</string>
+
+    <string name="topo">Topo</string>
+
+    <string name="photo">Billede</string>
+
+    <string name="removeTracks">Fjern sporinger</string>
+
+    <string name="map">Kort</string>
+
+    <string name="all">Alle</string>
+
+    <string name="notify_photo_title">Billede</string>
+
+    <string name="notify_photo_text">GPS Ping</string>
+
+    <string name="profileSaved">Profil opdateret med success </string>
+
+    <string name="smsAlertDialogTitle">SMS</string>
+
+    <string name="smsAlertDialogMessage">Dette sender en sms til din sporingsenhed</string>
+
+    <string name="trackerUpdated">Sporingsenheden er opdateret med success</string>
+
+    <string name="locationMessage">Lokalicerings Sporing</string>
+
+    <string name="friendShipRequest">Venneanmodning</string>
+
+    <string name="friendShipRequestMessage">%1$s vil være venner med dig. Bekræfter du denne anmodning? </string>
+
+    <string name="friendShipRequestNotifyMessage">vil være venner med dig</string>
+
+    <string name="PUSH_MESSSAGE_FRIEND_REQUEST">%1$s vil være venner med dig</string>
+
+    <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Din sporingsenhed står nu stille i samme position.</string>
+
+    <string name="confirm">Bekræft</string>
+
+    <string name="owner">Ejer:</string>
+
+
+    <string name="trackerNumberNMap">Sporings nummer:\t%1$s</string>
+
+    <string name="trackerImeiNMap">IMEI Nummer:\t\t\t%1$s</string>
+
+    <string name="logTimeNMap">Logget Tid:\t\t\t\t%1$s</string>
+
+    <string name="latNMap">Lat:\t\t\t%1$s</string>
+
+    <string name="lonNMap">Lon:\t\t\t%1$s</string>
+
+    <string name="grsmNMap">GRSM:\t%1$s</string>
+
+    <string name="you">Dig</string>
+
+    <string name="distanceKm">%1$s km</string>
+
+    <string name="distanceM">%1$s m</string>
+
+    <string name="restore">Gendan</string>
+
+    <string name="passwordRestoreDesc">Angiv din email og vi sender dig instruktioner til at gendanne dit kodeord</string>
+
+    <string name="emailSent">Et link til gendannelsen af dit kodeord er blevet e-mailet til dig. Check venligst din e-mail. </string>
+
+    <string name="forgetYourPassword"><u>Har du glemt dit kodeord?</u></string>
+
+    <string name="editPoi"><u>Rediger Interessepunkt</u></string>
+
+    <string name="editPoiTitle">Rediger Interessepunkt</string>
+
+    <string name="createPoiTitle">Opret Interessepunkt</string>
+
+    <string name="deletePoi"><u>Fjern Interessepunkt</u></string>
+
+    <string name="displayOptions">Visnings muligheder</string>
+
+    <string name="showOnMapTracker">Vis sporingsenhedensens position på kortet under:</string>
+
+    <string name="trackingHistory">Sporingshistorik</string>
+
+    <string name="poiName">Interessepunkts Navn</string>
+
+    <string name="poiNameCanNotBeEmpty">Interessepunktets navn kan ikke være tomt</string>
+
+    <string name="areYouSureRemovePoi">Er du sikker på at du ønsker at slette dette interessepunkt?</string>
+
+    <string name="removePoiTitle">Fjern interessepunkt</string>
+
+    <string name="remove">Fjern</string>
+
+    <string name="friendsRequiresSubscription">For at benytte denne handling, bør du først tilføje din sporer, eller købe et årligt abonnement. </string>
+    <string name="buySubscription">Køb abonnement</string>
+    <string name="reset">Genstart</string>
+    <string name="bikeTracking">Cykel Sporing</string>
+    <string name="ledLight">LED Lys</string>
+    <string name="active">Aktiv</string>
+    <string name="turnOff">Tænd</string>
+    <string name="turnOn">Sluk</string>
+    <string name="inactive">Inaktiv</string>
+    <string name="shockAlarm">Shock Alarm</string>
+    <string name="shockFlashAlarm">Shock Flash Alarm</string>
+    <string name="code">Kode</string>
+    <string name="phoneCodeCanNotBeEmpty">Telefonkoden kan ikke være tom</string>
+    <string name="pinCode">PIN Kode</string>
+    <string name="pinCodeLengthError">Indtast %1$s tegns PIN kode</string>
+    <string name="trackerPinCode">Sporings PIN kode</string>
+    <string name="last4DigitsError">Indtast sporingsnummerets sidste 4 cifre </string>
+    <string name="trackerLast4Digits">Sporingsnummerets sidste 4 cifre</string>
+    <string name="address">Adresse</string>
+    <string name="country">Land</string>
+    <string name="city">By</string>
+    <string name="zipCode">Postnummer</string>
+    <string name="addressCanNotBeEmpty">Adressen kan ikke være tom</string>
+    <string name="cityCanNotBeEmpty">By kan ikke være tom</string>
+    <string name="countryCanNotBeEmpty">Land kan ikke være tom</string>
+    <string name="zipCodeCanNotBeEmpty">Postnummer kan ikke være tom</string>
+    <string name="skip"><u>Spring over</u></string>
+
+
+    <string-array name="receiveSignalTime">
+
+        <item>20 sekunder</item>
+
+        <item>30 sekunder</item>
+
+        <item>40 sekunder</item>
+
+        <item>50 sekunder</item>
+
+        <item>1 minut</item>
+
+        <item>2 minutter</item>
+
+        <item>3 minutter</item>
+
+        <item>5 minutter</item>
+
+        <item>7 minutter</item>
+
+        <item>10 minutter</item>
+
+        <item>20 minutter</item>
+
+        <item>30 minutter</item>
+
+        <item>40 minutter</item>
+
+        <item>50 minutter</item>
+
+        <item>60 minutter</item>
+
+    </string-array>
+
+
+    <string-array name="receiveSignalMeasure">
+
+        <item>Sekunder</item>
+
+        <item>Minutter</item>
+
+    </string-array>
+
+    <string-array name="showDuring">
+
+        <item>10 minutter</item>
+
+        <item>15 minuttter</item>
+
+        <item>30 minutter</item>
+
+        <item>60 minutter</item>
+
+    </string-array>
+    <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
+
+    <string name="faq">Problemløsning</string>
+    <string name="canBeFoundInside">finder du inde i sporerens boks</string>
+    <string name="helpNewTracker">Hvor finder jeg sporerens <b>mobil</b>- og <b>IMEI nummer</b>?</string>
+    <string name="isPlacedOnTheBack">findes på bagsiden af selve sporeren</string>
+    <string name="pauseSubscription">Sæt abonnement i bero</string>
+    <string name="intro_step_5">Tryk på den lille cirkel til højre for din sporer for at markere den.</string>
+
+
+</resources>
+

@@ -63,7 +63,7 @@ public class RegisterFragment extends BaseBindingFragment<FragmentRegisterBindin
             }
         });
 
-        getBinding().passwordConfirm.setOnEditorActionListener(passwordDone);
+        getBinding().phoneNumber.setOnEditorActionListener(passwordDone);
     }
 
     private void startRegister() {
@@ -88,8 +88,9 @@ public class RegisterFragment extends BaseBindingFragment<FragmentRegisterBindin
                     } else {
                         hideProgress();
                         if (getActivity() != null) {
-                            startActivity(new Intent(getActivity(), MainActivity.class));
-                            getActivity().finish();
+//                            startActivity(new Intent(getActivity(), MainActivity.class));
+//                            getActivity().finish();
+                            getBaseActivity().replaceFragment(AddTrackerWithPinCodeFragment.newInstance(true), false);
                         }
                     }
                 }

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GPS Ping</string>
+
+    <string name="login">Kirjaudu</string>
+
+    <string name="userName">Käyttäjänimi</string>
+
+    <string name="register">Rekisteröidy</string>
+
+    <string name="password">Salasana</string>
+
+    <string name="loginCanNotBeEmpty">Käyttäjänimi ei voi olla tyhjä</string>
+
+    <string name="passwordCanNotBeEmpty">Salasana ei voi olla tyhjä</string>
+
+    <string name="email">Sähköpostiosoite</string>
+
+    <string name="confirmPassword">Vahvista salasana</string>
+
+    <string name="emailCanNotBeEmpty">Sähköpostiosoite ei voi olla tyhjä</string>
+
+    <string name="passwordNotConfirmed">Salasana ei täsmää vahvistetun salasanan kanssa</string>
+
+    <string name="activeTracker">Aktiivinen paikannin:</string>
+
+    <string name="start">aloita</string>
+
+    <string name="stop">pysäytä</string>
+
+    <string name="mapAndTracking">Kartta ja Paikannus</string>
+
+    <string name="history">Historia</string>
+
+    <string name="settings">Asetukset</string>
+
+    <string name="trackers">Paikantimet</string>
+
+    <string name="connect">Yhdistä</string>
+
+    <string name="geofence">Geofence</string>
+
+    <string name="profile">Profiili</string>
+
+    <string name="about">Tietoa meistä</string>
+
+    <string name="visitWebsite">Siirry verkkosivulle</string>
+
+    <string name="contactUs">Ota Yhteyttä</string>
+
+    <string name="aboutApp">Tietoa sovelluksesta</string>
+
+    <string name="youCanOrder">Voit tilata Paikantimen napauttamalla ”Ota Yhteyttä”-painiketta</string>
+
+    <string name="geofenceDesc">Ilmoita haluamasi geofence-palvelun läpimitta metreinä. <b>Muista sammuttaa geofence-palvelu pysähtyessäsi.</b></string>
+
+    <string name="yards">Metriä</string>
+
+    <string name="phoneNumber">Puhelinnumero</string>
+
+    <string name="save">Tallenna</string>
+
+    <string name="phoneNumberCanNotBeEmpty">Puhelinnumero ei voi olla tyhjä</string>
+
+    <string name="yardsCanNotBeEmpty">Jaardia-kenttä ei voi olla tyhjä</string>
+
+    <string name="logout">Kirjaudu ulos</string>
+
+    <string name="chooseTracker">Valitse paikannin</string>
+
+    <string name="addTracker">Lisää paikannin</string>
+
+    <string name="tracker">Paikannin</string>
+
+    <string name="name">Nimi</string>
+
+    <string name="imeiNumber">IMEI Numero</string>
+
+    <string name="trackerNumber">Paikantimen Numero</string>
+
+    <string name="addTrackerButton">Lisää paikannin</string>
+
+    <string name="signal">Signaali</string>
+
+    <string name="receiveSignalEvery">Signaalin vastaanottamisen aikaväli</string>
+
+    <string name="checkThisDog">Tarkista seisooko koira</string>
+
+    <string name="trackerNameCanNotBeEmpty">Paikantimen nimi ei voi olla tyhjä</string>
+
+    <string name="imeiCanNotBeEmpty">IMEI-numero ei voi olla tyhjä</string>
+
+    <string name="trackerNumberCanNotBeEmpty">Paikantimen numero ei voi olla tyhjä</string>
+
+    <string name="trackerNumberN">Paikantimen numero:\t\t%1$s</string>
+
+    <string name="trackerImeiN">IMEI-numero:\t\t\t%1$s</string>
+
+    <string name="removeTracker">Poista\npaikannin</string>
+
+    <string name="aboutAppText">
+
+        Tietoa sovelluksesta\n\nTämä sovellus näyttää gps paikantimen sijainnin.\n\nMene asetuksiin ja lisää IMEI-numero, sekä paikantimen numero ennen sovelluksen käyttöönottoa. Valitse signaalin aikaväli. Napauta ”tallenna” ja palaa päävalikkoon paikannuksen aloittamista varten. \n\n        Napauta Käynnistä Paikannin. Tämä saa paikantimen aloittamaan signaalin lähettämisen. Saat tekstiviestin paikantimelta sen aloitettua signaalin lähettämisen. Paikantimen viimeisin sijainti on merkitty vihreällä kolmiolla. \n\nEdelliset sijainnit on merkitty vihreällä ympyrällä. \n\n
+
+    </string>
+
+    <string name="editTracker">Muokkaa\npaikanninta</string>
+
+    <string name="update">Päivitä</string>
+
+    <string name="friends">Kaverit</string>
+
+    <string name="addFriend">Lisää kaveri</string>
+
+    <string name="removeFriend">Poista\nkaveri</string>
+
+    <string name="search">Etsi</string>
+
+    <string name="selectTracker">Valitse paikannin, jonka haluat aktivoida:</string>
+
+    <string name="wait">Odota…</string>
+
+    <string name="nameCanNotBeEmpty">Nimi ei voi olla tyhjä</string>
+
+    <string name="fullName">Koko nimi</string>
+
+    <string name="satellite">Satellitti</string>
+
+    <string name="standard">Tavallinen</string>
+
+    <string name="topo">Topo</string>
+
+    <string name="photo">Valokuva</string>
+
+    <string name="removeTracks">Poista jäljet</string>
+
+    <string name="map">Kartta</string>
+
+    <string name="all">Kaikki</string>
+
+    <string name="notify_photo_title">Valokuva</string>
+
+    <string name="notify_photo_text">GPS Ping</string>
+
+    <string name="profileSaved">Profiilin päivitys onnistui </string>
+
+    <string name="smsAlertDialogTitle">SMS</string>
+
+    <string name="smsAlertDialogMessage">Tämä lähettää tekstiviestin paikantimeesi</string>
+
+    <string name="trackerUpdated">Paikantimen päivitys onnistui </string>
+
+    <string name="locationMessage">Sijainnin seuranta</string>
+
+    <string name="friendShipRequest">Kaveripyyntö</string>
+
+    <string name="friendShipRequestMessage">%1$s haluaa olla kaverisi. Vahvistatko kaveripyynnön? </string>
+
+    <string name="friendShipRequestNotifyMessage">haluaa olla kaverisi </string>
+
+    <string name="PUSH_MESSSAGE_FRIEND_REQUEST">%1$s haluaa olla kaverisi </string>
+
+    <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Paikantimesi on nyt paikallaan samassa sijainnissa. </string>
+
+    <string name="confirm">Vahvista</string>
+
+    <string name="owner">Omistaja:</string>
+
+
+    <string name="trackerNumberNMap">Paikantimen numero:\t%1$s</string>
+
+    <string name="trackerImeiNMap">IMEI-numero:\t\t\t%1$s</string>
+
+    <string name="logTimeNMap">Seuraa Aikaa:\t\t\t\t%1$s</string>
+
+    <string name="latNMap">Leveysaste:\t\t\t%1$s</string>
+
+    <string name="lonNMap">Pituusaste:\t\t\t%1$s</string>
+
+    <string name="grsmNMap">GRSM:\t%1$s</string>
+
+    <string name="you">Sinä</string>
+
+    <string name="distanceKm">%1$s km</string>
+
+    <string name="distanceM">%1$s m</string>
+
+    <string name="restore">Palauta</string>
+
+    <string name="passwordRestoreDesc">Syötä sähköpostiosoitteesi ja lähetämme sinulle ohjeet salasanan palauttamista varten </string>
+
+    <string name="emailSent">Salasanan palautuslinkki on lähetetty sähköpostiisi. Tarkista ystävällisesti sähköpostisi. </string>
+
+    <string name="forgetYourPassword"><u>Unohditko salasanasi?</u></string>
+
+    <string name="editPoi"><u>Muokkaa kohdepistettä</u></string>
+
+    <string name="editPoiTitle"> Muokkaa kohdepistettä </string>
+
+    <string name="createPoiTitle">Luo kohdepiste</string>
+
+    <string name="deletePoi"><u>Poista kohdepiste</u></string>
+
+    <string name="displayOptions">Näytä asetukset</string>
+
+    <string name="showOnMapTracker">Näytä paikantimen sijainti kartalla kello: </string>
+
+    <string name="trackingHistory">Paikannushistoria </string>
+
+    <string name="poiName">Kohdepisteen nimi</string>
+
+    <string name="poiNameCanNotBeEmpty">Kohdepisteen nimi ei voi olla tyhjä </string>
+
+    <string name="areYouSureRemovePoi">Haluatko varmasti poistaa tämän kohdepisteen? </string>
+
+    <string name="removePoiTitle">Poista kohdepiste </string>
+
+    <string name="remove">Poista</string>
+
+    <string name="friendsRequiresSubscription">Tämän ominaisuuden käyttämiseksi sinun tulee lisätä ensin paikannin tai ostaa lisenssi</string>
+    <string name="buySubscription">Osta lisenssi</string>
+    <string name="reset">Palauta</string>
+    <string name="bikeTracking">Pyörän paikannus</string>
+    <string name="ledLight">LED-valo</string>
+    <string name="active">Aktiivinen</string>
+    <string name="turnOff">Poista käytöstä</string>
+    <string name="turnOn">Ota käyttöön</string>
+    <string name="inactive">Poissa käytöstä</string>
+    <string name="shockAlarm">Shock Alarm</string>
+    <string name="shockFlashAlarm">Shock Flash Alarm</string>
+    <string name="code">Koodi</string>
+    <string name="phoneCodeCanNotBeEmpty">Puhelimen koodi ei voi olla tyhjä</string>
+    <string name="pinCode">PIN-koodi</string>
+    <string name="pinCodeLengthError">Syötä %1$s merkin pituinen PIN-koodi</string>
+    <string name="trackerPinCode">Paikantimen PIN-koodi</string>
+    <string name="last4DigitsError">Syötä paikantimen numeron 4 viimeistä merkkiä</string>
+    <string name="trackerLast4Digits"> Paikantimen numeron 4 viimeistä merkkiä </string>
+    <string name="address">Osoite</string>
+    <string name="country">Maa</string>
+    <string name="city">Kaupunki</string>
+    <string name="zipCode">Postinumero</string>
+    <string name="addressCanNotBeEmpty">Osoite ei voi olla tyhjä</string>
+    <string name="cityCanNotBeEmpty">Kaupunki ei voi olla tyhjä </string>
+    <string name="countryCanNotBeEmpty"> Maa ei voi olla tyhjä </string>
+    <string name="zipCodeCanNotBeEmpty">Postinumero ei voi olla tyhjä </string>
+    <string name="skip"><u>Ohita</u></string>
+
+
+    <string-array name="receiveSignalTime">
+
+        <item>20 sekuntia</item>
+
+        <item>30 sekuntia</item>
+
+        <item>40 sekuntia</item>
+
+        <item>50 sekuntia</item>
+
+        <item>1 minuutti</item>
+
+        <item>2 minuuttia</item>
+
+        <item>3 minuuttia</item>
+
+        <item>5 minuuttia</item>
+
+        <item>7 minuuttia</item>
+
+        <item>10 minuuttia</item>
+
+        <item>20 minuuttia</item>
+
+        <item>30 minuuttia</item>
+
+        <item>40 minuuttia</item>
+
+        <item>50 minuuttia</item>
+
+        <item>60 minuuttia</item>
+
+    </string-array>
+
+
+
+    <string-array name="receiveSignalMeasure">
+
+        <item>Sekuntia</item>
+
+        <item>Minuuttia</item>
+
+    </string-array>
+
+    <string-array name="showDuring">
+
+        <item>10 minuuttia</item>
+
+        <item>15 minuuttia</item>
+
+        <item>30 minuuttia</item>
+
+        <item>60 minuuttia</item>
+
+    </string-array>
+    <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
+    <string name="faq">Vianmääritys</string>
+    <string name="canBeFoundInside">on paketin sisällä yhdessä paikantimen kanssa</string>
+    <string name="helpNewTracker">Mistä löydän paikantimen <b>matkapuhelinnumeron</b> ja <b>imei-numeron</b></string>
+    <string name="isPlacedOnTheBack">sijaitsee paikantimen takakuoressa</string>
+    <string name="pauseSubscription">Keskeytä Tilaus</string>
+    <string name="intro_step_5">Napauta paikantimen oikealla puolella sijaitsevaa pientä ympyrää sen merkitsemistä varten.</string>
+
+
+</resources>
+

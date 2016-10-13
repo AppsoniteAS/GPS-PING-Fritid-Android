@@ -48,7 +48,7 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.addTracker) {
-            getBaseActivity().replaceFragment(ChooseTrackerFragment.newInstance(), true);
+            getBaseActivity().replaceFragment(AddTrackerWithPinCodeFragment.newInstance(), true);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -82,6 +82,89 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
 
             }
         });
+
+        getBinding().shockAlarmActive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getModel().tracker.get().shockAlarmActive.set(!getModel().tracker.get().shockAlarmActive.get());
+                Observable<Boolean> observable = getModel().updateShockAlarm(getActivity());
+                if (observable != null) {
+                    showProgress();
+                    observable.subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onCompleted() {
+                            hideProgress();
+                            Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            showError(e);
+                        }
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+                        }
+                    });
+                }
+            }
+        });
+
+        getBinding().shockFlashActive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getModel().tracker.get().shockFlashActive.set(!getModel().tracker.get().shockFlashActive.get());
+                Observable<Boolean> observable = getModel().updateShockFlashAlarm(getActivity());
+                if (observable != null) {
+                    showProgress();
+                    observable.subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onCompleted() {
+                            hideProgress();
+                            Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            showError(e);
+                        }
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+
+                        }
+                    });
+                }
+            }
+        });
+
+        getBinding().ledActive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getModel().tracker.get().ledActive.set(!getModel().tracker.get().ledActive.get());
+                Observable<Boolean> observable = getModel().updateLed(getActivity());
+                if (observable != null) {
+                    showProgress();
+                    observable.subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onCompleted() {
+                            hideProgress();
+                            Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            showError(e);
+                        }
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void resetTracker() {

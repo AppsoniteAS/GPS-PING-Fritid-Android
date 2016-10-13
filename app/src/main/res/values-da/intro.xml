@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_step_1">Velkommen til GPS Ping! Hvis du har købt en GPS sporer, vil vi vise dig, hvordan du indstiller den. Hvis ikke, så tjek vores webshop: www.gpsping.no</string>
+    <string name="intro_step_2">Lad først din sporer lade op i mindst 8 timer. Sporeren er fuldt opladet når lyset slukker.</string>
+    <string name="intro_step_3">Tag sporeren udendørs og tryk på "Tændt"-knappen som findes ovenpå sporeren. En grøn og en blå lampe vil derefter tænde.</string>
+    <string name="intro_step_4">Åbn appen og tryk på Sporere i hovedmenuen for at se din sporer.</string>
+    <string name="intro_step_6">Gå tilbage til hovedmenuen. Vær sikker på at sporerens navn vises ovenfor start-knappen. Tryk på start.</string>
+</resources>

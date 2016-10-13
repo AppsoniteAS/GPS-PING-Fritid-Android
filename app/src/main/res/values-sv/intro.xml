@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_step_1">Välkommen till GPS Ping! Om du har köpt en GPS-spårare kommer vi att visa dig hur du ställer in den. Om inte, kolla in vår webbshop: www.gpsping.no</string>
+    <string name="intro_step_2">Ladda först din GPS-spårare under minst 8 timmar. GPS-spåraren är full-laddad när lampan släcks. </string>
+    <string name="intro_step_3">Ta med GPS-spåraren utomhus och tryck på "på"-knappen som finns ovanpå GPS-spåraren. En grön och en blå lampa kommer då att tändas. </string>
+    <string name="intro_step_4">Öppna appen och tryck på GPS-spårare på huvudmenyn för att se din GPS-spårare. </string>
+    <string name="intro_step_6">Gå tillbaka till huvudmenyn. Försäkra dig om att GPS-spårarens namn visas ovanför  start-knappen. Tryck på start. </string>
+</resources>

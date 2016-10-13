@@ -59,37 +59,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:error="@{viewModel.fullNameError}">
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/fullName"
-                            android:imeOptions="actionNext"
-                            android:singleLine="true"
-                            app:twoWayText="@{viewModel.profile.displayname}" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:error="@{viewModel.emailError}">
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/email"
-                            android:imeOptions="actionNext"
-                            android:inputType="textEmailAddress"
-                            android:singleLine="true"
-                            app:twoWayText="@{viewModel.profile.email}" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         app:error="@{viewModel.passwordError}">
 
                         <EditText
@@ -114,13 +83,173 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/confirmPassword"
                             android:inputType="textPassword"
+                            android:imeOptions="actionNext"
                             android:singleLine="true"
                             app:twoWayText="@{viewModel.passwordRepeat}" />
                     </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.emailError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/email"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.email}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.fullNameError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/fullName"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.displayname}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.addressError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/address"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPostalAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.address}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.zipCodeError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/zipCode"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.zipCode}" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.cityError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/city"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPostalAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.city}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.countryError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/country"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPostalAddress"
+                            android:singleLine="true"
+                            app:twoWayText="@{viewModel.profile.country}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="72dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+
+                                app:error="@{viewModel.phoneCodeError}">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/code"
+                                    android:imeOptions="actionNext"
+                                    android:singleLine="true"
+                                    android:maxLength="4"
+                                    android:inputType="number"
+                                    android:digits="0123456789"
+                                    android:paddingLeft="16dp"
+                                    app:twoWayText="@{viewModel.profile.phoneCode}" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <TextView
+                                android:layout_marginTop="12dp"
+                                android:layout_gravity="center_vertical"
+                                android:text="+"
+                                android:layout_marginLeft="4dp"
+                                android:textColor="@color/mainTextColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </FrameLayout>
+
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:error="@{viewModel.phoneNumberError}">
+
+                            <EditText
+                                android:id="@+id/phoneNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/phoneNumber"
+                                android:imeOptions="actionDone"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="10"
+                                app:twoWayText="@{viewModel.profile.phoneNumber}" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/registerButton"
+                    android:layout_marginBottom="24dp"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/register" />

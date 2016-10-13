@@ -44,12 +44,9 @@ public class Compass implements SensorEventListener {
 
     private void adjustArrow() {
         if (arrowView == null) {
-            Log.i(TAG, "arrow view is not set");
             return;
         }
 
-        Log.i(TAG, "will set rotation from " + currectAzimuth + " to "
-                + azimuth);
 
         Animation an = new RotateAnimation(-currectAzimuth, -azimuth,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,

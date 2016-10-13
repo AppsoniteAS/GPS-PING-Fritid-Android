@@ -2,9 +2,11 @@ package no.appsonite.gpsping.fragments;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 
@@ -76,5 +78,11 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
         if (mapPoint.isBelongsToUser() && mapPoint.getUser().id.get() == myId) {
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getBinding().showUserPosition.setVisibility(View.INVISIBLE);
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_code_1">Friend already added</string>
+    <string name="error_code_2">Can\'t add new friend</string>
+    <string name="error_code_3">Friendship request not found</string>
+    <string name="error_code_4">Can\'t register user for notifications</string>
+    <string name="error_code_5">Invalid authentication cookie. Try to login again.</string>
+    <string name="error_code_6">Can\'t add new Point of Interest</string>
+    <string name="error_code_7">Tracker already added.</string>
+    <string name="error_code_8">Can\'t add new device</string>
+    <string name="error_code_9">Can\'t add new device</string>
+    <string name="error_code_10">Can\'t find tracker</string>
+    <string name="error_code_11">Can\'t create point</string>
+
+
+    <string name="error_code_201">Registration error, please try again</string>
+    <string name="error_code_202">Username is invalid.</string>
+    <string name="error_code_203">Username already exists.</string>
+    <string name="error_code_204">E-mail address is invalid.</string>
+    <string name="error_code_205">E-mail address is already in use.</string>
+    <string name="error_code_206">Your email address not found!</string>
+    <string name="error_code_207">Password reset not allowed!</string>
+    <string name="error_code_208">An error occurred!</string>
+    <string name="error_code_209">The e-mail could not be sent.</string>
+    <string name="error_code_210">Invalid username or password.</string>
+    <string name="error_code_211">Invalid authentication cookie. Try to login again.</string>
+</resources>

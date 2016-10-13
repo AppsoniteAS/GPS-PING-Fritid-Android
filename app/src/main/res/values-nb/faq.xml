@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_questions_answers">
+        <item>Jeg har trykket "Start" og mottatt "upload ok" sms, men jeg klarer ennå ikke å se trackeren.</item>
+        <item>Pass på at trackeren er ute. Hvis den er inne vil den få problemer med å koble seg til satelitter. Når trackeren får kontakt med satelittene begynner det blå lyset å blinke.</item>
+        <item>Jeg har trykket "Start, men jeg får ikke sms svar fra trackeren.</item>
+        <item>Gå til Innstillinger->Profil og fyll inn landkode og ditt telefon nummer. Gå så til Trackere-> og trykk på din tracker. Edit Tracker åpner seg. Skroll ned, og trykk reset knappen. Når du trykker Reset knappen vil fem sms`er sendes. På Android telefoner vil alle fem sendes på en gang. På iPhone telefoner vil sms funksjonen åpnes og du må sende en etter en. Gå så tilbake til hoved menyen og trykk "Start"</item>
+        <item>Trackeren lyser ikke</item>
+        <item>Pass på at trackeren er full-laddet. Når du ladder den vil du se et rødt lys oppe på trackeren. Når trackeren er laddet vil lyset slå seg av. Etter at trackeren er full-laddet, trykk på knappen oppe på trackeren.</item>
+        <item>Når jeg trykker "Start" knappen i appen så skjer det ingenting.</item>
+        <item>Du har ikke valgt hvilken tracker du skal starte. Trykk på Trackere i hoved menyen. Trykk så på den lille sirkelen til høyre for trackeren. Gå tilbake til hoved menyen. Navnet på trackeren skal nå stå over "Start" knappen. Trykk så på "Start" knappen og appen vil nå sende en sms til trackeren for å starte den.</item>
+        <item>The grønne lyset på trackeren blinker ikke.</item>
+        <item>Dette betyr at du ikke er koblet til GSM nettverket. Sjekk om du har mobil dekning. Gå til hoved menyen og trykk på "Trackere". Trykk så på din tracker og en ny side åpnes. Scroll ned til bunnen og trykk på "Reset" knappen. Når du trykker Reset knappen vil fem sms`er sendes. På Android telefoner vil alle fem sendes på en gang. På iPhone telefoner vil sms funksjonen åpnes og du må sende en etter en. Gå så tilbake til hoved menyen og trykk "Start"</item>
+        <item>Jeg vil endre hvor ofte trackeren sender gps signalet.</item>
+        <item>Gå til hoved menyen->Trackere og trykk på trackeren du vil endre signal frekvensen på. Scroll ned til "Signal". Trykke tiden som står under "Signal" og endre det til ønsket lengde. Trykk "Oppdater". Gå tilbake til hoved menyen og trykk "Start".</item>
+        <item>Jeg ser bare gps posisjoner for siste del av turen.</item>
+        <item>Du kan sette lengden på tracking historikken din ved å gå til hoved meny->Innstillinger->Visning alternativer. Velg så ønsket tid og trykk lagre. Du vil nå få se gps posisjoner innen denne tidsrammen.</item>
+        <item>Jeg vil se min venns tracker</item>
+        <item>Gå på innstillinger-Koble til og trykk på "+" tegnet oppe i høyre hjørne. Søk opp din venns brukernavn og trykk "+". Din venn vil nå få opp ditt brukernavn under hans "Koble til" liste. Han må så legge deg til ved å trykke på "+" tegnet ved siden av ditt navn. For at du skal se hans tracker må han trykke på "Øye" ikonet ved siden av ditt navn. "Øye" ikonet vil så bli grønt.</item>
+        <item>Jeg vil stoppe min venn fra å se min tracker.</item>
+        <item>Gå på Innstillinger->Koble til og trykk på "Øye" ikonet.  Øye ikonet vil endre seg fra grønt til grått og få en linje gjennom. Din venn kan ikke lenger se din tracker.</item>
+        <item>Jeg vil min venns tracker men det står jeg må betale for det</item>
+        <item>Hvis du ikke eier en tracker som er registrert på ditt brukernavn må du betale en liten sum i måneden for å se den. Du kan stoppe betalingen når du ønsker.</item>
+        <item>Jeg vil sette tracker abonnementet mitt på pause</item>
+        <item>Gå til Innstillinger og trykk "Pause abonnement". En epost vil så bli sendt til GPS Ping og vi setter abonnementet på pause.</item>
+        <item>Trackerens posisjon er midt i havet.</item>
+        <item>Dette betyr at trackeren ikke har oppdatert gps posisjonen sin og har ikke fått satelitt kontakt. Ta trackeren ut og restart den ved å trykke på av og på knappen.</item>
+        <item>Jeg ønsker å stoppe abonnementet jeg kjøpte i appen for å se min venns tracker.</item>
+        <item>Dette må stoppes i Apples App store eller i Google Play Store. For iPhone gå til App Store appen og scroll ned til din bruker. Trykk på apple id´en din og så View Apple id. Skriv inn passordet ditt, gå til abonnementer og trykk adminstrer. Der kan du stoppe abonnementet. På Android: Åpne Google Play store på din telefon. Gå til Mine Apper via Google Play store menyen. På venstre siden av installerte apper er en liste over dine abonnementer. Her kan du velge det abonnementet du ønsker å stoppe.</item>
+        <item>Jeg kan ikke se min egen posisjon.</item>
+        <item>Dette betyr at du ikke har gitt appen tilgang til gps funksjonen på telefonen. Gå til innstillinger på dine telefon og gi GPS Ping appen tilgang.</item>
+        <item>Hvordan setter jeg Geofence</item>
+        <item>Gå til Innstillinger->Geofence og legg inn antall meter du ønsker som geofence. Trykk "Start". Appen vil så sende en sms til trackeren og du skal få "Move ok" sms tilbake. Når trackeren beveger seg utenfor angitte meter vil du få en sms fra trackeren med "move alarm".</item>
+        <item>Jeg vil endre navn på trackeren</item>
+        <item>Gå på Trackere og trykk på din tracker. Edit tracker vil så åpne seg. Her kan du skrive inn navnet på trackeren under "Navn"</item>
+        <item>Hvordan kan jeg se den daglige loggen til trackeren</item>
+        <item>Gå på  Logg og trykk på kalenderen oppe i høyre hjørne. Velg den aktuelle datoen og appen henter gps posisjonene for denne datoen.</item>
+        <item>Hvordan finner jeg nord på kartet</item>
+        <item>Åpne Kart og tracking og legg to fingre på kartet og vri. Et kompass vil komme opp på venstre side av skjermen. Dette kompasset viser nord på kartet.</item>
+        <item>Hva viser kompasset som alltid er på kartet.</item>
+        <item>Dette kompasset viser virkelig Nord.</item>
+        <item>Hvor mange trackere kan jeg ha i appen</item>
+        <item>Du kan kjøpe og se så mange trackere som du vil.</item>
+    </string-array>
+</resources>

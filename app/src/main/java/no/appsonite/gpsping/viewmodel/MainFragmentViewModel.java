@@ -43,6 +43,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         setTrackerRunning(tracker, true);
         String message;
         switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case TK_BIKE:
             case TK_STAR_PET:
             case TK_STAR:
                 message = String.format("Upload123456 %s", tracker.getRepeatTime());
@@ -52,7 +53,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 break;
         }
 
-        LocationTrackerService.startService(activity);
+//        LocationTrackerService.startService(activity);
 
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.trackerNumber.get(), message));
@@ -70,7 +71,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         smses.add(new SMS(tracker.trackerNumber.get(), message));
 
         if (!RealmTracker.hasRunning()) {
-            LocationTrackerService.stopService(activity);
+//            LocationTrackerService.stopService(activity);
         }
 
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())

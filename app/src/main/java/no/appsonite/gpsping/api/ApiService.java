@@ -24,7 +24,19 @@ public interface ApiService {
     Observable<NonceAnswer> getNonce();
 
     @GET("user/register/?seconds=999999999")
-    Observable<RegisterAnswer> registerUser(@Query("username") String username, @Query("user_pass") String password, @Query("email") String email, @Query("first_name") String firstName, @Query("last_name") String lastName, @Query("display_name") String displayName, @Query("nonce") String nonce);
+    Observable<RegisterAnswer> registerUser(@Query("username") String username,
+                                            @Query("user_pass") String password,
+                                            @Query("email") String email,
+                                            @Query("first_name") String firstName,
+                                            @Query("last_name") String lastName,
+                                            @Query("display_name") String displayName,
+                                            @Query("Phone_pref") String phoneCode,
+                                            @Query("Phone_num") String phoneNum,
+                                            @Query("m_address") String address,
+                                            @Query("m_city") String city,
+                                            @Query("m_country") String country,
+                                            @Query("m_zipcode") String zipCode,
+                                            @Query("nonce") String nonce);
 
     @GET("user/generate_auth_cookie/?seconds=999999999")
     Observable<LoginAnswer> login(@Query("username") String username, @Query("password") String password);
@@ -84,6 +96,9 @@ public interface ApiService {
 
     @GET("tracker/add_position/")
     Observable<ApiAnswer> setUserPosition(@Query("lat") double lat, @Query("lon") double lon);
+
+    @GET("Tracker/bind_tracker/")
+    Observable<ApiAnswer> bindTracker(@Query("imei") String imei, @Query("lastdig") String lastDigits);
 
     @GET("friends/unregister_gcm/")
     Observable<ApiAnswer> unregisterGCM(@Query("uuid") String uuid);

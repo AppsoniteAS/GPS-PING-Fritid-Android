@@ -109,9 +109,34 @@
     <string name="areYouSureRemovePoi">Är du säker på att du vill ta bort den här intressepunkten?</string>
     <string name="removePoiTitle">Ta bort intressepunkt</string>
     <string name="remove">Ta bort</string>
-    <string name="friendsRequiresSubscription">För att använda den här funktionen måste du först lägga till din GPS-spårare eller beställa en årsprenumeration.</string>
-    <string name="buySubscription">Beställ prenumeration</string>
+    <string name="friendsRequiresSubscription">För att använda den här funktionen måste du först lägga till din GPS-spårare eller köpa en årlig prenumeration.</string>
+    <string name="buySubscription">Köp prenumeration</string>
     <string name="reset">Återställ</string>
+    <string name="bikeTracking">Cykelspårning</string>
+    <string name="ledLight">LED-lampa</string>
+    <string name="active">Aktiv</string>
+    <string name="turnOff">Stäng av </string>
+    <string name="turnOn">Slå på</string>
+    <string name="inactive">Inte aktiv</string>
+    <string name="shockAlarm">Alarm</string>
+    <string name="shockFlashAlarm">Blinkande alarm</string>
+    <string name="code">Kod</string>
+    <string name="phoneCodeCanNotBeEmpty">Kod måste fyllas i</string>
+    <string name="pinCode">PIN-kod</string>
+    <string name="pinCodeLengthError">Slå in %1$s-siffrig PIN-kod</string>
+    <string name="trackerPinCode">GPS-spårarens PIN-kod</string>
+    <string name="last4DigitsError">Slå in GPS-spårarens 4 sista siffror</string>
+    <string name="trackerLast4Digits">GPS-spårarens 4 sista siffror</string>
+    <string name="address">Adress</string>
+    <string name="country">Land</string>
+    <string name="city">Stad</string>
+    <string name="zipCode">Postnummer</string>
+    <string name="addressCanNotBeEmpty">Adress-fält måste fyllas i</string>
+    <string name="cityCanNotBeEmpty">Stad måste fyllas i</string>
+    <string name="countryCanNotBeEmpty">Land måste fyllas i</string>
+    <string name="zipCodeCanNotBeEmpty">Postnummer måste fyllas i</string>
+    <string name="skip"><u>Hoppa över</u></string>
+
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
         <item>30 sekunder</item>
@@ -141,6 +166,13 @@
         <item>30 minuter</item>
         <item>60 minuter</item>
     </string-array>
+    <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
+    <string name="faq">Problemlösning</string>
+    <string name="canBeFoundInside">hittar du inuti GPS-spårarens kartong.</string>
+    <string name="helpNewTracker">Var hittar jag <b>GPS-spårarens mobil-</b> och <b>IMEI-nummer</b>?</string>
+    <string name="isPlacedOnTheBack">finns på baksidan av din GPS-spårare.</string>
+    <string name="pauseSubscription">Pausa prenumerationen</string>
+    <string name="intro_step_5">Tryck på den lilla cirkeln till höger om din GPS-spårare för att markera den. </string>
 
 
 </resources>

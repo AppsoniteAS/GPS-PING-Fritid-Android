@@ -5,7 +5,6 @@ import android.databinding.ObservableArrayList;
 import java.util.ArrayList;
 
 import io.realm.Realm;
-import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
@@ -31,7 +30,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
                 .flatMap(new Func1<ApiAnswer, Observable<ApiAnswer>>() {
                     @Override
                     public Observable<ApiAnswer> call(ApiAnswer apiAnswer) {
-                        Realm realm = Realm.getInstance(Application.getContext());
+                        Realm realm = Realm.getDefaultInstance();
                         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
                         realm.beginTransaction();
                         realmTracker.removeFromRealm();
@@ -104,7 +103,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
         Observable.defer(new Func0<Observable<Boolean>>() {
             @Override
             public Observable<Boolean> call() {
-                Realm realm = Realm.getInstance(Application.getContext());
+                Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
                 for (Tracker tracker : trackers) {
                     RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();

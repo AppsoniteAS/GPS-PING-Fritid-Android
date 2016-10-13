@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_questions_answers">
+        <item>Jag har tryckt på "start" och tagit emot ett sms med meddelandet "upload ok",  men jag kan inte se GPS-spåraren.</item>
+        <item>Tänk på att du måste ta med GPS-spåraren utomhus. Om den är inohus blir det problem med att ansluta till satelliterna.  När GPS-spåraren har kontakt med satelliterna kommer en blå lampa att börja blinka.</item>
+        <item>Jag har stryckt på "start", men jag får inget svar via sms från GPS-spåraren.</item>
+        <item>Gå till Inställningar --> Profil och fyll i ditt lands- och telefonnummer.  Gå där efter till GPS-spårare --> Redigera GPS-spårare, scrolla ner och tryck på "reset". När du trycker på "reset"-knappen kommer fem sms att skickas via appen. På Android kommer alla meddelanden att skickas på samma gång. Använder du iPhone kommer sms-funktionen att öppnas så att du kan sända ett sms i taget. Gå sedan tillbaka till huvudmenyn och tryck på "start".</item>
+        <item>GPS-spårarens lampor lyser inte.</item>
+        <item>Se till att GPS-spåraren är laddad. Under laddningen ser du en röd lampa som lyser. När GPS-spåraren är full-laddad släcks den röda lampan. Tryck då på "På"-knappen ovanpå GPS-spåraren.</item>
+        <item>När jag trycker på "start"-knappen i appen så händer ingenting.</item>
+        <item>Gå till huvydmeny --> GPS-spårare och tryck på cirkeln till höger om din GPS-spårares namn. Gå tillbaka till Huvudmenyn. GPS-spårarens namn ska nu stå ovanför "start"-knappen. Tryck på "Starta" igen. Då kommer appen skicka sms till GPS-spåraren.</item>
+        <item>Den gröna lampan på GPS-spåraren blinkar inte.</item>
+        <item>Det här betyder att du inte är ansluten till GSM-nätverket. Försäkra dig om att du har mobil-täckning. Gå till huvudmenyn --> GPS-spårare --> Klicka på GPS-spårarens nman och scrolla ner till "reset"-knappen. Tryck på "Reset". 5 sms kommer nu att skickas till GPS-spåraren. På Android kommer fem sms att skickas på en gång.  Använder du iPhone kommer sms-funktionen att öpnnas så att du kan skicka  ett sms i taget. Gå där efter tillbaka till huvudmenyn och tryck "Start".</item>
+        <item>Jag vill ändra hur ofta GPS-spåraren skickar signaler.</item>
+        <item>Gå till huvudmenyn --> GPS-spårare, tryck på din GPS-spårare och scrolla ner till "Signal".  Ställ in hur ofta du vill att GPS-spåraren ska skicka signaler genom att scrolla fram till önskad frekvens. Klicka på Uppdatera. Gå tillbaka till huvudmenyn och tryck på "Start".</item>
+        <item>Jag ser bara några få GPS-positioner på kartan.</item>
+        <item>Du kan ställa in längden på GPS-spårarens historik genom att gå till huvudmeny --> Inställningar --> Visningsinställningar. Här kan du ställa in hur långt tillbaka i tiden som du vill se GPS-spårarens positioner på kartan.</item>
+        <item>Jag vill se min väns GPS-spårare / Jag vill ge min vän tillgång till att se min GPS-spårare.</item>
+        <item>Gå till Inställningar --> Anslut och klicka sedan på "+"-tecknet i högra hörnet. Sök efter din väns användarnamn. När du ser användarnamnet klicka på "+"-tecknet till höger om det. När du har lagt till din väns användarnamn kommer ditt användarnamn att läggas till på din väns lista. Din vän måste då klicka på "+"-tecknet för att lägga till dig som vän. Han eller hon måste då klicka på "Ögon-ikonen" för att godkänna att du ser hans eller hennes GPS-spårare. "Ögon-ikonen" kommer då att förändras från att vara grå med ett streck igenom till att i stället bli grön.</item>
+        <item>Jag vill inte att min vän ska se min GPS-spårare längre.</item>
+        <item>Gå till Inställningar --> Anslut och klicka på "Ögon-ikonen" som finns till höger om din väns användarnamn. Ikonen kommer att förändras från att vara grön till att i stället bli grå med ett streck igenom.</item>
+        <item>Jag vill se min väns GPS-spårare, men det står att jag måste betala för att kunna göra det.</item>
+        <item>Om du inte har en egen GPS-spårare så måste du betala en mindre prenumerationsavgift för att kunna använda tjänsten och se din väns GPS-spårare. Prenumerationen sker månadsvis. Du kan stänga av den när du vill.</item>
+        <item>Jag vill pausa prenumerationen för min GPS-spårare.</item>
+        <item>Gå till Inställningar och tryck på "Pausa prenumerationen". Ett e-postmeddelande kommer då att skickas till GPS Ping och vi kommer då att pausa din prenumeraton.</item>
+        <item>Min GPS-spårares position dyker upp mitt i havet.</item>
+        <item>Det här betyder att din GPS-spårare inte har uppdaterat sin position och att den inte är ansluten till några satelliter. Ta med GPS-spåraren utomhus och starta om den genom att trycka på "Av"- och "På"-knappen.</item>
+        <item>Jag vill avsluta prenumerationen som jag köpt för att kunna se min väns GPS-spårare.</item>
+        <item>Det här måste avslutas i App Store Har du en iPhone, gå till appen för Apples App Store och scrolla ner till användare. Klicka på ditt Apple id och där efter Se Apple id. Skriv in ditt lösenord, gå till prenumerationer och avsluta prenumerationen. På Android: öppna Google Play Store på din smartphone eller surfplatta. Öppna Mina appar via menyn i Google Play Store. Till vänster i listan över dina installerade appar finn en lista över dina prenumerationer. Här kan du välja den prenumeration som du vill avsluta.  Klicka på "Avsluta"-knappen och bekräfta genom att sedan trycka på "Ja".</item>
+        <item>Jag kan inte se min egen GPS-position.</item>
+        <item>Det här betyder att du inte har gett appen tillgång till din GPS-spårares GPS-position. Gå till inställningar på GPS-spåraren (inte i appen) och ge GPS Ping-appen tillgång till GPS- systemet.</item>
+        <item>Hur ställer jag in Geostaket på min GPS-spårare?</item>
+        <item>Gå till Inställningar för Geostaket och skriv in antalet meter som du önskar. Klicka på "Starta". Appen kommer då att skicka ett sms till GPS-spåraren med meddelandet "Move ok". När GPS-spåraren förflyttas utanför de uppsatta parametrarna kommer du att få ett sms med texten "Move alarm" från från GPS-spåraren.</item>
+        <item>Jag villl ändra GPS-spårarens namn.</item>
+        <item>Gå till GPS-spårare och tryck på din GPS-spårares namn. Redigera GPS-spårare kommer då att öpnnas. Du kan byta namn genom att skriva in ett nytt.</item>
+        <item>Hur ser jag historik / den dagliga loggen.</item>
+        <item>Gå till Historik och klicka på kalender-ikonen i det övre högra hörnet. Välj önskat datum. Appen kommer då att visa GPS-positionerna för den dagen.</item>
+        <item>Hur hittar jag norr på kartan?</item>
+        <item>Öpppna Karta och GPS-spårning, och lägg två fingrar på kartan och vänd på den. En kompass kommer att visas på skärmens vänstra sida. Den här kompassen visar var norr ligger på kartan.</item>
+        <item>Vad betyder kompassen som alltid visas på kartan?</item>
+        <item>Den här kompassen visar var norr ligger.</item>
+        <item>Hur många GPS-spårare kan jag lägga till i appen?</item>
+        <item>Du kan köpa och se så många appar som du vill.</item>
+    </string-array>
+</resources>
