@@ -172,5 +172,7 @@
     <string name="isPlacedOnTheBack">er på baksiden av selve trackeren</string>
     <string name="pauseSubscription">Pause abonnement</string>
     <string name="intro_step_5">Trykk på den lille sirkelen til høyre for trackeren.</string>
+    <string name="checkBattery">Sjekk Batteri</string>
+    <string name="sleepMode">Dvale Modus</string>
 
 </resources>

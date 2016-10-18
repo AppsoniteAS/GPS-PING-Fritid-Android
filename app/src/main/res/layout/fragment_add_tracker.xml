@@ -165,9 +165,65 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="-12dp"
+                            android:text="@string/sleepMode"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="12sp"
+                            android:text="@{viewModel.tracker.sleepMode?@string/active:@string/inactive}"
+                            android:textColor="@{viewModel.tracker.sleepMode?@color/colorPrimary:@color/colorAccent}"
+                            tools:text="Active" />
+
+                        <TextView
+                            android:id="@+id/sleepMode"
+                            style="@style/AppTheme.widget.Button.Gray"
+                            android:layout_width="100dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginRight="0dp"
+                            android:background="@{viewModel.tracker.sleepMode?@drawable/button_gray_new:@drawable/button_green_new}"
+                            android:text="@{viewModel.tracker.sleepMode?@string/turnOff:@string/turnOn}"
+                            android:textAllCaps="true"
+                            android:textColor="@{viewModel.tracker.sleepMode?@android:color/black:@android:color/white}"
+                            android:textSize="16sp"
+                            tools:text="turn off" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_marginTop="12dp"
+                        android:id="@+id/checkBattery"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/checkBattery" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/form_bg"
                     android:orientation="vertical"

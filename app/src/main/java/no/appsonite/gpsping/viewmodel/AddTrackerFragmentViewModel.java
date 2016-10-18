@@ -11,9 +11,7 @@ import java.util.concurrent.TimeUnit;
 import io.realm.Realm;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
-import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.ApiAnswer;
-import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
@@ -131,6 +129,24 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
 
     }
 
+    public Observable<Boolean> updateSleepMode(Activity activity) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        smses.add(new SMS(tracker.get().trackerNumber.get(), tracker.get().sleepMode.get() ? "sleep123456" : "sleep123456 off"));
+        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
+            @Override
+            public Observable<Boolean> call(SMS sms) {
+                saveTrackerToDb();
+                return Observable.just(true);
+            }
+        });
+    }
+
+    public Observable<SMS> checkBattery(Activity activity) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        smses.add(new SMS(tracker.get().trackerNumber.get(), "G123456#"));
+        return sendSmses(activity, smses);
+    }
+
     private void saveTrackerToDb() {
         Realm realm = Realm.getDefaultInstance();
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
@@ -203,8 +219,6 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
-
 
 
     @Override

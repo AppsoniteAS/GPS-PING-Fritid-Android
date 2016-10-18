@@ -143,6 +143,8 @@
     <string name="canBeFoundInside">can be found inside the box with tracker:</string>
     <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
     <string name="faq">Troubleshooting</string>
+    <string name="sleepMode">Sleep mode</string>
+    <string name="checkBattery">Check Battery</string>
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>
         <item>30 seconds</item>

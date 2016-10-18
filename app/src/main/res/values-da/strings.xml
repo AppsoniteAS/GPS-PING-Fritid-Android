@@ -309,6 +309,8 @@
     <string name="isPlacedOnTheBack">findes på bagsiden af selve sporeren</string>
     <string name="pauseSubscription">Sæt abonnement i bero</string>
     <string name="intro_step_5">Tryk på den lille cirkel til højre for din sporer for at markere den.</string>
+    <string name="checkBattery">Trek Batteri</string>
+    <string name="sleepMode">Sove mode</string>
 
 
 </resources>

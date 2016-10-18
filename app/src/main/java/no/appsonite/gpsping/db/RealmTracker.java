@@ -33,6 +33,15 @@ public class RealmTracker extends RealmObject {
     private boolean ledActive;
     private boolean shockAlarmActive;
     private boolean shockFlashActive;
+    private boolean sleepMode;
+
+    public boolean isSleepMode() {
+        return sleepMode;
+    }
+
+    public void setSleepMode(boolean sleepMode) {
+        this.sleepMode = sleepMode;
+    }
 
     public boolean isGeofenceRunning() {
         return isGeofenceRunning;
@@ -59,6 +68,7 @@ public class RealmTracker extends RealmObject {
         realmTracker.setLedActive(tracker.ledActive.get());
         realmTracker.setShockAlarmActive(tracker.shockAlarmActive.get());
         realmTracker.setShockFlashActive(tracker.shockFlashActive.get());
+        realmTracker.setSleepMode(tracker.sleepMode.get());
     }
 
     public static void requestTrackersFromRealm(final List<Tracker> result) {
@@ -196,6 +206,7 @@ public class RealmTracker extends RealmObject {
             realmTracker = realm.createObject(RealmTracker.class);
         } else {
             tracker.isEnabled.set(realmTracker.isEnabled());
+            tracker.sleepMode.set(realmTracker.isSleepMode());
         }
         RealmTracker.initWithTracker(realmTracker, tracker);
         realm.copyToRealm(realmTracker);

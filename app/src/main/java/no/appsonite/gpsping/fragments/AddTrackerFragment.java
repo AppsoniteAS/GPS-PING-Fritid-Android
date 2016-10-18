@@ -138,6 +138,56 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
             }
         });
 
+        getBinding().sleepMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getModel().tracker.get().sleepMode.set(!getModel().tracker.get().sleepMode.get());
+                Observable<Boolean> observable = getModel().updateSleepMode(getActivity());
+                if (observable != null) {
+                    showProgress();
+                    observable.subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onCompleted() {
+                            hideProgress();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            showError(e);
+                        }
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+
+                        }
+                    });
+                }
+            }
+        });
+
+        getBinding().checkBattery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgress();
+                getModel().checkBattery(getActivity()).subscribe(new Observer<SMS>() {
+                    @Override
+                    public void onCompleted() {
+                        hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showError(e);
+                    }
+
+                    @Override
+                    public void onNext(SMS sms) {
+
+                    }
+                });
+            }
+        });
+
         getBinding().ledActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

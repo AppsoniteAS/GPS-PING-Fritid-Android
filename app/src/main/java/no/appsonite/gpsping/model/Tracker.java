@@ -42,6 +42,8 @@ public class Tracker implements Serializable {
     public android.databinding.ObservableBoolean isRunning = new android.databinding.ObservableBoolean(false);
     public android.databinding.ObservableBoolean isGeofenceRunning = new android.databinding.ObservableBoolean(false);
 
+    public android.databinding.ObservableBoolean sleepMode = new android.databinding.ObservableBoolean(false);
+
     public enum Type {
         TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE
     }
@@ -60,6 +62,7 @@ public class Tracker implements Serializable {
         type.set(tracker.getType());
         isRunning.set(tracker.isRunning());
         isGeofenceRunning.set(tracker.isGeofenceRunning());
+        sleepMode.set(tracker.isSleepMode());
     }
 
     public long getRepeatTime() {

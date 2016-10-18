@@ -173,6 +173,8 @@
     <string name="isPlacedOnTheBack">finns på baksidan av din GPS-spårare.</string>
     <string name="pauseSubscription">Pausa prenumerationen</string>
     <string name="intro_step_5">Tryck på den lilla cirkeln till höger om din GPS-spårare för att markera den. </string>
+    <string name="checkBattery">Kontrollera Batteriet</string>
+    <string name="sleepMode">Village</string>
 
 
 </resources>
