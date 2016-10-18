@@ -4,6 +4,8 @@ import android.databinding.ViewDataBinding;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.Locale;
+
 import no.appsonite.gpsping.activities.MapActivity;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
@@ -22,7 +24,9 @@ public abstract class BaseMapFragment<B extends ViewDataBinding, M extends BaseF
     }
 
     public void onMapReady() {
-
+        if("sv".equals(Locale.getDefault().getLanguage())){
+            getMap().setMaxZoomPreference(15);
+        }
     }
 
     @Override
