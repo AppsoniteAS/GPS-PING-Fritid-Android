@@ -22,6 +22,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -499,12 +500,28 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         try {
             if (firstTime) {
                 firstTime = false;
-                getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+                zoomToBounds(builder.build());
             }
         } catch (Exception ignore) {
 
         }
 
+    }
+
+    public void zoomToBounds(LatLngBounds bounds) {
+        // Calculate distance between northeast and southwest
+        float[] results = new float[1];
+        android.location.Location.distanceBetween(bounds.northeast.latitude, bounds.northeast.longitude,
+                bounds.southwest.latitude, bounds.southwest.longitude, results);
+
+        CameraUpdate cu = null;
+        if (results[0] < 1000) { // distance is less than 1 km -> set to zoom level 15
+            cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 15);
+        } else {
+            int padding = 50; // offset from edges of the map in pixels
+            cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        }
+        getMap().moveCamera(cu);
     }
 
     protected void onMapPoint(MapPoint mapPoint) {

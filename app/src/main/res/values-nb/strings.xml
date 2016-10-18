@@ -155,6 +155,16 @@
         <item>60 minutter</item>
     </string-array>
 
+    <string-array name="receiveSignalTimeDog">
+        <item>20 sekunder</item>
+        <item>30 sekunder</item>
+        <item>40 sekunder</item>
+        <item>50 sekunder</item>
+        <item>1 minutt</item>
+        <item>2 minutter</item>
+        <item>3 minutter</item>
+    </string-array>
+
     <string-array name="receiveSignalMeasure">
         <item>Sekunder</item>
         <item>Minutter</item>

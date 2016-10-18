@@ -89,6 +89,20 @@ public class Tracker implements Serializable {
         return result;
     }
 
+    public ArrayList<SMS> getUpdateSms() {
+        ArrayList<SMS> smses = new ArrayList<>();
+        switch (Tracker.Type.valueOf(this.type.get())) {
+            case TK_ANYWHERE:
+            case TK_STAR:
+            case TK_STAR_PET:
+                smses.add(new SMS(trackerNumber.get(), String.format("Upload123456 %s", getRepeatTime())));
+                break;
+            case TK_BIKE:
+                break;
+        }
+        return smses;
+    }
+
     public ArrayList<SMS> getResetSms(String address) {
         ArrayList<SMS> smses = new ArrayList<>();
         String trackerNumber = this.trackerNumber.get();
@@ -101,7 +115,6 @@ public class Tracker implements Serializable {
                     smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
                     smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                     smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
-                    smses.add(new SMS(trackerNumber, "gprs123456"));
                     smses.add(new SMS(trackerNumber, "sleep123456 off"));
                     break;
                 case TK_BIKE:
@@ -117,4 +130,6 @@ public class Tracker implements Serializable {
         }
         return smses;
     }
+
+
 }

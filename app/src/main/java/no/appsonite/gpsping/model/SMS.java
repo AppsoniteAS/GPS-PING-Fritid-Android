@@ -16,6 +16,8 @@ public class SMS implements Serializable {
         this.message = message;
     }
 
+    public SMS(){}
+
     public String getNumber() {
         return number;
     }
