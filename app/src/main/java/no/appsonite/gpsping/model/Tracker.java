@@ -20,6 +20,7 @@ import no.appsonite.gpsping.utils.ObservableString;
  * Date: 15.01.2016
  */
 public class Tracker implements Serializable {
+    private static final CharSequence FINLAND_CODE = "358";
     @SerializedName("name")
     public ObservableString trackerName = new ObservableString();
     @SerializedName("tracker_number")
@@ -108,17 +109,25 @@ public class Tracker implements Serializable {
         String trackerNumber = this.trackerNumber.get();
         LoginAnswer loginAnswer = AuthHelper.getCredentials();
         try {
+            String phoneCode = loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", "");
+            if (phoneCode.contains(FINLAND_CODE)) {
+                phoneCode = "+" + phoneCode;
+            } else {
+                phoneCode = "00" + phoneCode;
+            }
+            String phoneNumber = loginAnswer.getUser().phoneNumber.get();
             switch (Tracker.Type.valueOf(this.type.get())) {
                 case TK_ANYWHERE:
                 case TK_STAR:
                 case TK_STAR_PET:
-                    smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
+
+                    smses.add(new SMS(trackerNumber, String.format("admin123456 %s%s", phoneCode, phoneNumber)));
                     smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                     smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
                     smses.add(new SMS(trackerNumber, "sleep123456 off"));
                     break;
                 case TK_BIKE:
-                    smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
+                    smses.add(new SMS(trackerNumber, String.format("admin123456 %s%s", phoneCode, phoneNumber)));
                     smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                     smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
                     smses.add(new SMS(trackerNumber, "gprs123456"));

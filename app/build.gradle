@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.22.0'
     }
 }
 apply plugin: 'com.android.application'
@@ -26,7 +26,7 @@ android {
         applicationId "no.appsonite.gpsping"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 45
+        versionCode 50
         versionName "1.1"
     }
     dataBinding {
