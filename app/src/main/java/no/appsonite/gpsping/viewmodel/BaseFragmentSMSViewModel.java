@@ -28,18 +28,7 @@ public class BaseFragmentSMSViewModel extends BaseFragmentViewModel {
     }
 
     public PublishSubject<SMS> sendSmses(final Activity activity, final ArrayList<SMS> smses) {
-        LoginAnswer loginAnswer = AuthHelper.getCredentials();
-        try {
-            String phoneCode = loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", "");
-            if (phoneCode.equals(FINLAND_CODE))
-                for (SMS sms : smses) {
-                    sms.setNumber("+" + sms.getNumber());
-                }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+        fixFinlandTracker(smses);
         smsPublishSubject = PublishSubject.create();
         smsPublishSubject.
                 subscribe(new Action1<SMS>() {
@@ -55,5 +44,20 @@ public class BaseFragmentSMSViewModel extends BaseFragmentViewModel {
                 });
         SMSHelper.sendSMS(activity, smses.get(0));
         return smsPublishSubject;
+    }
+
+    private void fixFinlandTracker(ArrayList<SMS> smses) {
+        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+        try {
+            String phoneCode = loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", "");
+            if (phoneCode.equals(FINLAND_CODE))
+                for (SMS sms : smses) {
+                    if (sms.getNumber().startsWith("00")) {
+                        sms.setNumber(sms.getNumber().replaceFirst("00", "+"));
+                    }
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
