@@ -32,7 +32,7 @@ public class SMSHelper {
                 SmsManager.getDefault().sendTextMessage(sms.getNumber(), null, sms.getMessage(), pendingIntent, null);
             } else {
                 if (sms.getMessage() != null) {
-                    Toast.makeText(activity, sms.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, sms.getNumber() + " " + sms.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override
