@@ -136,6 +136,7 @@
     <string name="countryCanNotBeEmpty">Vennligst legg inn land</string>
     <string name="zipCodeCanNotBeEmpty">Vennligst legg inn postnr</string>
     <string name="skip"><u>Hopp over</u></string>
+    <string name="updateTracker">Du trenger å oppdatere appen med ny ip-adresse for at trackeren skal fungere. Trykk på knappen under og send SMS til trackeren for å oppdatere.</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

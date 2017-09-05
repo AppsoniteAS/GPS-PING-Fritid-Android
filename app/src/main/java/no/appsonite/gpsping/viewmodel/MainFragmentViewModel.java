@@ -6,11 +6,12 @@ import android.databinding.ObservableField;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import no.appsonite.gpsping.api.ApiFactory;
+import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
-import no.appsonite.gpsping.services.LocationService;
-import no.appsonite.gpsping.services.LocationTrackerService;
+import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -63,6 +64,21 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .last()
                 .cache();
+    }
+
+    public Observable<TrackersAnswer> hasTrackers() {
+        return execute(ApiFactory.getService().getTrackers())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void resetTrackers(Activity activity, ArrayList<Tracker> trackers) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        for (Tracker tracker : trackers) {
+            smses.addAll(tracker.getResetSms(AddTrackerFragmentViewModel.TRACCAR_IP));
+        }
+        sendSmses(activity, smses);
+        Utils.setUpdateTracker();
     }
 
     private Observable<SMS> stopTracker(Activity activity) {
