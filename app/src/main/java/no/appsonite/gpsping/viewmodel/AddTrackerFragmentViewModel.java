@@ -37,6 +37,22 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString imeiNumberError = new ObservableString();
     public ObservableString trackerNumberError = new ObservableString();
     public ObservableBoolean editMode = new ObservableBoolean();
+    public ObservableBoolean visible = new ObservableBoolean();
+
+    private void setVisible() {
+        switch (Tracker.Type.valueOf(tracker.get().type.get())) {
+            case LK209:
+            case VT600:
+            case LK330:
+            case S1:
+                visible.set(false);
+                break;
+            default:
+                visible.set(true);
+                break;
+        }
+
+    }
 
     public Observable<Boolean> saveTracker(Activity activity) {
         if (validateData()) {
@@ -163,7 +179,17 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         if (isBikeTracker()) {
             observable = Observable.just(new SMS());
         } else {
-            observable = sendSmses(activity, tracker.get().getUpdateSms());
+            switch (Tracker.Type.valueOf(tracker.get().type.get())) {
+                case LK209:
+                case VT600:
+                case LK330:
+                case S1:
+                    observable = Observable.just(new SMS());
+                    break;
+                default:
+                    observable = sendSmses(activity, tracker.get().getUpdateSms());
+                    break;
+            }
         }
         return observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).last().cache().flatMap(new Func1<SMS, Observable<Boolean>>() {
@@ -240,6 +266,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
         editMode.set(realmTracker != null);
         realm.close();
+        setVisible();
     }
 
     private boolean validateData() {

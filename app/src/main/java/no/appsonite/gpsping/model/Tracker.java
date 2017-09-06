@@ -44,10 +44,6 @@ public class Tracker implements Serializable {
 
     public android.databinding.ObservableBoolean sleepMode = new android.databinding.ObservableBoolean(false);
 
-    public enum Type {
-        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE
-    }
-
     public Tracker() {
 
     }
@@ -63,6 +59,55 @@ public class Tracker implements Serializable {
         isRunning.set(tracker.isRunning());
         isGeofenceRunning.set(tracker.isGeofenceRunning());
         sleepMode.set(tracker.isSleepMode());
+    }
+
+    public String[] getEntriesText() {
+        Tracker.Type trType = getTypeSafely();
+        switch (trType) {
+            case TK_BIKE:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTime);
+            case TK_STAR:
+            case TK_STAR_PET:
+            case TK_ANYWHERE:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeDog);
+            case LK209:
+            case LK330:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeLK330);
+            case S1:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeS1);
+            default:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTime);
+        }
+    }
+
+    public String[] getEntriesValues() {
+        Tracker.Type trType = getTypeSafely();
+        switch (trType) {
+            case TK_BIKE:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
+            case TK_STAR:
+            case TK_STAR_PET:
+            case TK_ANYWHERE:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeDogValues);
+            case LK209:
+            case LK330:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeLK330Values);
+            case S1:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeS1Values);
+            default:
+                return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
+        }
+    }
+
+    private Type getTypeSafely() {
+        Tracker.Type trType = Type.TK_STAR;
+
+        try {
+            trType = Tracker.Type.valueOf(type.get());
+        } catch (Exception e) {
+
+        }
+        return trType;
     }
 
     public long getRepeatTime() {
@@ -127,6 +172,22 @@ public class Tracker implements Serializable {
                     smses.add(new SMS(trackerNumber, "gprs123456"));
                     smses.add(new SMS(trackerNumber, "sleep123456 off"));
                     break;
+                case LK209:
+                case LK330:
+                    smses.add(new SMS(trackerNumber, String.format("admin123456 00%s%s", loginAnswer.getUser().phoneCode.get().replaceAll("[^\\d.]", ""), loginAnswer.getUser().phoneNumber.get())));
+                    smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
+                    smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
+                    smses.add(new SMS(trackerNumber, "gprs123456"));
+                    break;
+                case VT600:
+                    smses.add(new SMS(trackerNumber, "W000000,010,internet.ts.m2m"));
+                    smses.add(new SMS(trackerNumber, String.format("W000000,012,%s,5009", address)));
+                    smses.add(new SMS(trackerNumber, "W000000,013,1"));
+                    break;
+                case S1:
+                    smses.add(new SMS(trackerNumber, "pw,123456,apn,internet.ts.m2m,,,23820#"));
+                    smses.add(new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address)));
+                    break;
             }
         } catch (Exception e) {
             throw new RuntimeException(Application.getContext().getString(R.string.inputPhoneInProfileError));
@@ -134,5 +195,7 @@ public class Tracker implements Serializable {
         return smses;
     }
 
-
+    public enum Type {
+        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, LK209, VT600, LK330, S1
+    }
 }

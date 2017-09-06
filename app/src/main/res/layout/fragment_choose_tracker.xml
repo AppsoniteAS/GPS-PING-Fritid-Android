@@ -50,10 +50,34 @@
             android:id="@+id/tkStarPet"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginBottom="24dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:src="@drawable/tk_star_pet" />
+
+        <ImageView
+            android:id="@+id/lk209"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:src="@drawable/lk_209" />
+
+        <ImageView
+            android:id="@+id/vt600"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:src="@drawable/vt_600" />
+
+        <ImageView
+            android:id="@+id/s1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:src="@drawable/s1" />
 
     </LinearLayout>
 </layout>

@@ -42,6 +42,15 @@ public class ChooseTrackerFragment extends BaseBindingFragment<FragmentChooseTra
                     case R.id.tkStarPet:
                         showAddTrackerFragment(Tracker.Type.TK_STAR_PET);
                         break;
+                    case R.id.lk209:
+                        showAddTrackerFragment(Tracker.Type.LK209);
+                        break;
+                    case R.id.vt600:
+                        showAddTrackerFragment(Tracker.Type.VT600);
+                        break;
+                    case R.id.s1:
+                        showAddTrackerFragment(Tracker.Type.S1);
+                        break;
                 }
             }
         };

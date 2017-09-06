@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerBinding;
 import no.appsonite.gpsping.model.SMS;
@@ -24,6 +23,14 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
     private static final String TAG = "AddTrackerFragment";
     private static final String ARG_TRACKER = "arg_tracker";
 
+    public static AddTrackerFragment newInstance(Tracker tracker) {
+        Bundle args = new Bundle();
+        AddTrackerFragment fragment = new AddTrackerFragment();
+        args.putSerializable(ARG_TRACKER, tracker);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public String getFragmentTag() {
         return TAG;
@@ -32,14 +39,6 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
     @Override
     protected String getTitle() {
         return getString(R.string.addTracker);
-    }
-
-    public static AddTrackerFragment newInstance(Tracker tracker) {
-        Bundle args = new Bundle();
-        AddTrackerFragment fragment = new AddTrackerFragment();
-        args.putSerializable(ARG_TRACKER, tracker);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -62,26 +61,25 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
     }
 
     private void initRepeatTime() {
-        final String[] variantsTexts = Application.getContext().getResources().getStringArray(getModel().isBikeTracker() ? R.array.receiveSignalTime : R.array.receiveSignalTimeDog);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, variantsTexts);
+        final String[] variantsValues = getModel().tracker.get().getEntriesValues();
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, getModel().tracker.get().getEntriesText());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         getBinding().signalTimeSpinner.setAdapter(spinnerArrayAdapter);
 
         String repeatTime = getModel().tracker.get().signalRepeatTime.get();
-        final String[] variants = Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
         int selected = 4;
-        for (int i = 0; i < variants.length; i++) {
-            if (variants[i].equals(repeatTime)) {
+        for (int i = 0; i < variantsValues.length; i++) {
+            if (variantsValues[i].equals(repeatTime)) {
                 selected = i;
                 break;
             }
         }
 
-        getBinding().signalTimeSpinner.setSelection(Math.min(selected, variantsTexts.length - 1));
+        getBinding().signalTimeSpinner.setSelection(Math.min(selected, variantsValues.length - 1));
         getBinding().signalTimeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getModel().tracker.get().signalRepeatTime.set(variants[i]);
+                getModel().tracker.get().signalRepeatTime.set(variantsValues[i]);
             }
 
             @Override

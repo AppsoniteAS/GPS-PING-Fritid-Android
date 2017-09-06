@@ -51,6 +51,31 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
             case TK_STAR:
                 message = "gprs123456";
                 break;
+            case LK209:
+            case LK330: {
+                long timeHours = tracker.getRepeatTime() / 60 / 60;
+                String formattedTime = timeHours + "";
+                while (formattedTime.length() < 2) {
+                    formattedTime = "0" + formattedTime;
+                }
+                message = String.format("DW005,%s", formattedTime);
+                break;
+            }
+            case VT600: {
+                String formattedTime = tracker.getRepeatTime() / 10 + "";
+                while (formattedTime.length() < 5) {
+                    formattedTime = "0" + formattedTime;
+                }
+                message = String.format("W00000,014,%s", formattedTime);
+                break;
+            }
+            case S1:
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("pw,123456,upload,%s#", repeatTime);
+                break;
             default:
                 message = String.format("T%ss***n123456", tracker.getRepeatTime());
                 break;
@@ -89,6 +114,17 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
             case TK_STAR_PET:
             case TK_STAR:
                 message = "nogprs123456";
+                break;
+            case VT600:
+                message = "W000000,013,0";
+                break;
+            case LK209:
+            case LK330:
+                message = "gpsloc123456,1";
+                break;
+            case S1:
+                //TODO add message text!!!
+                message = "pw,123456,upload,000#";
                 break;
             default:
                 message = "Notn123456";

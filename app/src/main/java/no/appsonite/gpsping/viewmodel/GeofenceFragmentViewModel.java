@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.db.Geofence;
 import no.appsonite.gpsping.db.RealmTracker;
@@ -72,8 +73,26 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
         Tracker tracker = activeTracker.get();
         setTrackerGeofenceRunning(tracker, true);
         ArrayList<SMS> smses = new ArrayList<>();
+
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case VT600:
+                String yardValue = yards.get();
+                String[] yardsArray = Application.getContext().getResources().getStringArray(R.array.geofenceValues);
+                int index = 0;
+                for (; index < yardsArray.length; index++) {
+                    if (yardsArray[index].equals(yardValue)) {
+                        break;
+                    }
+                }
+                String[] yardsKey = Application.getContext().getResources().getStringArray(R.array.geofenceKeys);
+                String key = yardsKey[index];
+                smses.add(new SMS(tracker.trackerNumber.get(), String.format("W000000,006,%s", key)));
+                break;
+            default:
+                smses.add(new SMS(tracker.trackerNumber.get(), String.format("move123456 %s", yards.get())));
+                break;
+        }
         //smses.add(new SMS(tracker.trackerNumber.get(), String.format("admin123456 %s", activeTracker.get().trackerNumber.get())));
-        smses.add(new SMS(tracker.trackerNumber.get(), String.format("move123456 %s", yards.get())));
 
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -94,7 +113,15 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
         Tracker tracker = activeTracker.get();
         setTrackerGeofenceRunning(tracker, false);
         ArrayList<SMS> smses = new ArrayList<>();
-        smses.add(new SMS(tracker.trackerNumber.get(), "move123456 0"));
+
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case VT600:
+                smses.add(new SMS(tracker.trackerNumber.get(), String.format("W000000,006,0", 0)));
+                break;
+            default:
+                smses.add(new SMS(tracker.trackerNumber.get(), "move123456 0"));
+                break;
+        }
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .last()
