@@ -65,6 +65,7 @@ public class Tracker implements Serializable {
         Tracker.Type trType = getTypeSafely();
         switch (trType) {
             case TK_BIKE:
+            case TK_STAR_BIKE:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTime);
             case TK_STAR:
             case TK_STAR_PET:
@@ -84,6 +85,7 @@ public class Tracker implements Serializable {
         Tracker.Type trType = getTypeSafely();
         switch (trType) {
             case TK_BIKE:
+            case TK_STAR_BIKE:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
             case TK_STAR:
             case TK_STAR_PET:
@@ -143,6 +145,7 @@ public class Tracker implements Serializable {
                 smses.add(new SMS(trackerNumber.get(), String.format("Upload123456 %s", getRepeatTime())));
                 break;
             case TK_BIKE:
+            case TK_STAR_BIKE:
                 break;
         }
         return smses;
@@ -166,6 +169,7 @@ public class Tracker implements Serializable {
                     smses.add(new SMS(trackerNumber, "sleep123456 off"));
                     break;
                 case TK_BIKE:
+                case TK_STAR_BIKE:
                     smses.add(new SMS(trackerNumber, String.format("admin123456 %s%s", phoneCode, phoneNumber)));
                     smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
                     smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
@@ -196,6 +200,6 @@ public class Tracker implements Serializable {
     }
 
     public enum Type {
-        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, LK209, VT600, LK330, S1
+        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, TK_STAR_BIKE, LK209, VT600, LK330, S1
     }
 }

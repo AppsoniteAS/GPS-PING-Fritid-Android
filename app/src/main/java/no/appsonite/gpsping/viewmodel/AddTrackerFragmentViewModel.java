@@ -66,7 +66,8 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     public boolean isBikeTracker() {
-        return Tracker.Type.TK_BIKE.toString().equalsIgnoreCase(tracker.get().type.get());
+        return Tracker.Type.TK_BIKE.toString().equalsIgnoreCase(tracker.get().type.get()) ||
+                Tracker.Type.TK_STAR_BIKE.toString().equalsIgnoreCase(tracker.get().type.get());
     }
 
     private Observable<String> resolveAddress() {

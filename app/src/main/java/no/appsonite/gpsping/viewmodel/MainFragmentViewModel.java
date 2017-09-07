@@ -45,6 +45,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
         String message;
         switch (Tracker.Type.valueOf(tracker.type.get())) {
             case TK_BIKE:
+            case TK_STAR_BIKE:
                 message = String.format("Upload123456 %s", tracker.getRepeatTime());
                 break;
             case TK_STAR_PET:
