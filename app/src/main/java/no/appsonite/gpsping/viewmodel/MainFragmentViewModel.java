@@ -101,7 +101,9 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
     public void resetTrackers(Activity activity, ArrayList<Tracker> trackers) {
         ArrayList<SMS> smses = new ArrayList<>();
         for (Tracker tracker : trackers) {
-            smses.addAll(tracker.getResetSms(AddTrackerFragmentViewModel.TRACCAR_IP));
+            SMS sms = tracker.getResetSmsIp(AddTrackerFragmentViewModel.TRACCAR_IP);
+            if (sms != null)
+                smses.add(sms);
         }
         sendSmses(activity, smses);
         Utils.setUpdateTracker();
