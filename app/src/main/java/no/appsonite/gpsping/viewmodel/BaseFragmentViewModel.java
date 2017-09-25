@@ -60,6 +60,8 @@ public class BaseFragmentViewModel implements Serializable {
         return result.flatMap(new Func1<T, Observable<T>>() {
             @Override
             public Observable<T> call(T t) {
+                if(t == null)
+                    return Observable.never();
                 if (t.isError()) {
                     return parseError(t);
                 }
