@@ -36,10 +36,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:text="@string/activeTracker"
+                android:text="@string/tracker"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                android:visibility="@{viewModel.activeTracker!=null?View.VISIBLE:View.INVISIBLE}" />
+                android:visibility="@{viewModel.editableTracker!=null?View.VISIBLE:View.INVISIBLE}" />
 
             <no.appsonite.gpsping.widget.CustomFontTextView
                 style="@style/AppTheme.widget.FormTitle"
@@ -47,8 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-4dp"
-                android:text='@{viewModel.activeTracker != null ? viewModel.activeTracker.trackerName.get():"NoName"}'
-                android:visibility="@{viewModel.activeTracker!=null?View.VISIBLE:View.INVISIBLE}" />
+                android:text='@{viewModel.editableTracker != null ? viewModel.editableTracker.trackerName.get():"NoName"}'
+                android:visibility="@{viewModel.editableTracker!=null?View.VISIBLE:View.INVISIBLE}" />
 
             <TextView
                 style="@style/AppTheme.widget.FormDescription"
@@ -79,6 +79,6 @@
             style="@style/AppTheme.widget.Button.Green"
             android:layout_marginTop="@dimen/button_margin_top"
             android:textAllCaps="true"
-            android:text="@{viewModel.activeTracker.isGeofenceRunning?@string/stop:@string/start}" />
+            android:text="@{viewModel.editableTracker.isGeofenceRunning?@string/stop:@string/start}" />
     </LinearLayout>
 </layout>

@@ -26,17 +26,13 @@ import rx.schedulers.Schedulers;
 public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString yards = new ObservableString();
     public ObservableField<String> yardsError = new ObservableField<>();
-    public ObservableField<Tracker> activeTracker = new ObservableField<>();
+    public ObservableField<Tracker> editableTracker = new ObservableField<>();
 
 
     @Override
     public void onModelAttached() {
         super.onModelAttached();
         Realm realm = Realm.getDefaultInstance();
-        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("isEnabled", true).findFirst();
-        if (realmTracker != null) {
-            activeTracker.set(new Tracker(realmTracker));
-        }
 
         Geofence geofence = realm.where(Geofence.class).findFirst();
         if (geofence != null) {
@@ -50,7 +46,7 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
         if (!validateData())
             return null;
         saveGeofence();
-        if (activeTracker.get().isGeofenceRunning.get()) {
+        if (editableTracker.get().isGeofenceRunning.get()) {
             return stopGeofence(activity);
         } else {
             return startGeofence(activity);
@@ -70,7 +66,7 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<SMS> startGeofence(Activity activity) {
-        Tracker tracker = activeTracker.get();
+        Tracker tracker = editableTracker.get();
         setTrackerGeofenceRunning(tracker, true);
         ArrayList<SMS> smses = new ArrayList<>();
 
@@ -101,7 +97,7 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private void setTrackerGeofenceRunning(Tracker tracker, boolean isRunning) {
-        activeTracker.get().isGeofenceRunning.set(isRunning);
+        editableTracker.get().isGeofenceRunning.set(isRunning);
         Realm realm = Realm.getDefaultInstance();
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
         realm.beginTransaction();
@@ -110,7 +106,7 @@ public class GeofenceFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<SMS> stopGeofence(Activity activity) {
-        Tracker tracker = activeTracker.get();
+        Tracker tracker = editableTracker.get();
         setTrackerGeofenceRunning(tracker, false);
         ArrayList<SMS> smses = new ArrayList<>();
 

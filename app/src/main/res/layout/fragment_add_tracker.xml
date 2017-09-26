@@ -160,10 +160,17 @@
                             android:text="@string/checkThisDog"
                             app:twoWayBoolean="@{viewModel.tracker.checkForStand}" />
                     </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/addTrackerButton"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:text="@{viewModel.editMode?@string/update:@string/addTrackerButton}" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="@{viewModel.visible}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -172,7 +179,9 @@
                     android:layout_marginTop="0dp"
                     android:background="@drawable/form_bg"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:visibility="@{viewModel.visible}">
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="72dp">
@@ -211,11 +220,11 @@
                     </FrameLayout>
 
                     <TextView
-                        android:layout_marginTop="12dp"
                         android:id="@+id/checkBattery"
                         style="@style/AppTheme.widget.Button.Green"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:text="@string/checkBattery" />
                 </LinearLayout>
 
@@ -356,32 +365,36 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/addTrackerButton"
+                        android:id="@+id/geofence"
                         style="@style/AppTheme.widget.Button.Green"
                         android:layout_width="0dp"
-                        android:layout_marginBottom="24dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/button_margin_top"
                         android:layout_marginTop="@dimen/button_margin_top"
                         android:layout_weight="1"
-                        android:text="@{viewModel.editMode?@string/update:@string/addTrackerButton}" />
+                        android:text="@string/geofence"
+                        android:visibility="@{viewModel.tkStarPet}" />
 
                     <TextView
                         android:id="@+id/resetButton"
                         style="@style/AppTheme.widget.Button.Green"
                         android:layout_width="0dp"
-                        android:layout_marginBottom="24dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/button_margin_top"
                         android:layout_marginTop="@dimen/button_margin_top"
                         android:layout_weight="1"
                         android:text="@string/reset"
                         android:visibility="@{viewModel.editMode}" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/displayOptions"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/button_margin_top"
+                    android:text="@string/displayOptions" />
 
             </LinearLayout>
-
-
         </ScrollView>
     </LinearLayout>
-
 </layout>

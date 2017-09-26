@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import io.realm.Realm;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.databinding.FragmentSettingsBinding;
+import no.appsonite.gpsping.db.RealmTracker;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
 /**
@@ -20,16 +23,16 @@ import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBinding, BaseFragmentViewModel> {
     private static final String TAG = "SettingsFragment";
 
-    @Override
-    public String getFragmentTag() {
-        return TAG;
-    }
-
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public String getFragmentTag() {
+        return TAG;
     }
 
     @Override
@@ -47,12 +50,6 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
             }
         });
 
-        getBinding().geofence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getBaseActivity().replaceFragment(GeofenceFragment.newInstance(), true);
-            }
-        });
         getBinding().profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,13 +64,6 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
             }
         });
 
-        getBinding().displayOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true);
-            }
-        });
-
         getBinding().faq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,9 +74,12 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
         getBinding().pauseSubscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Tracker tracker = getCurrentTracker();
+                String imei = tracker != null ? tracker.imeiNumber.get() : "noImei";
+                String phone = tracker != null ? tracker.trackerNumber.get() : "noPhone";
                 Profile user = AuthHelper.getCredentials().getUser();
                 String email = "support@gpsping.no";
-                String body = getString(R.string.pauseSubscriptionEmailBody, user.firstName.get() + " " + user.lastName.get(), user.address.get(), user.username.get());
+                String body = getString(R.string.pauseSubscriptionEmailBody, user.firstName.get() + " " + user.lastName.get(), user.address.get(), user.username.get(), imei, phone);
                 String subject = getString(R.string.pauseSubscription);
 
 
@@ -112,5 +105,16 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
 
             }
         });
+    }
+
+    private Tracker getCurrentTracker() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("isEnabled", true).findFirst();
+        Tracker tracker = null;
+        if (realmTracker != null) {
+            tracker = new Tracker(realmTracker);
+        }
+        realm.close();
+        return tracker;
     }
 }

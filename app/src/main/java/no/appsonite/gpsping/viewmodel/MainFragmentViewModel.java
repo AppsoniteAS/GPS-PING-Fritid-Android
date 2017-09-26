@@ -71,6 +71,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 break;
             }
             case S1:
+            case A9:
                 String repeatTime = tracker.getRepeatTime() + "";
                 if (repeatTime.length() == 2) {
                     repeatTime = "0" + repeatTime;
@@ -126,7 +127,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 message = "gpsloc123456,1";
                 break;
             case S1:
-                //TODO add message text!!!
+            case A9:
                 message = "pw,123456,upload,000#";
                 break;
             default:

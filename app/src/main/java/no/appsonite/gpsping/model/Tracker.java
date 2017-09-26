@@ -75,6 +75,7 @@ public class Tracker implements Serializable {
             case LK330:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeLK330);
             case S1:
+            case A9:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeS1);
             default:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTime);
@@ -95,6 +96,7 @@ public class Tracker implements Serializable {
             case LK330:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeLK330Values);
             case S1:
+            case A9:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeS1Values);
             default:
                 return Application.getContext().getResources().getStringArray(R.array.receiveSignalTimeValues);
@@ -189,6 +191,7 @@ public class Tracker implements Serializable {
                     smses.add(new SMS(trackerNumber, "W000000,013,1"));
                     break;
                 case S1:
+                case A9:
                     smses.add(new SMS(trackerNumber, "pw,123456,apn,internet.ts.m2m,,,23820#"));
                     smses.add(new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address)));
                     break;
@@ -231,6 +234,6 @@ public class Tracker implements Serializable {
     }
 
     public enum Type {
-        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, TK_STAR_BIKE, LK209, VT600, LK330, S1
+        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, TK_STAR_BIKE, LK209, VT600, LK330, S1, A9
     }
 }
