@@ -105,8 +105,11 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
             if (sms != null)
                 smses.add(sms);
         }
-        sendSmses(activity, smses);
         Utils.setUpdateTracker();
+        if (smses.isEmpty()) {
+            return;
+        }
+        sendSmses(activity, smses);
     }
 
     private Observable<SMS> stopTracker(Activity activity) {

@@ -108,6 +108,8 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
     }
 
     private void showAlertDialog(final ArrayList<Tracker> trackers) {
+        if(getActivity() == null)
+            return;
         new AlertDialog.Builder(getContext())
                 .setCancelable(false)
                 .setMessage(R.string.updateTracker)
