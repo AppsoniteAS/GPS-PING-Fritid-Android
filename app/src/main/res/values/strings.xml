@@ -67,6 +67,7 @@
     <string name="photo">Photo</string>
     <string name="removeTracks">Remove tracks</string>
     <string name="map">Map</string>
+    <string name="edit">Edit</string>
     <string name="all">All</string>
     <string name="notify_photo_title">Photo</string>
     <string name="notify_photo_text">GPS Ping</string>
@@ -92,6 +93,11 @@
     <string name="you">You</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>
+    <string name="distance">Distance</string>
+    <string name="distanceTravelled">Distance Travelled</string>
+    <string name="signalStrength">Signal Strength</string>
+    <string name="gsm">GSM</string>
+    <string name="gps">GPS</string>
     <string name="restore">Restore</string>
     <string name="passwordRestoreDesc">Input your email and we will send you instructions for password restore</string>
     <string name="emailSent">Link for password reset has been emailed to you. Please check your email.</string>
@@ -146,6 +152,13 @@
     <string name="sleepMode">Sleep mode</string>
     <string name="checkBattery">Check Battery</string>
     <string name="updateTracker">You need to update the tracker with new ip-adress for it to work. Please press button and send the preprogrammed SMS to the tracker</string>
+
+    <string name="last_seen_tools">Last seen 17:22 14.09.17</string>
+    <string name="joe_tools">Joe</string>
+    <string name="grsm_tools">GRSM 32VPM1237382377</string>
+    <string name="seventy_five_tools">75%</string>
+    <string name="distance_tools">3.5 km</string>
+    <string name="distance_travelled_tools">15 km</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

@@ -9,4 +9,9 @@
     <color name="colorEvent">#aec2e5</color>
     <color name="mapHoverBg">#80000000</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#666666</color>
+    <color name="black">#333333</color>
+    <color name="green">#558A2E</color>
+
 </resources>
