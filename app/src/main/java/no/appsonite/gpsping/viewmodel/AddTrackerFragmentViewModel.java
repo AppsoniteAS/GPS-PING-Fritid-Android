@@ -38,6 +38,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString trackerNumberError = new ObservableString();
     public ObservableBoolean editMode = new ObservableBoolean();
     public ObservableBoolean visible = new ObservableBoolean();
+    public ObservableBoolean tkStarPet = new ObservableBoolean(false);
 
     private void setVisible() {
         switch (Tracker.Type.valueOf(tracker.get().type.get())) {
@@ -45,6 +46,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             case VT600:
             case LK330:
             case S1:
+            case A9:
                 visible.set(false);
                 break;
             default:
@@ -185,6 +187,7 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 case VT600:
                 case LK330:
                 case S1:
+                case A9:
                     observable = Observable.just(new SMS());
                     break;
                 default:
@@ -268,6 +271,13 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         editMode.set(realmTracker != null);
         realm.close();
         setVisible();
+        setTkStarPetValue();
+    }
+
+    private void setTkStarPetValue() {
+        if (editMode.get() && Tracker.Type.TK_STAR_PET.toString().equals(tracker.get().type.get())) {
+            tkStarPet.set(true);
+        }
     }
 
     private boolean validateData() {

@@ -137,7 +137,7 @@
     <string name="skip"><u>Skip</u></string>
     <string name="pauseSubscription">Pause Subscription</string>
     <string name="pauseSubscriptionEmailBody" translatable="false">
-        Name: %1$s\nAddress: %2$s\nUsername: %3$s\n</string>
+        Name: %1$s\nAddress: %2$s\nUsername: %3$s\nIMEI: %4$s\nPhone: %5$s\n</string>
     <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
     <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
     <string name="canBeFoundInside">can be found inside the box with tracker:</string>

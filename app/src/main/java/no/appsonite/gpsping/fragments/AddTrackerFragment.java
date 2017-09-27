@@ -220,6 +220,20 @@ public class AddTrackerFragment extends BaseBindingFragment<FragmentAddTrackerBi
                 }
             }
         });
+
+        getBinding().geofence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(GeofenceFragment.newInstance(getModel().tracker.get()), true);
+            }
+        });
+
+        getBinding().displayOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true);
+            }
+        });
     }
 
     private void resetTracker() {

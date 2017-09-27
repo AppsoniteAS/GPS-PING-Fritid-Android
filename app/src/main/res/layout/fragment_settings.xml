@@ -48,25 +48,11 @@
                     android:text="@string/connect" />
 
                 <TextView
-                    android:id="@+id/geofence"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/button_margin_top"
-                    android:text="@string/geofence" />
-
-                <TextView
                     android:id="@+id/profile"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/profile" />
-
-                <TextView
-                    android:id="@+id/displayOptions"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/button_margin_top"
-                    android:text="@string/displayOptions" />
 
                 <TextView
                     android:id="@+id/pauseSubscription"

@@ -33,6 +33,7 @@ public class BindingHelper {
                 case VT600:
                     return R.drawable.vt_600;
                 case S1:
+                case A9:
                     return R.drawable.s1;
             }
         } catch (Exception e) {
