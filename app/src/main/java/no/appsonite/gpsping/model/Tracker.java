@@ -224,6 +224,7 @@ public class Tracker implements Serializable {
                     sms = new SMS(trackerNumber, String.format("W000000,012,%s,5009", address));
                     break;
                 case S1:
+                case A9:
                     sms = new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address));
                     break;
             }
