@@ -327,18 +327,18 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
 
 
-        getBinding().takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shootSound();
-                getMap().snapshot(new GoogleMap.SnapshotReadyCallback() {
-                    @Override
-                    public void onSnapshotReady(Bitmap bitmap) {
-                        getModel().saveBitmap(bitmap);
-                    }
-                });
-            }
-        });
+//        getBinding().takePhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                shootSound();
+//                getMap().snapshot(new GoogleMap.SnapshotReadyCallback() {
+//                    @Override
+//                    public void onSnapshotReady(Bitmap bitmap) {
+//                        getModel().saveBitmap(bitmap);
+//                    }
+//                });
+//            }
+//        });
 
         getBinding().friendSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

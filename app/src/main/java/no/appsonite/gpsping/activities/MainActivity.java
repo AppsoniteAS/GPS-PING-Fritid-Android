@@ -5,14 +5,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.fragments.FriendsFragment;
-import no.appsonite.gpsping.fragments.MainFragment;
+import no.appsonite.gpsping.fragments.SettingsFragment;
+import no.appsonite.gpsping.fragments.TrackersFragment;
+import no.appsonite.gpsping.fragments.TrackersMapFragment;
 import no.appsonite.gpsping.utils.PushHelper;
 import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 
@@ -25,12 +31,47 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     private static final String EXTRA_FRIENDS = "extra_friends";
     private static final String EXTRA_LOGOUT = "extra_logout";
 
+    public static void logout(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_LOGOUT, true);
+        context.startActivity(intent);
+    }
+
+    public static Intent getFriendsIntent() {
+        Intent intent = new Intent(Application.getContext(), MainActivity.class);
+        intent.putExtra(EXTRA_FRIENDS, true);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_container);
+        setContentView(R.layout.activity_main);
+        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_map:
+                        replaceFragment(TrackersMapFragment.newInstance(), false);
+                        break;
+                    case R.id.action_trackers:
+                        replaceFragment(TrackersFragment.newInstance(), false);
+                        break;
+                    case R.id.action_settings:
+                        replaceFragment(SettingsFragment.newInstance(), false);
+                        break;
+                    case R.id.action_more:
+
+                        break;
+                }
+                return true;
+            }
+        });
         if (savedInstanceState == null) {
-            replaceFragment(MainFragment.newInstance(), false);
+            replaceFragment(TrackersMapFragment.newInstance(), false);
         }
 
         parseIntent(getIntent());
@@ -42,12 +83,6 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
         if (!introCompleted) {
             startActivity(new Intent(this, IntroActivity.class));
         }
-    }
-
-    public static void logout(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(EXTRA_LOGOUT, true);
-        context.startActivity(intent);
     }
 
     private void parseIntent(Intent intent) {
@@ -66,12 +101,6 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     protected void onResume() {
         super.onResume();
         checkGooglePlayServices();
-    }
-
-    public static Intent getFriendsIntent() {
-        Intent intent = new Intent(Application.getContext(), MainActivity.class);
-        intent.putExtra(EXTRA_FRIENDS, true);
-        return intent;
     }
 
     @Override

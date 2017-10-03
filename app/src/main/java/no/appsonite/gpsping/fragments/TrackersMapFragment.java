@@ -165,24 +165,24 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().showUserPosition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (LocationTrackerService.isRunning()) {
-                    LocationTrackerService.stopService(getContext());
-                    getBinding().showUserPosition.setImageResource(R.drawable.ic_visible_white);
-                } else {
-                    LocationTrackerService.startService(getContext());
-                    getBinding().showUserPosition.setImageResource(R.drawable.ic_invisible_white);
-                }
-
-            }
-        });
-        updateShowPositionButton();
+//        getBinding().showUserPosition.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (LocationTrackerService.isRunning()) {
+//                    LocationTrackerService.stopService(getContext());
+//                    getBinding().showUserPosition.setImageResource(R.drawable.ic_visible_white);
+//                } else {
+//                    LocationTrackerService.startService(getContext());
+//                    getBinding().showUserPosition.setImageResource(R.drawable.ic_invisible_white);
+//                }
+//
+//            }
+//        });
+//        updateShowPositionButton();
 
     }
 
-    private void updateShowPositionButton() {
-        getBinding().showUserPosition.setImageResource(LocationTrackerService.isRunning() ? R.drawable.ic_invisible_white : R.drawable.ic_visible_white);
-    }
+//    private void updateShowPositionButton() {
+//        getBinding().showUserPosition.setImageResource(LocationTrackerService.isRunning() ? R.drawable.ic_invisible_white : R.drawable.ic_visible_white);
+//    }
 }

@@ -83,6 +83,6 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().showUserPosition.setVisibility(View.INVISIBLE);
+//        getBinding().showUserPosition.setVisibility(View.INVISIBLE);
     }
 }

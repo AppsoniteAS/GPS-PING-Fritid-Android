@@ -22,8 +22,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
         <no.appsonite.gpsping.widget.MapTargetView
             android:id="@+id/mapTarget"
@@ -31,13 +30,95 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
+                android:background="?attr/colorPrimary"
+                android:orientation="horizontal">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/showUserPosition"-->
+                <!--android:layout_width="?attr/actionBarSize"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:background="?attr/selectableItemBackground"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:src="@drawable/ic_visible_white" />-->
+
+                <info.hoang8f.android.segmented.SegmentedGroup
+                    android:id="@+id/mapType"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="3"
+                    android:checkedButton="@+id/topo"
+                    android:orientation="horizontal"
+                    app:sc_border_width="1dp"
+                    app:sc_checked_text_color="?attr/colorPrimary"
+                    app:sc_corner_radius="4dp"
+                    app:sc_tint_color="#fff">
+
+                    <RadioButton
+                        android:id="@+id/satellite"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/satellite"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/standard"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/standard"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/topo"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/topo"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+                </info.hoang8f.android.segmented.SegmentedGroup>
+
+                <!--<TextView-->
+                <!--android:id="@+id/takePhoto"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="?attr/selectableItemBackground"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/photo"-->
+                <!--android:textColor="#fff"-->
+                <!--android:textSize="18sp" />-->
+            </LinearLayout>
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -359,7 +440,6 @@
             </FrameLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -368,7 +448,8 @@
                 android:layout_marginRight="12dp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:visibility="gone">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -603,82 +684,6 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="bottom"
-                android:background="?attr/colorPrimary"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/showUserPosition"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/selectableItemBackground"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_visible_white" />
-
-                <info.hoang8f.android.segmented.SegmentedGroup
-                    android:id="@+id/mapType"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="3"
-                    android:checkedButton="@+id/topo"
-                    android:orientation="horizontal"
-                    app:sc_border_width="1dp"
-                    app:sc_checked_text_color="?attr/colorPrimary"
-                    app:sc_corner_radius="4dp"
-                    app:sc_tint_color="#fff">
-
-                    <RadioButton
-                        android:id="@+id/satellite"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:text="@string/satellite"
-                        android:textColor="#fff"
-                        android:textSize="16sp" />
-
-                    <RadioButton
-                        android:id="@+id/standard"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:text="@string/standard"
-                        android:textColor="#fff"
-                        android:textSize="16sp" />
-
-                    <RadioButton
-                        android:id="@+id/topo"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:text="@string/topo"
-                        android:textColor="#fff"
-                        android:textSize="16sp" />
-                </info.hoang8f.android.segmented.SegmentedGroup>
-
-                <TextView
-                    android:id="@+id/takePhoto"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:text="@string/photo"
-                    android:textColor="#fff"
-                    android:textSize="18sp" />
             </LinearLayout>
         </FrameLayout>
 
