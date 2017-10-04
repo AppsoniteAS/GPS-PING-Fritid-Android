@@ -30,6 +30,7 @@ import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 public class MainActivity extends BaseActivity implements DialogInterface.OnCancelListener {
     private static final String EXTRA_FRIENDS = "extra_friends";
     private static final String EXTRA_LOGOUT = "extra_logout";
+    private ActiveScreen activeScreen = ActiveScreen.ONE;
 
     public static void logout(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -55,12 +56,24 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_map:
+                        if (activeScreen == ActiveScreen.ONE)
+                            return false;
+                        activeScreen = ActiveScreen.ONE;
+                        popBackStack();
                         replaceFragment(TrackersMapFragment.newInstance(), false);
                         break;
                     case R.id.action_trackers:
+                        if (activeScreen == ActiveScreen.TWO)
+                            return false;
+                        activeScreen = ActiveScreen.TWO;
+                        popBackStack();
                         replaceFragment(TrackersFragment.newInstance(), false);
                         break;
                     case R.id.action_settings:
+                        if (activeScreen == ActiveScreen.THREE)
+                            return false;
+                        activeScreen = ActiveScreen.THREE;
+                        popBackStack();
                         replaceFragment(SettingsFragment.newInstance(), false);
                         break;
                     case R.id.action_more:
@@ -133,5 +146,9 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     @Override
     public void onCancel(DialogInterface dialogInterface) {
         finish();
+    }
+
+    private enum ActiveScreen {
+        ONE, TWO, THREE, FOUR
     }
 }

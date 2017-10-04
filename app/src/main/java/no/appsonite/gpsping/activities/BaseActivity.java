@@ -50,6 +50,10 @@ public class BaseActivity extends AppCompatActivity {
         return (BaseBindingFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
     }
 
+    public void popBackStack() {
+        getSupportFragmentManager().popBackStack();
+    }
+
     @Override
     public void onBackPressed() {
         Utils.hideKeyboard(this);

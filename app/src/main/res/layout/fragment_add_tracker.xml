@@ -388,6 +388,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:layout_marginBottom="4dp"
                     android:id="@+id/displayOptions"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
