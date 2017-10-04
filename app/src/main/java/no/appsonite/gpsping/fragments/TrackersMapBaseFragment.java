@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.location.Location;
 import android.media.AudioManager;
@@ -14,10 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.RadioGroup;
@@ -25,6 +26,8 @@ import android.widget.RadioGroup;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -61,7 +64,8 @@ import rx.functions.Action1;
  * Company: APPGRANULA LLC
  * Date: 27.01.2016
  */
-public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseMapFragment<FragmentTrackersMapBinding, T> implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
+public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseBindingFragment<FragmentTrackersMapBinding, T>
+        implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback {
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
@@ -71,6 +75,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private Subscription locationSubscription;
     private Compass compass;
     private boolean firstTime = false;
+
+    private boolean mapReady = false;
+    private GoogleMap googleMap;
+    private SupportMapFragment mapFragment;
+    private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
+    private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
 
     @Override
     protected String getTitle() {
@@ -229,7 +239,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 //        topoDanishOverlay = map.addTileOverlay(danishOptions);
     }
 
-
     private void showStandard() {
         clearTile();
         if (getMap() != null)
@@ -246,6 +255,16 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        mapReady = false;
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        return view;
     }
 
     @Override
@@ -395,6 +414,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         super.onResume();
         if (compass != null)
             compass.start();
+        if (isMapReady()) {
+            onMapReady();
+        }
     }
 
     @Override
@@ -428,9 +450,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
     }
 
-    @Override
     public void onMapReady() {
-        super.onMapReady();
+        if ("sv".equals(Locale.getDefault().getLanguage())) {
+            getMap().setMaxZoomPreference(15);
+        }
         getMap().setTrafficEnabled(false);
         getMap().getUiSettings().setMapToolbarEnabled(false);
         getMap().getUiSettings().setCompassEnabled(true);
@@ -458,8 +481,20 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getMap().setOnMapLongClickListener(this);
     }
 
-    private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
-    private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mapReady = true;
+        this.googleMap = googleMap;
+        onMapReady();
+    }
+
+    public boolean isMapReady() {
+        return mapReady;
+    }
+
+    public GoogleMap getMap() {
+        return googleMap;
+    }
 
     private void updatePoints() {
         ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
