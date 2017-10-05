@@ -38,7 +38,7 @@ import rx.functions.Action1;
  * Date: 20.01.2016
  */
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
-    private static final String TAG = "TrackersMapFragment";
+    private static final String TAG = TrackersMapFragment.class.getSimpleName();
     private Marker userMarker;
     private MapPoint userMapPoint;
     private Location lastLocation;

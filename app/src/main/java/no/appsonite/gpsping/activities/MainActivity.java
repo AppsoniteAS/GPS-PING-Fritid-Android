@@ -45,6 +45,25 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            replaceFragment(TrackersMapFragment.newInstance(), false);
+        }
+
+        initBottomNavigationView();
+
+        parseIntent(getIntent());
+
+        PushHelper.sendPushToken();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("INTRO", MODE_PRIVATE);
+        boolean introCompleted = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
+        if (!introCompleted) {
+            startActivity(new Intent(this, IntroActivity.class));
+        }
+    }
+
+    private void initBottomNavigationView() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -72,19 +91,6 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
             }
             return true;
         });
-        if (savedInstanceState == null) {
-            replaceFragment(TrackersMapFragment.newInstance(), false);
-        }
-
-        parseIntent(getIntent());
-
-        PushHelper.sendPushToken();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("INTRO", MODE_PRIVATE);
-        boolean introCompleted = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
-        if (!introCompleted) {
-            startActivity(new Intent(this, IntroActivity.class));
-        }
     }
 
     private void parseIntent(Intent intent) {

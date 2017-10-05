@@ -73,7 +73,6 @@
                 android:id="@+id/saveButton"
                 style="@style/AppTheme.widget.Button.Green"
                 android:layout_marginTop="@dimen/button_margin_top"
-
                 android:text="@string/save" />
         </LinearLayout>
 
