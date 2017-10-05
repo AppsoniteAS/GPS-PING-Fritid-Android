@@ -87,7 +87,7 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
                         removeTracker((Tracker) v.getTag());
                         break;
                     case R.id.editTracker:
-                        getBaseActivity().replaceFragment(AddTrackerFragment.newInstance((Tracker) v.getTag()), true);
+                        getBaseActivity().replaceFragment(EditTrackerFragment.newInstance((Tracker) v.getTag()), true);
                         break;
                 }
             }

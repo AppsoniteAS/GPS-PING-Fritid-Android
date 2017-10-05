@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="no.appsonite.gpsping.viewmodel.AddTrackerFragmentViewModel" />
+            type="no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel" />
     </data>
 
     <LinearLayout
@@ -15,13 +15,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            android:layout_height="?attr/actionBarSize">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/editTrackerToolbar"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </FrameLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -31,6 +46,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/startButton"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_button"
+                    android:gravity="center"
+                    android:text="@{viewModel.tracker.isRunning?@string/stop:@string/start}"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    tools:text="@string/start" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,41 +88,39 @@
                             android:hint="@string/name"
                             android:imeOptions="actionNext"
                             android:inputType="textPersonName"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             app:twoWayText="@{viewModel.tracker.trackerName}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:error="@{viewModel.imeiNumberError}">
+                        android:layout_marginTop="16dp">
 
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="@{!viewModel.editMode}"
+                            android:enabled="false"
                             android:hint="@string/imeiNumber"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             app:twoWayText="@{viewModel.tracker.imeiNumber}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:error="@{viewModel.trackerNumberError}">
+                        android:layout_marginTop="16dp">
 
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="@{!viewModel.editMode}"
+                            android:enabled="false"
                             android:hint="@string/trackerNumber"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             app:twoWayText="@{viewModel.tracker.trackerNumber}" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -161,13 +189,6 @@
                             app:twoWayBoolean="@{viewModel.tracker.checkForStand}" />
                     </FrameLayout>
 
-                    <TextView
-                        android:id="@+id/addTrackerButton"
-                        style="@style/AppTheme.widget.Button.Green"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/button_margin_top"
-                        android:text="@{viewModel.editMode?@string/update:@string/addTrackerButton}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -180,7 +201,7 @@
                     android:background="@drawable/form_bg"
                     android:orientation="vertical"
                     android:padding="16dp"
-                    android:visibility="@{viewModel.visible}">
+                    android:visibility="@{viewModel.sleepModeVisible}">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -367,33 +388,40 @@
                     <TextView
                         android:id="@+id/geofence"
                         style="@style/AppTheme.widget.Button.Green"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/button_margin_top"
                         android:layout_marginTop="@dimen/button_margin_top"
-                        android:layout_weight="1"
                         android:text="@string/geofence"
                         android:visibility="@{viewModel.tkStarPet}" />
 
-                    <TextView
-                        android:id="@+id/resetButton"
-                        style="@style/AppTheme.widget.Button.Green"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/button_margin_top"
-                        android:layout_marginTop="@dimen/button_margin_top"
-                        android:layout_weight="1"
-                        android:text="@string/reset"
-                        android:visibility="@{viewModel.editMode}" />
+                    <!--<TextView-->
+                    <!--android:id="@+id/resetButton"-->
+                    <!--style="@style/AppTheme.widget.Button.Green"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/button_margin_top"-->
+                    <!--android:layout_marginTop="@dimen/button_margin_top"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/reset"-->
+                    <!--android:visibility="@{viewModel.editMode}" />-->
                 </LinearLayout>
 
                 <TextView
-                    android:layout_marginBottom="4dp"
                     android:id="@+id/displayOptions"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="4dp"
                     android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/displayOptions" />
+
+                <TextView
+                    android:id="@+id/updateTrackerBtn"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="@dimen/button_margin_top"
+                    android:text="@string/update" />
 
             </LinearLayout>
         </ScrollView>

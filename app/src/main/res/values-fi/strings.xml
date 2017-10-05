@@ -107,6 +107,8 @@
 
     <string name="editTracker">Muokkaa\npaikanninta</string>
 
+    <string name="editTrackerToolbar">Muokkaa Paikanninta</string>
+
     <string name="update">Päivitä</string>
 
     <string name="friends">Kaverit</string>

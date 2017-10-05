@@ -26,7 +26,7 @@ import rx.schedulers.Schedulers;
  * Company: APPGRANULA LLC
  * Date: 18.01.2016
  */
-public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
+public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     //fritid
 //    public static final String TRACCAR_IP = "52.19.58.234";
     public static final String TRACCAR_IP = "54.77.4.166";
@@ -34,11 +34,24 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
 //    public static final String TRACCAR_IP = "52.51.183.199";
     public ObservableField<Tracker> tracker = new ObservableField<>();
     public ObservableString nameError = new ObservableString();
-    public ObservableString imeiNumberError = new ObservableString();
-    public ObservableString trackerNumberError = new ObservableString();
-    public ObservableBoolean editMode = new ObservableBoolean();
-    public ObservableBoolean visible = new ObservableBoolean();
+    public ObservableBoolean sleepModeVisible = new ObservableBoolean();
     public ObservableBoolean tkStarPet = new ObservableBoolean(false);
+
+    @Override
+    public void onModelAttached() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
+        requestActiveTracker(realmTracker);
+        realm.close();
+        setVisible();
+        setTkStarPetValue();
+    }
+
+    private void requestActiveTracker(RealmTracker realmTracker) {
+        if (realmTracker != null) {
+            tracker.set(new Tracker(realmTracker));
+        }
+    }
 
     private void setVisible() {
         switch (Tracker.Type.valueOf(tracker.get().type.get())) {
@@ -47,22 +60,18 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             case LK330:
             case S1:
             case A9:
-                visible.set(false);
+                sleepModeVisible.set(false);
                 break;
             default:
-                visible.set(true);
+                sleepModeVisible.set(true);
                 break;
         }
 
     }
 
-    public Observable<Boolean> saveTracker(Activity activity) {
+    public Observable<Boolean> updateTracker(Activity activity) {
         if (validateData()) {
-            if (!editMode.get()) {
-                return addNewTracker(activity);
-            } else {
-                return editTracker(activity);
-            }
+            return editTracker(activity);
         }
         return null;
     }
@@ -223,59 +232,48 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 });
     }
 
-    private Observable<Boolean> addNewTracker(final Activity activity) {
-        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
-            @Override
-            public Observable<SMS> call(String address) {
-                return sendSmses(activity, tracker.get().getResetSms(address));
-            }
-        })
-                .last()
-                .cache()
-                .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
-                    @Override
-                    public Observable<ApiAnswer> call(SMS sms) {
-                        return execute(ApiFactory.getService().addTracker(
-                                tracker.get().trackerName.get(),
-                                tracker.get().imeiNumber.get(),
-                                tracker.get().trackerNumber.get(),
-                                tracker.get().getRepeatTime(),
-                                tracker.get().checkForStand.get(),
-                                tracker.get().type.get()
-                        )).subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread());
-                    }
-                })
-                .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
-                    @Override
-                    public Observable<Boolean> call(ApiAnswer apiAnswer) {
-                        Realm realm = Realm.getDefaultInstance();
-                        realm.beginTransaction();
-                        RealmTracker realmTracker = realm.createObject(RealmTracker.class);
-                        RealmTracker.initWithTracker(realmTracker, tracker.get());
-                        realm.copyToRealm(realmTracker);
-                        realm.commitTransaction();
-                        realm.close();
-                        return Observable.just(true);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-
-    @Override
-    public void onModelAttached() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
-        editMode.set(realmTracker != null);
-        realm.close();
-        setVisible();
-        setTkStarPetValue();
-    }
+//    private Observable<Boolean> addNewTracker(final Activity activity) {
+//        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
+//            @Override
+//            public Observable<SMS> call(String address) {
+//                return sendSmses(activity, tracker.get().getResetSms(address));
+//            }
+//        })
+//                .last()
+//                .cache()
+//                .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
+//                    @Override
+//                    public Observable<ApiAnswer> call(SMS sms) {
+//                        return execute(ApiFactory.getService().addTracker(
+//                                tracker.get().trackerName.get(),
+//                                tracker.get().imeiNumber.get(),
+//                                tracker.get().trackerNumber.get(),
+//                                tracker.get().getRepeatTime(),
+//                                tracker.get().checkForStand.get(),
+//                                tracker.get().type.get()
+//                        )).subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread());
+//                    }
+//                })
+//                .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
+//                    @Override
+//                    public Observable<Boolean> call(ApiAnswer apiAnswer) {
+//                        Realm realm = Realm.getDefaultInstance();
+//                        realm.beginTransaction();
+//                        RealmTracker realmTracker = realm.createObject(RealmTracker.class);
+//                        RealmTracker.initWithTracker(realmTracker, tracker.get());
+//                        realm.copyToRealm(realmTracker);
+//                        realm.commitTransaction();
+//                        realm.close();
+//                        return Observable.just(true);
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
+//    }
 
     private void setTkStarPetValue() {
-        if (editMode.get() && Tracker.Type.TK_STAR_PET.toString().equals(tracker.get().type.get())) {
+        if (Tracker.Type.TK_STAR_PET.toString().equals(tracker.get().type.get())) {
             tkStarPet.set(true);
         }
     }
@@ -286,31 +284,118 @@ public class AddTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             return false;
         }
         nameError.set(null);
-
-        if (TextUtils.isEmpty(tracker.get().imeiNumber.get())) {
-            imeiNumberError.set(getContext().getString(R.string.imeiCanNotBeEmpty));
-            return false;
-        }
-        imeiNumberError.set(null);
-
-        if (TextUtils.isEmpty(tracker.get().trackerNumber.get())) {
-            trackerNumberError.set(getContext().getString(R.string.trackerNumberCanNotBeEmpty));
-            return false;
-        }
-        trackerNumberError.set(null);
         return true;
     }
 
-    public Observable<SMS> resetTracker(final Activity activity) {
-        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
-            @Override
-            public Observable<SMS> call(String address) {
-                return sendSmses(activity, tracker.get().getResetSms(address));
+//    public Observable<SMS> resetTracker(final Activity activity) {
+//        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
+//            @Override
+//            public Observable<SMS> call(String address) {
+//                return sendSmses(activity, tracker.get().getResetSms(address));
+//            }
+//        })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .last()
+//                .cache();
+//    }
+
+    public Observable<SMS> switchState(Activity activity) {
+        if (tracker.get().isRunning.get()) {
+            return stopTracker(activity);
+        } else {
+            return startTracker(activity);
+        }
+    }
+
+    private Observable<SMS> stopTracker(Activity activity) {
+        Tracker tracker = this.tracker.get();
+        setTrackerRunning(tracker, false);
+        String message;
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case TK_STAR_PET:
+            case TK_STAR:
+                message = "nogprs123456";
+                break;
+            case VT600:
+                message = "W000000,013,0";
+                break;
+            case LK209:
+            case LK330:
+                message = "gpsloc123456,1";
+                break;
+            case S1:
+            case A9:
+                message = "pw,123456,upload,000#";
+                break;
+            default:
+                message = "Notn123456";
+                break;
+        }
+        return sendSmsToTracker(tracker, message, activity);
+    }
+
+    private Observable<SMS> startTracker(Activity activity) {
+        Tracker tracker = this.tracker.get();
+        setTrackerRunning(tracker, true);
+        String message;
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case TK_BIKE:
+            case TK_STAR_BIKE:
+                message = String.format("Upload123456 %s", tracker.getRepeatTime());
+                break;
+            case TK_STAR_PET:
+            case TK_STAR:
+                message = "gprs123456";
+                break;
+            case LK209:
+            case LK330: {
+                long timeHours = tracker.getRepeatTime() / 60 / 60;
+                String formattedTime = timeHours + "";
+                while (formattedTime.length() < 2) {
+                    formattedTime = "0" + formattedTime;
+                }
+                message = String.format("DW005,%s", formattedTime);
+                break;
             }
-        })
-                .subscribeOn(Schedulers.io())
+            case VT600: {
+                String formattedTime = tracker.getRepeatTime() / 10 + "";
+                while (formattedTime.length() < 5) {
+                    formattedTime = "0" + formattedTime;
+                }
+                message = String.format("W00000,014,%s", formattedTime);
+                break;
+            }
+            case S1:
+            case A9:
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("pw,123456,upload,%s#", repeatTime);
+                break;
+            default:
+                message = String.format("T%ss***n123456", tracker.getRepeatTime());
+                break;
+        }
+        return sendSmsToTracker(tracker, message, activity);
+    }
+
+    private Observable<SMS> sendSmsToTracker(Tracker tracker, String message, Activity activity) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        smses.add(new SMS(tracker.trackerNumber.get(), message));
+        return sendSmses(activity, smses).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .last()
                 .cache();
+    }
+
+    private void setTrackerRunning(Tracker tracker, boolean isRunning) {
+        this.tracker.get().isRunning.set(isRunning);
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
+        realm.beginTransaction();
+        realmTracker.setIsRunning(isRunning);
+        realm.commitTransaction();
     }
 }

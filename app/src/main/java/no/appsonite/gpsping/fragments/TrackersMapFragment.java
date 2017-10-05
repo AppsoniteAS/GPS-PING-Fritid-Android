@@ -1,12 +1,14 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,15 +18,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
+import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
-import no.appsonite.gpsping.services.LocationTrackerService;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
+import rx.functions.Action1;
 
 /**
  * Created: Belozerov
@@ -95,12 +101,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     public void onMapReady() {
         super.onMapReady();
-        getMap().setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                updateDistance();
-            }
-        });
+        getMap().setOnCameraChangeListener(cameraPosition -> updateDistance());
     }
 
     private void updateDistance() {
@@ -179,7 +180,25 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
 //            }
 //        });
 //        updateShowPositionButton();
+        if (!Utils.isUpdateTracker()) {
+            showAlertUpdateTrackers();
+        }
+    }
 
+    private void showAlertUpdateTrackers() {
+        getModel().hasTrackers().subscribe(trackersAnswer -> {
+            if (trackersAnswer.getTrackers() != null && !trackersAnswer.getTrackers().isEmpty()) {
+                showAlertDialog(trackersAnswer.getTrackers());
+            }
+        });
+    }
+
+    private void showAlertDialog(final ArrayList<Tracker> trackers) {
+        new AlertDialog.Builder(getContext())
+                .setCancelable(false)
+                .setMessage(R.string.updateTracker)
+                .setPositiveButton(R.string.update, (dialog, which) -> getModel().resetTrackers(getActivity(), trackers))
+                .show();
     }
 
 //    private void updateShowPositionButton() {

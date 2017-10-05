@@ -5,9 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -48,34 +46,31 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_map:
-                        if (activeScreen == ActiveScreen.ONE)
-                            return false;
-                        activeScreen = ActiveScreen.ONE;
-                        popBackStack();
-                        replaceFragment(TrackersMapFragment.newInstance(), false);
-                        break;
-                    case R.id.action_trackers:
-                        if (activeScreen == ActiveScreen.TWO)
-                            return false;
-                        activeScreen = ActiveScreen.TWO;
-                        popBackStack();
-                        replaceFragment(TrackersFragment.newInstance(), false);
-                        break;
-                    case R.id.action_settings:
-                        if (activeScreen == ActiveScreen.THREE)
-                            return false;
-                        activeScreen = ActiveScreen.THREE;
-                        popBackStack();
-                        replaceFragment(SettingsFragment.newInstance(), false);
-                        break;
-                }
-                return true;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_map:
+                    if (activeScreen == ActiveScreen.ONE)
+                        return false;
+                    activeScreen = ActiveScreen.ONE;
+                    popBackStack();
+                    replaceFragment(TrackersMapFragment.newInstance(), false);
+                    break;
+                case R.id.action_trackers:
+                    if (activeScreen == ActiveScreen.TWO)
+                        return false;
+                    activeScreen = ActiveScreen.TWO;
+                    popBackStack();
+                    replaceFragment(TrackersFragment.newInstance(), false);
+                    break;
+                case R.id.action_settings:
+                    if (activeScreen == ActiveScreen.THREE)
+                        return false;
+                    activeScreen = ActiveScreen.THREE;
+                    popBackStack();
+                    replaceFragment(SettingsFragment.newInstance(), false);
+                    break;
             }
+            return true;
         });
         if (savedInstanceState == null) {
             replaceFragment(TrackersMapFragment.newInstance(), false);

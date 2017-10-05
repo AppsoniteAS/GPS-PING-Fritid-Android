@@ -31,15 +31,12 @@ public class BaseFragmentSMSViewModel extends BaseFragmentViewModel {
         fixFinlandTracker(smses);
         smsPublishSubject = PublishSubject.create();
         smsPublishSubject.
-                subscribe(new Action1<SMS>() {
-                    @Override
-                    public void call(SMS sms) {
-                        smses.remove(sms);
-                        if (smses.size() > 0) {
-                            SMSHelper.sendSMS(activity, smses.get(0));
-                        } else {
-                            smsPublishSubject.onCompleted();
-                        }
+                subscribe(sms -> {
+                    smses.remove(sms);
+                    if (smses.size() > 0) {
+                        SMSHelper.sendSMS(activity, smses.get(0));
+                    } else {
+                        smsPublishSubject.onCompleted();
                     }
                 });
         SMSHelper.sendSMS(activity, smses.get(0));

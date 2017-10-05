@@ -1,5 +1,6 @@
 package no.appsonite.gpsping.viewmodel;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -33,6 +34,7 @@ import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.PoiAnswer;
 import no.appsonite.gpsping.api.content.Profile;
+import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPoint;
@@ -40,12 +42,13 @@ import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.model.SMS;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
+import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
@@ -56,7 +59,7 @@ import rx.subjects.PublishSubject;
  * Company: APPGRANULA LLC
  * Date: 20.01.2016
  */
-public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
+public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     private static final long INTERVAL = 10;
     private Date removeTracksDate = new Date(0l);
     private MediaPlayer mediaPlayer;
@@ -250,25 +253,19 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         if (mapPoints.size() > 1) {
             final MapPoint last = mapPoints.get(mapPoints.size() - 1);
             final MapPoint prev = mapPoints.get(mapPoints.size() - 2);
-            Observable.defer(new Func0<Observable<Boolean>>() {
-                @Override
-                public Observable<Boolean> call() {
-                    Realm realm = Realm.getDefaultInstance();
-                    RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", prev.getImeiNumber()).findFirst();
-                    Boolean checkForStand = false;
-                    if (tracker != null) {
-                        checkForStand = tracker.isCheckForStand();
-                    }
-                    realm.close();
-                    return Observable.just(checkForStand);
+            Observable.defer(() -> {
+                Realm realm = Realm.getDefaultInstance();
+                RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", prev.getImeiNumber()).findFirst();
+                Boolean checkForStand = false;
+                if (tracker != null) {
+                    checkForStand = tracker.isCheckForStand();
                 }
-            }).subscribe(new Action1<Boolean>() {
-                @Override
-                public void call(Boolean checkForStand) {
-                    if (checkForStand) {
-                        if (Math.abs(prev.getDistanceFor(last)) <= 10) {
-                            playStandSound();
-                        }
+                realm.close();
+                return Observable.just(checkForStand);
+            }).subscribe(checkForStand -> {
+                if (checkForStand) {
+                    if (Math.abs(prev.getDistanceFor(last)) <= 10) {
+                        playStandSound();
                     }
                 }
             });
@@ -282,19 +279,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
 
     public void saveBitmap(final Bitmap bitmap) {
-        Observable.defer(new Func0<Observable<String>>() {
-            @Override
-            public Observable<String> call() {
-                return saveBitmapToGallery(bitmap);
-            }
-        })
+        Observable.defer(() -> saveBitmapToGallery(bitmap))
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String filePath) {
-                        notifyBitmapSaved(filePath);
-                    }
-                });
+                .subscribe(this::notifyBitmapSaved);
     }
 
     private void notifyBitmapSaved(String filePath) {
@@ -348,12 +335,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             return;
         mediaPlayer = MediaPlayer.create(Application.getContext(), standSound);
         mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
     }
 
     private Friend getFriendById(long id) {
@@ -385,17 +367,26 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 }
                 return Observable.just(result);
             }
-        }).subscribe(new Action1<ArrayList<Poi>>() {
-            @Override
-            public void call(ArrayList<Poi> pois) {
-                TrackersMapFragmentViewModel.this.pois.clear();
-                TrackersMapFragmentViewModel.this.pois.addAll(pois);
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
+        }).subscribe(pois1 -> {
+            TrackersMapFragmentViewModel.this.pois.clear();
+            TrackersMapFragmentViewModel.this.pois.addAll(pois1);
+        }, throwable -> throwable.printStackTrace());
+    }
+
+    public Observable<TrackersAnswer> hasTrackers() {
+        return execute(ApiFactory.getService().getTrackers())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void resetTrackers(Activity activity, ArrayList<Tracker> trackers) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        for (Tracker tracker : trackers) {
+            SMS sms = tracker.getResetSmsIp(EditTrackerFragmentViewModel.TRACCAR_IP);
+            if (sms != null)
+                smses.add(sms);
+        }
+        sendSmses(activity, smses);
+        Utils.setUpdateTracker();
     }
 }

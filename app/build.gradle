@@ -1,3 +1,4 @@
+apply plugin: 'me.tatarka.retrolambda'
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -29,6 +30,10 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {

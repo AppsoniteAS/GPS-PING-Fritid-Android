@@ -52,6 +52,7 @@
         Om appen\n\nDenne appen lar deg se gps posisjonen til en eller flere gps trackere. \n\nTrackere kan bestilles på vår webside. \n\n Når tracker er mottatt og aktivert legges tracker nummer og imei nummer inn i appen. \n\n Gå tilbake til hoved menyen og trykk på start\n\n
     </string>
     <string name="editTracker">Edit\ntracker</string>
+    <string name="editTrackerToolbar">Edit Tracker</string>
     <string name="update">Oppdater</string>
     <string name="friends">Venner</string>
     <string name="addFriend">Legg til venn</string>

@@ -52,6 +52,7 @@
 	        Om appen\n\nMed den här appen kan du se en GPS-enhets position. \n\n Innan du börjar, gå till inställningar och skriv in IMEI-nummer och GPS-spårarens nummer. Välj intervall för signal. Klicka på Spara och gå tillbaka till huvudmenyn för att starta GPS-spåraren. \n\n Klicka Starta GPS-spåraren för att sätta igång GPS-signalen. Du får ett sms från GPS-spåraren när den sänder. En grön triangel visar GPS-spårarens senaste position. \n\n Tidigare positioner visas i form av gröna cirklar. \n\n
 	    </string>
     <string name="editTracker">Redigera GPS-spåraren</string>
+    <string name="editTrackerToolbar">Redigera GPS-spåraren</string>
     <string name="update">Uppdatera</string>
     <string name="friends">Vänner</string>
     <string name="addFriend">Lägg till vän</string>

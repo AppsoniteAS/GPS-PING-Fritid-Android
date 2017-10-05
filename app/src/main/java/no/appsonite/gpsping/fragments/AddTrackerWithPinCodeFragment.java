@@ -24,6 +24,18 @@ import rx.Observer;
 public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentAddTrackerWithPinCodeBinding, AddTrackerWithPinCodeViewModel> {
     private static final String ARG_AFTER_REG = "arg_after_reg";
 
+    public static AddTrackerWithPinCodeFragment newInstance() {
+        return newInstance(false);
+    }
+
+    public static AddTrackerWithPinCodeFragment newInstance(boolean afterRegistration) {
+        Bundle args = new Bundle();
+        args.putBoolean(ARG_AFTER_REG, afterRegistration);
+        AddTrackerWithPinCodeFragment fragment = new AddTrackerWithPinCodeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public String getFragmentTag() {
         return "AddTrackerWithPinCodeFragment";
@@ -62,18 +74,6 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
                 helpBottomSheet.show(getChildFragmentManager(), "Help");
             }
         });
-    }
-
-    public static AddTrackerWithPinCodeFragment newInstance() {
-        return newInstance(false);
-    }
-
-    public static AddTrackerWithPinCodeFragment newInstance(boolean afterRegistration) {
-        Bundle args = new Bundle();
-        args.putBoolean(ARG_AFTER_REG, afterRegistration);
-        AddTrackerWithPinCodeFragment fragment = new AddTrackerWithPinCodeFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     private void bindTracker() {

@@ -107,6 +107,8 @@
 
     <string name="editTracker">Rediger\nsporingsenhed</string>
 
+    <string name="editTrackerToolbar">Rediger Sporingsenhed</string>
+
     <string name="update">Opdater</string>
 
     <string name="friends">Venner</string>
