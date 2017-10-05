@@ -7,13 +7,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.databinding.FragmentAddTrackerBinding;
 import no.appsonite.gpsping.databinding.FragmentEditTrackerBinding;
-import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel;
 import rx.Observable;
-import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -21,7 +18,7 @@ import rx.Observer;
  * Date: 18.01.2016
  */
 public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTrackerBinding, EditTrackerFragmentViewModel> {
-    private static final String TAG = "EditTrackerFragment";
+    private static final String TAG = EditTrackerFragment.class.getSimpleName();
     private static final String ARG_TRACKER = "arg_tracker";
 
     public static EditTrackerFragment newInstance(Tracker tracker) {
@@ -46,10 +43,22 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     protected void onViewModelCreated(EditTrackerFragmentViewModel model) {
         super.onViewModelCreated(model);
         model.tracker.set((Tracker) getArguments().getSerializable(ARG_TRACKER));
-        getBinding().updateTrackerBtn.setOnClickListener(v -> updateTracker());
-//        getBinding().resetButton.setOnClickListener(view -> resetTracker());
-        getBinding().startButton.setOnClickListener(v -> switchTrackerState());
-        initRepeatTime();
+        initBlocks();
+    }
+
+    private void initBlocks() {
+        initStartBtn();
+        initSignalBlock();
+        initSleepModeBlock();
+        initBikeTrackingBlock();
+        initGeofenceBlock();
+        initTrackingHistoryBlock();
+        initUpdateBtn();
+        initResetBtn();
+    }
+
+    private void initStartBtn() {
+        getBinding().startStopBtn.setOnClickListener(v -> switchTrackerState());
     }
 
     private void switchTrackerState() {
@@ -61,7 +70,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }, this::showError, this::hideProgress);
     }
 
-    private void initRepeatTime() {
+    private void initSignalBlock() {
         final String[] variantsValues = getModel().tracker.get().getEntriesValues();
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, getModel().tracker.get().getEntriesText());
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -88,28 +97,48 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
             }
         });
+    }
+
+    private void initSleepModeBlock() {
+        getBinding().checkBattery.setOnClickListener(v -> {
+            showProgress();
+            getModel().checkBattery(getActivity()).subscribe(sms -> {
+
+            }, this::showError, this::hideProgress);
+        });
+
+        getBinding().sleepMode.setOnClickListener(v -> {
+            getModel().tracker.get().sleepMode.set(!getModel().tracker.get().sleepMode.get());
+            Observable<Boolean> observable = getModel().updateSleepMode(getActivity());
+            if (observable != null) {
+                showProgress();
+                observable.subscribe(aBoolean -> {
+
+                }, this::showError, this::hideProgress);
+            }
+        });
+    }
+
+    private void initBikeTrackingBlock() {
+        getBinding().ledActive.setOnClickListener(view -> {
+            getModel().tracker.get().ledActive.set(!getModel().tracker.get().ledActive.get());
+            Observable<Boolean> observable = getModel().updateLed(getActivity());
+            if (observable != null) {
+                showProgress();
+                observable.subscribe(aBoolean -> {
+
+                }, this::showError, this::hideProgressAndShowToastTrackerUpdated);
+            }
+        });
 
         getBinding().shockAlarmActive.setOnClickListener(view -> {
             getModel().tracker.get().shockAlarmActive.set(!getModel().tracker.get().shockAlarmActive.get());
             Observable<Boolean> observable = getModel().updateShockAlarm(getActivity());
             if (observable != null) {
                 showProgress();
-                observable.subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                        Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
-                    }
+                observable.subscribe(aBoolean -> {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        showError(e);
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                    }
-                });
+                }, this::showError, this::hideProgressAndShowToastTrackerUpdated);
             }
         });
 
@@ -118,98 +147,49 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
             Observable<Boolean> observable = getModel().updateShockFlashAlarm(getActivity());
             if (observable != null) {
                 showProgress();
-                observable.subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                        Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
-                    }
+                observable.subscribe(aBoolean -> {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        showError(e);
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-
-                    }
-                });
+                }, this::showError, this::hideProgressAndShowToastTrackerUpdated);
             }
         });
+    }
 
-        getBinding().sleepMode.setOnClickListener(v -> {
-            getModel().tracker.get().sleepMode.set(!getModel().tracker.get().sleepMode.get());
-            Observable<Boolean> observable = getModel().updateSleepMode(getActivity());
-            if (observable != null) {
-                showProgress();
-                observable.subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        showError(e);
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-
-                    }
-                });
-            }
-        });
-
-        getBinding().checkBattery.setOnClickListener(v -> {
-            showProgress();
-            getModel().checkBattery(getActivity()).subscribe(new Observer<SMS>() {
-                @Override
-                public void onCompleted() {
-                    hideProgress();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    showError(e);
-                }
-
-                @Override
-                public void onNext(SMS sms) {
-
-                }
-            });
-        });
-
-        getBinding().ledActive.setOnClickListener(view -> {
-            getModel().tracker.get().ledActive.set(!getModel().tracker.get().ledActive.get());
-            Observable<Boolean> observable = getModel().updateLed(getActivity());
-            if (observable != null) {
-                showProgress();
-                observable.subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-                        hideProgress();
-                        Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        showError(e);
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-
-                    }
-                });
-            }
-        });
-
+    private void initGeofenceBlock() {
         getBinding().geofence.setOnClickListener(v -> getBaseActivity().replaceFragment(GeofenceFragment.newInstance(getModel().tracker.get()), true));
+    }
 
-        getBinding().displayOptions.setOnClickListener(v -> getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true));
+    private void initTrackingHistoryBlock() {
+        getBinding().trackingHistory.setOnClickListener(v -> getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true));
+    }
+
+    private void initUpdateBtn() {
+        getBinding().updateTrackerBtn.setOnClickListener(v -> updateTracker());
+    }
+
+    private void updateTracker() {
+        Observable<Boolean> observable = getModel().updateTracker(getActivity());
+        if (observable != null) {
+            showProgress();
+            observable.subscribe(isNew -> {
+                hideProgress();
+                getBaseActivity().getSupportFragmentManager().popBackStack();
+                if (!isNew)
+                    showToastTrackerUpdated();
+            }, this::showError);
+        }
+    }
+
+    private void showToastTrackerUpdated() {
+        Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+    }
+
+    private void hideProgressAndShowToastTrackerUpdated() {
+        hideProgress();
+        showToastTrackerUpdated();
+    }
+
+    private void initResetBtn() {
+//        getBinding().resetButton.setOnClickListener(view -> resetTracker());
     }
 
 //    private void resetTracker() {
@@ -235,19 +215,4 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 //            });
 //        }
 //    }
-
-    private void updateTracker() {
-        Observable<Boolean> observable = getModel().updateTracker(getActivity());
-        if (observable != null) {
-            showProgress();
-            observable.subscribe(isNew -> {
-                hideProgress();
-//                getBaseActivity().getSupportFragmentManager().popBackStack(TrackersFragment.TAG, 0);
-                getBaseActivity().getSupportFragmentManager().popBackStack();
-                if (!isNew) {
-                    Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
-                }
-            }, this::showError);
-        }
-    }
 }

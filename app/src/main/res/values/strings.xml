@@ -107,7 +107,7 @@
     <string name="editPoiTitle">Edit Point of Interest</string>
     <string name="createPoiTitle">Create Point of Interest</string>
     <string name="deletePoi"><u>Remove Point of Interest</u></string>
-    <string name="displayOptions">Display options</string>
+    <string name="displayOptions">Tracking History</string>
     <string name="showOnMapTracker">Show on map trackers position during:</string>
     <string name="trackingHistory">Tracking History</string>
     <string name="poiName">Point of Interest name</string>

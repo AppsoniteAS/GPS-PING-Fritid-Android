@@ -48,7 +48,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/startButton"
+                    android:id="@+id/startStopBtn"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
@@ -392,7 +392,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/button_margin_top"
                         android:text="@string/geofence"
-                        android:visibility="@{viewModel.tkStarPet}" />
+                        android:visibility="@{viewModel.tkStarPetVisibility}" />
 
                     <!--<TextView-->
                     <!--android:id="@+id/resetButton"-->
@@ -407,7 +407,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/displayOptions"
+                    android:id="@+id/trackingHistory"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="4dp"
