@@ -22,11 +22,4 @@
         android:title="@string/settings"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_more"
-        android:enabled="true"
-        android:icon="@drawable/ic_more"
-        android:title="@string/more"
-        app:showAsAction="ifRoom" />
-
 </menu>

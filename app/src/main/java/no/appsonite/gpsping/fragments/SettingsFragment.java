@@ -21,7 +21,7 @@ import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
  * Date: 15.01.2016
  */
 public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBinding, BaseFragmentViewModel> {
-    private static final String TAG = "SettingsFragment";
+    private static final String TAG = SettingsFragment.class.getSimpleName();
 
     public static SettingsFragment newInstance() {
         Bundle args = new Bundle();
@@ -37,7 +37,7 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
 
     @Override
     protected String getTitle() {
-        return getString(R.string.settings);
+        return null;
     }
 
     @Override

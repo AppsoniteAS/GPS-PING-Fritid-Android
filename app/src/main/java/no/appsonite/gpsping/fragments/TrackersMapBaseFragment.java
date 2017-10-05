@@ -84,7 +84,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     @Override
     protected String getTitle() {
-        return getString(R.string.map);
+        return null;
     }
 
     private void clearTile() {
@@ -251,11 +251,11 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             getMap().setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setHasOptionsMenu(true);
+//    }
 
     @Nullable
     @Override
@@ -267,26 +267,26 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_map, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_map, menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @Override
     public String getFragmentTag() {
         return null;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.removeTracks) {
-            clearTracks();
-            getModel().setRemoveTracksDate(new Date());
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.removeTracks) {
+//            clearTracks();
+//            getModel().setRemoveTracksDate(new Date());
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -649,16 +649,16 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         }
     }
 
-    @Override
-    protected void initToolbar() {
-        super.initToolbar();
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-        }
-    }
+//    @Override
+//    protected void initToolbar() {
+//        super.initToolbar();
+//        ActionBar actionBar = getActionBar();
+//        if (actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//            actionBar.setHomeButtonEnabled(true);
+//            actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+//        }
+//    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {

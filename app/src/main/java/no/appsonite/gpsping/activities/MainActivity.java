@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
@@ -48,9 +47,7 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.enableAnimation(false);
-        bottomNavigationView.enableShiftingMode(false);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -75,9 +72,6 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
                         activeScreen = ActiveScreen.THREE;
                         popBackStack();
                         replaceFragment(SettingsFragment.newInstance(), false);
-                        break;
-                    case R.id.action_more:
-
                         break;
                 }
                 return true;
@@ -149,6 +143,6 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     }
 
     private enum ActiveScreen {
-        ONE, TWO, THREE, FOUR
+        ONE, TWO, THREE
     }
 }

@@ -27,7 +27,7 @@ import rx.Observer;
  * Date: 18.01.2016
  */
 public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBinding, TrackersFragmentViewModel> {
-    public static final String TAG = "TrackersFragment";
+    public static final String TAG = TrackersFragment.class.getSimpleName();
 
     @Override
     public String getFragmentTag() {
@@ -36,7 +36,7 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
 
     @Override
     protected String getTitle() {
-        return getString(R.string.trackers);
+        return null;
     }
 
     @Override
