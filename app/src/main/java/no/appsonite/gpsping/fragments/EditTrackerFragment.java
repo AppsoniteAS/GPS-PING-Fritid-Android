@@ -57,9 +57,10 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initSleepModeBlock();
         initBikeTrackingBlock();
         initGeofenceBlock();
-        initUpdateBtn();
         initResetBtn();
         initTrackerHistoryBlock();
+        initUploadPhotoBtn();
+        initUpdateBtn();
         initPauseSubscriptionBtn();
     }
 
@@ -181,6 +182,14 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     private void saveTrackingHistory() {
         getModel().saveTrackingHistory();
         Toast.makeText(getActivity(), getString(R.string.trackerHistoryUpdated), Toast.LENGTH_SHORT).show();
+    }
+
+    private void initUploadPhotoBtn() {
+        getBinding().uploadPhotoBtn.setOnClickListener(v -> uploadPhoto());
+    }
+
+    private void uploadPhoto() {
+
     }
 
     private void initUpdateBtn() {

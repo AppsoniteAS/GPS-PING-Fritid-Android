@@ -504,6 +504,32 @@
 
                 </LinearLayout>
 
+                <FrameLayout
+                    android:id="@+id/uploadPhotoBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/photo" />
+
+                    <ImageView
+                        android:src="@drawable/ic_photo_plus"
+                        android:layout_gravity="center"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
+
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/updateTrackerBtn"
                     style="@style/AppTheme.widget.Button.Green"
