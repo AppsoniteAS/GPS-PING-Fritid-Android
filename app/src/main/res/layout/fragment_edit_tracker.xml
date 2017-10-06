@@ -385,14 +385,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/geofence"
-                        style="@style/AppTheme.widget.Button.Green"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/button_margin_top"
-                        android:text="@string/geofence"
-                        android:visibility="@{viewModel.tkStarPetVisibility}" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/geofence"-->
+                        <!--style="@style/AppTheme.widget.Button.Green"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="@dimen/button_margin_top"-->
+                        <!--android:text="@string/geofence"-->
+                        <!--android:visibility="@{viewModel.geofenceVisibility}" />-->
 
                     <!--<TextView-->
                     <!--android:id="@+id/resetButton"-->
@@ -409,7 +409,77 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="@{viewModel.geofenceVisibility}">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/geofence" />
+
+                    <TextView
+                        style="@style/AppTheme.widget.FormDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/geofenceDesc" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.yardsError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/yards"
+                            android:imeOptions="actionDone"
+                            android:inputType="numberSigned"
+                            android:maxLines="1"
+                            app:twoWayText="@{viewModel.yards}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="@string/phoneNumber"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        app:twoWayText="@{viewModel.phone}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        tools:textColor="@color/white"
+                        tools:text="@string/start"
+                        android:id="@+id/startGeofenceBtn"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:textAllCaps="true"
+                        android:text="@{viewModel.tracker.isGeofenceRunning?@string/stop:@string/start}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
                     android:background="@drawable/form_bg"
                     android:orientation="vertical"
                     android:padding="16dp">
@@ -444,6 +514,13 @@
                             android:background="@color/colorAccent" />
                     </FrameLayout>
 
+                    <TextView
+                        android:id="@+id/saveTrackingHistory"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:textAllCaps="true"
+                        android:text="@string/save" />
+
                 </LinearLayout>
 
                 <TextView
@@ -452,7 +529,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/update" />
 
             </LinearLayout>

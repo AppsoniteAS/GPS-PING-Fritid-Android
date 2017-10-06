@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
+import no.appsonite.gpsping.db.Geofence;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
@@ -36,21 +38,26 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<Tracker> tracker = new ObservableField<>();
     public ObservableString nameError = new ObservableString();
     public ObservableBoolean sleepModeVisible = new ObservableBoolean();
-    public ObservableBoolean tkStarPetVisibility = new ObservableBoolean(false);
+    public ObservableBoolean geofenceVisibility = new ObservableBoolean(false);
     public ObservableString historyTime = new ObservableString();
+
+    public ObservableString yards = new ObservableString();
+    public ObservableString phone = new ObservableString();
+    public ObservableString yardsError = new ObservableString();
 
     @Override
     public void onModelAttached() {
         Realm realm = Realm.getDefaultInstance();
-        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
-        requestActiveTracker(realmTracker);
-        realm.close();
+        requestActiveTracker(realm);
+
         setSleepModeVisibility();
-        setTkStarPetVisibility();
+        initGeofenceVisibility(realm);
         initTrackingHistory();
+        realm.close();
     }
 
-    private void requestActiveTracker(RealmTracker realmTracker) {
+    private void requestActiveTracker(Realm realm) {
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
         if (realmTracker != null) {
             tracker.set(new Tracker(realmTracker));
         }
@@ -71,14 +78,23 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         }
     }
 
-    private void setTkStarPetVisibility() {
+    private void initGeofenceVisibility(Realm realm) {
         if (Tracker.Type.TK_STAR_PET.toString().equals(tracker.get().type.get())) {
-            tkStarPetVisibility.set(true);
+            geofenceVisibility.set(true);
+            initGeofence(realm);
         }
     }
 
     private void initTrackingHistory() {
         historyTime.set(TrackingHistoryTime.getHTrackingHistory());
+    }
+
+    private void initGeofence(Realm realm) {
+        Geofence geofence = realm.where(Geofence.class).findFirst();
+        if (geofence != null) {
+            yards.set(geofence.getYards());
+            phone.set(tracker.get().trackerNumber.get());
+        }
     }
 
     public Observable<Boolean> updateTracker(Activity activity) {
@@ -98,8 +114,6 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<Boolean> editTracker(Activity activity) {
-        TrackingHistoryTime.saveTrackingHistory(historyTime.get());
-
         Observable<SMS> observable;
         if (isBikeTracker()) {
             observable = Observable.just(new SMS());
@@ -329,45 +343,100 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 .cache();
     }
 
-    //    private Observable<Boolean> addNewTracker(final Activity activity) {
-//        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
-//            @Override
-//            public Observable<SMS> call(String address) {
-//                return sendSmses(activity, tracker.get().getResetSms(address));
-//            }
-//        })
-//                .last()
-//                .cache()
-//                .flatMap(new Func1<SMS, Observable<ApiAnswer>>() {
-//                    @Override
-//                    public Observable<ApiAnswer> call(SMS sms) {
-//                        return execute(ApiFactory.getService().addTracker(
-//                                tracker.get().trackerName.get(),
-//                                tracker.get().imeiNumber.get(),
-//                                tracker.get().trackerNumber.get(),
-//                                tracker.get().getRepeatTime(),
-//                                tracker.get().checkForStand.get(),
-//                                tracker.get().type.get()
-//                        )).subscribeOn(Schedulers.io())
-//                                .observeOn(AndroidSchedulers.mainThread());
-//                    }
-//                })
-//                .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
-//                    @Override
-//                    public Observable<Boolean> call(ApiAnswer apiAnswer) {
-//                        Realm realm = Realm.getDefaultInstance();
-//                        realm.beginTransaction();
-//                        RealmTracker realmTracker = realm.createObject(RealmTracker.class);
-//                        RealmTracker.initWithTracker(realmTracker, tracker.get());
-//                        realm.copyToRealm(realmTracker);
-//                        realm.commitTransaction();
-//                        realm.close();
-//                        return Observable.just(true);
-//                    }
-//                })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
-//    }
+    public void saveTrackingHistory() {
+        TrackingHistoryTime.saveTrackingHistory(historyTime.get());
+    }
+
+    public Observable<SMS> switchGeofence(Activity activity) {
+        if (!validateGeofence())
+            return null;
+        saveGeofence();
+        if (tracker.get().isGeofenceRunning.get()) {
+            return stopGeofence(activity);
+        } else {
+            return startGeofence(activity);
+        }
+    }
+
+    private boolean validateGeofence() {
+        if (TextUtils.isEmpty(yards.get())) {
+            yardsError.set(getContext().getString(R.string.yardsCanNotBeEmpty));
+            return false;
+        }
+        yardsError.set(null);
+        return true;
+    }
+
+    private void saveGeofence() {
+        Realm realm = Realm.getDefaultInstance();
+        Geofence geofence = realm.where(Geofence.class).findFirst();
+        realm.beginTransaction();
+        if (geofence == null) {
+            geofence = realm.createObject(Geofence.class);
+        }
+        geofence.setYards(yards.get());
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    private Observable<SMS> stopGeofence(Activity activity) {
+        Tracker tracker = this.tracker.get();
+        setTrackerGeofenceRunning(tracker, false);
+        ArrayList<SMS> smses = new ArrayList<>();
+
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case VT600:
+                smses.add(new SMS(tracker.trackerNumber.get(), String.format("W000000,006,0", 0)));
+                break;
+            default:
+                smses.add(new SMS(tracker.trackerNumber.get(), "move123456 0"));
+                break;
+        }
+        return sendSmses(activity, smses).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .last()
+                .cache();
+    }
+
+    private Observable<SMS> startGeofence(Activity activity) {
+        Tracker tracker = this.tracker.get();
+        setTrackerGeofenceRunning(tracker, true);
+        ArrayList<SMS> smses = new ArrayList<>();
+
+        switch (Tracker.Type.valueOf(tracker.type.get())) {
+            case VT600:
+                String yardValue = yards.get();
+                String[] yardsArray = Application.getContext().getResources().getStringArray(R.array.geofenceValues);
+                int index = 0;
+                for (; index < yardsArray.length; index++) {
+                    if (yardsArray[index].equals(yardValue)) {
+                        break;
+                    }
+                }
+                String[] yardsKey = Application.getContext().getResources().getStringArray(R.array.geofenceKeys);
+                String key = yardsKey[index];
+                smses.add(new SMS(tracker.trackerNumber.get(), String.format("W000000,006,%s", key)));
+                break;
+            default:
+                smses.add(new SMS(tracker.trackerNumber.get(), String.format("move123456 %s", yards.get())));
+                break;
+        }
+        //smses.add(new SMS(tracker.trackerNumber.get(), String.format("admin123456 %s", activeTracker.get().trackerNumber.get())));
+
+        return sendSmses(activity, smses).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .last()
+                .cache();
+    }
+
+    private void setTrackerGeofenceRunning(Tracker tracker, boolean isRunning) {
+        this.tracker.get().isGeofenceRunning.set(isRunning);
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
+        realm.beginTransaction();
+        realmTracker.setIsGeofenceRunning(isRunning);
+        realm.commitTransaction();
+    }
 
 //    public Observable<SMS> resetTracker(final Activity activity) {
 //        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {

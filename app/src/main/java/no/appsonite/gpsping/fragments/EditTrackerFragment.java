@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.databinding.FragmentEditTrackerBinding;
+import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel;
 import rx.Observable;
@@ -54,6 +55,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initGeofenceBlock();
         initUpdateBtn();
         initResetBtn();
+        initTrackerHistoryBlock();
     }
 
     private void initStartBtn() {
@@ -154,7 +156,26 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void initGeofenceBlock() {
-        getBinding().geofence.setOnClickListener(v -> getBaseActivity().replaceFragment(GeofenceFragment.newInstance(getModel().tracker.get()), true));
+        getBinding().startGeofenceBtn.setOnClickListener(v -> startGeofence());
+    }
+
+    private void startGeofence() {
+        Observable<SMS> observable = getModel().switchGeofence(getActivity());
+        if (observable != null) {
+            showProgress();
+            observable.subscribe(sms -> {
+
+            }, this::showError, this::hideProgress);
+        }
+    }
+
+    private void initTrackerHistoryBlock() {
+        getBinding().saveTrackingHistory.setOnClickListener(v -> saveTrackingHistory());
+    }
+
+    private void saveTrackingHistory() {
+        getModel().saveTrackingHistory();
+        Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
     }
 
     private void initUpdateBtn() {
