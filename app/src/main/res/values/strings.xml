@@ -149,7 +149,7 @@
     <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
     <string name="canBeFoundInside">can be found inside the box with tracker:</string>
     <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
-    <string name="faq">Troubleshooting</string>
+    <string name="faq">FAQ</string>
     <string name="sleepMode">Sleep mode</string>
     <string name="checkBattery">Check Battery</string>
     <string name="updateTracker">You need to update the tracker with new ip-adress for it to work. Please press button and send the preprogrammed SMS to the tracker</string>

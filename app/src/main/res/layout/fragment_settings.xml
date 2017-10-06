@@ -68,13 +68,6 @@
                     android:text="@string/profile" />
 
                 <TextView
-                    android:id="@+id/pauseSubscription"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/button_margin_top"
-                    android:text="@string/pauseSubscription" />
-
-                <TextView
                     android:id="@+id/faq"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"

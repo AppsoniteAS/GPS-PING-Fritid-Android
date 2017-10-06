@@ -52,7 +52,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/circle_button"
                     android:gravity="center"
                     android:text="@{viewModel.tracker.isRunning?@string/stop:@string/start}"
@@ -530,6 +530,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:text="@string/update" />
+
+                <TextView
+                    android:id="@+id/pauseSubscriptionBtn"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/pauseSubscription" />
 
             </LinearLayout>
         </ScrollView>
