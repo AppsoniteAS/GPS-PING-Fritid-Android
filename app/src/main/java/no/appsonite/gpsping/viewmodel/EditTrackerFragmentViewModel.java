@@ -16,6 +16,7 @@ import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
+import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -36,6 +37,7 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString nameError = new ObservableString();
     public ObservableBoolean sleepModeVisible = new ObservableBoolean();
     public ObservableBoolean tkStarPetVisibility = new ObservableBoolean(false);
+    public ObservableString historyTime = new ObservableString();
 
     @Override
     public void onModelAttached() {
@@ -43,8 +45,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
         requestActiveTracker(realmTracker);
         realm.close();
-        setSleepModeVisible();
+        setSleepModeVisibility();
         setTkStarPetVisibility();
+        initTrackingHistory();
     }
 
     private void requestActiveTracker(RealmTracker realmTracker) {
@@ -53,7 +56,7 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         }
     }
 
-    private void setSleepModeVisible() {
+    private void setSleepModeVisibility() {
         switch (Tracker.Type.valueOf(tracker.get().type.get())) {
             case LK209:
             case VT600:
@@ -74,6 +77,10 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         }
     }
 
+    private void initTrackingHistory() {
+        historyTime.set(TrackingHistoryTime.getHTrackingHistory());
+    }
+
     public Observable<Boolean> updateTracker(Activity activity) {
         if (validateData()) {
             return editTracker(activity);
@@ -91,6 +98,8 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     private Observable<Boolean> editTracker(Activity activity) {
+        TrackingHistoryTime.saveTrackingHistory(historyTime.get());
+
         Observable<SMS> observable;
         if (isBikeTracker()) {
             observable = Observable.just(new SMS());

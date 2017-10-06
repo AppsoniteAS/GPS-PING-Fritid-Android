@@ -204,8 +204,6 @@
 
     <string name="deletePoi"><u>Poista kohdepiste</u></string>
 
-    <string name="displayOptions">Näytä asetukset</string>
-
     <string name="showOnMapTracker">Näytä paikantimen sijainti kartalla kello: </string>
 
     <string name="trackingHistory">Paikannushistoria </string>

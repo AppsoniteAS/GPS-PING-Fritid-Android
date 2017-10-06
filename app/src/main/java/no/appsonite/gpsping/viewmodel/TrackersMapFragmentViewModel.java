@@ -45,6 +45,7 @@ import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
+import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.Observer;
@@ -143,7 +144,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     PublishSubject<Object> cancelRequest = PublishSubject.create();
 
     protected long getFrom() {
-        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - DisplayOptionsFragmentViewModel.getHistoryValueSeconds());
+        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
     }
 
     protected long getTo() {

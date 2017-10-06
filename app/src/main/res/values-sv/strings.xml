@@ -102,7 +102,6 @@
     <string name="editPoiTitle"> Redigera intressepunkt </string>
     <string name="createPoiTitle">Skapa intressepunkt</string>
     <string name="deletePoi"><u>Ta bort intressepunkt</u></string>
-    <string name="displayOptions">Visa alternativ</string>
     <string name="showOnMapTracker">Visa GPS-spårarens position på kartan under:</string>
     <string name="trackingHistory">Spårningshistorik</string>
     <string name="poiName">Namn på intressepunkt </string>

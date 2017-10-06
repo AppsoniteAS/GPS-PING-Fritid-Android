@@ -204,8 +204,6 @@
 
     <string name="deletePoi"><u>Fjern Interessepunkt</u></string>
 
-    <string name="displayOptions">Visnings muligheder</string>
-
     <string name="showOnMapTracker">Vis sporingsenhedensens position på kortet under:</string>
 
     <string name="trackingHistory">Sporingshistorik</string>

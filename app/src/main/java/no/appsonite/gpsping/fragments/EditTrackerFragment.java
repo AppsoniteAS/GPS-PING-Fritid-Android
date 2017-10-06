@@ -52,7 +52,6 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initSleepModeBlock();
         initBikeTrackingBlock();
         initGeofenceBlock();
-        initTrackingHistoryBlock();
         initUpdateBtn();
         initResetBtn();
     }
@@ -156,10 +155,6 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
     private void initGeofenceBlock() {
         getBinding().geofence.setOnClickListener(v -> getBaseActivity().replaceFragment(GeofenceFragment.newInstance(getModel().tracker.get()), true));
-    }
-
-    private void initTrackingHistoryBlock() {
-        getBinding().trackingHistory.setOnClickListener(v -> getBaseActivity().replaceFragment(DisplayOptionsFragment.newInstance(), true));
     }
 
     private void initUpdateBtn() {

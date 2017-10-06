@@ -406,13 +406,45 @@
                     <!--android:visibility="@{viewModel.editMode}" />-->
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/trackingHistory"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="@dimen/button_margin_top"
-                    android:text="@string/displayOptions" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/trackingHistory" />
+
+                    <TextView
+                        style="@style/AppTheme.widget.FormFieldLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/showOnMapTracker" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp">
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:entries="@array/showDuring"
+                            app:twoWaySpinner="@{viewModel.historyTime}" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorAccent" />
+                    </FrameLayout>
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/updateTrackerBtn"
@@ -425,5 +457,6 @@
 
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
 </layout>
