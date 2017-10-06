@@ -35,12 +35,12 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().about.setOnClickListener(v -> getBaseActivity().replaceFragment(AboutFragment.newInstance(), true));
+        getBinding().connect.setOnClickListener(v -> getBaseActivity().replaceFragment(FriendsFragment.newInstance(), true));
 
         getBinding().profile.setOnClickListener(v -> getBaseActivity().replaceFragment(ProfileFragment.newInstance(), true));
 
-        getBinding().connect.setOnClickListener(v -> getBaseActivity().replaceFragment(FriendsFragment.newInstance(), true));
-
         getBinding().faq.setOnClickListener(view1 -> getBaseActivity().replaceFragment(FAQFragment.newInstance(), true));
+
+        getBinding().about.setOnClickListener(v -> getBaseActivity().replaceFragment(AboutFragment.newInstance(), true));
     }
 }

@@ -15,28 +15,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/editTrackerToolbar"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </FrameLayout>
+        <include
+            layout="@layout/toolbar_gpsping_typical"
+            app:title="@{@string/editTrackerToolbar}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -386,13 +367,13 @@
                     android:orientation="horizontal">
 
                     <!--<TextView-->
-                        <!--android:id="@+id/geofence"-->
-                        <!--style="@style/AppTheme.widget.Button.Green"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="@dimen/button_margin_top"-->
-                        <!--android:text="@string/geofence"-->
-                        <!--android:visibility="@{viewModel.geofenceVisibility}" />-->
+                    <!--android:id="@+id/geofence"-->
+                    <!--style="@style/AppTheme.widget.Button.Green"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/button_margin_top"-->
+                    <!--android:text="@string/geofence"-->
+                    <!--android:visibility="@{viewModel.geofenceVisibility}" />-->
 
                     <!--<TextView-->
                     <!--android:id="@+id/resetButton"-->
@@ -451,25 +432,25 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp">
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:hint="@string/phoneNumber"
-                        android:imeOptions="actionDone"
-                        android:inputType="phone"
-                        android:maxLines="1"
-                        app:twoWayText="@{viewModel.phone}" />
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="@string/phoneNumber"
+                            android:imeOptions="actionDone"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            app:twoWayText="@{viewModel.phone}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <TextView
-                        tools:textColor="@color/white"
-                        tools:text="@string/start"
                         android:id="@+id/startGeofenceBtn"
                         style="@style/AppTheme.widget.Button.Green"
                         android:layout_marginTop="@dimen/button_margin_top"
+                        android:text="@{viewModel.tracker.isGeofenceRunning?@string/stop:@string/start}"
                         android:textAllCaps="true"
-                        android:text="@{viewModel.tracker.isGeofenceRunning?@string/stop:@string/start}" />
+                        tools:text="@string/start"
+                        tools:textColor="@color/white" />
 
                 </LinearLayout>
 
@@ -518,8 +499,8 @@
                         android:id="@+id/saveTrackingHistory"
                         style="@style/AppTheme.widget.Button.Green"
                         android:layout_marginTop="@dimen/button_margin_top"
-                        android:textAllCaps="true"
-                        android:text="@string/save" />
+                        android:text="@string/save"
+                        android:textAllCaps="true" />
 
                 </LinearLayout>
 

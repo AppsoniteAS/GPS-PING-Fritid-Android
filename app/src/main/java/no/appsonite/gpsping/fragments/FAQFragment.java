@@ -3,7 +3,6 @@ package no.appsonite.gpsping.fragments;
 import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +24,23 @@ import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
  * Date: 06/09/16
  */
 public class FAQFragment extends BaseBindingFragment<FragmentFaqBinding, BaseFragmentViewModel> {
+    private static final String TAG = FAQFragment.class.getSimpleName();
+
+    public static FAQFragment newInstance() {
+        Bundle args = new Bundle();
+        FAQFragment fragment = new FAQFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public String getFragmentTag() {
-        return "FAQFragment";
+        return TAG;
     }
 
     @Override
     protected String getTitle() {
-        return getString(R.string.faq);
+        return null;
     }
 
     @Override
@@ -66,13 +74,6 @@ public class FAQFragment extends BaseBindingFragment<FragmentFaqBinding, BaseFra
         adapter.setItems(items);
         getBinding().recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().recyclerView.setAdapter(adapter);
-    }
-
-    public static FAQFragment newInstance() {
-        Bundle args = new Bundle();
-        FAQFragment fragment = new FAQFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     public static class FAQItem implements Serializable {
