@@ -83,4 +83,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.anjlab.android.iab.v3:library:1.0.31'
     compile 'com.cesards.android:cropimageview:1.0.2.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

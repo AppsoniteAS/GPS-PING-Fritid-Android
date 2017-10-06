@@ -19,7 +19,6 @@ import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.TrackersFragmentViewModel;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
 import rx.Observable;
-import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -28,6 +27,13 @@ import rx.Observer;
  */
 public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBinding, TrackersFragmentViewModel> {
     public static final String TAG = TrackersFragment.class.getSimpleName();
+
+    public static TrackersFragment newInstance() {
+        Bundle args = new Bundle();
+        TrackersFragment fragment = new TrackersFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public String getFragmentTag() {
@@ -60,13 +66,6 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public static TrackersFragment newInstance() {
-        Bundle args = new Bundle();
-        TrackersFragment fragment = new TrackersFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     protected void onViewModelCreated(final TrackersFragmentViewModel model) {
         super.onViewModelCreated(model);
@@ -80,9 +79,9 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.enableTracker:
-                        getModel().enableTracker((Tracker) v.getTag());
-                        break;
+//                    case R.id.enableTracker:
+//                        getModel().enableTracker((Tracker) v.getTag());
+//                        break;
                     case R.id.removeTracker:
                         removeTracker((Tracker) v.getTag());
                         break;
@@ -101,21 +100,8 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
     private void removeTracker(Tracker tracker) {
         Observable<ApiAnswer> observable = getModel().removeTracker(tracker);
         showProgress();
-        observable.subscribe(new Observer<ApiAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showError(e);
-            }
-
-            @Override
-            public void onNext(ApiAnswer o) {
-                hideProgress();
-            }
-        });
+        observable.subscribe(apiAnswer -> hideProgress(),
+                this::showError,
+                this::hideProgress);
     }
 }
