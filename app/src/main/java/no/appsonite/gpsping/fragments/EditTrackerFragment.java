@@ -175,7 +175,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
     private void saveTrackingHistory() {
         getModel().saveTrackingHistory();
-        Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.trackerHistoryUpdated), Toast.LENGTH_SHORT).show();
     }
 
     private void initUpdateBtn() {

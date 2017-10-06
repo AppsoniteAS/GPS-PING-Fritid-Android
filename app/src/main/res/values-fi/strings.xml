@@ -153,6 +153,8 @@
 
     <string name="trackerUpdated">Paikantimen päivitys onnistui </string>
 
+    <string name="trackerHistoryUpdated">Seurantakertomuksen päivitys onnistui</string>
+
     <string name="locationMessage">Sijainnin seuranta</string>
 
     <string name="friendShipRequest">Kaveripyyntö</string>

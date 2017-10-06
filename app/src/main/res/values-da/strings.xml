@@ -153,6 +153,8 @@
 
     <string name="trackerUpdated">Sporingsenheden er opdateret med success</string>
 
+    <string name="trackerHistoryUpdated">Sporingshistorik er opdateret med success</string>
+
     <string name="locationMessage">Lokalicerings Sporing</string>
 
     <string name="friendShipRequest">Venneanmodning</string>

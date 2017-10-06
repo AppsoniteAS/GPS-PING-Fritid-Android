@@ -75,6 +75,7 @@
     <string name="smsAlertDialogTitle">sms</string>
     <string name="smsAlertDialogMessage">Ett sms kommer skickas till din GPS-spårare </string>
     <string name="trackerUpdated">Uppdateringen av GPS-spåraren lyckades </string>
+    <string name="trackerHistoryUpdated">Spårningshistoriken har uppdaterats</string>
     <string name="locationMessage">Spåra plats</string>
     <string name="friendShipRequest">Vänförfrågan</string>
     <string name="friendShipRequestMessage">%1$s vill bli vän med dig. Bekräfta vänförfrågan? </string>

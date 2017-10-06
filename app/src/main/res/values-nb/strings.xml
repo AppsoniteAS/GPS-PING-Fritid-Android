@@ -75,6 +75,7 @@
     <string name="smsAlertDialogTitle">SMS</string>
     <string name="smsAlertDialogMessage">Dette vil sende en sms til trackeren din</string>
     <string name="trackerUpdated">Trackeren ble oppdatert</string>
+    <string name="trackerHistoryUpdated">Sporingshistorikk ble oppdatert</string>
     <string name="locationMessage">Lokasjons tracking</string>
     <string name="friendShipRequest">Venneforespørsel</string>
     <string name="friendShipRequestMessage">%1$s vil være venn med deg. Vennligst bekreft?</string>
