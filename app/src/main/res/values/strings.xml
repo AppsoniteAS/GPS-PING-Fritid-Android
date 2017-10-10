@@ -100,6 +100,7 @@
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>
     <string name="distance">Distance</string>
+    <string name="speed">Speed</string>
     <string name="distanceTravelled">Distance Travelled</string>
     <string name="signalStrength">Signal Strength</string>
     <string name="gsm">GSM</string>
@@ -163,6 +164,7 @@
     <string name="grsm_tools">GRSM 32VPM1237382377</string>
     <string name="seventy_five_tools">75%</string>
     <string name="distance_tools">3.5 km</string>
+    <string name="speed_tools">6 km/h</string>
     <string name="distance_travelled_tools">15 km</string>
 
     <string-array name="receiveSignalTime">
