@@ -39,7 +39,7 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
 
         getBinding().profile.setOnClickListener(v -> getBaseActivity().replaceFragment(ProfileFragment.newInstance(), true));
 
-        getBinding().faq.setOnClickListener(view1 -> getBaseActivity().replaceFragment(FAQFragment.newInstance(), true));
+        getBinding().faq.setOnClickListener(v -> getBaseActivity().replaceFragment(FAQChoiceFragment.newInstance(), true));
 
         getBinding().about.setOnClickListener(v -> getBaseActivity().replaceFragment(AboutFragment.newInstance(), true));
     }

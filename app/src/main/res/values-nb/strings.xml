@@ -59,6 +59,7 @@
     <string name="removeFriend">Slett \n venn</string>
     <string name="search">Søk</string>
     <string name="selectTracker">Velg traker du vil aktivere:</string>
+    <string name="selectYourTracker">Velg sporing:</string>
     <string name="wait">Vennligst vent</string>
     <string name="nameCanNotBeEmpty">Vennligst legg inn navn</string>
     <string name="fullName">Navn</string>

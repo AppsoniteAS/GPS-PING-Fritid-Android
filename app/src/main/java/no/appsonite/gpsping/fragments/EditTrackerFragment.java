@@ -1,6 +1,8 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -8,14 +10,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.databinding.FragmentEditTrackerBinding;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
+import no.appsonite.gpsping.utils.CircleTransformation;
+import no.appsonite.gpsping.utils.ImageUtils;
 import no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel;
 import rx.Observable;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created: Belozerov
@@ -25,6 +34,8 @@ import rx.Observable;
 public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTrackerBinding, EditTrackerFragmentViewModel> {
     private static final String TAG = EditTrackerFragment.class.getSimpleName();
     private static final String ARG_TRACKER = "arg_tracker";
+    private static final int RESULT_LOAD_IMG = 3356;
+    private Bitmap selectedImage;
 
     public static EditTrackerFragment newInstance(Tracker tracker) {
         Bundle args = new Bundle();
@@ -189,7 +200,9 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void uploadPhoto() {
-
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Complete action using"), RESULT_LOAD_IMG);
     }
 
     private void initUpdateBtn() {
@@ -248,6 +261,34 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
                 startActivity(Intent.createChooser(i, getString(R.string.pauseSubscription)));
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case RESULT_LOAD_IMG:
+                    uploadResult(data);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void uploadResult(Intent data) {
+        try {
+            Uri imageUri = data.getData();
+            InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+            selectedImage = BitmapFactory.decodeStream(imageStream);
+
+            selectedImage = ImageUtils.compressBitmap(selectedImage, 1280, 960);
+
+            getBinding().photo.setImageBitmap(selectedImage);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initResetBtn() {

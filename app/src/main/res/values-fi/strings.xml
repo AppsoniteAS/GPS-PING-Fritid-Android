@@ -121,6 +121,8 @@
 
     <string name="selectTracker">Valitse paikannin, jonka haluat aktivoida:</string>
 
+    <string name="selectYourTracker">Valitse seuranta:</string>
+
     <string name="wait">Odota…</string>
 
     <string name="nameCanNotBeEmpty">Nimi ei voi olla tyhjä</string>

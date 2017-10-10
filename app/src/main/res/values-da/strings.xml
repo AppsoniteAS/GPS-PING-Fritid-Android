@@ -121,6 +121,8 @@
 
     <string name="selectTracker">Vælg Sporingsenhed som du ønsker at aktivere:</string>
 
+    <string name="selectYourTracker">Vælg din sporbarhed:</string>
+
     <string name="wait">Vent venligst…</string>
 
     <string name="nameCanNotBeEmpty">Navnet kan ikke være tomt</string>

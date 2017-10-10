@@ -42,7 +42,6 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString historyTime = new ObservableString();
 
     public ObservableString yards = new ObservableString();
-    public ObservableString phone = new ObservableString();
     public ObservableString yardsError = new ObservableString();
 
     @Override
@@ -93,7 +92,6 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         Geofence geofence = realm.where(Geofence.class).findFirst();
         if (geofence != null) {
             yards.set(geofence.getYards());
-            phone.set(tracker.get().trackerNumber.get());
         }
     }
 

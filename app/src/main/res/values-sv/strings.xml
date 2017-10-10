@@ -59,6 +59,7 @@
     <string name="removeFriend">Ta bort vän\avvänna</string>
     <string name="search">Sök</string>
     <string name="selectTracker">Välj GPS-spårare som du vill aktivera:</string>
+    <string name="selectYourTracker">Välj din spårare:</string>
     <string name="wait">Vänta…</string>
     <string name="nameCanNotBeEmpty">Namn måste fyllas i </string>
     <string name="fullName">Fullständigt namn</string>

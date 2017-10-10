@@ -427,22 +427,6 @@
                             app:twoWayText="@{viewModel.yards}" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="@string/phoneNumber"
-                            android:imeOptions="actionDone"
-                            android:inputType="phone"
-                            android:maxLines="1"
-                            app:twoWayText="@{viewModel.phone}" />
-                    </android.support.design.widget.TextInputLayout>
-
                     <TextView
                         android:id="@+id/startGeofenceBtn"
                         style="@style/AppTheme.widget.Button.Green"
@@ -507,26 +491,32 @@
                 <FrameLayout
                     android:id="@+id/uploadPhotoBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="280dp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/form_bg"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_photo_plus" />
+
+                    <ImageView
+                        android:id="@+id/photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                     <no.appsonite.gpsping.widget.CustomFontTextView
                         style="@style/AppTheme.widget.FormTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/photo" />
-
-                    <ImageView
-                        android:src="@drawable/ic_photo_plus"
-                        android:layout_gravity="center"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp" />
 
                 </FrameLayout>
 

@@ -59,6 +59,7 @@
     <string name="removeFriend">Remove\nfriend</string>
     <string name="search">Search</string>
     <string name="selectTracker">Select tracker you want to activate:</string>
+    <string name="selectYourTracker">Select your tracker:</string>
     <string name="wait">Please, wait…</string>
     <string name="nameCanNotBeEmpty">Name can not be empty</string>
     <string name="fullName">Full Name</string>
@@ -85,6 +86,9 @@
     <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Your tracker is now standing still in the same position.</string>
     <string name="confirm">Confirm</string>
     <string name="owner">Owner:</string>
+    <string name="originalGpsTracker">Original GPS Tracker</string>
+    <string name="gpsPingMarcelTracker">GPS PingMarcel Tracker</string>
+    <string name="gpsCatTracker">GPS Cattracker</string>
 
     <string name="trackerNumberNMap">Tracker Number:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI Number:\t\t\t%1$s</string>
