@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:onClick="@{onClickListener}"
-        android:tag="@{item}"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:tag="@{item}">
 
         <View
             android:layout_width="match_parent"
@@ -31,12 +31,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_action_hardware_keyboard_arrow_right"
+            android:drawableRight="@drawable/ic_action_arrow_right"
             android:paddingBottom="12dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="16dp"
             android:paddingTop="12dp"
             android:text="@{item.question}"
+            android:textColor="@color/colorAccent"
             android:textSize="20sp"
             tools:text="Hello" />
 
@@ -44,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_gravity="bottom"
+            android:layout_marginLeft="16dp"
             android:background="@color/colorAccent" />
     </FrameLayout>
 </layout>

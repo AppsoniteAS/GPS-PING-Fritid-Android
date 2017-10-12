@@ -127,7 +127,7 @@
 
     <string name="nameCanNotBeEmpty">Nimi ei voi olla tyhjä</string>
 
-    <string name="fullName">Koko nimi</string>
+    <string name="fullName">Nimi</string>
 
     <string name="satellite">Satellitti</string>
 

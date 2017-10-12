@@ -39,6 +39,7 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableString nameError = new ObservableString();
     public ObservableBoolean sleepModeVisible = new ObservableBoolean();
     public ObservableBoolean geofenceVisibility = new ObservableBoolean(false);
+    public ObservableBoolean isRunningTracker = new ObservableBoolean();
     public ObservableString historyTime = new ObservableString();
 
     public ObservableString yards = new ObservableString();
@@ -52,6 +53,7 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         setSleepModeVisibility();
         initGeofenceVisibility(realm);
         initTrackingHistory();
+        initVisibilityButtonsStartStop();
         realm.close();
     }
 
@@ -84,15 +86,19 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         }
     }
 
-    private void initTrackingHistory() {
-        historyTime.set(TrackingHistoryTime.getHTrackingHistory());
-    }
-
     private void initGeofence(Realm realm) {
         Geofence geofence = realm.where(Geofence.class).findFirst();
         if (geofence != null) {
             yards.set(geofence.getYards());
         }
+    }
+
+    private void initTrackingHistory() {
+        historyTime.set(TrackingHistoryTime.getHTrackingHistory());
+    }
+
+    private void initVisibilityButtonsStartStop() {
+        isRunningTracker.set(tracker.get().isRunning.get());
     }
 
     public Observable<Boolean> updateTracker(Activity activity) {
@@ -250,7 +256,8 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         }
     }
 
-    private Observable<SMS> stopTracker(Activity activity) {
+    public Observable<SMS> stopTracker(Activity activity) {
+        isRunningTracker.set(false);
         Tracker tracker = this.tracker.get();
         setTrackerRunning(tracker, false);
         String message;
@@ -277,7 +284,8 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         return sendSmsToTracker(tracker, message, activity);
     }
 
-    private Observable<SMS> startTracker(Activity activity) {
+    public Observable<SMS> startTracker(Activity activity) {
+        isRunningTracker.set(true);
         Tracker tracker = this.tracker.get();
         setTrackerRunning(tracker, true);
         String message;

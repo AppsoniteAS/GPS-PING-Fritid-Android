@@ -132,7 +132,7 @@
     <string name="address">Adresse</string>
     <string name="country">Land</string>
     <string name="city">By</string>
-    <string name="zipCode">Postnr</string>
+    <string name="zipCode">Postnummer</string>
     <string name="addressCanNotBeEmpty">Vennligst fyll inn adresse</string>
     <string name="cityCanNotBeEmpty">Vennlist legg inn by</string>
     <string name="countryCanNotBeEmpty">Vennligst legg inn land</string>

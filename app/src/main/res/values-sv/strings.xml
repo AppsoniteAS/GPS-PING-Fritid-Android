@@ -62,7 +62,7 @@
     <string name="selectYourTracker">Välj din spårare:</string>
     <string name="wait">Vänta…</string>
     <string name="nameCanNotBeEmpty">Namn måste fyllas i </string>
-    <string name="fullName">Fullständigt namn</string>
+    <string name="fullName">Namn</string>
     <string name="satellite">Satellit</string>
     <string name="standard">Standard</string>
     <string name="topo">Topografi</string>

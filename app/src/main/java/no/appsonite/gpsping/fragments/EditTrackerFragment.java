@@ -64,6 +64,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
     private void initBlocks() {
         initStartBtn();
+        initStopBtn();
         initSignalBlock();
         initSleepModeBlock();
         initBikeTrackingBlock();
@@ -76,14 +77,27 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void initStartBtn() {
-        getBinding().startStopBtn.setOnClickListener(v -> switchTrackerState());
+        getBinding().startBtn.setOnClickListener(v -> startButtonClick());
     }
 
-    private void switchTrackerState() {
+    private void startButtonClick() {
         if (getModel().tracker.get() == null)
             return;
         showProgress();
-        getModel().switchState(getActivity()).subscribe(sms -> {
+        getModel().startTracker(getActivity()).subscribe(sms -> {
+
+        }, this::showError, this::hideProgress);
+    }
+
+    private void initStopBtn() {
+        getBinding().stopBtn.setOnClickListener(v -> stopButtonClick());
+    }
+
+    private void stopButtonClick() {
+        if (getModel().tracker.get() == null)
+            return;
+        showProgress();
+        getModel().stopTracker(getActivity()).subscribe(sms -> {
 
         }, this::showError, this::hideProgress);
     }
