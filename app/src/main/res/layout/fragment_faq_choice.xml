@@ -67,13 +67,22 @@
                     android:text="@string/gpsPingMarcelTracker"
                     android:textColor="@color/mainTextColor" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/catBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_tracker"
-                    app:civ_border_color="@color/colorPrimary"
-                    app:civ_border_width="3dp" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_round_white" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_tracker_faq" />
+
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="match_parent"

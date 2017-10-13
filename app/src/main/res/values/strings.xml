@@ -57,7 +57,7 @@
     <string name="friends">Friends</string>
     <string name="addFriend">Add friend</string>
     <string name="removeFriend">Remove\nfriend</string>
-    <string name="search">Search</string>
+    <string name="search">Search people</string>
     <string name="selectTracker">Select tracker you want to activate:</string>
     <string name="selectYourTracker">Select your tracker:</string>
     <string name="wait">Please, wait…</string>

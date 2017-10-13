@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import no.appsonite.gpsping.BR;
 import no.appsonite.gpsping.R;
-import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentAddFriendBinding;
 import no.appsonite.gpsping.databinding.ItemFriendBinding;
 import no.appsonite.gpsping.model.Friend;
@@ -18,7 +17,6 @@ import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.AddFriendFragmentViewModel;
 import no.appsonite.gpsping.widget.BindingViewHolder;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
-import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -26,7 +24,14 @@ import rx.Observer;
  * Date: 19.01.2016
  */
 public class AddFriendFragment extends BaseBindingFragment<FragmentAddFriendBinding, AddFriendFragmentViewModel> {
-    private static final String TAG = "AddFriendFragment";
+    private static final String TAG = AddFriendFragment.class.getSimpleName();
+
+    public static AddFriendFragment newInstance() {
+        Bundle args = new Bundle();
+        AddFriendFragment fragment = new AddFriendFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public String getFragmentTag() {
@@ -35,16 +40,7 @@ public class AddFriendFragment extends BaseBindingFragment<FragmentAddFriendBind
 
     @Override
     protected String getTitle() {
-        return getString(R.string.addFriend);
-    }
-
-    public static AddFriendFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        AddFriendFragment fragment = new AddFriendFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return null;
     }
 
     @Override
@@ -81,21 +77,8 @@ public class AddFriendFragment extends BaseBindingFragment<FragmentAddFriendBind
     }
 
     private void addFriend(Friend friend) {
-        getModel().addFriend(friend).subscribe(new Observer<ApiAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showError(e);
-            }
-
-            @Override
-            public void onNext(ApiAnswer apiAnswer) {
-                getFragmentManager().popBackStack();
-            }
-        });
+        getModel().addFriend(friend)
+                .subscribe(apiAnswer -> getFragmentManager().popBackStack(),
+                        this::showError);
     }
 }

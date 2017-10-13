@@ -10,4 +10,6 @@
     <dimen name="trackerDialogWidth">500dp</dimen>
     <dimen name="trackerDialogHeight">420dp</dimen>
     <dimen name="button_margin_top">6dp</dimen>
+    <dimen name="sixteen_margin">16dp</dimen>
+    <dimen name="twelve_margin">12dp</dimen>
 </resources>
