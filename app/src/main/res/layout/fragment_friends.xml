@@ -17,7 +17,7 @@
 
         <include
             layout="@layout/toolbar_gpsping_typical"
-            app:title="@{@string/friends}" />
+            app:title="@{@string/connect}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/friendsRecycler"
