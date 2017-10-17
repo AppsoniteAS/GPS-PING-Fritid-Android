@@ -11,6 +11,7 @@ import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
 import no.appsonite.gpsping.model.Migration1;
 import no.appsonite.gpsping.model.Migration2;
+import no.appsonite.gpsping.model.Migration3;
 
 /**
  * Created: Belozerov
@@ -30,13 +31,13 @@ public class Application extends MultiDexApplication {
         Fabric.with(this, new Crashlytics());
         Application.context = this;
 
-        RealmConfiguration config = new RealmConfiguration.Builder(this).schemaVersion(2).build();
+        RealmConfiguration config = new RealmConfiguration.Builder(this).schemaVersion(3).build();
         Realm.setDefaultConfiguration(config);
 
         try {
             Realm.getInstance(config);
         } catch (RealmMigrationNeededException e) {
-            Realm.migrateRealm(config, new Migration2());
+            Realm.migrateRealm(config, new Migration3());
         }
 
         Realm.setDefaultConfiguration(config);

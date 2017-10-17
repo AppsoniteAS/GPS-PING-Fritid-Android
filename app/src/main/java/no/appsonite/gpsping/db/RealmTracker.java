@@ -28,6 +28,7 @@ public class RealmTracker extends RealmObject {
     private String signalRepeatTimeMeasurement;
     private boolean isEnabled;
     private String type;
+    private String picUrl;
     private boolean isRunning;
     private boolean isGeofenceRunning;
     private boolean ledActive;
@@ -62,6 +63,9 @@ public class RealmTracker extends RealmObject {
         realmTracker.setSignalRepeatTime(tracker.signalRepeatTime.get());
         if (tracker.type == null) {
             tracker.type = new ObservableString(Tracker.Type.TK_ANYWHERE.toString());
+        }
+        if(tracker.picUrl != null) {
+            realmTracker.setPicUrl(tracker.picUrl.get());
         }
         realmTracker.setType(tracker.type.get());
         realmTracker.setIsEnabled(tracker.isEnabled.get());
@@ -196,6 +200,14 @@ public class RealmTracker extends RealmObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
     }
 
     public static void add(Tracker tracker) {

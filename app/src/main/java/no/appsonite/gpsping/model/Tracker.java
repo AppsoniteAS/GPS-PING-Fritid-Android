@@ -35,6 +35,9 @@ public class Tracker implements Serializable {
     @SerializedName("type")
     public ObservableString type = new ObservableString(Type.TK_STAR.toString());
 
+    @SerializedName("picUrl")
+    public ObservableString picUrl = new ObservableString();
+
     public android.databinding.ObservableBoolean ledActive = new android.databinding.ObservableBoolean(false);
     public android.databinding.ObservableBoolean shockAlarmActive = new android.databinding.ObservableBoolean(false);
     public android.databinding.ObservableBoolean shockFlashActive = new android.databinding.ObservableBoolean(false);
@@ -56,6 +59,7 @@ public class Tracker implements Serializable {
         signalRepeatTime.set(tracker.getSignalRepeatTime());
         isEnabled.set(tracker.isEnabled());
         type.set(tracker.getType());
+        picUrl.set(tracker.getPicUrl());
         isRunning.set(tracker.isRunning());
         isGeofenceRunning.set(tracker.isGeofenceRunning());
         sleepMode.set(tracker.isSleepMode());
