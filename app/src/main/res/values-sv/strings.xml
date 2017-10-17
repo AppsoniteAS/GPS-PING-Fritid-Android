@@ -138,6 +138,9 @@
     <string name="countryCanNotBeEmpty">Land måste fyllas i</string>
     <string name="zipCodeCanNotBeEmpty">Postnummer måste fyllas i</string>
     <string name="skip"><u>Hoppa över</u></string>
+    <string name="select_image">Välj bild</string>
+    <string name="delete_image">Ta bort bild</string>
+    <string name="could_not_upload_image">Det gick inte att ladda upp bilden</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

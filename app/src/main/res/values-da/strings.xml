@@ -249,6 +249,9 @@
     <string name="countryCanNotBeEmpty">Land kan ikke være tom</string>
     <string name="zipCodeCanNotBeEmpty">Postnummer kan ikke være tom</string>
     <string name="skip"><u>Spring over</u></string>
+    <string name="select_image">Vælg billede</string>
+    <string name="delete_image">Slet billede</string>
+    <string name="could_not_upload_image">Kunne ikke uploade billedet</string>
 
 
     <string-array name="receiveSignalTime">

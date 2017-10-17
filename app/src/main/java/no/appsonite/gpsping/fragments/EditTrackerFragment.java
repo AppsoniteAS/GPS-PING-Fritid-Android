@@ -5,24 +5,37 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.squareup.picasso.Picasso;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.UUID;
 
+import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.amazon.AmazonFileLoader;
+import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.databinding.FragmentEditTrackerBinding;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
-import no.appsonite.gpsping.utils.CircleTransformation;
 import no.appsonite.gpsping.utils.ImageUtils;
 import no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -74,6 +87,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initUploadPhotoBtn();
         initUpdateBtn();
         initPauseSubscriptionBtn();
+        downloadPhoto();
     }
 
     private void initStartBtn() {
@@ -210,7 +224,50 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void initUploadPhotoBtn() {
-        getBinding().uploadPhotoBtn.setOnClickListener(v -> uploadPhoto());
+        getBinding().uploadPhotoBtn.setOnClickListener(this::showPopupMenu);
+    }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v, Gravity.CENTER);
+        popupMenu.inflate(R.menu.menu_choice_action);
+        popupMenu.setOnMenuItemClickListener(item -> selectAction(item.getItemId()));
+        popupMenu.show();
+    }
+
+    private boolean selectAction(int itemId) {
+        switch (itemId) {
+            case R.id.action_select:
+                actionSelect();
+                break;
+            case R.id.action_delete:
+                actionDelete();
+                break;
+        }
+        return true;
+    }
+
+    private void actionSelect() {
+        uploadPhoto();
+    }
+
+    private void actionDelete() {
+        deletePhoto();
+        Toast.makeText(getContext(), "deleteClick", Toast.LENGTH_SHORT).show();
+    }
+
+    private void deletePhoto() {
+        ApiFactory.getService().deleteImage(getModel().tracker.get().imeiNumber.get())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(apiAnswer -> {
+
+                }, throwable -> {
+                    showError(throwable);
+                    Log.i(TAG, "throwableDelete");
+                }, () -> {
+                    hideProgress();
+                    Log.i(TAG, "onCompleteDelete");
+                });
     }
 
     private void uploadPhoto() {
@@ -294,6 +351,10 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     private void uploadResult(Intent data) {
         try {
             Uri imageUri = data.getData();
+
+            String path = imageUri.toString();
+            uploadPhotoToAmazon(path);
+
             InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
             selectedImage = BitmapFactory.decodeStream(imageStream);
 
@@ -303,6 +364,48 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void uploadPhotoToAmazon(String path) {
+        String uuid = UUID.randomUUID().toString() + ".jpg";
+        TransferObserver observer = AmazonFileLoader.uploadPhoto(path, uuid);
+        showProgress();
+        observer.setTransferListener(new TransferListener() {
+            boolean isDone = false;
+
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                if (bytesCurrent == bytesTotal && !isDone) {
+                    isDone = true;
+                    uploadUUIDToServer(uuid);
+                }
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                Toast.makeText(getContext(), getString(R.string.could_not_upload_image), Toast.LENGTH_SHORT).show();
+                hideProgress();
+            }
+        });
+    }
+
+    private void uploadUUIDToServer(String uuid) {
+        Log.i(TAG, "uuid = " + uuid);
+        ApiFactory.getService().updateImage(getModel().tracker.get().imeiNumber.get(), uuid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(apiAnswer -> {
+
+                }, this::showError, this::hideProgress);
+    }
+
+    private void downloadPhoto() {
+//        Picasso.with(getContext()).load(BuildConfig.AMAZON_ADDRESS + "5f415910-cf8c-4c04-aff8-99a40ac4d14a.jpg").into(getBinding().photo);
     }
 
     private void initResetBtn() {

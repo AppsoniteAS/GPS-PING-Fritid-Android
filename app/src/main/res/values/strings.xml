@@ -166,6 +166,9 @@
     <string name="distance_tools">3.5 km</string>
     <string name="speed_tools">6 km/h</string>
     <string name="distance_travelled_tools">15 km</string>
+    <string name="select_image">Select image</string>
+    <string name="delete_image">Delete image</string>
+    <string name="could_not_upload_image">Could not upload image</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

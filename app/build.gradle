@@ -27,6 +27,7 @@ android {
         targetSdkVersion 22
         versionCode 60
         versionName "1.2"
+        buildConfigField("String", "AMAZON_ADDRESS", '"https://s3-eu-west-1.amazonaws.com/fritidbucket/"')
     }
     dataBinding {
         enabled = true
@@ -84,4 +85,5 @@ dependencies {
     compile 'com.anjlab.android.iab.v3:library:1.0.31'
     compile 'com.cesards.android:cropimageview:1.0.2.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.amazonaws:aws-android-sdk-s3:2.6.5'
 }

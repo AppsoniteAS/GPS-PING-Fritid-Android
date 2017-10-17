@@ -95,6 +95,10 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3a07a946aea34bb88040f1c6289e132a980f7e0c" />

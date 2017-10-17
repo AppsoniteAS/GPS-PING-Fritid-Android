@@ -249,6 +249,9 @@
     <string name="countryCanNotBeEmpty"> Maa ei voi olla tyhjä </string>
     <string name="zipCodeCanNotBeEmpty">Postinumero ei voi olla tyhjä </string>
     <string name="skip"><u>Ohita</u></string>
+    <string name="select_image">Valitse kuva</string>
+    <string name="delete_image">Poista kuva</string>
+    <string name="could_not_upload_image">Kuvan lataamista ei voitu lähettää</string>
 
 
     <string-array name="receiveSignalTime">
