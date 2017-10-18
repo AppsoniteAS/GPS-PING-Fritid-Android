@@ -405,8 +405,10 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void downloadPhoto() {
-        if (getModel().tracker.get().picUrl != null)
-        Picasso.with(getContext()).load(BuildConfig.AMAZON_ADDRESS + getModel().tracker.get().picUrl.get()).into(getBinding().photo);
+        if (getModel().tracker.get().picUrl != null) {
+            String url = BuildConfig.AMAZON_ADDRESS + getModel().tracker.get().picUrl.get();
+            Picasso.with(getContext()).load(url).fit().into(getBinding().photo);
+        }
     }
 
     private void initResetBtn() {

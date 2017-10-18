@@ -51,6 +51,14 @@ public class BindingAttributes {
         Picasso.with(imageView.getContext()).load(url).into(imageView);
     }
 
+    @BindingAdapter({"imageFromAmazon"})
+    public static void setImageUrlMain(ImageView imageView, String url) {
+        if (url == null) {
+            return;
+        }
+        Picasso.with(imageView.getContext()).load(BuildConfig.AMAZON_ADDRESS + url).resize(240, 240).centerCrop().into(imageView);
+    }
+
     @BindingAdapter("bind:customFont")
     public static void setCustomFont(TextView textView, String font) {
         Typeface tf = typefaceHashMap.get(font);

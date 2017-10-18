@@ -60,8 +60,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="16dp"
                 app:civ_border_color="@color/colorPrimary"
-                app:civ_border_width="2dp"
-                app:imageRes="@{BindingHelper.getTrackerImage(item.type)}" />
+                app:imageFromAmazon="@{item.picUrl}"
+                app:civ_border_width="2dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
