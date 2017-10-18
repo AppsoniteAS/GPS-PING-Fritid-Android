@@ -66,6 +66,8 @@ public class RealmTracker extends RealmObject {
         }
         if(tracker.picUrl != null) {
             realmTracker.setPicUrl(tracker.picUrl.get());
+        } else {
+            realmTracker.setPicUrl(null);
         }
         realmTracker.setType(tracker.type.get());
         realmTracker.setIsEnabled(tracker.isEnabled.get());

@@ -252,22 +252,21 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
     private void actionDelete() {
         deletePhoto();
-        Toast.makeText(getContext(), "deleteClick", Toast.LENGTH_SHORT).show();
     }
 
     private void deletePhoto() {
+        showProgress();
         ApiFactory.getService().deleteImage(getModel().tracker.get().imeiNumber.get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(apiAnswer -> {
 
-                }, throwable -> {
-                    showError(throwable);
-                    Log.i(TAG, "throwableDelete");
-                }, () -> {
-                    hideProgress();
-                    Log.i(TAG, "onCompleteDelete");
-                });
+                }, this::showError, this::deletePhotoCompleted);
+    }
+
+    private void deletePhotoCompleted() {
+        getBinding().photo.setImageBitmap(null);
+        hideProgress();
     }
 
     private void uploadPhoto() {

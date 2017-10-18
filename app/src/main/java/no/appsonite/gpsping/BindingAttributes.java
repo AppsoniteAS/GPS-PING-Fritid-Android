@@ -54,6 +54,7 @@ public class BindingAttributes {
     @BindingAdapter({"imageFromAmazon"})
     public static void setImageUrlMain(ImageView imageView, String url) {
         if (url == null) {
+            imageView.setImageBitmap(null);
             return;
         }
         Picasso.with(imageView.getContext()).load(BuildConfig.AMAZON_ADDRESS + url).resize(240, 240).centerCrop().into(imageView);

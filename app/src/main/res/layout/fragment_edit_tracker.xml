@@ -522,6 +522,7 @@
                         android:src="@drawable/ic_photo_plus" />
 
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:id="@+id/photo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
