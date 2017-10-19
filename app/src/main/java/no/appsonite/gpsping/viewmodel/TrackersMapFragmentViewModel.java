@@ -118,7 +118,6 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public void onViewCreated() {
         super.onViewCreated();
         requestPoints();
-
         currentFriend.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
@@ -222,7 +221,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
                     if (devicePoints.isEmpty()) {
                         MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevicePoints.getDevice().getLastLat(), geoDevicePoints.getDevice().getLastLon(),
                                 geoDevicePoints.getDevice().getName(), geoDevicePoints.getDevice().getImeiNumber(), geoDevicePoints.getDevice().getTrackerNumber(),
-                                geoDevicePoints.getDevice().getLastTimestamp());
+                                geoDevicePoints.getDevice().getLastTimestamp(), geoDevicePoints.getDevice().getPicUrl());
                         devicePoints.add(mapPoint);
                         mapPoints.add(mapPoint);
                     }

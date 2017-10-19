@@ -1,7 +1,6 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Rect;
@@ -12,22 +11,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.RadioGroup;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -38,26 +33,25 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
-import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.services.LocationMapService;
 import no.appsonite.gpsping.utils.MarkerHelper;
+import no.appsonite.gpsping.utils.PinUtils;
 import no.appsonite.gpsping.utils.RxBus;
-import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.utils.map.WMSTileProvider;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
 import no.appsonite.gpsping.widget.Compass;
 import rx.Subscription;
-import rx.functions.Action1;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created: Belozerov
@@ -293,12 +287,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         super.onAttach(context);
         if (trackUserLocation())
             LocationMapService.startService(context);
-        locationSubscription = RxBus.getInstance().register(Location.class, new Action1<Location>() {
-            @Override
-            public void call(Location location) {
-                onLocationUpdate(location);
-            }
-        });
+        locationSubscription = RxBus.getInstance().register(Location.class, this::onLocationUpdate);
     }
 
     protected void onLocationUpdate(Location location) {
@@ -315,33 +304,22 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     protected void onViewModelCreated(T model) {
         super.onViewModelCreated(model);
-        model.requestFriends().subscribe(new Action1<FriendsAnswer>() {
-            @Override
-            public void call(FriendsAnswer friendsAnswer) {
+        model.requestFriends().subscribe(friendsAnswer -> {
 
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                showError(throwable);
-            }
-        });
+        }, this::showError);
         getBinding().mapType.check(R.id.topo);
 
-        getBinding().mapType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.satellite:
-                        showSatellite();
-                        break;
-                    case R.id.standard:
-                        showStandard();
-                        break;
-                    case R.id.topo:
-                        showTopo();
-                        break;
-                }
+        getBinding().mapType.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.satellite:
+                    showSatellite();
+                    break;
+                case R.id.standard:
+                    showStandard();
+                    break;
+                case R.id.topo:
+                    showTopo();
+                    break;
             }
         });
 
@@ -371,31 +349,18 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
 
-        View.OnClickListener onInfoClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getModel().currentMapPoint.set(null);
-                getModel().currentPoi.set(null);
-            }
+        View.OnClickListener onInfoClick = view -> {
+            getModel().currentMapPoint.set(null);
+            getModel().currentPoi.set(null);
         };
 
         getBinding().mapPointInfo.setOnClickListener(onInfoClick);
 
         getBinding().poiInfo.setOnClickListener(onInfoClick);
 
-        getBinding().editPoi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                editPoi(getModel().currentPoi.get());
-            }
-        });
+        getBinding().editPoi.setOnClickListener(view -> editPoi(getModel().currentPoi.get()));
 
-        getBinding().deletePoi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deletePoi();
-            }
-        });
+        getBinding().deletePoi.setOnClickListener(view -> deletePoi());
 
         subscribeOnPoints();
         subscribeOnPois();
@@ -429,24 +394,18 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private void deletePoi() {
         BaseBindingDialogFragment dialogFragment = RemovePoiFragmentDialog.newInstance(getModel().currentPoi.get());
         dialogFragment.show(getChildFragmentManager(), RemovePoiFragmentDialog.TAG);
-        dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                getModel().requestPois();
-                getModel().currentPoi.set(null);
-            }
+        dialogFragment.setOnDismissListener(dialogInterface -> {
+            getModel().requestPois();
+            getModel().currentPoi.set(null);
         });
     }
 
     private void editPoi(Poi poi) {
         BaseBindingDialogFragment dialogFragment = EditPoiDialogFragment.newInstance(poi);
         dialogFragment.show(getChildFragmentManager(), EditPoiDialogFragment.TAG);
-        dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                getModel().requestPois();
-                getModel().currentPoi.set(null);
-            }
+        dialogFragment.setOnDismissListener(dialogInterface -> {
+            getModel().requestPois();
+            getModel().currentPoi.set(null);
         });
     }
 
@@ -471,10 +430,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                     getBinding().friendSpinner.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
 
-                int actionBarSize = Utils.getActionBarSize(getActivity());
+//                int actionBarSize = Utils.getActionBarSize(getActivity());
                 Rect rect = new Rect();
                 getBinding().friendSpinner.getGlobalVisibleRect(rect);
-                getMap().setPadding(0, rect.bottom, 0, actionBarSize);
+//                getMap().setPadding(0, rect.bottom, 0, actionBarSize);
             }
         });
 
@@ -494,53 +453,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     public GoogleMap getMap() {
         return googleMap;
-    }
-
-    private void updatePoints() {
-        ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
-        clearTracks();
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-
-        if (mapPoints.size() > 0) {
-            for (MapPoint mapPoint : mapPoints) {
-                if (skipMapPoint(mapPoint)) {
-                    continue;
-                }
-                onMapPoint(mapPoint);
-                if (mapPoint.isBelongsToUser()) {
-                    markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
-                            .position(mapPoint.getLatLng())
-                            .icon((
-                                    MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
-                            )), mapPoint);
-                } else {
-                    markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
-                            .position(mapPoint.getLatLng())
-                            .icon((
-                                    mapPoint.isLast() ? MarkerHelper.getTrackerBitmapDescriptor(mapPoint.getUser()) : MarkerHelper.getTrackerHistoryBitmapDescriptor(mapPoint.getUser())
-                            ))), mapPoint);
-                    try {
-                        if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
-                            builder.include(mapPoint.getLatLng());
-                        }
-                    } catch (Exception ignore) {
-
-                    }
-
-                }
-            }
-        }
-        try {
-            if (firstTime) {
-                firstTime = false;
-                zoomToBounds(builder.build());
-            }
-        } catch (Exception ignore) {
-
-        }
-
     }
 
     public void zoomToBounds(LatLngBounds bounds) {
@@ -610,6 +522,22 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
     }
 
+    private void updatePois() {
+        for (Marker marker : markerPoiHashMap.keySet()) {
+            marker.remove();
+        }
+        markerPoiHashMap.clear();
+        for (Poi poi : getModel().pois) {
+            markerPoiHashMap.put(
+                    getMap().addMarker(new MarkerOptions()
+                            .position(poi.getLatLng())
+                            .icon((
+                                    MarkerHelper.getPoiBitmapDescriptor(poi.getUser()))
+                            ))
+                    , poi);
+        }
+    }
+
     private void subscribeOnPoints() {
         getModel().mapPoints.addOnListChangedCallback(new ObservableList.OnListChangedCallback() {
             @Override
@@ -636,6 +564,67 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 updatePoints();
             }
         });
+    }
+
+    private void updatePoints() {
+        ObservableArrayList<MapPoint> mapPoints = getModel().mapPoints;
+        clearTracks();
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        if (mapPoints.size() > 0) {
+            for (MapPoint mapPoint : mapPoints) {
+                if (skipMapPoint(mapPoint)) {
+                    continue;
+                }
+                onMapPoint(mapPoint);
+                if (mapPoint.isBelongsToUser()) {
+                    markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
+                            .position(mapPoint.getLatLng())
+                            .icon((
+                                    MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
+                            )), mapPoint);
+                } else {
+                    setMarkerDog(mapPoint);
+                    try {
+                        if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
+                            builder.include(mapPoint.getLatLng());
+                        }
+                    } catch (Exception ignore) {
+
+                    }
+
+                }
+            }
+        }
+        try {
+            if (firstTime) {
+                firstTime = false;
+                zoomToBounds(builder.build());
+            }
+        } catch (Exception ignore) {
+
+        }
+    }
+
+    private void setMarkerDog(MapPoint mapPoint) {
+        MarkerOptions markerOptions = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_background_dog_pin))
+                .position(mapPoint.getLatLng());
+        Marker marker = getMap().addMarker(markerOptions);
+
+        setPhotoForMarkerDog(mapPoint.getPicUrl(), marker);
+        markerMapPointHashMap.put(marker, mapPoint);
+    }
+
+    private void setPhotoForMarkerDog(String url, Marker marker) {
+        if (url == null) return;
+        PinUtils.getPinDog(getContext(), url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bitmap -> {
+                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+                });
     }
 
     private void shootSound() {
@@ -665,22 +654,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
         getModel().currentPoi.set(markerPoiHashMap.get(marker));
         return false;
-    }
-
-    private void updatePois() {
-        for (Marker marker : markerPoiHashMap.keySet()) {
-            marker.remove();
-        }
-        markerPoiHashMap.clear();
-        for (Poi poi : getModel().pois) {
-            markerPoiHashMap.put(
-                    getMap().addMarker(new MarkerOptions()
-                            .position(poi.getLatLng())
-                            .icon((
-                                    MarkerHelper.getPoiBitmapDescriptor(poi.getUser()))
-                            ))
-                    , poi);
-        }
     }
 
     @Override

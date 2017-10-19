@@ -21,6 +21,8 @@ public class GeoDevice {
     public String trackerNumber;
     @SerializedName("imei_number")
     public String imeiNumber;
+    @SerializedName("picUrl")
+    private String picUrl;
 
     public String getTrackerNumber() {
         return trackerNumber;
@@ -76,5 +78,13 @@ public class GeoDevice {
 
     public void setLastUpdate(long lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 }
