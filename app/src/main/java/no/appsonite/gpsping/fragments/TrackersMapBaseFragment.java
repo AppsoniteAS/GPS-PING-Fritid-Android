@@ -618,8 +618,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void setPhotoForMarkerDog(String url, Marker marker) {
-        if (url == null) return;
-        PinUtils.getPinDog(getContext(), url)
+        if (url == null || url.isEmpty()) return;
+        PinUtils.getPinDog(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bitmap -> {

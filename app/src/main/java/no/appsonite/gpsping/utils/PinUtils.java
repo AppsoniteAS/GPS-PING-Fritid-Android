@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.utils.image_transdormation.CircleSizeTransformation;
@@ -23,7 +24,8 @@ import rx.exceptions.Exceptions;
  */
 
 public class PinUtils {
-    public static Observable<Bitmap> getPinDog(Context context, String url) {
+    public static Observable<Bitmap> getPinDog(String url) {
+        Context context = Application.getContext();
         return Observable.just(BuildConfig.AMAZON_ADDRESS + url)
                 .map(s -> {
                     try {
