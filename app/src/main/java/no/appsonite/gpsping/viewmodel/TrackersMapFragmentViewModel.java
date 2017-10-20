@@ -48,7 +48,6 @@ import no.appsonite.gpsping.utils.ObservableString;
 import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -74,40 +73,29 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     private MediaPlayer mediaPlayer;
     private int standSound = R.raw.bleep;
 
-    public Observable<FriendsAnswer> requestFriends() {
-        Observable<FriendsAnswer> observable = execute(ApiFactory.getService().getFriends());
-        observable.subscribe(new Observer<FriendsAnswer>() {
-            @Override
-            public void onCompleted() {
+    public void requestFriends() {
+        execute(ApiFactory.getService().getFriends())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::requestFriendsOnNext, Throwable::printStackTrace);
+    }
 
+    private void requestFriendsOnNext(FriendsAnswer friendsAnswer) {
+        friendList.clear();
+        Friend all = new Friend();
+        all.firstName.set(Application.getContext().getString(R.string.all));
+        friendList.add(all);
+        Friend you = new Friend();
+        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+        Profile profile = loginAnswer.getUser();
+        you.id.set(profile.id.get());
+        you.firstName.set(Application.getContext().getString(R.string.you));
+        friendList.add(you);
+        for (Friend friend : friendsAnswer.getFriends()) {
+            if (friend.username != null) {
+                friendList.add(friend);
             }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(FriendsAnswer friendsAnswer) {
-                friendList.clear();
-                Friend all = new Friend();
-                all.firstName.set(Application.getContext().getString(R.string.all));
-                friendList.add(all);
-                Friend you = new Friend();
-                LoginAnswer loginAnswer = AuthHelper.getCredentials();
-                Profile profile = loginAnswer.getUser();
-                you.id.set(profile.id.get());
-                you.firstName.set(Application.getContext().getString(R.string.you));
-                friendList.add(you);
-                for (Friend friend : friendsAnswer.getFriends()) {
-                    if (friend.username != null) {
-                        friendList.add(friend);
-                    }
-                }
-
-            }
-        });
-        return observable;
+        }
     }
 
     public void setRemoveTracksDate(Date removeTracksDate) {
@@ -180,22 +168,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
 
-        observable.subscribe(new Observer<GeoPointsAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(GeoPointsAnswer geoPointsAnswer) {
-                parseGeoPointsAnswer(geoPointsAnswer);
-            }
-        });
+        observable.subscribe(this::parseGeoPointsAnswer, Throwable::printStackTrace);
         return observable;
     }
 
@@ -373,7 +346,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         }).subscribe(pois1 -> {
             TrackersMapFragmentViewModel.this.pois.clear();
             TrackersMapFragmentViewModel.this.pois.addAll(pois1);
-        }, throwable -> throwable.printStackTrace());
+        }, Throwable::printStackTrace);
     }
 
     public Observable<TrackersAnswer> hasTrackers() {

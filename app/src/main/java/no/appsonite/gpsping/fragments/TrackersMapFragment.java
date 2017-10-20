@@ -45,6 +45,11 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     private long myId = AuthHelper.getCredentials().getUser().id.get();
 
     @Override
+    protected String getTitle() {
+        return null;
+    }
+
+    @Override
     public String getFragmentTag() {
         return TAG;
     }

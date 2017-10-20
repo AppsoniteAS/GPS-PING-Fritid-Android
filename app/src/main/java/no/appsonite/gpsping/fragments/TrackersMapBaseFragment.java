@@ -3,6 +3,7 @@ package no.appsonite.gpsping.fragments;
 import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.location.Location;
 import android.media.AudioManager;
@@ -12,17 +13,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -34,13 +33,16 @@ import com.google.android.gms.maps.model.UrlTileProvider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
+import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
@@ -62,6 +64,7 @@ import rx.schedulers.Schedulers;
  */
 public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseBindingFragment<FragmentTrackersMapBinding, T>
         implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback {
+    private static final String INSTANCE_STATE = "mapViewSaveState";
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
@@ -71,17 +74,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private Subscription locationSubscription;
     private Compass compass;
     private boolean firstTime = false;
-
-    private boolean mapReady = false;
     private GoogleMap googleMap;
-    private SupportMapFragment mapFragment;
+    private MapView mapView;
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
     private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
-
-    @Override
-    protected String getTitle() {
-        return null;
-    }
+    private HashMap<String, Bitmap> bitmaps = new HashMap<>();
+    private List<Tracker> trackers = new ArrayList<>();
 
     private void clearTile() {
         if (topoNorwayOverlay != null) {
@@ -106,6 +104,18 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         firstTime = true;
+        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle(INSTANCE_STATE) : null;
+        mapView = getBinding().map;
+        mapView.onCreate(mapViewSavedInstanceState);
+        mapView.getMapAsync(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        final Bundle mapViewSaveState = new Bundle(outState);
+        mapView.onSaveInstanceState(mapViewSaveState);
+        outState.putBundle(INSTANCE_STATE, mapViewSaveState);
+        super.onSaveInstanceState(outState);
     }
 
     private void showTopo() {
@@ -253,26 +263,11 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 //        setHasOptionsMenu(true);
 //    }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        mapReady = false;
-        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        return view;
-    }
-
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        inflater.inflate(R.menu.menu_map, menu);
 //        super.onCreateOptionsMenu(menu, inflater);
 //    }
-
-    @Override
-    public String getFragmentTag() {
-        return null;
-    }
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
@@ -306,9 +301,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     protected void onViewModelCreated(T model) {
         super.onViewModelCreated(model);
-        model.requestFriends().subscribe(friendsAnswer -> {
-
-        }, this::showError);
+        model.requestFriends();
         getBinding().mapType.check(R.id.topo);
 
         getBinding().mapType.setOnCheckedChangeListener((group, checkedId) -> {
@@ -368,7 +361,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         getBinding().mapBtn.setOnClickListener(onInfoClick);
 
-//        getBinding().editBtn.setOnClickListener(view -> editBtn());
+        getBinding().editBtn.setOnClickListener(view -> editBtn());
 
         subscribeOnPoints();
         subscribeOnPois();
@@ -380,17 +373,40 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (getModel().currentMapPoint.get().getImeiNumber().isEmpty()) {
             return;
         }
+        if (!trackers.isEmpty()) {
+            getTrackerFromCache();
+        } else {
+            getTrackerFromNetwork();
+        }
+    }
+
+    private void getTrackerFromCache() {
+        for (Tracker tracker : trackers) {
+            if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
+                getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
+            }
+        }
+    }
+
+    private void getTrackerFromNetwork() {
         showProgress();
         getModel().getTrackers()
-                .subscribe(trackersAnswer -> {
-                    if (trackersAnswer.getTrackers() != null || !trackersAnswer.getTrackers().isEmpty()) {
-                        for (Tracker tracker : trackersAnswer.getTrackers()) {
-                            if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
-                                getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
-                            }
-                        }
-                    }
-                }, this::showError, this::hideProgress);
+                .subscribe(this::editBtnOnNext, this::showError, this::hideProgress);
+    }
+
+    private void editBtnOnNext(TrackersAnswer trackersAnswer) {
+        if (trackersAnswer.getTrackers() != null || !trackersAnswer.getTrackers().isEmpty()) {
+            trackers = trackersAnswer.getTrackers();
+            for (Tracker tracker : trackersAnswer.getTrackers()) {
+                showEditTrackerScreenIfBelonging(tracker);
+            }
+        }
+    }
+
+    private void showEditTrackerScreenIfBelonging(Tracker tracker) {
+        if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
+            getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
+        }
     }
 
     private void initCompass() {
@@ -402,36 +418,39 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onResume() {
         super.onResume();
+        mapView.onResume();
         if (compass != null)
             compass.start();
-        if (isMapReady()) {
-            onMapReady();
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        mapView.onPause();
         if (compass != null)
             compass.stop();
     }
 
-    private void deletePoi() {
-        BaseBindingDialogFragment dialogFragment = RemovePoiFragmentDialog.newInstance(getModel().currentPoi.get());
-        dialogFragment.show(getChildFragmentManager(), RemovePoiFragmentDialog.TAG);
-        dialogFragment.setOnDismissListener(dialogInterface -> {
-            getModel().requestPois();
-            getModel().currentPoi.set(null);
-        });
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
-    private void editPoi(Poi poi) {
-        BaseBindingDialogFragment dialogFragment = EditPoiDialogFragment.newInstance(poi);
-        dialogFragment.show(getChildFragmentManager(), EditPoiDialogFragment.TAG);
-        dialogFragment.setOnDismissListener(dialogInterface -> {
-            getModel().requestPois();
-            getModel().currentPoi.set(null);
-        });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        onMapReady();
+    }
+
+    public GoogleMap getMap() {
+        return googleMap;
     }
 
     public void onMapReady() {
@@ -455,56 +474,25 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                     getBinding().friendSpinner.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
 
-//                int actionBarSize = Utils.getActionBarSize(getActivity());
                 Rect rect = new Rect();
                 getBinding().friendSpinner.getGlobalVisibleRect(rect);
-//                getMap().setPadding(0, rect.bottom, 0, actionBarSize);
             }
         });
 
         getMap().setOnMapLongClickListener(this);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mapReady = true;
-        this.googleMap = googleMap;
-        onMapReady();
-    }
-
-    public boolean isMapReady() {
-        return mapReady;
-    }
-
-    public GoogleMap getMap() {
-        return googleMap;
-    }
-
-    public void zoomToBounds(LatLngBounds bounds) {
-        // Calculate distance between northeast and southwest
-        float[] results = new float[1];
-        android.location.Location.distanceBetween(bounds.northeast.latitude, bounds.northeast.longitude,
-                bounds.southwest.latitude, bounds.southwest.longitude, results);
-
-        CameraUpdate cu = null;
-        if (results[0] < 1000) { // distance is less than 1 km -> set to zoom level 15
-            cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 15);
-        } else {
-            int padding = 50; // offset from edges of the map in pixels
-            cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        }
-        getMap().moveCamera(cu);
+    private void deletePoi() {
+        BaseBindingDialogFragment dialogFragment = RemovePoiFragmentDialog.newInstance(getModel().currentPoi.get());
+        dialogFragment.show(getChildFragmentManager(), RemovePoiFragmentDialog.TAG);
+        dialogFragment.setOnDismissListener(dialogInterface -> {
+            getModel().requestPois();
+            getModel().currentPoi.set(null);
+        });
     }
 
     protected void onMapPoint(MapPoint mapPoint) {
 
-    }
-
-    private void clearTracks() {
-        for (Marker marker : markerMapPointHashMap.keySet()) {
-            marker.remove();
-        }
-        markerMapPointHashMap.clear();
     }
 
     protected boolean skipMapPoint(MapPoint mapPoint) {
@@ -604,24 +592,81 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 }
                 onMapPoint(mapPoint);
                 if (mapPoint.isBelongsToUser()) {
-                    markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
-                            .position(mapPoint.getLatLng())
-                            .icon((
-                                    MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
-                            )), mapPoint);
+                    setUserMarker(mapPoint);
                 } else {
-                    setMarkerDog(mapPoint);
-                    try {
-                        if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
-                            builder.include(mapPoint.getLatLng());
-                        }
-                    } catch (Exception ignore) {
-
-                    }
-
+                    setDogMarker(mapPoint);
+                    includeThisPointForBuildingOfTheBounds(mapPoint, builder);
                 }
             }
         }
+        firstZoomToBound(builder);
+    }
+
+    private void clearTracks() {
+        for (Marker marker : markerMapPointHashMap.keySet()) {
+            marker.remove();
+        }
+        markerMapPointHashMap.clear();
+    }
+
+    private void setUserMarker(MapPoint mapPoint) {
+        markerMapPointHashMap.put(getMap().addMarker(new MarkerOptions()
+                .position(mapPoint.getLatLng())
+                .icon((
+                        MarkerHelper.getUserBitmapDescriptor(mapPoint.getUser()))
+                )), mapPoint);
+    }
+
+    private void setDogMarker(MapPoint mapPoint) {
+        MarkerOptions markerOptions = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_background_dog_pin))
+                .position(mapPoint.getLatLng());
+        Marker marker = getMap().addMarker(markerOptions);
+
+        setPhotoForDogMarker(mapPoint.getPicUrl(), marker);
+        markerMapPointHashMap.put(marker, mapPoint);
+    }
+
+    private void setPhotoForDogMarker(String url, Marker marker) {
+        if (url == null || url.isEmpty()) {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.direction));
+        } else {
+            if (setPhotoFromCache(url, marker)) {
+                PinUtils.getPinDog(url)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(bitmap -> {
+                                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+                                    setPhotoDogToCache(url, bitmap);
+                                },
+                                Throwable::printStackTrace);
+            }
+        }
+    }
+
+    private void setPhotoDogToCache(String url, Bitmap bitmap) {
+        bitmaps.put(url, bitmap);
+    }
+
+    private boolean setPhotoFromCache(String url, Marker marker) {
+        if (bitmaps.containsKey(url)) {
+            marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmaps.get(url)));
+            return false;
+        }
+        return true;
+    }
+
+    private void includeThisPointForBuildingOfTheBounds(MapPoint mapPoint, LatLngBounds.Builder builder) {
+        try {
+            if (mapPoint.isLast() && mapPoint.getUser().id.get() == AuthHelper.getCredentials().getUser().id.get()) {
+                builder.include(mapPoint.getLatLng());
+            }
+        } catch (Exception ignore) {
+
+        }
+    }
+
+    private void firstZoomToBound(LatLngBounds.Builder builder) {
         try {
             if (firstTime) {
                 firstTime = false;
@@ -632,26 +677,20 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         }
     }
 
-    private void setMarkerDog(MapPoint mapPoint) {
-        MarkerOptions markerOptions = new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_background_dog_pin))
-                .position(mapPoint.getLatLng());
-        Marker marker = getMap().addMarker(markerOptions);
+    private void zoomToBounds(LatLngBounds bounds) {
+        // Calculate distance between northeast and southwest
+        float[] results = new float[1];
+        android.location.Location.distanceBetween(bounds.northeast.latitude, bounds.northeast.longitude,
+                bounds.southwest.latitude, bounds.southwest.longitude, results);
 
-        setPhotoForMarkerDog(mapPoint.getPicUrl(), marker);
-        markerMapPointHashMap.put(marker, mapPoint);
-    }
-
-    private void setPhotoForMarkerDog(String url, Marker marker) {
-        if (url == null || url.isEmpty()) {
-            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.direction));
+        CameraUpdate cu = null;
+        if (results[0] < 1000) { // distance is less than 1 km -> set to zoom level 15
+            cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 15);
         } else {
-            PinUtils.getPinDog(url)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(bitmap -> marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap)),
-                            Throwable::printStackTrace);
+            int padding = 50; // offset from edges of the map in pixels
+            cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         }
+        getMap().moveCamera(cu);
     }
 
     private void shootSound() {
@@ -689,5 +728,14 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         poi.setLat(latLng.latitude);
         poi.setLon(latLng.longitude);
         editPoi(poi);
+    }
+
+    private void editPoi(Poi poi) {
+        BaseBindingDialogFragment dialogFragment = EditPoiDialogFragment.newInstance(poi);
+        dialogFragment.show(getChildFragmentManager(), EditPoiDialogFragment.TAG);
+        dialogFragment.setOnDismissListener(dialogInterface -> {
+            getModel().requestPois();
+            getModel().currentPoi.set(null);
+        });
     }
 }
