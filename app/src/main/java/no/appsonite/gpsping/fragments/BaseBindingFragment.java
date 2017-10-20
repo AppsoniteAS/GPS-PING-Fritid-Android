@@ -117,11 +117,22 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
             actionBar.setTitle(getTitle());
             boolean isBackStack = getArguments().getBoolean(ADD_TO_BACK_STACK, false);
             if (isBackStack) {
+                setGoneNavigationBottom();
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeButtonEnabled(true);
                 actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+            } else {
+                setVisibleNavigationBottom();
             }
         }
+    }
+
+    private void setVisibleNavigationBottom() {
+        getBaseActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
+    }
+
+    private void setGoneNavigationBottom() {
+        getBaseActivity().findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
     }
 
     protected BaseActivity getBaseActivity() {
