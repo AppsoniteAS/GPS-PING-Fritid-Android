@@ -68,7 +68,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
-    PublishSubject<Object> cancelRequest = PublishSubject.create();
+    private PublishSubject<Object> cancelRequest = PublishSubject.create();
     private Date removeTracksDate = new Date(0l);
     private MediaPlayer mediaPlayer;
     private int standSound = R.raw.bleep;

@@ -97,7 +97,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (topoDanishOverlay != null) {
             topoDanishOverlay.remove();
         }
-
     }
 
     @Override
@@ -282,8 +281,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (trackUserLocation())
+        if (trackUserLocation()) {
             LocationMapService.startService(context);
+        }
         locationSubscription = RxBus.getInstance().register(Location.class, this::onLocationUpdate);
     }
 
@@ -318,7 +318,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             }
         });
 
-
 //        getBinding().takePhoto.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -349,8 +348,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             getModel().currentPoi.set(null);
         };
 
-//        getBinding().mapPointInfo.setOnClickListener(onInfoClick);
-
         getBinding().poiInfo.setOnClickListener(onInfoClick);
 
         getBinding().editPoi.setOnClickListener(view -> editPoi(getModel().currentPoi.get()));
@@ -365,7 +362,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         subscribeOnPoints();
         subscribeOnPois();
-
         initCompass();
     }
 
@@ -496,11 +492,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     protected boolean skipMapPoint(MapPoint mapPoint) {
-        if (mapPoint.getLat() == 0 && mapPoint.getLon() == 0)
-            return true;
-        return false;
+        return mapPoint.getLat() == 0 && mapPoint.getLon() == 0;
     }
-
 
     protected boolean trackUserLocation() {
         return false;
@@ -683,7 +676,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         android.location.Location.distanceBetween(bounds.northeast.latitude, bounds.northeast.longitude,
                 bounds.southwest.latitude, bounds.southwest.longitude, results);
 
-        CameraUpdate cu = null;
+        CameraUpdate cu;
         if (results[0] < 1000) { // distance is less than 1 km -> set to zoom level 15
             cu = CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 15);
         } else {
