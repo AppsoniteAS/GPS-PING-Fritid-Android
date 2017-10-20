@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.services.LocationMapService;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.PinUtils;
@@ -354,7 +356,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             getModel().currentPoi.set(null);
         };
 
-        getBinding().mapPointInfo.setOnClickListener(onInfoClick);
+//        getBinding().mapPointInfo.setOnClickListener(onInfoClick);
 
         getBinding().poiInfo.setOnClickListener(onInfoClick);
 
@@ -362,10 +364,33 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         getBinding().deletePoi.setOnClickListener(view -> deletePoi());
 
+        getBinding().callBtn.setOnClickListener(view -> Log.i("TAG", "CallClick"));
+
+        getBinding().mapBtn.setOnClickListener(onInfoClick);
+
+//        getBinding().editBtn.setOnClickListener(view -> editBtn());
+
         subscribeOnPoints();
         subscribeOnPois();
 
         initCompass();
+    }
+
+    private void editBtn() {
+        if (getModel().currentMapPoint.get().getImeiNumber().isEmpty()) {
+            return;
+        }
+        showProgress();
+        getModel().getTrackers()
+                .subscribe(trackersAnswer -> {
+                    if (trackersAnswer.getTrackers() != null || !trackersAnswer.getTrackers().isEmpty()) {
+                        for (Tracker tracker : trackersAnswer.getTrackers()) {
+                            if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
+                                getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
+                            }
+                        }
+                    }
+                }, this::showError, this::hideProgress);
     }
 
     private void initCompass() {
@@ -618,13 +643,15 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void setPhotoForMarkerDog(String url, Marker marker) {
-        if (url == null || url.isEmpty()) return;
-        PinUtils.getPinDog(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bitmap -> {
-                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-                });
+        if (url == null || url.isEmpty()) {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.direction));
+        } else {
+            PinUtils.getPinDog(url)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bitmap -> marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap)),
+                            Throwable::printStackTrace);
+        }
     }
 
     private void shootSound() {

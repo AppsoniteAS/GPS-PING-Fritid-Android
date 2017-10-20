@@ -178,13 +178,13 @@
 
     <string name="trackerImeiNMap">IMEI Nummer:\t\t\t%1$s</string>
 
-    <string name="logTimeNMap">Logget Tid:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Sidst set\t%1$s</string>
 
     <string name="latNMap">Lat:\t\t\t%1$s</string>
 
     <string name="lonNMap">Lon:\t\t\t%1$s</string>
 
-    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="grsmNMap">GRSM\t%1$s</string>
 
     <string name="you">Dig</string>
 

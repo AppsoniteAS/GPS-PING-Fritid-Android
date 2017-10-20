@@ -89,10 +89,10 @@
 
     <string name="trackerNumberNMap">Tracker Nummer:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI Nummer:\t\t\t%1$s</string>
-    <string name="logTimeNMap">Logg Tid:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Sist sett\t%1$s</string>
     <string name="latNMap">Lat:\t\t\t%1$s</string>
     <string name="lonNMap">Lon:\t\t\t%1$s</string>
-    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="grsmNMap">GRSM\t%1$s</string>
     <string name="you">Du</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>

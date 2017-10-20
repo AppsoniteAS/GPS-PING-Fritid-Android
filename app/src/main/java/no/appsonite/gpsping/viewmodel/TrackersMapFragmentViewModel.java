@@ -62,9 +62,6 @@ import rx.subjects.PublishSubject;
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     private static final long INTERVAL = 10;
-    private Date removeTracksDate = new Date(0l);
-    private MediaPlayer mediaPlayer;
-    private int standSound = R.raw.bleep;
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
@@ -72,6 +69,10 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
+    PublishSubject<Object> cancelRequest = PublishSubject.create();
+    private Date removeTracksDate = new Date(0l);
+    private MediaPlayer mediaPlayer;
+    private int standSound = R.raw.bleep;
 
     public Observable<FriendsAnswer> requestFriends() {
         Observable<FriendsAnswer> observable = execute(ApiFactory.getService().getFriends());
@@ -133,14 +134,11 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         requestPois();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         cancelRequest.onNext(new Object());
     }
-
-    PublishSubject<Object> cancelRequest = PublishSubject.create();
 
     protected long getFrom() {
         return Math.max(removeTracksDate.getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
@@ -277,6 +275,11 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         return requestPoints(true);
     }
 
+    public Observable<TrackersAnswer> getTrackers() {
+        return execute(ApiFactory.getService().getTrackers())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
     public void saveBitmap(final Bitmap bitmap) {
         Observable.defer(() -> saveBitmapToGallery(bitmap))

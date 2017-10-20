@@ -89,10 +89,10 @@
 
     <string name="trackerNumberNMap">Nummer på GPS-spåraren:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI-nummer:\t\t\t%1$s</string>
-    <string name="logTimeNMap">Loggningstid:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Senast sedd\t%1$s</string>
     <string name="latNMap">Latitud:\t\t\t%1$s</string>
     <string name="lonNMap">Longitud:\t\t\t%1$s</string>
-    <string name="grsmNMap">GSM:\t%1$s</string>
+    <string name="grsmNMap">GSM\t%1$s</string>
     <string name="you">Din position</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>

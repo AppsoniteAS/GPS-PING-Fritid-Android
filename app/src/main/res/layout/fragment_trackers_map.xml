@@ -301,145 +301,146 @@
 
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/mapPointInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="@color/mapHoverBg"
-                android:visibility="@{viewModel.currentMapPoint == null ? View.GONE: View.VISIBLE}">
+            <!--<FrameLayout-->
+            <!--android:id="@+id/mapPointInfo"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:layout_marginRight="12dp"-->
+            <!--android:background="@color/mapHoverBg"-->
+            <!--android:visibility="@{viewModel.currentMapPoint == null ? View.GONE: View.VISIBLE}">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="?attr/actionBarSize"
-                    android:orientation="vertical"
-                    android:padding="4dp"
-                    tools:ignore="SmallSp">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="?attr/actionBarSize"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="4dp"-->
+            <!--tools:ignore="SmallSp">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.currentMapPoint.getName()}"
-                        android:textColor="#fff"
-                        android:textSize="14sp" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{viewModel.currentMapPoint.getName()}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="14sp" />-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="5">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="5">-->
 
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3">
+            <!--<FrameLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="3">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/owner"
-                                android:textColor="#fff"
-                                android:textSize="12sp" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/owner"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="12sp" />-->
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end|center_vertical"
-                                android:gravity="center_vertical">
+            <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="end|center_vertical"-->
+            <!--android:gravity="center_vertical">-->
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@{MarkerHelper.getUserBitmap(viewModel.currentMapPoint.getUser())}" />
+            <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:src="@{MarkerHelper.getUserBitmap(viewModel.currentMapPoint.getUser())}" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="4dp"
-                                    android:text="@{viewModel.currentMapPoint.getUser().getName()}"
-                                    android:textColor="#fff"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="4dp"-->
+            <!--android:text="@{viewModel.currentMapPoint.getUser().getName()}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="12sp" />-->
+            <!--</LinearLayout>-->
 
-                        </FrameLayout>
-                    </LinearLayout>
+            <!--</FrameLayout>-->
+            <!--</LinearLayout>-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:orientation="horizontal">-->
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="10"
-                            android:orientation="vertical">
+            <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="10"-->
+            <!--android:orientation="vertical">-->
 
-                            <no.appsonite.gpsping.widget.CustomFontTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{@string/trackerNumberNMap(viewModel.currentMapPoint.getTrackerNumber())}"
-                                android:textColor="#fff"
-                                android:textSize="10sp"
-                                app:typeface="Roboto-Light.ttf" />
+            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{@string/trackerNumberNMap(viewModel.currentMapPoint.getTrackerNumber())}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="10sp"-->
+            <!--app:typeface="Roboto-Light.ttf" />-->
 
-                            <no.appsonite.gpsping.widget.CustomFontTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{@string/trackerImeiNMap(viewModel.currentMapPoint.getImeiNumber())}"
-                                android:textColor="#fff"
-                                android:textSize="10sp"
-                                app:typeface="Roboto-Light.ttf" />
+            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{@string/trackerImeiNMap(viewModel.currentMapPoint.getImeiNumber())}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="10sp"-->
+            <!--app:typeface="Roboto-Light.ttf" />-->
 
-                            <no.appsonite.gpsping.widget.CustomFontTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{@string/logTimeNMap(viewModel.currentMapPoint.getLogTime())}"
-                                android:textColor="#fff"
-                                android:textSize="10sp"
-                                app:typeface="Roboto-Light.ttf" />
-                        </LinearLayout>
+            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{@string/logTimeNMap(viewModel.currentMapPoint.getLogTime())}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="10sp"-->
+            <!--app:typeface="Roboto-Light.ttf" />-->
+            <!--</LinearLayout>-->
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="8"
-                            android:orientation="vertical">
+            <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="8"-->
+            <!--android:orientation="vertical">-->
 
-                            <no.appsonite.gpsping.widget.CustomFontTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{@string/latNMap(viewModel.currentMapPoint.getLat())}"
-                                android:textColor="#fff"
-                                android:textSize="10sp"
-                                app:typeface="Roboto-Light.ttf" />
+            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{@string/latNMap(viewModel.currentMapPoint.getLat())}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="10sp"-->
+            <!--app:typeface="Roboto-Light.ttf" />-->
 
-                            <no.appsonite.gpsping.widget.CustomFontTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{@string/lonNMap(viewModel.currentMapPoint.getLon())}"
-                                android:textColor="#fff"
-                                android:textSize="10sp"
-                                app:typeface="Roboto-Light.ttf" />
+            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{@string/lonNMap(viewModel.currentMapPoint.getLon())}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="10sp"-->
+            <!--app:typeface="Roboto-Light.ttf" />-->
 
-                            <no.appsonite.gpsping.widget.CustomFontTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{@string/grsmNMap(viewModel.currentMapPoint.getGRSM())}"
-                                android:textColor="#fff"
-                                android:textSize="10sp"
-                                app:typeface="Roboto-Light.ttf" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
+            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{@string/grsmNMap(viewModel.currentMapPoint.getGRSM())}"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="10sp"-->
+            <!--app:typeface="Roboto-Light.ttf" />-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
-            </FrameLayout>
+            <!--</FrameLayout>-->
 
             <LinearLayout
+                android:id="@+id/mapPointInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -448,7 +449,7 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:visibility="gone">
+                android:visibility="@{viewModel.currentMapPoint == null ? View.GONE: View.VISIBLE}">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -458,9 +459,10 @@
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_call"
+                        android:src="@drawable/ic_background_dog_pin"
                         app:civ_border_color="@color/colorPrimary"
-                        app:civ_border_width="2dp" />
+                        app:civ_border_width="2dp"
+                        app:imageFromAmazon="@{viewModel.currentMapPoint.getPicUrl()}" />
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -472,6 +474,7 @@
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@{viewModel.currentMapPoint.getName()}"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             tools:text="@string/joe_tools" />
@@ -503,14 +506,14 @@
 
                     </FrameLayout>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
+                        android:padding="8dp"
+                        android:background="@drawable/call_button"
                         android:id="@+id/callBtn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="end"
-                        android:src="@drawable/ic_call"
-                        app:civ_border_color="@color/colorPrimary"
-                        app:civ_border_width="2dp" />
+                        android:src="@drawable/ic_call"/>
 
                 </FrameLayout>
 
@@ -523,6 +526,7 @@
                         android:id="@+id/tvLastSeen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{@string/logTimeNMap(viewModel.currentMapPoint.getLogTime())}"
                         android:textSize="12sp"
                         tools:text="@string/last_seen_tools" />
 
@@ -530,13 +534,14 @@
                         android:id="@+id/tvGRSM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{@string/grsmNMap(viewModel.currentMapPoint.getGRSM())}"
                         android:textSize="12sp"
                         tools:text="@string/grsm_tools" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="1px"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="12dp"
@@ -620,7 +625,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="1px"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
@@ -694,7 +699,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="1px"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="16dp"
@@ -706,6 +711,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/mapBtn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
@@ -717,6 +723,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/editBtn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
