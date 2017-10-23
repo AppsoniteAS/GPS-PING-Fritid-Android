@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_questions_answers_s1_cat">
+
+        <item>Jeg har trykket "Start" upload ok "sms, men jeg kan endnu ikke se tracker.</item>
+        <item>Sørg for at tracker er ude. Hvis det er i, vil det have problemer med at oprette forbindelse
+            satellitter. Når sporingen kommer i kontakt med satellitterne, begynder det blå lys at blinke.</item>
+
+        <item>Jeg har trykket på "Start, men jeg får ikke sms-svar fra sporingen.</item>
+        <item>Gå til Indstillinger-> Profil og indtast landekode og dit telefonnummer.
+            Gå derefter til Trackers-> og tryk på din tracker. Rediger Tracker åbnes. Rul ned,
+            og tryk på reset-knappen. Når du trykker på knappen Nulstil, sendes fem tekstbeskeder.
+            På Android-telefoner vil alle fem sendes på én gang. På iPhone telefoner vil sms
+            Funktionen åbnes, og du skal sende en efter en. Gå derefter tilbage til hovedmenuen og tryk på "Start"</item>
+
+        <item>Når jeg trykker på knappen "Start" i appen, sker der ikke noget.</item>
+        <item>Du har ikke valgt, hvilken tracker der skal startes. Tryk på Trackers i hovedmenuen.
+            Tryk så på den lille cirkel til højre for sporingen. Gå tilbage til hovedmenuen.
+            Trackerens navn skal nu være over "Start" -knappen. Tryk derefter på knappen "Start" og
+            App\'en sender nu en sms til trackeren for at starte den.</item>
+
+        <item>Jeg vil gerne ændre, hvor ofte trackeren sender GPS-signalet.</item>
+        <item>Gå til Trackers og tryk på det spor, du vil ændre signalfrekvensen.
+            Rul ned til "Signal". Tryk på den tid, der vises under "Signal", og skift den til den ønskede længde.
+            Tryk på "Opdater". Gå tilbage til hovedmenuen og tryk på "Start".</item>
+
+        <item>Jeg ser kun GPS-stillinger for den sidste del af turen.</item>
+        <item>Du kan indstille længden af sporing af din historie ved at gå til hovedet
+            menu-> Indstillinger-> Visningsindstillinger. Vælg den ønskede tid og tryk på Gem.
+            Du vil nu se GPS-stillinger inden for denne tidsramme.</item>
+
+        <item>Jeg vil gerne se min vens tracker</item>
+        <item>Gå til Indstillinger-Connect og tryk på tegnet "+" i øverste højre hjørne.
+            Søg efter din vens brugernavn og tryk på "+". Din ven vil nu få dit brugernavn nedenfor
+            hans "connect to" liste. Han skal derefter tilføje dig ved at trykke på tegnet "+" ved siden af det
+            dit navn. For at du kan se hans spor, skal han trykke på ikonet "Eye" ved siden af det
+            dit navn. Ikonet "øje" bliver så grønt.</item>
+
+        <item>Jeg vil stoppe min ven fra at se min tracker.</item>
+        <item>Gå til Settings-> Connect og tryk på "Eye" -ikonet. Øjneikonet vil ændre sig
+            fra grønt til gråt og få en linje igennem. Din ven kan ikke længere se din tracker.</item>
+
+        <item>Jeg vil have min vens tracker, men jeg siger, jeg skal betale for det</item>
+        <item>Hvis du ikke ejer en tracker, der er registreret i dit brugernavn, skal du betale et lille beløb
+            Summen af måneden for at se den. Du kan stoppe betalingen, når du ønsker det.</item>
+
+        <item>Jeg vil sætte mit trackerabonnement på vent.</item>
+        <item>Gå til Indstillinger og tryk på "Pause abonnement". Der sendes en email til GPS
+            Ping og vi annullerer abonnementet.</item>
+
+        <item>Trackerens position er midt i havet.</item>
+        <item>Det betyder at tracker ikke har opdateret sin GPS-position og ikke har modtaget satellit
+            kontakt. Tag trackeren ud og genstart den ved at trykke på tænd / sluk-knappen.</item>
+
+        <item>Jeg vil stoppe det abonnement, jeg købte i appen, for at se min venns tracker.</item>
+        <item>Dette skal stoppes i Apple App Store eller i Google Play Butik. For iPhone gå til App
+            Gem appen og rul ned til din bruger. Tryk på dit apple-id og derefter se visnings-id\'et.
+            Indtast dit kodeord, gå til abonnementer og tryk på adminstrer. Der kan du stoppe
+            abonnement. På Android: Åbn Google Play Butik på din telefon. Gå til Mine Apps via
+            Butiksmenuen i Google Play. På venstre side af installerede apps er en liste over din
+            abonnementer. Her kan du vælge det abonnement, du vil stoppe.</item>
+
+        <item>Jeg kan ikke se min egen stilling.</item>
+        <item>Det betyder, at du ikke har givet appen adgang til GPS-funktionen på telefonen.
+            Gå til indstillinger på din telefon og giv adgang til GPS Ping-appen.</item>
+
+        <item>Jeg vil omdøbe sporingen</item>
+        <item>Gå til Trackers og hit din sporingsenhed. Rediger Tracker åbnes.
+            Her kan du indtaste sporets navn under "Navn"</item>
+
+        <item>Hvordan kan jeg se trackerens daglige log</item>
+        <item>Gå til Log og tryk på kalenderen øverst til højre.
+            Vælg den aktuelle dato, og appen henter GPS-stillinger for den dato.</item>
+
+        <item>Hvordan finder jeg nord på kortet</item>
+        <item>Åbn kort og spor og læg to fingre på kortet og vrid. Et kompas vil komme op
+            på venstre side af skærmen. Dette kompas viser nord på kortet.</item>
+
+        <item>Hvad viser kompassen, der altid er på kortet.</item>
+        <item>Dette kompas viser virkelig norden.</item>
+
+        <item>Hvor mange trackers kan jeg have i appen</item>
+        <item>Du kan købe og se så mange trackers som du vil.</item>
+
+        <item>Hvordan er tænd / sluk-knappen</item>
+        <item>Denne knap er på kanten / siden af sporingen. Hold det i mindst tre sekunder.</item>
+
+        <item>Hvordan kan jeg se, om sporingen har GPS-signal</item>
+        <item>Tryk på tænd / sluk-knappen for at hente skærmen op. Hvis du har en cirkel inde i hjulet
+            På skærmen har du GPS-signal.</item>
+
+        <item>Hvordan kan jeg ringe til trackeren</item>
+        <item>Tryk på det sidste indlæg i kortet. Tryk på opkaldsikonet.</item>
+
+    </string-array>
+</resources>

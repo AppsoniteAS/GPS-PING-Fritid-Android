@@ -34,6 +34,10 @@ public class FAQChoiceFragment extends BaseBindingFragment<FragmentFaqChoiceBind
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().originalBtn.setOnClickListener(v -> getBaseActivity().replaceFragment(FAQFragment.newInstance(), true));
+        getBinding().originalBtn.setOnClickListener(v -> getBaseActivity()
+                .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.ORIGINAL_GPS_TRACKER), true));
+
+        getBinding().cattrackerBtn.setOnClickListener(v -> getBaseActivity()
+                .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.GPS_CAT_TRACKER), true));
     }
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_questions_answers_s1_cat">
+
+        <item>Olen painanut "Käynnistä" lähetä ok "sms, mutta en vielä näe seurantaohjelmaa.</item>
+        <item>Varmista, että seuranta on poissa. Jos se on päällä, sillä on ongelmia yhteyden muodostamisessa
+            satelliitit. Kun seuranta tulee kosketuksiin satelliittien kanssa, sininen valo alkaa vilkkua.</item>
+
+        <item>Olen painanut "Käynnistä, mutta en saa sms-vastausta trackeriltä.</item>
+        <item>Siirry kohtaan Asetukset-> Profiili ja kirjoita maakoodi ja puhelinnumero.
+            Siirry sitten seuraajille-> ja napauta seurantaasi. Muokkaa Trackeria avautuu. Rullaa alas,
+            ja paina nollauspainiketta. Kun painat Nollaa-painiketta, lähetetään viisi tekstiviestiä.
+            Android-puhelimissa kaikki viisi lähetetään kerralla. IPhone-puhelimissa tulee tekstiviestejä
+            Ominaisuus avautuu ja sinun on lähetettävä yksi kerrallaan. Palaa sitten päävalikkoon ja paina "Käynnistä"</item>
+
+        <item>Kun painan sovelluksen "Aloita" -painiketta, mitään ei tapahdu.</item>
+        <item>Et ole valinnut, mihin seurantaan haluat aloittaa. Kosketa kaukovalot päävalikossa.
+            Kosketa sitten pientä ympyrää trackerin oikealla puolella. Palaa päävalikkoon.
+            Trackerin nimen on nyt oltava "Käynnistä" -painikkeen yläpuolella. Paina sitten "Start" -painiketta ja
+            Sovellus lähettää tekstiviestin seurantaan sen käynnistämiseksi.</item>
+
+        <item>Haluan vaihtaa kuinka usein seuranta lähettää GPS-signaalin.</item>
+        <item>Siirry seurattimiin ja napauta raitaa, jonka haluat muuttaa signaalin taajuutta.
+            Selaa alas kohtaan "Signaali". Paina painiketta "Signal" ja vaihda haluamasi pituus.
+            Paina "Päivitä". Palaa päävalikkoon ja paina "Käynnistä".</item>
+
+        <item>Katson vain GPS-sijaintia matkan viimeiselle osalle.</item>
+        <item>Voit asettaa historian seurannan pituuden menemällä päähän
+            valikko-> Asetukset-> Katseluasetukset. Valitse haluamasi aika ja paina Tallenna.
+            Nyt näet GPS-sijainnin tässä ajassa.</item>
+
+        <item>Haluan nähdä ystäväni seuran</item>
+        <item>Siirry kohtaan Asetukset-Yhdistä ja napauta "+" -merkkiä oikeassa yläkulmassa.
+            Etsi ystäväsi käyttäjätunnus ja paina "+". Ystäväsi saa nyt käyttäjätunnuksesi alla
+            hänen "connect to" -luettelonsa. Hänen täytyy lisätä sinut koskettamalla sen vieressä olevaa "+" -merkkiä
+            sinun nimesi. Jotta voit nähdä hänen seurantaansa, hänen on koskettava sen vieressä olevaa "Eye" -kuvaketta
+            sinun nimesi. Silmän kuvake muuttuu vihreäksi.</item>
+
+        <item>Haluan estää ystäväni näkemästä seurantaani.</item>
+        <item>Siirry kohtaan Asetukset-> Liitä ja kosketa "Eye" -kuvaketta. Eye-kuvake muuttuu
+            vihreästä harmaaseen ja saada linja läpi. Ystäväsi ei enää näe seurantaasi.</item>
+
+        <item>Haluan ystäväni seuran, mutta sanon, että minun täytyy maksaa siitä</item>
+        <item>Jos et omista käyttäjänimessäsi rekisteröitynyttä jäljitteliä, sinun on maksettava pieni summa
+            Kuukauden summa nähdäksesi sen. Voit lopettaa maksun, kun haluat.</item>
+
+        <item>Laitoin tracker-tilauksen pitoon.</item>
+        <item>Siirry Asetukset-kohtaan ja paina "Keskeytä tilaus". Sitten lähetetään sähköpostia GPS: lle
+            Ping ja peruutamme tilauksen.</item>
+
+        <item>Trackerin sijainti on keskellä merta.</item>
+        <item>Tämä tarkoittaa, että seuranta ei ole päivittänyt GPS-sijaintiaan eikä ole saanut satelliittia
+            ottaa yhteyttä. Ota seuranta ulos ja käynnistä se uudelleen painamalla virtapainiketta.</item>
+
+        <item>Haluan lopettaa sovelluksessani hankitun tilauksen nähdäksesi ystäväni seurannan.</item>
+        <item>Tämä on pysäytettävä Apple App Storessa tai Google Play -kaupassa. IPhonelle siirtyy App
+            Tallenna sovellus ja selaa alaspäin käyttäjälle. Kosketa omenunnistustunnusta ja katso sitten Näytä-tunnusta.
+            Anna salasanasi, siirry tilauksiin ja paina adminstrer. Siellä voit pysähtyä
+            tilaus. Android: avaa puhelimesi Google Play -kaupasta. Siirry Omat sovellukset kautta
+            Google Play -kaupan valikko. Asennettujen sovellusten vasemmalla puolella on luettelo sinun
+            tilauksia. Tässä voit valita tilauksen, jonka haluat lopettaa.</item>
+
+        <item>En näe omaa asentoani.</item>
+        <item>Tämä tarkoittaa, että et ole myöntänyt sovellukselle pääsyä puhelimen GPS-ominaisuudelle.
+            Siirry puhelimen asetuksiin ja anna GPS Ping -ohjelman käyttöoikeus.</item>
+
+        <item>Haluan nimetä seuranta uudelleen</item>
+        <item>Siirry seuraajille ja napsauta seurantaasi. Muokkaa Tracker aukeaa.
+            Täällä voit syöttää trackerin nimen nimellä "Nimi"</item>
+
+        <item>Kuinka näen trackerin päivittäisen lokin</item>
+        <item>Siirry lokiin ja napauta kalenteri oikeassa yläkulmassa.
+            Valitse nykyinen päivämäärä ja sovellus noutaa kyseisen päivän GPS-sijainnit.</item>
+
+        <item>Miten löydän pohjoisen kartalta</item>
+        <item>Avaa kartta ja seuraa ja laita kaksi sormea kartalla ja kierrä. Kompassi tulee esille
+            näytön vasemmalla puolella. Tämä kompassi näyttää pohjoiseen kartalta.</item>
+
+        <item>Mikä näyttää kompassin, joka on aina kartalla.</item>
+        <item>Tämä kompassi näyttää todella pohjoisesta.</item>
+
+        <item>Kuinka monta seurantaa voi olla sovelluksessa</item>
+        <item>Voit ostaa ja katsella niin monta seurata kuin haluat.</item>
+
+        <item>Miten ON / OFF-painike on</item>
+        <item>Tämä painike on seurannan reunalla / sivulla. Pidä se vähintään kolmen sekunnin ajan.</item>
+
+        <item>Kuinka näen onko trackerillä GPS-signaali</item>
+        <item>Avaa näyttö painamalla ON / OFF-painiketta. Jos sinulla on ympyrä pyörän sisällä
+            Näytöllä on GPS-signaali.</item>
+
+        <item>Hvordan kan jeg ringe til trackeren</item>
+        <item>Napauta viimeinen viesti kartassa. Kosketa puhelukuvaketta.</item>
+
+    </string-array>
+</resources>
