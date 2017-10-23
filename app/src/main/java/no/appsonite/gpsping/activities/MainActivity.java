@@ -5,10 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
@@ -16,6 +16,7 @@ import no.appsonite.gpsping.fragments.FriendsFragment;
 import no.appsonite.gpsping.fragments.SettingsFragment;
 import no.appsonite.gpsping.fragments.TrackersFragment;
 import no.appsonite.gpsping.fragments.TrackersMapFragment;
+import no.appsonite.gpsping.fragments.TrackersMapHistoryFragment;
 import no.appsonite.gpsping.utils.PushHelper;
 import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 
@@ -27,7 +28,7 @@ import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 public class MainActivity extends BaseActivity implements DialogInterface.OnCancelListener {
     private static final String EXTRA_FRIENDS = "extra_friends";
     private static final String EXTRA_LOGOUT = "extra_logout";
-    private ActiveScreen activeScreen = ActiveScreen.ONE;
+    private ActiveScreen activeScreen = ActiveScreen.MAP;
 
     public static void logout(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -64,27 +65,36 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     }
 
     private void initBottomNavigationView() {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.enableShiftingMode(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_map:
-                    if (activeScreen == ActiveScreen.ONE)
+                    if (activeScreen == ActiveScreen.MAP)
                         return false;
-                    activeScreen = ActiveScreen.ONE;
+                    activeScreen = ActiveScreen.MAP;
                     popBackStack();
                     replaceFragment(TrackersMapFragment.newInstance(), false);
                     break;
-                case R.id.action_trackers:
-                    if (activeScreen == ActiveScreen.TWO)
+                case R.id.action_history:
+                    if (activeScreen == ActiveScreen.HISTORY)
                         return false;
-                    activeScreen = ActiveScreen.TWO;
+                    activeScreen = ActiveScreen.HISTORY;
+                    popBackStack();
+                    replaceFragment(TrackersMapHistoryFragment.newInstance(), false);
+                    break;
+                case R.id.action_trackers:
+                    if (activeScreen == ActiveScreen.TRACKERS)
+                        return false;
+                    activeScreen = ActiveScreen.TRACKERS;
                     popBackStack();
                     replaceFragment(TrackersFragment.newInstance(), false);
                     break;
                 case R.id.action_settings:
-                    if (activeScreen == ActiveScreen.THREE)
+                    if (activeScreen == ActiveScreen.SETTINGS)
                         return false;
-                    activeScreen = ActiveScreen.THREE;
+                    activeScreen = ActiveScreen.SETTINGS;
                     popBackStack();
                     replaceFragment(SettingsFragment.newInstance(), false);
                     break;
@@ -144,6 +154,6 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     }
 
     private enum ActiveScreen {
-        ONE, TWO, THREE
+        MAP, HISTORY, TRACKERS, SETTINGS
     }
 }

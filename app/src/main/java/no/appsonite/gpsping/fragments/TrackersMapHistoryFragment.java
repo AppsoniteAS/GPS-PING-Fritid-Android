@@ -28,6 +28,13 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     private Location lastLocation;
     private long myId = AuthHelper.getCredentials().getUser().id.get();
 
+    public static TrackersMapHistoryFragment newInstance() {
+        Bundle args = new Bundle();
+        TrackersMapHistoryFragment fragment = new TrackersMapHistoryFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -49,13 +56,6 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public static TrackersMapHistoryFragment newInstance() {
-        Bundle args = new Bundle();
-        TrackersMapHistoryFragment fragment = new TrackersMapHistoryFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

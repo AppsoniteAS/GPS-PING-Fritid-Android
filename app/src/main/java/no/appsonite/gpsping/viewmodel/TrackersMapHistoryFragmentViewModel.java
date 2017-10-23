@@ -85,7 +85,8 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
                         geoDevicePoints.getDevice().getName(),
                         geoDevicePoints.getDevice().getImeiNumber(),
                         geoDevicePoints.getDevice().getTrackerNumber(),
-                        geoDevicePoints.getDevice().getLastTimestamp());
+                        geoDevicePoints.getDevice().getLastTimestamp(),
+                        geoDevicePoints.getDevice().getPicUrl());
                 mapPoint.setLast(true);
                 mapPoints.add(mapPoint);
             }
