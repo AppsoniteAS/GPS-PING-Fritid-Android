@@ -27,6 +27,7 @@ public class MapPoint {
     private String trackerNumber;
     private long logTime;
     private String picUrl;
+    private boolean mainAvatar;
 
     public String getImeiNumber() {
         if (imeiNumber == null)
@@ -156,5 +157,13 @@ public class MapPoint {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public boolean isMainAvatar() {
+        return mainAvatar;
+    }
+
+    public void setMainAvatar(boolean mainAvatar) {
+        this.mainAvatar = mainAvatar;
     }
 }

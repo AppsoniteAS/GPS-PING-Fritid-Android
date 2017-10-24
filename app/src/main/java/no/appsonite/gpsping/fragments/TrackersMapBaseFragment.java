@@ -43,6 +43,9 @@ import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
+import no.appsonite.gpsping.data_structures.ArrowLocationPin;
+import no.appsonite.gpsping.data_structures.ColorData;
+import no.appsonite.gpsping.data_structures.ColorMarkerHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
@@ -612,20 +615,26 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setDogMarker(MapPoint mapPoint) {
         MarkerOptions markerOptions = new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_background_dog_pin))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_round_for_pin))
                 .position(mapPoint.getLatLng());
         Marker marker = getMap().addMarker(markerOptions);
 
-        setPhotoForDogMarker(mapPoint.getPicUrl(), marker);
+        setPhotoForDogMarker(marker, mapPoint);
         markerMapPointHashMap.put(marker, mapPoint);
     }
 
-    private void setPhotoForDogMarker(String url, Marker marker) {
+    private void setPhotoForDogMarker(Marker marker, MapPoint mapPoint) {
+        String url = mapPoint.getPicUrl();
+        ColorData.Colors colors = getModel().colorData.get(mapPoint.getImeiNumber());
         if (url == null || url.isEmpty()) {
-            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.direction));
+            if (mapPoint.isMainAvatar()) {
+                marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMain(colors));
+            } else {
+                marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMini(colors));
+            }
         } else {
             if (setPhotoFromCache(url, marker)) {
-                PinUtils.getPinDog(url)
+                PinUtils.getPinDog(url, colors, ArrowLocationPin.Direction.SOUTH)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(bitmap -> {

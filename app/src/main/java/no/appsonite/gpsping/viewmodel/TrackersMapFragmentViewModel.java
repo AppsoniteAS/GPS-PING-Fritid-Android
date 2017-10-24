@@ -35,17 +35,19 @@ import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.PoiAnswer;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
+import no.appsonite.gpsping.api.content.geo.GeoDevice;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPoint;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
+import no.appsonite.gpsping.data_structures.ColorData;
+import no.appsonite.gpsping.data_structures.LatLonData;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
-import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -68,10 +70,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
+    public ColorData colorData = new ColorData();
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
     private Date removeTracksDate = new Date(0l);
     private MediaPlayer mediaPlayer;
     private int standSound = R.raw.bleep;
+    private LatLonData latLonData = new LatLonData();
 
     public void requestFriends() {
         execute(ApiFactory.getService().getFriends())
@@ -129,7 +133,8 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     protected long getFrom() {
-        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
+//        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
+        return ((new Date().getTime() / 1000l) - 10 * 365 * 24 * 60 * 60);
     }
 
     protected long getTo() {
@@ -173,20 +178,24 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
+        latLonData.clear();
         ArrayList<MapPoint> mapPoints = new ArrayList<>();
         for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
             for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
+                mapPoints.add(createMainPointWithAvatar(geoDevicePoints, geoItem));
                 ArrayList<MapPoint> devicePoints = new ArrayList<>();
                 for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
-                    MapPoint mapPoint = new MapPoint(geoItem.getUser(),
-                            geoPoint.getLat(),
-                            geoPoint.getLon(),
-                            geoDevicePoints.getDevice().getName(),
-                            geoDevicePoints.getDevice().getImeiNumber(),
-                            geoDevicePoints.getDevice().getTrackerNumber(),
-                            geoPoint.getTimestamp());
-                    devicePoints.add(mapPoint);
-                    mapPoints.add(mapPoint);
+                    if (!latLonData.contains(geoPoint.getLat(), geoPoint.getLon())) {
+                        MapPoint mapPoint = new MapPoint(geoItem.getUser(),
+                                geoPoint.getLat(),
+                                geoPoint.getLon(),
+                                geoDevicePoints.getDevice().getName(),
+                                geoDevicePoints.getDevice().getImeiNumber(),
+                                geoDevicePoints.getDevice().getTrackerNumber(),
+                                geoPoint.getTimestamp());
+                        devicePoints.add(mapPoint);
+                        mapPoints.add(mapPoint);
+                    }
                 }
                 try {
                     if (devicePoints.isEmpty()) {
@@ -216,8 +225,22 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
             userMapPoint.setBelongsToUser(true);
             mapPoints.add(userMapPoint);
         }
-        TrackersMapFragmentViewModel.this.mapPoints.clear();
-        TrackersMapFragmentViewModel.this.mapPoints.addAll(mapPoints);
+        for (MapPoint mapPoint : mapPoints) {
+            colorData.add(mapPoint.getImeiNumber());
+        }
+        this.mapPoints.clear();
+        this.mapPoints.addAll(mapPoints);
+    }
+
+    private MapPoint createMainPointWithAvatar(GeoDevicePoints geoDevicePoints, GeoItem geoItem) {
+        GeoDevice geoDevice = geoDevicePoints.getDevice();
+        latLonData.add(geoDevice.getLastLat(), geoDevice.getLastLon());
+        MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevice.getLastLat(),
+                geoDevice.getLastLon(), geoDevice.getName(),
+                geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
+                geoDevice.getLastTimestamp(), geoDevice.getPicUrl());
+        mapPoint.setMainAvatar(true);
+        return mapPoint;
     }
 
     private void checkForStand(ArrayList<MapPoint> mapPoints) {
