@@ -44,7 +44,7 @@ import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.data_structures.ArrowLocationPin;
-import no.appsonite.gpsping.data_structures.ColorData;
+import no.appsonite.gpsping.data_structures.ColorArrowPin;
 import no.appsonite.gpsping.data_structures.ColorMarkerHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.model.MapPoint;
@@ -625,24 +625,32 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setPhotoForDogMarker(Marker marker, MapPoint mapPoint) {
         String url = mapPoint.getPicUrl();
-        ColorData.Colors colors = getModel().colorData.get(mapPoint.getImeiNumber());
+        ColorArrowPin.Colors colors = getModel().colorArrowPin.get(mapPoint.getImeiNumber());
         if (url == null || url.isEmpty()) {
-            if (mapPoint.isMainAvatar()) {
-                marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMain(colors));
-            } else {
-                marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMini(colors));
-            }
+            setArrowPin(colors, mapPoint, marker);
         } else {
-            if (setPhotoFromCache(url, marker)) {
-                PinUtils.getPinDog(url, colors, ArrowLocationPin.Direction.SOUTH)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(bitmap -> {
-                                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-                                    setPhotoDogToCache(url, bitmap);
-                                },
-                                Throwable::printStackTrace);
-            }
+            setAvatarPin(colors, url, marker);
+        }
+    }
+
+    private void setArrowPin(ColorArrowPin.Colors colors, MapPoint mapPoint, Marker marker) {
+        if (mapPoint.isMainAvatar()) {
+            marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMain(colors));
+        } else {
+            marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMini(colors));
+        }
+    }
+
+    private void setAvatarPin(ColorArrowPin.Colors colors, String url, Marker marker) {
+        if (setPhotoFromCache(url, marker)) {
+            PinUtils.getPinDog(url, colors, ArrowLocationPin.Direction.SOUTH)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bitmap -> {
+                                marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+                                setPhotoDogToCache(url, bitmap);
+                            },
+                            Throwable::printStackTrace);
         }
     }
 

@@ -40,7 +40,7 @@ import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPoint;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
-import no.appsonite.gpsping.data_structures.ColorData;
+import no.appsonite.gpsping.data_structures.ColorArrowPin;
 import no.appsonite.gpsping.data_structures.LatLonData;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
@@ -70,7 +70,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
-    public ColorData colorData = new ColorData();
+    public ColorArrowPin colorArrowPin = new ColorArrowPin();
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
     private Date removeTracksDate = new Date(0l);
     private MediaPlayer mediaPlayer;
@@ -226,7 +226,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
             mapPoints.add(userMapPoint);
         }
         for (MapPoint mapPoint : mapPoints) {
-            colorData.add(mapPoint.getImeiNumber());
+            colorArrowPin.add(mapPoint.getImeiNumber());
         }
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);

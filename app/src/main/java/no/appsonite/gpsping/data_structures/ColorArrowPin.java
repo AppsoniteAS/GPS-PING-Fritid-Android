@@ -7,11 +7,11 @@ import java.util.Map;
  * Created by taras on 10/24/17.
  */
 
-public class ColorData {
+public class ColorArrowPin {
     private Map<String, Colors> map;
     private ColorNumber colorNumber;
 
-    public ColorData() {
+    public ColorArrowPin() {
         map = new HashMap<>();
         colorNumber = new ColorNumber();
     }

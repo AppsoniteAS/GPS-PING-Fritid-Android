@@ -16,7 +16,7 @@ import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.data_structures.ArrowLocationPin;
-import no.appsonite.gpsping.data_structures.ColorData;
+import no.appsonite.gpsping.data_structures.ColorArrowPin;
 import no.appsonite.gpsping.utils.image_transdormation.CircleSizeTransformation;
 import no.appsonite.gpsping.utils.image_transdormation.MaxSizeTextureTransformation;
 import rx.Observable;
@@ -27,7 +27,7 @@ import rx.exceptions.Exceptions;
  */
 
 public class PinUtils {
-    public static Observable<Bitmap> getPinDog(String url, ColorData.Colors colors, ArrowLocationPin.Direction direction) {
+    public static Observable<Bitmap> getPinDog(String url, ColorArrowPin.Colors colors, ArrowLocationPin.Direction direction) {
         Context context = Application.getContext();
         return Observable.just(BuildConfig.AMAZON_ADDRESS + url)
                 .map(s -> {
@@ -44,7 +44,7 @@ public class PinUtils {
                 .map(bitmap -> PinUtils.generatePinWithPhoto(context, bitmap, colors, direction));
     }
 
-    private static Bitmap generatePinWithPhoto(Context context, Bitmap photo, ColorData.Colors colors, ArrowLocationPin.Direction direction) {
+    private static Bitmap generatePinWithPhoto(Context context, Bitmap photo, ColorArrowPin.Colors colors, ArrowLocationPin.Direction direction) {
         ArrowLocationPin arrowLocationPin = new ArrowLocationPin(direction);
         float leftForArrow = arrowLocationPin.getLeft();
         float topForArrow = arrowLocationPin.getTop();
@@ -61,7 +61,7 @@ public class PinUtils {
         return result;
     }
 
-    private static Bitmap getArrowBitmap(Context context, float rotate, ColorData.Colors colors) {
+    private static Bitmap getArrowBitmap(Context context, float rotate, ColorArrowPin.Colors colors) {
         Bitmap bitmap;
         Resources resources = context.getResources();
         switch (colors) {

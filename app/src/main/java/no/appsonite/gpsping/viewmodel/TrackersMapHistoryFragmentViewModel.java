@@ -103,7 +103,7 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
             mapPoints.add(userMapPoint);
         }
         for (MapPoint mapPoint : mapPoints) {
-            colorData.add(mapPoint.getImeiNumber());
+            colorArrowPin.add(mapPoint.getImeiNumber());
         }
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);

@@ -14,7 +14,7 @@ import no.appsonite.gpsping.R;
 public class ColorMarkerHelper {
 
     @NonNull
-    public static BitmapDescriptor getBitmapDescriptorMain(ColorData.Colors colors) {
+    public static BitmapDescriptor getBitmapDescriptorMain(ColorArrowPin.Colors colors) {
         switch (colors) {
             case RED:
                 return BitmapDescriptorFactory.fromResource(R.drawable.ic_arrow_red_big);
@@ -30,7 +30,7 @@ public class ColorMarkerHelper {
     }
 
     @NonNull
-    public static BitmapDescriptor getBitmapDescriptorMini(ColorData.Colors colors) {
+    public static BitmapDescriptor getBitmapDescriptorMini(ColorArrowPin.Colors colors) {
         switch (colors) {
             case RED:
                 return BitmapDescriptorFactory.fromResource(R.drawable.ic_arrow_red_mid);
