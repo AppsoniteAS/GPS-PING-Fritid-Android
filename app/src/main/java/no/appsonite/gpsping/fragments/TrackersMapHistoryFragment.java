@@ -1,11 +1,7 @@
 package no.appsonite.gpsping.fragments;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,8 +20,7 @@ import no.appsonite.gpsping.viewmodel.TrackersMapHistoryFragmentViewModel;
  * Date: 21.01.2016
  */
 public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<TrackersMapHistoryFragmentViewModel> implements CalendarDialogFragment.CalendarListener {
-    private static final String TAG = "TrackersMapHistoryFragment";
-    private Location lastLocation;
+    private static final String TAG = TrackersMapHistoryFragment.class.getSimpleName();
     private long myId = AuthHelper.getCredentials().getUser().id.get();
 
     public static TrackersMapHistoryFragment newInstance() {
@@ -36,29 +31,6 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_map_history, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_calendar) {
-            Friend currentFriend = getModel().currentFriend.get();
-            if (currentFriend == null)
-                return true;
-            Date date = getModel().historyDate.get();
-            if (date == null)
-                date = new Date();
-            CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance(currentFriend.id.get(), date);
-            calendarDialogFragment.show(getChildFragmentManager(), CalendarDialogFragment.TAG);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected String getTitle() {
         return getString(R.string.history);
     }
@@ -66,6 +38,23 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
     @Override
     public String getFragmentTag() {
         return TAG;
+    }
+
+    @Override
+    protected void onViewModelCreated(TrackersMapHistoryFragmentViewModel model) {
+        super.onViewModelCreated(model);
+        getBinding().calendarBtn.setOnClickListener(v -> calendarBtn());
+    }
+
+    private void calendarBtn() {
+        Friend currentFriend = getModel().currentFriend.get();
+        if (currentFriend == null)
+            return;
+        Date date = getModel().historyDate.get();
+        if (date == null)
+            date = new Date();
+        CalendarDialogFragment calendarDialogFragment = CalendarDialogFragment.newInstance(currentFriend.id.get(), date);
+        calendarDialogFragment.show(getChildFragmentManager(), CalendarDialogFragment.TAG);
     }
 
     @Override

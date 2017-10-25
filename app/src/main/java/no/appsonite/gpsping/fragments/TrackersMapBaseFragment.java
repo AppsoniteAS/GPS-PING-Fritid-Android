@@ -6,9 +6,6 @@ import android.databinding.ObservableList;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.location.Location;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -74,7 +71,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private TileOverlay topoSwedenOverlay;
     private TileOverlay topoFinnishOverlay;
     private TileOverlay topoDanishOverlay;
-    private MediaPlayer mediaPlayer;
     private Subscription locationSubscription;
     private Compass compass;
     private boolean firstTime = false;
@@ -260,28 +256,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             getMap().setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//    }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_map, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.removeTracks) {
-//            clearTracks();
-//            getModel().setRemoveTracksDate(new Date());
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -321,19 +295,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                     break;
             }
         });
-
-//        getBinding().takePhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                shootSound();
-//                getMap().snapshot(new GoogleMap.SnapshotReadyCallback() {
-//                    @Override
-//                    public void onSnapshotReady(Bitmap bitmap) {
-//                        getModel().saveBitmap(bitmap);
-//                    }
-//                });
-//            }
-//        });
 
         getBinding().friendSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -703,28 +664,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         }
         getMap().moveCamera(cu);
     }
-
-    private void shootSound() {
-        AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-        int volume = audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION);
-        if (volume != 0) {
-            if (mediaPlayer == null)
-                mediaPlayer = MediaPlayer.create(getContext(), Uri.parse("file:///system/media/audio/ui/camera_click.ogg"));
-            if (mediaPlayer != null)
-                mediaPlayer.start();
-        }
-    }
-
-//    @Override
-//    protected void initToolbar() {
-//        super.initToolbar();
-//        ActionBar actionBar = getActionBar();
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeButtonEnabled(true);
-//            actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-//        }
-//    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {

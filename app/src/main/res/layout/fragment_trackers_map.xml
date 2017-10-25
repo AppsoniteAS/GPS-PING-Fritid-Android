@@ -48,21 +48,23 @@
                 android:background="?attr/colorPrimary"
                 android:orientation="horizontal">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/showUserPosition"-->
-                <!--android:layout_width="?attr/actionBarSize"-->
-                <!--android:layout_height="?attr/actionBarSize"-->
-                <!--android:background="?attr/selectableItemBackground"-->
-                <!--android:scaleType="centerInside"-->
-                <!--android:src="@drawable/ic_visible_white" />-->
+                <ImageView
+                    android:id="@+id/showUserPositionBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_visible_white"
+                    android:visibility="@{viewModel.visibilityUserPosition}" />
 
                 <info.hoang8f.android.segmented.SegmentedGroup
                     android:id="@+id/mapType"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="3"
                     android:checkedButton="@+id/topo"
@@ -106,16 +108,15 @@
                         android:textSize="16sp" />
                 </info.hoang8f.android.segmented.SegmentedGroup>
 
-                <!--<TextView-->
-                <!--android:id="@+id/takePhoto"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="?attr/selectableItemBackground"-->
-                <!--android:gravity="center"-->
-                <!--android:text="@string/photo"-->
-                <!--android:textColor="#fff"-->
-                <!--android:textSize="18sp" />-->
+                <ImageView
+                    android:id="@+id/calendarBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_calendar_white"
+                    android:visibility="@{viewModel.visibilityCalendar}" />
+
             </LinearLayout>
         </FrameLayout>
 
@@ -506,13 +507,13 @@
                     </FrameLayout>
 
                     <ImageView
-                        android:padding="8dp"
-                        android:background="@drawable/call_button"
                         android:id="@+id/callBtn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="end"
-                        android:src="@drawable/ic_call"/>
+                        android:background="@drawable/call_button"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_call" />
 
                 </FrameLayout>
 

@@ -1,7 +1,6 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Location;
@@ -12,8 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -23,14 +20,13 @@ import java.util.ArrayList;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
-import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
+import no.appsonite.gpsping.services.LocationTrackerService;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
-import rx.functions.Action1;
 
 /**
  * Created: Belozerov
@@ -43,6 +39,23 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     private MapPoint userMapPoint;
     private Location lastLocation;
     private long myId = AuthHelper.getCredentials().getUser().id.get();
+    private Handler refreshHandler = new Handler();
+    private Runnable refreshRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (lastLocation != null) {
+                updateLine(lastLocation);
+            }
+            refreshHandler.postDelayed(refreshRunnable, 16);
+        }
+    };
+
+    public static TrackersMapFragment newInstance() {
+        Bundle args = new Bundle();
+        TrackersMapFragment fragment = new TrackersMapFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected String getTitle() {
@@ -52,13 +65,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     public String getFragmentTag() {
         return TAG;
-    }
-
-    public static TrackersMapFragment newInstance() {
-        Bundle args = new Bundle();
-        TrackersMapFragment fragment = new TrackersMapFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -125,17 +131,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         getBinding().mapTarget.setLineStart(screenPosition);
     }
 
-    private Handler refreshHandler = new Handler();
-    private Runnable refreshRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (lastLocation != null) {
-                updateLine(lastLocation);
-            }
-            refreshHandler.postDelayed(refreshRunnable, 16);
-        }
-    };
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -171,23 +166,29 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        getBinding().showUserPosition.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (LocationTrackerService.isRunning()) {
-//                    LocationTrackerService.stopService(getContext());
-//                    getBinding().showUserPosition.setImageResource(R.drawable.ic_visible_white);
-//                } else {
-//                    LocationTrackerService.startService(getContext());
-//                    getBinding().showUserPosition.setImageResource(R.drawable.ic_invisible_white);
-//                }
-//
-//            }
-//        });
-//        updateShowPositionButton();
+        getBinding().showUserPositionBtn.setOnClickListener(v -> showUserPositionUserBtn());
+        updateShowPositionButton();
         if (!Utils.isUpdateTracker()) {
             showAlertUpdateTrackers();
         }
+    }
+
+    private void showUserPositionUserBtn() {
+        if (LocationTrackerService.isRunning()) {
+            stopService();
+        } else {
+            startService();
+        }
+    }
+
+    private void stopService() {
+        LocationTrackerService.stopService(getContext());
+        getBinding().showUserPositionBtn.setImageResource(R.drawable.ic_visible_white);
+    }
+
+    private void startService() {
+        LocationTrackerService.startService(getContext());
+        getBinding().showUserPositionBtn.setImageResource(R.drawable.ic_invisible_white);
     }
 
     private void showAlertUpdateTrackers() {
@@ -206,7 +207,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
                 .show();
     }
 
-//    private void updateShowPositionButton() {
-//        getBinding().showUserPosition.setImageResource(LocationTrackerService.isRunning() ? R.drawable.ic_invisible_white : R.drawable.ic_visible_white);
-//    }
+    private void updateShowPositionButton() {
+        getBinding().showUserPositionBtn.setImageResource(LocationTrackerService.isRunning() ? R.drawable.ic_invisible_white : R.drawable.ic_visible_white);
+    }
 }

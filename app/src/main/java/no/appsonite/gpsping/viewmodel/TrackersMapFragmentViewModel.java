@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -48,6 +49,7 @@ import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
+import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -71,8 +73,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
     public ColorArrowPin colorArrowPin = new ColorArrowPin();
+    public ObservableBoolean visibilityCalendar = new ObservableBoolean(false);
+    public ObservableBoolean visibilityUserPosition = new ObservableBoolean(true);
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
-    private Date removeTracksDate = new Date(0l);
     private MediaPlayer mediaPlayer;
     private int standSound = R.raw.bleep;
     private LatLonData latLonData = new LatLonData();
@@ -102,11 +105,6 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         }
     }
 
-    public void setRemoveTracksDate(Date removeTracksDate) {
-        this.removeTracksDate = removeTracksDate;
-        restartRequest();
-    }
-
     @Override
     public void onViewCreated() {
         super.onViewCreated();
@@ -133,8 +131,8 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     protected long getFrom() {
-//        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
-        return ((new Date().getTime() / 1000l) - 10 * 365 * 24 * 60 * 60);
+        return Math.max(new Date().getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
+//        return ((new Date().getTime() / 1000l) - 10 * 365 * 24 * 60 * 60);
     }
 
     protected long getTo() {
