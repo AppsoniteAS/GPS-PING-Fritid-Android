@@ -12,43 +12,43 @@ public class ArrowLocationPin {
     public ArrowLocationPin(Direction direction) {
         switch (direction) {
             case NORTH:
-                left = 22;
-                top = 0;
+                left = 20;
+                top = -4;
                 rotate = 0;
                 break;
             case SOUTH:
-                left = 22;
+                left = 20;
                 top = 44;
                 rotate = 180;
                 break;
             case WEST:
-                left = 0;
-                top = 22;
+                left = -4;
+                top = 20;
                 rotate = 270;
                 break;
             case EAST:
                 left = 44;
-                top = 22;
+                top = 20;
                 rotate = 90;
                 break;
             case NORTHWEST:
-                left = 4;
-                top = 4;
+                left = 0;
+                top = 0;
                 rotate = 315;
                 break;
             case NORTHEAST:
-                left = 40;
-                top = 4;
+                left = 32;
+                top = -4;
                 rotate = 45;
                 break;
             case SOUTHWEST:
-                left = 4;
-                top = 40;
+                left = 0;
+                top = 32;
                 rotate = 225;
                 break;
             case SOUTHEAST:
-                left = 40;
-                top = 40;
+                left = 32;
+                top = 32;
                 rotate = 135;
                 break;
         }

@@ -643,7 +643,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setAvatarPin(ColorArrowPin.Colors colors, String url, Marker marker) {
         if (setPhotoFromCache(url, marker)) {
-            PinUtils.getPinDog(url, colors, ArrowLocationPin.Direction.SOUTH)
+            PinUtils.getPinDog(url, colors, ArrowLocationPin.Direction.SOUTHEAST)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(bitmap -> {
