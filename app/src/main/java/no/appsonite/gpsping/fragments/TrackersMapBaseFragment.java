@@ -613,7 +613,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                                 BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
                                 marker.setIcon(bitmapDescriptor);
                             }
-
                         },
                         Throwable::printStackTrace);
     }
@@ -659,7 +658,16 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     public boolean onMarkerClick(Marker marker) {
         getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
         getModel().currentPoi.set(markerPoiHashMap.get(marker));
+        setClickableEditBtn();
         return false;
+    }
+
+    private void setClickableEditBtn() {
+        if (getModel().currentMapPoint.get().getImeiNumber().isEmpty()) {
+            getModel().clickableEditBtn.set(false);
+        } else {
+            getModel().clickableEditBtn.set(true);
+        }
     }
 
     @Override

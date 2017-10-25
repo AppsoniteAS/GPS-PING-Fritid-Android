@@ -79,6 +79,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     private MediaPlayer mediaPlayer;
     private int standSound = R.raw.bleep;
     private LatLonData latLonData = new LatLonData();
+    public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
 
     public void requestFriends() {
         execute(ApiFactory.getService().getFriends())
