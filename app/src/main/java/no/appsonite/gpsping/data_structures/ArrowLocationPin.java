@@ -1,5 +1,7 @@
 package no.appsonite.gpsping.data_structures;
 
+import no.appsonite.gpsping.enums.DirectionPin;
+
 /**
  * Created by taras on 10/24/17.
  */
@@ -9,7 +11,7 @@ public class ArrowLocationPin {
     private float top;
     private float rotate;
 
-    public ArrowLocationPin(Direction direction) {
+    public ArrowLocationPin(DirectionPin direction) {
         switch (direction) {
             case NORTH:
                 left = 20;
@@ -64,9 +66,5 @@ public class ArrowLocationPin {
 
     public float getRotate() {
         return rotate;
-    }
-
-    public enum Direction {
-        NORTH, SOUTH, WEST, EAST, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
     }
 }

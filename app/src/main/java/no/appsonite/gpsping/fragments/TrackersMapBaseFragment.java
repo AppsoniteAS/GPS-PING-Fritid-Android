@@ -43,10 +43,11 @@ import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
-import no.appsonite.gpsping.data_structures.ArrowLocationPin;
 import no.appsonite.gpsping.data_structures.ColorArrowPin;
 import no.appsonite.gpsping.data_structures.ColorMarkerHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
+import no.appsonite.gpsping.enums.DirectionPin;
+import no.appsonite.gpsping.enums.SizeArrowPin;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.services.LocationMapService;
@@ -635,15 +636,15 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setArrowPin(ColorArrowPin.Colors colors, MapPoint mapPoint, Marker marker) {
         if (mapPoint.isMainAvatar()) {
-            marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMain(colors));
+            marker.setIcon(ColorMarkerHelper.getArrowPin(colors, DirectionPin.SOUTHEAST, SizeArrowPin.BIG));
         } else {
-            marker.setIcon(ColorMarkerHelper.getBitmapDescriptorMini(colors));
+            marker.setIcon(ColorMarkerHelper.getArrowPin(colors, DirectionPin.SOUTHEAST, SizeArrowPin.MID));
         }
     }
 
     private void setAvatarPin(ColorArrowPin.Colors colors, String url, Marker marker) {
         if (setPhotoFromCache(url, marker)) {
-            PinUtils.getPinDog(url, colors, ArrowLocationPin.Direction.SOUTHEAST)
+            PinUtils.getPinDog(url, colors, DirectionPin.SOUTHEAST)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(bitmap -> {
