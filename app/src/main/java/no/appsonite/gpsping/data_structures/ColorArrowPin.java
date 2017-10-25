@@ -3,12 +3,19 @@ package no.appsonite.gpsping.data_structures;
 import java.util.HashMap;
 import java.util.Map;
 
+import no.appsonite.gpsping.enums.ColorPin;
+
+import static no.appsonite.gpsping.enums.ColorPin.GREEN;
+import static no.appsonite.gpsping.enums.ColorPin.ORANGE;
+import static no.appsonite.gpsping.enums.ColorPin.RED;
+import static no.appsonite.gpsping.enums.ColorPin.YELLOW;
+
 /**
  * Created by taras on 10/24/17.
  */
 
 public class ColorArrowPin {
-    private Map<String, Colors> map;
+    private Map<String, ColorPin> map;
     private ColorNumber colorNumber;
 
     public ColorArrowPin() {
@@ -22,23 +29,19 @@ public class ColorArrowPin {
         }
     }
 
-    public Colors get(String imei) {
+    public ColorPin get(String imei) {
         return map.get(imei);
     }
 
-    public enum Colors {
-        RED, ORANGE, YELLOW, GREEN
-    }
-
     private static class ColorNumber {
-        private Colors colors;
+        private ColorPin colors;
 
         ColorNumber() {
-            colors = Colors.RED;
+            colors = RED;
         }
 
-        Colors getState() {
-            Colors colors = this.colors;
+        ColorPin getState() {
+            ColorPin colors = this.colors;
             incrementState();
             return colors;
         }
@@ -46,16 +49,16 @@ public class ColorArrowPin {
         private void incrementState() {
             switch (colors) {
                 case RED:
-                    colors = Colors.ORANGE;
+                    colors = ORANGE;
                     break;
                 case ORANGE:
-                    colors = Colors.YELLOW;
+                    colors = YELLOW;
                     break;
                 case YELLOW:
-                    colors = Colors.GREEN;
+                    colors = GREEN;
                     break;
                 case GREEN:
-                    colors = Colors.RED;
+                    colors = RED;
             }
         }
 

@@ -17,6 +17,7 @@ import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.data_structures.ArrowLocationPin;
 import no.appsonite.gpsping.data_structures.ColorArrowPin;
+import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.utils.image_transdormation.CircleSizeTransformation;
 import no.appsonite.gpsping.utils.image_transdormation.MaxSizeTextureTransformation;
@@ -28,7 +29,7 @@ import rx.exceptions.Exceptions;
  */
 
 public class PinUtils {
-    public static Observable<Bitmap> getPinDog(String url, ColorArrowPin.Colors colors, DirectionPin direction) {
+    public static Observable<Bitmap> getPinDog(String url, ColorPin colorPin, DirectionPin direction) {
         Context context = Application.getContext();
         return Observable.just(BuildConfig.AMAZON_ADDRESS + url)
                 .map(s -> {
@@ -42,10 +43,10 @@ public class PinUtils {
                         throw Exceptions.propagate(e);
                     }
                 })
-                .map(bitmap -> PinUtils.generatePinWithPhoto(context, bitmap, colors, direction));
+                .map(bitmap -> PinUtils.generatePinWithPhoto(context, bitmap, colorPin, direction));
     }
 
-    private static Bitmap generatePinWithPhoto(Context context, Bitmap photo, ColorArrowPin.Colors colors, DirectionPin direction) {
+    private static Bitmap generatePinWithPhoto(Context context, Bitmap photo, ColorPin colors, DirectionPin direction) {
         ArrowLocationPin arrowLocationPin = new ArrowLocationPin(direction);
         float leftForArrow = arrowLocationPin.getLeft();
         float topForArrow = arrowLocationPin.getTop();
@@ -62,10 +63,10 @@ public class PinUtils {
         return result;
     }
 
-    private static Bitmap getArrowBitmap(Context context, float rotate, ColorArrowPin.Colors colors) {
+    private static Bitmap getArrowBitmap(Context context, float rotate, ColorPin colorPin) {
         Bitmap bitmap;
         Resources resources = context.getResources();
-        switch (colors) {
+        switch (colorPin) {
             case RED:
                 bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_red_small);
                 break;

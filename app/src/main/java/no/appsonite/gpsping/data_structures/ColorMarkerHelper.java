@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.enums.SizeArrowPin;
 
@@ -21,14 +22,14 @@ import no.appsonite.gpsping.enums.SizeArrowPin;
 public class ColorMarkerHelper {
 
     @NonNull
-    public static BitmapDescriptor getArrowPin(ColorArrowPin.Colors colors, DirectionPin direction, SizeArrowPin sizeArrowPin) {
+    public static BitmapDescriptor getArrowPin(ColorPin colorPin, DirectionPin direction, SizeArrowPin sizeArrowPin) {
         ArrowLocationPin locationPin = new ArrowLocationPin(direction);
         float rotate = locationPin.getRotate();
         Bitmap bitmap;
         Resources resources = Application.getContext().getResources();
         int resourceId;
         boolean isBigArrow = sizeArrowPin == SizeArrowPin.BIG;
-        switch (colors) {
+        switch (colorPin) {
             case RED:
                 resourceId = isBigArrow ? R.drawable.ic_arrow_red_big : R.drawable.ic_arrow_red_mid;
                 bitmap = BitmapFactory.decodeResource(resources, resourceId);

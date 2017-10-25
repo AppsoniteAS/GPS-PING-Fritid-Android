@@ -3,7 +3,6 @@ package no.appsonite.gpsping.fragments;
 import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Build;
@@ -19,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -40,9 +40,9 @@ import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
-import no.appsonite.gpsping.data_structures.ColorArrowPin;
 import no.appsonite.gpsping.data_structures.ColorMarkerHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
+import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.enums.SizeArrowPin;
 import no.appsonite.gpsping.model.MapPoint;
@@ -78,7 +78,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private MapView mapView;
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
     private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
-    private HashMap<String, Bitmap> bitmaps = new HashMap<>();
     private List<Tracker> trackers = new ArrayList<>();
 
     private void clearTile() {
@@ -579,7 +578,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         MarkerOptions markerOptions = new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_round_for_pin))
                 .position(mapPoint.getLatLng());
+
         Marker marker = getMap().addMarker(markerOptions);
+        marker.setTag("marker");
 
         setPhotoForDogMarker(marker, mapPoint);
         markerMapPointHashMap.put(marker, mapPoint);
@@ -587,45 +588,34 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setPhotoForDogMarker(Marker marker, MapPoint mapPoint) {
         String url = mapPoint.getPicUrl();
-        ColorArrowPin.Colors colors = getModel().colorArrowPin.get(mapPoint.getImeiNumber());
+        ColorPin colorPin = getModel().colorArrowPin.get(mapPoint.getImeiNumber());
         if (url == null || url.isEmpty()) {
-            setArrowPin(colors, mapPoint, marker);
+            setArrowPin(colorPin, mapPoint, marker);
         } else {
-            setAvatarPin(colors, url, marker);
+            setAvatarPin(colorPin, url, marker);
         }
     }
 
-    private void setArrowPin(ColorArrowPin.Colors colors, MapPoint mapPoint, Marker marker) {
+    private void setArrowPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
         if (mapPoint.isMainAvatar()) {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colors, DirectionPin.SOUTHEAST, SizeArrowPin.BIG));
+            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, DirectionPin.SOUTHEAST, SizeArrowPin.BIG));
         } else {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colors, DirectionPin.SOUTHEAST, SizeArrowPin.MID));
+            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, DirectionPin.SOUTHEAST, SizeArrowPin.MID));
         }
     }
 
-    private void setAvatarPin(ColorArrowPin.Colors colors, String url, Marker marker) {
-        if (setPhotoFromCache(url, marker)) {
-            PinUtils.getPinDog(url, colors, DirectionPin.SOUTHEAST)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(bitmap -> {
-                                marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
-                                setPhotoDogToCache(url, bitmap);
-                            },
-                            Throwable::printStackTrace);
-        }
-    }
+    private void setAvatarPin(ColorPin colorPin, String url, Marker marker) {
+        PinUtils.getPinDog(url, colorPin, DirectionPin.SOUTHEAST)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bitmap -> {
+                            if (marker.getTag() != null) {
+                                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
+                                marker.setIcon(bitmapDescriptor);
+                            }
 
-    private void setPhotoDogToCache(String url, Bitmap bitmap) {
-        bitmaps.put(url, bitmap);
-    }
-
-    private boolean setPhotoFromCache(String url, Marker marker) {
-        if (bitmaps.containsKey(url)) {
-            marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmaps.get(url)));
-            return false;
-        }
-        return true;
+                        },
+                        Throwable::printStackTrace);
     }
 
     private void includeThisPointForBuildingOfTheBounds(MapPoint mapPoint, LatLngBounds.Builder builder) {
