@@ -34,6 +34,8 @@ import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_SMS;
+import static android.Manifest.permission.RECEIVE_SMS;
 import static android.Manifest.permission.SEND_SMS;
 
 /**
@@ -44,7 +46,7 @@ import static android.Manifest.permission.SEND_SMS;
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
     private static final String TAG = TrackersMapFragment.class.getSimpleName();
     private static final int PERMISSION_COARSE_FINE_LOCATION = 1;
-    private static final int PERMISSION_SEND_SMS = 2;
+    private static final int PERMISSION_SMS = 2;
     private Marker userMarker;
     private MapPoint userMapPoint;
     private Location lastLocation;
@@ -234,7 +236,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
 
     private void resetTrackers(ArrayList<Tracker> trackers) {
         new RxPermissions(getActivity())
-                .request(SEND_SMS)
+                .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
                 .subscribe(granted -> onNextResetTrackers(granted, trackers));
     }
 
@@ -242,7 +244,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         if (granted) {
             getModel().resetTrackers(getActivity(), trackers);
         } else {
-            showInfoDeniedPermission(getContext(), PERMISSION_SEND_SMS, SEND_SMS);
+            showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS);
         }
     }
 
@@ -253,7 +255,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
             case PERMISSION_COARSE_FINE_LOCATION:
                 startLocationMapService(getContext());
                 break;
-            case PERMISSION_SEND_SMS:
+            case PERMISSION_SMS:
                 showAlertUpdateTrackers();
                 break;
         }

@@ -17,6 +17,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.squareup.picasso.Picasso;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -37,7 +38,11 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static android.app.Activity.RESULT_OK;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_SMS;
+import static android.Manifest.permission.RECEIVE_SMS;
+import static android.Manifest.permission.SEND_SMS;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created: Belozerov
@@ -47,8 +52,9 @@ import static android.app.Activity.RESULT_OK;
 public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTrackerBinding, EditTrackerFragmentViewModel> {
     private static final String TAG = EditTrackerFragment.class.getSimpleName();
     private static final String ARG_TRACKER = "arg_tracker";
-    private static final int RESULT_LOAD_IMG = 3356;
-    private Bitmap selectedImage;
+    private static final int RESULT_LOAD_IMG = 1;
+    private static final int PERMISSION_SMS = 2;
+    private static final int PERMISSION_STORAGE = 3;
 
     public static EditTrackerFragment newInstance(Tracker tracker) {
         Bundle args = new Bundle();
@@ -73,6 +79,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         super.onViewModelCreated(model);
         model.tracker.set((Tracker) getArguments().getSerializable(ARG_TRACKER));
         initBlocks();
+        getPermission();
     }
 
     private void initBlocks() {
@@ -247,7 +254,17 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void actionSelect() {
-        uploadPhoto();
+        new RxPermissions(getActivity())
+                .request(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE)
+                .subscribe(this::actionSelectOnNext);
+    }
+
+    private void actionSelectOnNext(boolean granted) {
+        if (granted) {
+            uploadPhoto();
+        } else {
+            showInfoDeniedPermission(getContext(), PERMISSION_STORAGE, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE);
+        }
     }
 
     private void actionDelete() {
@@ -336,14 +353,18 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case RESULT_LOAD_IMG:
-                    uploadResult(data);
-                    break;
-                default:
-                    break;
-            }
+        switch (requestCode) {
+            case RESULT_LOAD_IMG:
+                uploadResult(data);
+                break;
+            case PERMISSION_SMS:
+                getPermission();
+                break;
+            case PERMISSION_STORAGE:
+                actionSelect();
+                break;
+            default:
+                break;
         }
     }
 
@@ -355,7 +376,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
             uploadPhotoToAmazon(path);
 
             InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
-            selectedImage = BitmapFactory.decodeStream(imageStream);
+            Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
             selectedImage = ImageUtils.compressBitmap(selectedImage, 1280, 960);
 
@@ -414,7 +435,21 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 //        getBinding().resetButton.setOnClickListener(view -> resetTracker());
     }
 
-//    private void resetTracker() {
+    private void getPermission() {
+        new RxPermissions(getActivity())
+                .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
+                .subscribe(this::getPermissionOnNext);
+    }
+
+    private void getPermissionOnNext(boolean granted) {
+        if (granted) {
+
+        } else {
+            showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS);
+        }
+    }
+
+    //    private void resetTracker() {
 //        Observable<SMS> observable = getModel().resetTracker(getActivity());
 //        if (observable != null) {
 //            showProgress();

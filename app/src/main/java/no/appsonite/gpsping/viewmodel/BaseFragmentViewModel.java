@@ -57,16 +57,13 @@ public class BaseFragmentViewModel implements Serializable {
     public <T extends ApiAnswer> Observable<T> execute(Observable<T> observable) {
         Observable<T> result = observable.cache().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
-        return result.flatMap(new Func1<T, Observable<T>>() {
-            @Override
-            public Observable<T> call(T t) {
-                if(t == null)
-                    return Observable.never();
-                if (t.isError()) {
-                    return parseError(t);
-                }
-                return Observable.just(t);
+        return result.flatMap(t -> {
+            if(t == null)
+                return Observable.never();
+            if (t.isError()) {
+                return parseError(t);
             }
+            return Observable.just(t);
         });
     }
 
