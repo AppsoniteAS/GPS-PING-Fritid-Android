@@ -68,10 +68,4 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
         }
     }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        getBinding().showUserPosition.setVisibility(View.INVISIBLE);
-    }
 }

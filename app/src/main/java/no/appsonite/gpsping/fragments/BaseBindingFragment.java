@@ -1,8 +1,11 @@
 package no.appsonite.gpsping.fragments;
 
-import android.content.DialogInterface;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -27,7 +30,6 @@ import no.appsonite.gpsping.utils.bus.LogoutEvent;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 import retrofit.HttpException;
 import rx.Subscription;
-import rx.functions.Action1;
 
 
 /**
@@ -63,14 +65,11 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     private void subscribeForEvents() {
 
 
-        logoutSubscription = RxBus.getInstance().register(LogoutEvent.class, new Action1<LogoutEvent>() {
-            @Override
-            public void call(LogoutEvent logoutEvent) {
-                hideProgress();
-                MainActivity.logout(getActivity());
-                getActivity().finish();
-                logoutSubscription.unsubscribe();
-            }
+        logoutSubscription = RxBus.getInstance().register(LogoutEvent.class, logoutEvent -> {
+            hideProgress();
+            MainActivity.logout(getActivity());
+            getActivity().finish();
+            logoutSubscription.unsubscribe();
         });
     }
 
@@ -108,7 +107,7 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     }
 
     protected void initToolbar() {
-        Toolbar toolbar = (Toolbar) binding.getRoot().findViewById(R.id.toolbar);
+        Toolbar toolbar = binding.getRoot().findViewById(R.id.toolbar);
         if (toolbar == null)
             return;
         getBaseActivity().setSupportActionBar(toolbar);
@@ -222,24 +221,40 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
         }
     }
 
-    public void showSmsAlert(String smsCount, DialogInterface.OnClickListener onClickListener) {
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.smsAlertDialogTitle)
-                .setMessage(getString(R.string.smsAlertDialogMessage))
-                .setPositiveButton(android.R.string.ok, onClickListener)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        hideProgress();
-                    }
-                })
-                .create();
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                hideProgress();
+    protected void showInfoDeniedPermission(Context context, int CODE_PERMISSION, String... permissions) {
+        boolean checked = true;
+        for (String string : permissions) {
+            checked = getPermission(string);
+            if (!checked) {
+                break;
             }
-        });
-        dialog.show();
+        }
+
+        if (checked) {
+            Toast.makeText(context, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+        } else {
+            showAlertDialogOfDeniedPermission(CODE_PERMISSION);
+        }
+    }
+
+    private boolean getPermission(String string) {
+        return shouldShowRequestPermissionRationale(string);
+    }
+
+    protected void showAlertDialogOfDeniedPermission(int CODE_PERMISSION) {
+        new AlertDialog.Builder(getContext())
+                .setCancelable(false)
+                .setTitle(R.string.permission_denied)
+                .setMessage(R.string.permission_denied_info)
+                .setPositiveButton(R.string.allow, (dialog, which) -> goToApplicationSettings(CODE_PERMISSION))
+                .setNegativeButton(R.string.imsure, null)
+                .show();
+    }
+
+    private void goToApplicationSettings(int CODE_PERMISSION) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, CODE_PERMISSION);
     }
 }

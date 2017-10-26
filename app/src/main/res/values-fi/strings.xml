@@ -252,6 +252,10 @@
     <string name="select_image">Valitse kuva</string>
     <string name="delete_image">Poista kuva</string>
     <string name="could_not_upload_image">Kuvan lataamista ei voitu lähettää</string>
+    <string name="permission_denied">Lupa kielletty</string>
+    <string name="permission_denied_info">Ilman tätä lupaa sovellus ei toimi</string>
+    <string name="allow">Sallia</string>
+    <string name="imsure">Olen varma</string>
 
 
     <string-array name="receiveSignalTime">

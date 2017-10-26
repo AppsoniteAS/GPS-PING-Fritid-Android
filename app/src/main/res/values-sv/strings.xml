@@ -141,6 +141,10 @@
     <string name="select_image">Välj bild</string>
     <string name="delete_image">Ta bort bild</string>
     <string name="could_not_upload_image">Det gick inte att ladda upp bilden</string>
+    <string name="permission_denied">Åtkomst nekad</string>
+    <string name="permission_denied_info">Utan detta tillstånd kommer inte programmet att fungera</string>
+    <string name="allow">Tillåta</string>
+    <string name="imsure">Jag är säker</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

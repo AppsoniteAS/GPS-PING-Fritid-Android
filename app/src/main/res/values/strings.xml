@@ -169,6 +169,10 @@
     <string name="select_image">Select image</string>
     <string name="delete_image">Delete image</string>
     <string name="could_not_upload_image">Could not upload image</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="permission_denied_info">Without this permission, the application will not work</string>
+    <string name="allow">Allow</string>
+    <string name="imsure">I\'M Sure</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

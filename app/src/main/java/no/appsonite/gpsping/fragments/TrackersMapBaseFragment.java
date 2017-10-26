@@ -258,9 +258,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (trackUserLocation()) {
-            LocationMapService.startService(context);
-        }
         locationSubscription = RxBus.getInstance().register(Location.class, this::onLocationUpdate);
     }
 
@@ -271,7 +268,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onDetach() {
         super.onDetach();
-        LocationMapService.stopService(Application.getContext());
         locationSubscription.unsubscribe();
     }
 
@@ -457,10 +453,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     protected boolean skipMapPoint(MapPoint mapPoint) {
         return mapPoint.getLat() == 0 && mapPoint.getLon() == 0;
-    }
-
-    protected boolean trackUserLocation() {
-        return false;
     }
 
     private void subscribeOnPois() {

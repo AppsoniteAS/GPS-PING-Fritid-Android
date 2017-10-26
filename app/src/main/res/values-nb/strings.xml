@@ -142,6 +142,10 @@
     <string name="select_image">Velg bilde</string>
     <string name="delete_image">Slett bilde</string>
     <string name="could_not_upload_image">Kunne ikke laste opp bilde</string>
+    <string name="permission_denied">Tillatelse avslått</string>
+    <string name="permission_denied_info">Uten denne tillatelsen vil applikasjonen ikke fungere</string>
+    <string name="allow">Tillate</string>
+    <string name="imsure">Jeg er sikker</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
