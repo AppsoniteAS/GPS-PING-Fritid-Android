@@ -52,12 +52,14 @@
         Om appen\n\nDenne appen lar deg se gps posisjonen til en eller flere gps trackere. \n\nTrackere kan bestilles på vår webside. \n\n Når tracker er mottatt og aktivert legges tracker nummer og imei nummer inn i appen. \n\n Gå tilbake til hoved menyen og trykk på start\n\n
     </string>
     <string name="editTracker">Edit\ntracker</string>
+    <string name="editTrackerToolbar">Edit Tracker</string>
     <string name="update">Oppdater</string>
     <string name="friends">Venner</string>
     <string name="addFriend">Legg til venn</string>
     <string name="removeFriend">Slett \n venn</string>
-    <string name="search">Søk</string>
+    <string name="search">Søk folk</string>
     <string name="selectTracker">Velg traker du vil aktivere:</string>
+    <string name="selectYourTracker">Velg sporing:</string>
     <string name="wait">Vennligst vent</string>
     <string name="nameCanNotBeEmpty">Vennligst legg inn navn</string>
     <string name="fullName">Navn</string>
@@ -74,6 +76,7 @@
     <string name="smsAlertDialogTitle">SMS</string>
     <string name="smsAlertDialogMessage">Dette vil sende en sms til trackeren din</string>
     <string name="trackerUpdated">Trackeren ble oppdatert</string>
+    <string name="trackerHistoryUpdated">Sporingshistorikk ble oppdatert</string>
     <string name="locationMessage">Lokasjons tracking</string>
     <string name="friendShipRequest">Venneforespørsel</string>
     <string name="friendShipRequestMessage">%1$s vil være venn med deg. Vennligst bekreft?</string>
@@ -86,10 +89,10 @@
 
     <string name="trackerNumberNMap">Tracker Nummer:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI Nummer:\t\t\t%1$s</string>
-    <string name="logTimeNMap">Logg Tid:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Sist sett\t%1$s</string>
     <string name="latNMap">Lat:\t\t\t%1$s</string>
     <string name="lonNMap">Lon:\t\t\t%1$s</string>
-    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="grsmNMap">GRSM\t%1$s</string>
     <string name="you">Du</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>
@@ -101,7 +104,6 @@
     <string name="editPoiTitle">Endre interesse punkt</string>
     <string name="createPoiTitle">Lag interesse punkt</string>
     <string name="deletePoi"><u>Slett interesse punkt</u></string>
-    <string name="displayOptions">Visnings alternativer</string>
     <string name="showOnMapTracker">Vis trackere :</string>
     <string name="trackingHistory">Tracking Historie</string>
     <string name="poiName">Navn på interesse punkt</string>
@@ -130,13 +132,16 @@
     <string name="address">Adresse</string>
     <string name="country">Land</string>
     <string name="city">By</string>
-    <string name="zipCode">Postnr</string>
+    <string name="zipCode">Postnummer</string>
     <string name="addressCanNotBeEmpty">Vennligst fyll inn adresse</string>
     <string name="cityCanNotBeEmpty">Vennlist legg inn by</string>
     <string name="countryCanNotBeEmpty">Vennligst legg inn land</string>
     <string name="zipCodeCanNotBeEmpty">Vennligst legg inn postnr</string>
     <string name="skip"><u>Hopp over</u></string>
     <string name="updateTracker">Du trenger å oppdatere appen med ny ip-adresse for at trackeren skal fungere. Trykk på knappen under og send SMS til trackeren for å oppdatere.</string>
+    <string name="select_image">Velg bilde</string>
+    <string name="delete_image">Slett bilde</string>
+    <string name="could_not_upload_image">Kunne ikke laste opp bilde</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

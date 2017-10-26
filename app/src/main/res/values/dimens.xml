@@ -2,12 +2,14 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="trackerIconSmall">56dp</dimen>
-    <dimen name="trackerItemHeight">86dp</dimen>
+    <dimen name="trackerIconSmall">40dp</dimen>
+    <dimen name="trackerItemHeight">56dp</dimen>
     <dimen name="friendItemHeight">68dp</dimen>
     <dimen name="width0">0dp</dimen>
     <dimen name="width100">100dp</dimen>
     <dimen name="trackerDialogWidth">500dp</dimen>
     <dimen name="trackerDialogHeight">420dp</dimen>
     <dimen name="button_margin_top">6dp</dimen>
+    <dimen name="sixteen_margin">16dp</dimen>
+    <dimen name="twelve_margin">12dp</dimen>
 </resources>

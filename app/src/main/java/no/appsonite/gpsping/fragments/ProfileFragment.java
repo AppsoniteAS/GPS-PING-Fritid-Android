@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import no.appsonite.gpsping.R;
@@ -12,7 +11,6 @@ import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.databinding.FragmentProfileBinding;
 import no.appsonite.gpsping.viewmodel.ProfileFragmentViewModel;
 import rx.Observable;
-import rx.Observer;
 
 /**
  * Created: Belozerov
@@ -20,7 +18,14 @@ import rx.Observer;
  * Date: 18.01.2016
  */
 public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding, ProfileFragmentViewModel> {
-    private static final String TAG = "ProfileFragment";
+    private static final String TAG = ProfileFragment.class.getSimpleName();
+
+    public static ProfileFragment newInstance() {
+        Bundle args = new Bundle();
+        ProfileFragment fragment = new ProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public String getFragmentTag() {
@@ -29,7 +34,7 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
 
     @Override
     protected String getTitle() {
-        return getString(R.string.profile);
+        return null;
     }
 
     @Override
@@ -41,38 +46,24 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
     @Override
     protected void onViewModelCreated(ProfileFragmentViewModel model) {
         super.onViewModelCreated(model);
-        getBinding().buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveProfile();
-            }
-        });
+        getBinding().buttonSave.setOnClickListener(v -> saveProfile());
     }
 
     private void saveProfile() {
         Observable<ApiAnswer> answer = getModel().onSaveClick();
         if (answer != null) {
             showProgress();
-            answer.subscribe(new Observer<ApiAnswer>() {
-                @Override
-                public void onCompleted() {
-                    if (getActivity() == null)
-                        return;
-                    Toast.makeText(getActivity(), getString(R.string.profileSaved), Toast.LENGTH_SHORT).show();
-                    hideProgress();
-                }
+            answer.subscribe(apiAnswer -> {
 
-                @Override
-                public void onError(Throwable e) {
-                    showError(e);
-                }
-
-                @Override
-                public void onNext(ApiAnswer apiAnswer) {
-
-                }
-            });
+            }, this::showError, this::saveProfileCompleted);
         }
+    }
+
+    private void saveProfileCompleted() {
+        if (getActivity() == null)
+            return;
+        Toast.makeText(getActivity(), getString(R.string.profileSaved), Toast.LENGTH_SHORT).show();
+        hideProgress();
     }
 
     @Override
@@ -85,7 +76,6 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout) {
             logout();
-
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -95,12 +85,4 @@ public class ProfileFragment extends BaseBindingFragment<FragmentProfileBinding,
         showProgress();
         getModel().logout();
     }
-
-    public static ProfileFragment newInstance() {
-        Bundle args = new Bundle();
-        ProfileFragment fragment = new ProfileFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 }

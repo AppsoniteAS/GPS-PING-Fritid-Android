@@ -3,7 +3,6 @@ package no.appsonite.gpsping.fragments;
 import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,20 +24,33 @@ import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
  * Date: 06/09/16
  */
 public class FAQFragment extends BaseBindingFragment<FragmentFaqBinding, BaseFragmentViewModel> {
+    private static final String TAG = FAQFragment.class.getSimpleName();
+    private static final String KEY_FAQ_CHOOSER = "key_for_chooser";
+
+    public static FAQFragment newInstance(FaqChooser faqChooser) {
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_FAQ_CHOOSER, faqChooser);
+        FAQFragment fragment = new FAQFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public String getFragmentTag() {
-        return "FAQFragment";
+        return TAG;
     }
 
     @Override
     protected String getTitle() {
-        return getString(R.string.faq);
+        return null;
     }
 
     @Override
     protected void onViewModelCreated(BaseFragmentViewModel model) {
         super.onViewModelCreated(model);
-        String[] faq = getResources().getStringArray(R.array.faq_questions_answers);
+        FaqChooser faqChooser = (FaqChooser) getArguments().getSerializable(KEY_FAQ_CHOOSER);
+
+        String[] faq = getInformationOfTrackers(faqChooser);
         GPSPingBaseRecyclerSwipeAdapter adapter = new GPSPingBaseRecyclerSwipeAdapter() {
             @Override
             public ViewDataBinding onCreateViewDataBinding(ViewGroup parent, int viewType) {
@@ -68,11 +80,19 @@ public class FAQFragment extends BaseBindingFragment<FragmentFaqBinding, BaseFra
         getBinding().recyclerView.setAdapter(adapter);
     }
 
-    public static FAQFragment newInstance() {
-        Bundle args = new Bundle();
-        FAQFragment fragment = new FAQFragment();
-        fragment.setArguments(args);
-        return fragment;
+    private String[] getInformationOfTrackers(FaqChooser faqChooser) {
+        switch (faqChooser) {
+            case ORIGINAL_GPS_TRACKER:
+                return getResources().getStringArray(R.array.faq_questions_answers);
+            case GPS_CAT_TRACKER:
+                return getResources().getStringArray(R.array.faq_questions_answers_s1_cat);
+            default:
+                return getResources().getStringArray(R.array.faq_questions_answers_s1_cat);
+        }
+    }
+
+    public enum FaqChooser {
+        ORIGINAL_GPS_TRACKER, GPS_CAT_TRACKER
     }
 
     public static class FAQItem implements Serializable {

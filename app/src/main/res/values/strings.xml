@@ -52,15 +52,17 @@
         About the abb\n\nThis app let´s you see the gps position of a gps tracker.\n\nBefore you start, go to settings and input the imei number and tracker number. Select signal interval. Tap save and go back to main menu to start the tracker.\n\n        Tap Start Tracker to turn the trackers signal on. You will receive a text message back from the tracker when it is sending. You will see the trackers last position as a green triangle.\n\nEarlier positions are marked with green circle.\n\n
     </string>
     <string name="editTracker">Edit\ntracker</string>
+    <string name="editTrackerToolbar">Edit Tracker</string>
     <string name="update">Update</string>
     <string name="friends">Friends</string>
     <string name="addFriend">Add friend</string>
     <string name="removeFriend">Remove\nfriend</string>
-    <string name="search">Search</string>
+    <string name="search">Search people</string>
     <string name="selectTracker">Select tracker you want to activate:</string>
+    <string name="selectYourTracker">Select your tracker:</string>
     <string name="wait">Please, wait…</string>
     <string name="nameCanNotBeEmpty">Name can not be empty</string>
-    <string name="fullName">Full Name</string>
+    <string name="fullName">Name</string>
     <string name="satellite">Satellite</string>
     <string name="standard">Standard</string>
     <string name="topo">Topo</string>
@@ -75,6 +77,7 @@
     <string name="smsAlertDialogTitle">SMS</string>
     <string name="smsAlertDialogMessage">This will send an sms to your tracker</string>
     <string name="trackerUpdated">Tracker successfully updated</string>
+    <string name="trackerHistoryUpdated">Tracking History successfully updated</string>
     <string name="locationMessage">Location tracking</string>
     <string name="friendShipRequest">Friendship request</string>
     <string name="friendShipRequestMessage">%1$s wants to be friends with you. Do you confirm your friendship?</string>
@@ -83,17 +86,21 @@
     <string name="PUSH_MESSSAGE_CHECK_FOR_STAND">Your tracker is now standing still in the same position.</string>
     <string name="confirm">Confirm</string>
     <string name="owner">Owner:</string>
+    <string name="originalGpsTracker">Original GPS Tracker</string>
+    <string name="gpsPingMarcelTracker">GPS PingMarcel Tracker</string>
+    <string name="gpsCatTracker">GPS Cattracker</string>
 
     <string name="trackerNumberNMap">Tracker Number:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI Number:\t\t\t%1$s</string>
-    <string name="logTimeNMap">Log Time:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Last seen\t%1$s</string>
     <string name="latNMap">Lat:\t\t\t%1$s</string>
     <string name="lonNMap">Lon:\t\t\t%1$s</string>
-    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="grsmNMap">GRSM\t%1$s</string>
     <string name="you">You</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>
     <string name="distance">Distance</string>
+    <string name="speed">Speed</string>
     <string name="distanceTravelled">Distance Travelled</string>
     <string name="signalStrength">Signal Strength</string>
     <string name="gsm">GSM</string>
@@ -106,7 +113,6 @@
     <string name="editPoiTitle">Edit Point of Interest</string>
     <string name="createPoiTitle">Create Point of Interest</string>
     <string name="deletePoi"><u>Remove Point of Interest</u></string>
-    <string name="displayOptions">Display options</string>
     <string name="showOnMapTracker">Show on map trackers position during:</string>
     <string name="trackingHistory">Tracking History</string>
     <string name="poiName">Point of Interest name</string>
@@ -135,7 +141,7 @@
     <string name="address">Address</string>
     <string name="country">Country</string>
     <string name="city">City</string>
-    <string name="zipCode">Zip Code</string>
+    <string name="zipCode">Postcode</string>
     <string name="addressCanNotBeEmpty">Address can not be empty</string>
     <string name="cityCanNotBeEmpty">City can not be empty</string>
     <string name="countryCanNotBeEmpty">Country can not be empty</string>
@@ -148,7 +154,7 @@
     <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
     <string name="canBeFoundInside">can be found inside the box with tracker:</string>
     <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
-    <string name="faq">Troubleshooting</string>
+    <string name="faq">FAQ</string>
     <string name="sleepMode">Sleep mode</string>
     <string name="checkBattery">Check Battery</string>
     <string name="updateTracker">You need to update the tracker with new ip-adress for it to work. Please press button and send the preprogrammed SMS to the tracker</string>
@@ -158,7 +164,11 @@
     <string name="grsm_tools">GRSM 32VPM1237382377</string>
     <string name="seventy_five_tools">75%</string>
     <string name="distance_tools">3.5 km</string>
+    <string name="speed_tools">6 km/h</string>
     <string name="distance_travelled_tools">15 km</string>
+    <string name="select_image">Select image</string>
+    <string name="delete_image">Delete image</string>
+    <string name="could_not_upload_image">Could not upload image</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

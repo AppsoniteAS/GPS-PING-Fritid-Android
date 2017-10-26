@@ -107,6 +107,8 @@
 
     <string name="editTracker">Muokkaa\npaikanninta</string>
 
+    <string name="editTrackerToolbar">Muokkaa Paikanninta</string>
+
     <string name="update">Päivitä</string>
 
     <string name="friends">Kaverit</string>
@@ -115,15 +117,17 @@
 
     <string name="removeFriend">Poista\nkaveri</string>
 
-    <string name="search">Etsi</string>
+    <string name="search">Etsi ihmisiä</string>
 
     <string name="selectTracker">Valitse paikannin, jonka haluat aktivoida:</string>
+
+    <string name="selectYourTracker">Valitse seuranta:</string>
 
     <string name="wait">Odota…</string>
 
     <string name="nameCanNotBeEmpty">Nimi ei voi olla tyhjä</string>
 
-    <string name="fullName">Koko nimi</string>
+    <string name="fullName">Nimi</string>
 
     <string name="satellite">Satellitti</string>
 
@@ -151,6 +155,8 @@
 
     <string name="trackerUpdated">Paikantimen päivitys onnistui </string>
 
+    <string name="trackerHistoryUpdated">Seurantakertomuksen päivitys onnistui</string>
+
     <string name="locationMessage">Sijainnin seuranta</string>
 
     <string name="friendShipRequest">Kaveripyyntö</string>
@@ -172,13 +178,13 @@
 
     <string name="trackerImeiNMap">IMEI-numero:\t\t\t%1$s</string>
 
-    <string name="logTimeNMap">Seuraa Aikaa:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Viimeksi nähty\t%1$s</string>
 
     <string name="latNMap">Leveysaste:\t\t\t%1$s</string>
 
     <string name="lonNMap">Pituusaste:\t\t\t%1$s</string>
 
-    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="grsmNMap">GRSM\t%1$s</string>
 
     <string name="you">Sinä</string>
 
@@ -201,8 +207,6 @@
     <string name="createPoiTitle">Luo kohdepiste</string>
 
     <string name="deletePoi"><u>Poista kohdepiste</u></string>
-
-    <string name="displayOptions">Näytä asetukset</string>
 
     <string name="showOnMapTracker">Näytä paikantimen sijainti kartalla kello: </string>
 
@@ -245,6 +249,9 @@
     <string name="countryCanNotBeEmpty"> Maa ei voi olla tyhjä </string>
     <string name="zipCodeCanNotBeEmpty">Postinumero ei voi olla tyhjä </string>
     <string name="skip"><u>Ohita</u></string>
+    <string name="select_image">Valitse kuva</string>
+    <string name="delete_image">Poista kuva</string>
+    <string name="could_not_upload_image">Kuvan lataamista ei voitu lähettää</string>
 
 
     <string-array name="receiveSignalTime">

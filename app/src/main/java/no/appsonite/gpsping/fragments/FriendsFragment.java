@@ -1,6 +1,5 @@
 package no.appsonite.gpsping.fragments;
 
-import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -20,12 +19,9 @@ import no.appsonite.gpsping.databinding.ItemFriendBinding;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.utils.BindingHelper;
 import no.appsonite.gpsping.viewmodel.FriendsFragmentViewModel;
-import no.appsonite.gpsping.viewmodel.SubscriptionViewModel;
 import no.appsonite.gpsping.widget.BindingViewHolder;
 import no.appsonite.gpsping.widget.GPSPingBaseRecyclerSwipeAdapter;
 import rx.Observable;
-import rx.Observer;
-import rx.functions.Action1;
 
 /**
  * Created: Belozerov
@@ -33,7 +29,14 @@ import rx.functions.Action1;
  * Date: 19.01.2016
  */
 public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding, FriendsFragmentViewModel> {
-    private static final String TAG = "FriendsFragment";
+    private static final String TAG = FriendsFragment.class.getSimpleName();
+
+    public static FriendsFragment newInstance() {
+        Bundle args = new Bundle();
+        FriendsFragment fragment = new FriendsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public String getFragmentTag() {
@@ -42,7 +45,7 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
 
     @Override
     protected String getTitle() {
-        return getString(R.string.friends);
+        return null;
     }
 
     @Override
@@ -93,12 +96,7 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
                 }
             }
         };
-        model.requestFriends().doOnError(new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                showError(throwable);
-            }
-        });
+        model.requestFriends().doOnError(this::showError);
         adapter.setItems(model.friends);
         getBinding().friendsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         getBinding().friendsRecycler.setAdapter(adapter);
@@ -108,12 +106,9 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
     @Override
     public void onResume() {
         super.onResume();
-        getModel().setBillingListener(new SubscriptionViewModel.BillingListener() {
-            @Override
-            public void onInit() {
-                if (getModel().isSubscriptionRequired()) {
-                    showSubscriptionDialog();
-                }
+        getModel().setBillingListener(() -> {
+            if (getModel().isSubscriptionRequired()) {
+                showSubscriptionDialog();
             }
         });
         if (getModel().isBillingInit()) {
@@ -128,20 +123,9 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
                 .setTitle(R.string.friends)
                 .setMessage(R.string.friendsRequiresSubscription)
                 .setCancelable(false)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    }
-                })
-                .setPositiveButton(R.string.buySubscription, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        getModel().requestSubscription(getActivity());
-                    }
-                }).show();
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> getActivity().getSupportFragmentManager().popBackStack())
+                .setPositiveButton(R.string.buySubscription, (dialogInterface, i) -> getModel().requestSubscription(getActivity())).show();
     }
-
 
     private void friendAction(Friend friend) {
         Observable<ApiAnswer> observable = null;
@@ -155,50 +139,15 @@ public class FriendsFragment extends BaseBindingFragment<FragmentFriendsBinding,
             observable = getModel().switchStatus(friend);
         }
         showProgress();
-        observable.subscribe(new Observer<ApiAnswer>() {
-            @Override
-            public void onCompleted() {
+        observable.subscribe(apiAnswer -> {
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showError(e);
-            }
-
-            @Override
-            public void onNext(ApiAnswer apiAnswer) {
-                hideProgress();
-            }
-        });
+        }, this::showError, this::hideProgress);
     }
 
     private void removeFriend(Friend friend) {
         showProgress();
-        getModel().removeFriend(friend).subscribe(new Observer<ApiAnswer>() {
-            @Override
-            public void onCompleted() {
+        getModel().removeFriend(friend).subscribe(apiAnswer -> {
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showError(e);
-            }
-
-            @Override
-            public void onNext(ApiAnswer apiAnswer) {
-                hideProgress();
-            }
-        });
+        }, this::showError, this::hideProgress);
     }
-
-
-    public static FriendsFragment newInstance() {
-        Bundle args = new Bundle();
-        FriendsFragment fragment = new FriendsFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 }

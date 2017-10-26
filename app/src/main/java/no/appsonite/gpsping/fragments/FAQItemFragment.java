@@ -30,7 +30,7 @@ public class FAQItemFragment extends BaseBindingFragment<FragmentFaqDetailsBindi
 
     @Override
     protected String getTitle() {
-        return getString(R.string.faq);
+        return null;
     }
 
     @Override

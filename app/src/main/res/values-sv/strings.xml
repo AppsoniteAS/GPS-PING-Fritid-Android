@@ -52,15 +52,17 @@
 	        Om appen\n\nMed den här appen kan du se en GPS-enhets position. \n\n Innan du börjar, gå till inställningar och skriv in IMEI-nummer och GPS-spårarens nummer. Välj intervall för signal. Klicka på Spara och gå tillbaka till huvudmenyn för att starta GPS-spåraren. \n\n Klicka Starta GPS-spåraren för att sätta igång GPS-signalen. Du får ett sms från GPS-spåraren när den sänder. En grön triangel visar GPS-spårarens senaste position. \n\n Tidigare positioner visas i form av gröna cirklar. \n\n
 	    </string>
     <string name="editTracker">Redigera GPS-spåraren</string>
+    <string name="editTrackerToolbar">Redigera GPS-spåraren</string>
     <string name="update">Uppdatera</string>
     <string name="friends">Vänner</string>
     <string name="addFriend">Lägg till vän</string>
     <string name="removeFriend">Ta bort vän\avvänna</string>
-    <string name="search">Sök</string>
+    <string name="search">Sök personer</string>
     <string name="selectTracker">Välj GPS-spårare som du vill aktivera:</string>
+    <string name="selectYourTracker">Välj din spårare:</string>
     <string name="wait">Vänta…</string>
     <string name="nameCanNotBeEmpty">Namn måste fyllas i </string>
-    <string name="fullName">Fullständigt namn</string>
+    <string name="fullName">Namn</string>
     <string name="satellite">Satellit</string>
     <string name="standard">Standard</string>
     <string name="topo">Topografi</string>
@@ -74,6 +76,7 @@
     <string name="smsAlertDialogTitle">sms</string>
     <string name="smsAlertDialogMessage">Ett sms kommer skickas till din GPS-spårare </string>
     <string name="trackerUpdated">Uppdateringen av GPS-spåraren lyckades </string>
+    <string name="trackerHistoryUpdated">Spårningshistoriken har uppdaterats</string>
     <string name="locationMessage">Spåra plats</string>
     <string name="friendShipRequest">Vänförfrågan</string>
     <string name="friendShipRequestMessage">%1$s vill bli vän med dig. Bekräfta vänförfrågan? </string>
@@ -86,10 +89,10 @@
 
     <string name="trackerNumberNMap">Nummer på GPS-spåraren:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI-nummer:\t\t\t%1$s</string>
-    <string name="logTimeNMap">Loggningstid:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Senast sedd\t%1$s</string>
     <string name="latNMap">Latitud:\t\t\t%1$s</string>
     <string name="lonNMap">Longitud:\t\t\t%1$s</string>
-    <string name="grsmNMap">GSM:\t%1$s</string>
+    <string name="grsmNMap">GSM\t%1$s</string>
     <string name="you">Din position</string>
     <string name="distanceKm">%1$s km</string>
     <string name="distanceM">%1$s m</string>
@@ -101,7 +104,6 @@
     <string name="editPoiTitle"> Redigera intressepunkt </string>
     <string name="createPoiTitle">Skapa intressepunkt</string>
     <string name="deletePoi"><u>Ta bort intressepunkt</u></string>
-    <string name="displayOptions">Visa alternativ</string>
     <string name="showOnMapTracker">Visa GPS-spårarens position på kartan under:</string>
     <string name="trackingHistory">Spårningshistorik</string>
     <string name="poiName">Namn på intressepunkt </string>
@@ -136,6 +138,9 @@
     <string name="countryCanNotBeEmpty">Land måste fyllas i</string>
     <string name="zipCodeCanNotBeEmpty">Postnummer måste fyllas i</string>
     <string name="skip"><u>Hoppa över</u></string>
+    <string name="select_image">Välj bild</string>
+    <string name="delete_image">Ta bort bild</string>
+    <string name="could_not_upload_image">Det gick inte att ladda upp bilden</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

@@ -107,6 +107,8 @@
 
     <string name="editTracker">Rediger\nsporingsenhed</string>
 
+    <string name="editTrackerToolbar">Rediger Sporingsenhed</string>
+
     <string name="update">Opdater</string>
 
     <string name="friends">Venner</string>
@@ -115,15 +117,17 @@
 
     <string name="removeFriend">Fjern\nven</string>
 
-    <string name="search">Søg</string>
+    <string name="search">Søg personer</string>
 
     <string name="selectTracker">Vælg Sporingsenhed som du ønsker at aktivere:</string>
+
+    <string name="selectYourTracker">Vælg din sporbarhed:</string>
 
     <string name="wait">Vent venligst…</string>
 
     <string name="nameCanNotBeEmpty">Navnet kan ikke være tomt</string>
 
-    <string name="fullName">Fulde navn</string>
+    <string name="fullName">Navn</string>
 
     <string name="satellite">Satelit</string>
 
@@ -151,6 +155,8 @@
 
     <string name="trackerUpdated">Sporingsenheden er opdateret med success</string>
 
+    <string name="trackerHistoryUpdated">Sporingshistorik er opdateret med success</string>
+
     <string name="locationMessage">Lokalicerings Sporing</string>
 
     <string name="friendShipRequest">Venneanmodning</string>
@@ -172,13 +178,13 @@
 
     <string name="trackerImeiNMap">IMEI Nummer:\t\t\t%1$s</string>
 
-    <string name="logTimeNMap">Logget Tid:\t\t\t\t%1$s</string>
+    <string name="logTimeNMap">Sidst set\t%1$s</string>
 
     <string name="latNMap">Lat:\t\t\t%1$s</string>
 
     <string name="lonNMap">Lon:\t\t\t%1$s</string>
 
-    <string name="grsmNMap">GRSM:\t%1$s</string>
+    <string name="grsmNMap">GRSM\t%1$s</string>
 
     <string name="you">Dig</string>
 
@@ -201,8 +207,6 @@
     <string name="createPoiTitle">Opret Interessepunkt</string>
 
     <string name="deletePoi"><u>Fjern Interessepunkt</u></string>
-
-    <string name="displayOptions">Visnings muligheder</string>
 
     <string name="showOnMapTracker">Vis sporingsenhedensens position på kortet under:</string>
 
@@ -245,6 +249,9 @@
     <string name="countryCanNotBeEmpty">Land kan ikke være tom</string>
     <string name="zipCodeCanNotBeEmpty">Postnummer kan ikke være tom</string>
     <string name="skip"><u>Spring over</u></string>
+    <string name="select_image">Vælg billede</string>
+    <string name="delete_image">Slet billede</string>
+    <string name="could_not_upload_image">Kunne ikke uploade billedet</string>
 
 
     <string-array name="receiveSignalTime">

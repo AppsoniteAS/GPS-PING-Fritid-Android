@@ -76,7 +76,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 if (repeatTime.length() == 2) {
                     repeatTime = "0" + repeatTime;
                 }
-                message = String.format("pw,123456,upload,%s#", repeatTime);
+                message = String.format("pw,123456,uploadUUIDToServer,%s#", repeatTime);
                 break;
             default:
                 message = String.format("T%ss***n123456", tracker.getRepeatTime());
@@ -102,7 +102,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
     public void resetTrackers(Activity activity, ArrayList<Tracker> trackers) {
         ArrayList<SMS> smses = new ArrayList<>();
         for (Tracker tracker : trackers) {
-            SMS sms = tracker.getResetSmsIp(AddTrackerFragmentViewModel.TRACCAR_IP);
+            SMS sms = tracker.getResetSmsIp(EditTrackerFragmentViewModel.TRACCAR_IP);
             if (sms != null)
                 smses.add(sms);
         }
@@ -128,7 +128,7 @@ public class MainFragmentViewModel extends BaseFragmentSMSViewModel {
                 break;
             case S1:
             case A9:
-                message = "pw,123456,upload,000#";
+                message = "pw,123456,uploadUUIDToServer,000#";
                 break;
             default:
                 message = "Notn123456";

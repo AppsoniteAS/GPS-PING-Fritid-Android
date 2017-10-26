@@ -14,14 +14,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        <include
+            layout="@layout/toolbar_gpsping_typical"
+            app:title="@{@string/settings}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -29,16 +24,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
-
-                <!--<TextView-->
-                <!--android:id="@+id/trackers"-->
-                <!--style="@style/AppTheme.widget.Button.Green"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_marginTop="@dimen/button_margin_top"-->
-                <!--android:text="@string/trackers" />-->
 
                 <TextView
                     android:id="@+id/connect"
@@ -55,13 +43,6 @@
                     android:text="@string/profile" />
 
                 <TextView
-                    android:id="@+id/pauseSubscription"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/button_margin_top"
-                    android:text="@string/pauseSubscription" />
-
-                <TextView
                     android:id="@+id/faq"
                     style="@style/AppTheme.widget.Button.Green"
                     android:layout_gravity="center_horizontal"
@@ -76,7 +57,6 @@
                     android:text="@string/about" />
             </LinearLayout>
         </ScrollView>
-
 
     </LinearLayout>
 </layout>

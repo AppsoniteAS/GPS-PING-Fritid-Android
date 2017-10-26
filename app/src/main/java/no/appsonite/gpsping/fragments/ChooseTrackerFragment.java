@@ -62,7 +62,7 @@ public class ChooseTrackerFragment extends BaseBindingFragment<FragmentChooseTra
     private void showAddTrackerFragment(Tracker.Type type) {
         Tracker tracker = new Tracker();
         tracker.type.set(type.toString());
-        getBaseActivity().replaceFragment(AddTrackerFragment.newInstance(tracker), true);
+        getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
     }
 
     public static ChooseTrackerFragment newInstance() {

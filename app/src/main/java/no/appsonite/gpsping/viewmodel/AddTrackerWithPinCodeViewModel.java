@@ -65,7 +65,7 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
                         public Observable<SMS> call(ArrayList<Tracker> trackers) {
                             for (Tracker tracker : trackers) {
                                 if (TextUtils.equals(trackerIMEI.get(), tracker.imeiNumber.get())) {
-                                    return sendSmses(activity, tracker.getResetSms(AddTrackerFragmentViewModel.TRACCAR_IP));
+                                    return sendSmses(activity, tracker.getResetSms(EditTrackerFragmentViewModel.TRACCAR_IP));
                                 }
                             }
                             Observable.error(new Throwable("No tracker"));

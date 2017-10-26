@@ -1,3 +1,4 @@
+apply plugin: 'me.tatarka.retrolambda'
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -12,11 +13,12 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    google()
 }
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
 
 
     defaultConfig {
@@ -26,9 +28,14 @@ android {
         targetSdkVersion 22
         versionCode 60
         versionName "1.2"
+        buildConfigField("String", "AMAZON_ADDRESS", '"https://s3-eu-west-1.amazonaws.com/fritidbucket/"')
     }
     dataBinding {
         enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
@@ -57,6 +64,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    annotationProcessor 'io.realm:realm-android:0.87.2'
     compile 'io.realm:realm-android:0.87.2'
     compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile 'com.google.android.gms:play-services-location:9.4.0'
@@ -78,5 +86,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.anjlab.android.iab.v3:library:1.0.31'
     compile 'com.cesards.android:cropimageview:1.0.2.1'
-
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.amazonaws:aws-android-sdk-s3:2.6.5'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
 }

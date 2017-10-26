@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_gpsping_typical"
+            app:title="@{@string/editTrackerToolbar}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/startBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/circle_button_green"
+                    android:gravity="center"
+                    android:text="@string/start"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:visibility="@{!viewModel.isRunningTracker}" />
+
+                <TextView
+                    android:id="@+id/stopBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/circle_button_red"
+                    android:gravity="center"
+                    android:text="@string/stop"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:visibility="@{viewModel.isRunningTracker}"
+                    tools:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tracker" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.nameError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/name"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            app:twoWayText="@{viewModel.tracker.trackerName}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="@string/imeiNumber"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            app:twoWayText="@{viewModel.tracker.imeiNumber}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="@string/trackerNumber"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            app:twoWayText="@{viewModel.tracker.trackerNumber}" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signal" />
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormFieldLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/receiveSignalEvery" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <Spinner
+                                android:id="@+id/signalTimeSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:entries="@array/receiveSignalTime" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:layout_gravity="bottom"
+                                android:background="@color/colorAccent" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="8dp">
+
+                        <CheckBox
+                            style="@style/AppTheme.widget.FormDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end|center_vertical"
+                            android:button="@null"
+                            android:drawableRight="@drawable/tracker_checkbox"
+                            android:text="@string/checkThisDog"
+                            app:twoWayBoolean="@{viewModel.tracker.checkForStand}" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="@{viewModel.sleepModeVisible}">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="-12dp"
+                            android:text="@string/sleepMode"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="12sp"
+                            android:text="@{viewModel.tracker.sleepMode?@string/active:@string/inactive}"
+                            android:textColor="@{viewModel.tracker.sleepMode?@color/colorPrimary:@color/colorAccent}"
+                            tools:text="Active" />
+
+                        <TextView
+                            android:id="@+id/sleepMode"
+                            style="@style/AppTheme.widget.Button.Gray"
+                            android:layout_width="100dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginRight="0dp"
+                            android:background="@{viewModel.tracker.sleepMode?@drawable/button_gray_new:@drawable/button_green_new}"
+                            android:text="@{viewModel.tracker.sleepMode?@string/turnOff:@string/turnOn}"
+                            android:textAllCaps="true"
+                            android:textColor="@{viewModel.tracker.sleepMode?@android:color/black:@android:color/white}"
+                            android:textSize="16sp"
+                            tools:text="turn off" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/checkBattery"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/checkBattery" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="@{viewModel.isBikeTracker()}">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bikeTracking" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:layout_marginTop="24dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="-12dp"
+                            android:text="@string/ledLight"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="12sp"
+                            android:text="@{viewModel.tracker.ledActive?@string/active:@string/inactive}"
+                            android:textColor="@{viewModel.tracker.ledActive?@color/colorPrimary:@color/colorAccent}"
+                            tools:text="Active" />
+
+                        <TextView
+                            android:id="@+id/ledActive"
+                            style="@style/AppTheme.widget.Button.Gray"
+                            android:layout_width="100dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginRight="0dp"
+                            android:background="@{viewModel.tracker.ledActive?@drawable/button_gray_new:@drawable/button_green_new}"
+                            android:text="@{viewModel.tracker.ledActive?@string/turnOff:@string/turnOn}"
+                            android:textAllCaps="true"
+                            android:textColor="@{viewModel.tracker.ledActive?@android:color/black:@android:color/white}"
+                            android:textSize="16sp"
+                            tools:text="turn off" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="-12dp"
+                            android:text="@string/shockAlarm"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="12sp"
+                            android:text="@{viewModel.tracker.shockAlarmActive?@string/active:@string/inactive}"
+                            android:textColor="@{viewModel.tracker.shockAlarmActive?@color/colorPrimary:@color/colorAccent}"
+                            tools:text="Active" />
+
+                        <TextView
+                            android:id="@+id/shockAlarmActive"
+                            style="@style/AppTheme.widget.Button.Gray"
+                            android:layout_width="100dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginRight="0dp"
+                            android:background="@{viewModel.tracker.shockAlarmActive?@drawable/button_gray_new:@drawable/button_green_new}"
+                            android:text="@{viewModel.tracker.shockAlarmActive?@string/turnOff:@string/turnOn}"
+                            android:textAllCaps="true"
+                            android:textColor="@{viewModel.tracker.shockAlarmActive?@android:color/black:@android:color/white}"
+                            android:textSize="16sp"
+                            tools:text="turn off" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="-12dp"
+                            android:text="@string/shockFlashAlarm"
+                            android:textColor="#000"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="12sp"
+                            android:text="@{viewModel.tracker.shockFlashActive?@string/active:@string/inactive}"
+                            android:textColor="@{viewModel.tracker.shockFlashActive?@color/colorPrimary:@color/colorAccent}"
+                            tools:text="Active" />
+
+                        <TextView
+                            android:id="@+id/shockFlashActive"
+                            style="@style/AppTheme.widget.Button.Gray"
+                            android:layout_width="100dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginRight="0dp"
+                            android:background="@{viewModel.tracker.shockFlashActive?@drawable/button_gray_new:@drawable/button_green_new}"
+                            android:text="@{viewModel.tracker.shockFlashActive?@string/turnOff:@string/turnOn}"
+                            android:textAllCaps="true"
+                            android:textColor="@{viewModel.tracker.shockFlashActive?@android:color/black:@android:color/white}"
+                            android:textSize="16sp"
+                            tools:text="turn off" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/geofence"-->
+                    <!--style="@style/AppTheme.widget.Button.Green"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/button_margin_top"-->
+                    <!--android:text="@string/geofence"-->
+                    <!--android:visibility="@{viewModel.geofenceVisibility}" />-->
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/resetButton"-->
+                    <!--style="@style/AppTheme.widget.Button.Green"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/button_margin_top"-->
+                    <!--android:layout_marginTop="@dimen/button_margin_top"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/reset"-->
+                    <!--android:visibility="@{viewModel.editMode}" />-->
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="@{viewModel.geofenceVisibility}">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/geofence" />
+
+                    <TextView
+                        style="@style/AppTheme.widget.FormDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/geofenceDesc" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:error="@{viewModel.yardsError}">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/yards"
+                            android:imeOptions="actionDone"
+                            android:inputType="numberSigned"
+                            android:maxLines="1"
+                            app:twoWayText="@{viewModel.yards}" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/startGeofenceBtn"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:text="@{viewModel.tracker.isGeofenceRunning?@string/stop:@string/start}"
+                        android:textAllCaps="true"
+                        tools:text="@string/start"
+                        tools:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/trackingHistory" />
+
+                    <TextView
+                        style="@style/AppTheme.widget.FormFieldLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/showOnMapTracker" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp">
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:entries="@array/showDuring"
+                            app:twoWaySpinner="@{viewModel.historyTime}" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorAccent" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/saveTrackingHistory"
+                        style="@style/AppTheme.widget.Button.Green"
+                        android:layout_marginTop="@dimen/button_margin_top"
+                        android:text="@string/save"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/uploadPhotoBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/form_bg"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_photo_plus" />
+
+                    <ImageView
+                        android:scaleType="centerCrop"
+                        android:id="@+id/photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:background="@drawable/photo_top_gradient_white" />
+
+                    <no.appsonite.gpsping.widget.CustomFontTextView
+                        style="@style/AppTheme.widget.FormTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/photo" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/updateTrackerBtn"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/update" />
+
+                <TextView
+                    android:id="@+id/pauseSubscriptionBtn"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/pauseSubscription" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

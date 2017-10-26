@@ -100,6 +100,12 @@ public interface ApiService {
     @GET("Tracker/bind_tracker/")
     Observable<ApiAnswer> bindTracker(@Query("imei") String imei, @Query("lastdig") String lastDigits);
 
+    @GET("tracker/update_image/")
+    Observable<ApiAnswer> updateImage(@Query("imei_number") String imei, @Query("imageName") String imageName);
+
+    @GET("tracker/delete_tracker_image/")
+    Observable<ApiAnswer> deleteImage(@Query("imei_number") String imei);
+
     @GET("friends/unregister_gcm/")
     Observable<ApiAnswer> unregisterGCM(@Query("uuid") String uuid);
 

@@ -61,8 +61,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:maxLines="1"
                     android:paddingRight="32dp"
-                    android:singleLine="true"
                     android:text='@{item.getName()}'
                     android:textColor="@color/mainTextColor"
                     android:textSize="24sp" />
@@ -76,16 +76,24 @@
 
             </LinearLayout>
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/friendStatus"
-                android:layout_width="@dimen/friendItemHeight"
+                android:layout_width="52dp"
                 android:layout_height="@dimen/friendItemHeight"
-                android:layout_gravity="center_vertical|end"
+                android:layout_gravity="end"
                 android:background="?attr/selectableItemBackground"
                 android:onClick="@{onClickListener}"
-                android:scaleType="centerInside"
-                android:tag="@{item}"
-                app:imageRes="@{BindingHelper.getFriendStatusIcon(item.isSeeingTrackers.get(), item.confirmed.get())}" />
+                android:tag="@{item}">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:layout_marginRight="@dimen/sixteen_margin"
+                    android:src="@drawable/ic_warning"
+                    app:imageRes="@{BindingHelper.getFriendStatusIcon(item.isSeeingTrackers.get(), item.confirmed.get())}" />
+
+            </FrameLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -96,5 +104,4 @@
         </FrameLayout>
 
     </com.daimajia.swipe.SwipeLayout>
-
 </layout>

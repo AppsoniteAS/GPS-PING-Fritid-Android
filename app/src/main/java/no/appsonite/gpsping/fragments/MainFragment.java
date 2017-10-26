@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.IntroActivity;
-import no.appsonite.gpsping.activities.MapActivity;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.databinding.FragmentMainBinding;
 import no.appsonite.gpsping.model.SMS;
@@ -74,14 +73,14 @@ public class MainFragment extends BaseBindingFragment<FragmentMainBinding, MainF
         getBinding().mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapActivity.start(getContext(), MapActivity.Type.ACTIVE);
+                getBaseActivity().replaceFragment(TrackersMapFragment.newInstance(), true);
             }
         });
 
         getBinding().historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapActivity.start(getContext(), MapActivity.Type.HISTORY);
+                getBaseActivity().replaceFragment(TrackersMapHistoryFragment.newInstance(), true);
             }
         });
 

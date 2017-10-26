@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="faq_questions_answers_s1_cat">
+
+        <item>Jag har tryckt på "Start" ladda upp ok "sms, men jag kan inte se spåraren.</item>
+        <item>Se till att spåraren är ute. Om det är i, kommer det att vara problem med att ansluta
+            satelliter. När spåraren kommer i kontakt med satelliterna börjar det blå ljuset blinka.</item>
+
+        <item>Jag har tryckt på "Start, men jag får inte sms-svar från spåraren.</item>
+        <item>Gå till Inställningar-> Profil och ange landskod och ditt telefonnummer.
+            Gå sedan till Trackers-> och tryck på din spårare. Edit Tracker öppnas. Scrolla ner,
+            och tryck på återställningsknappen. När du trycker på återställningsknappen skickas fem textmeddelanden.
+            På Android-telefoner skickas alla fem på en gång. På iPhone-telefoner kommer sms
+            Funktionen öppnas och du måste skicka en efter en. Gå sedan tillbaka till huvudmenyn och tryck på "Start"</item>
+
+        <item>När jag trycker på knappen "Start" i appen händer ingenting.</item>
+        <item>Du har inte valt vilken tracker som ska startas. Tryck på Trackers i huvudmenyn.
+            Rör sedan den lilla cirkeln till höger om spåraren. Återgå till huvudmenyn.
+            Trackerens namn måste nu ligga över "Start" -knappen. Tryck sedan på "Start" -knappen och
+            Appen skickar nu ett textmeddelande till spåraren för att starta det.</item>
+
+        <item>Jag vill ändra hur ofta spåraren skickar GPS-signalen.</item>
+        <item>Gå till Trackers och tryck på spåret du vill ändra signalfrekvensen.
+            Bläddra ner till "Signal". Tryck på tiden som visas under "Signal" och ändra den till önskad längd.
+            Tryck på "Uppdatera". Återgå till huvudmenyn och tryck på "Start".</item>
+
+        <item>Jag ser bara GPS-positioner för den sista delen av resan.</item>
+        <item>Du kan ställa in hur lång tid som spårar din historia genom att gå till huvudet
+            meny-> Inställningar-> Visningsalternativ. Välj önskad tid och tryck på Spara.
+            Du kommer nu att se GPS-positioner inom denna tidsram.</item>
+
+        <item>Jag vill se min väns tracker</item>
+        <item>Gå till Inställningar-Anslut och tryck på "+" tecknet längst upp till höger.
+            Sök din användares användarnamn och tryck på "+". Din vän kommer nu att få ditt användarnamn nedan
+            hans "ansluta till" lista. Han måste sedan lägga till dig genom att trycka på tecknet "+" bredvid det
+            ditt namn. För att du ska kunna se sin spårare måste han vidröra ikonen "Eye" bredvid den
+            ditt namn. "Eye" -ikonen blir då grön.</item>
+
+        <item>Jag vill stoppa min vän från att se min spårare.</item>
+        <item>Gå till Inställningar-> Anslut och peka på "Eye" -ikonen. Ögonikonen kommer att ändras
+            från grönt till grått och få en linje genom. Din vän kan inte längre se din spårare.</item>
+
+        <item>Jag vill ha min väns spårare men jag säger att jag måste betala för det</item>
+        <item>Om du inte äger en spårare registrerad i ditt användarnamn måste du betala en liten summa
+            summan av månaden för att se den. Du kan sluta betala när du vill.</item>
+
+        <item>Jag lägger mitt spårarabonnemang på vent.</item>
+        <item>Gå till Inställningar och tryck på "Pausa prenumeration". Ett e-postmeddelande skickas sedan till GPS
+            Ping och vi avbryter prenumerationen.</item>
+
+        <item>Spårarens läge ligger mitt i havet.</item>
+        <item>Det betyder att spåraren inte har uppdaterat sin GPS-position och inte har mottagit satellit
+            kontakta. Ta bort spåraren och starta om den genom att trycka på på / av-knappen.</item>
+
+        <item>Jag vill sluta prenumerationen jag köpte i appen för att se min väns spårare.</item>
+        <item>Det måste stoppas i Apples App Store eller i Google Play Butik. För iPhone gå till App
+            Spara appen och bläddra ner till din användare. Tryck på ditt äpple-ID och visa sedan visnings-id.
+            Ange ditt lösenord, gå till prenumerationer och tryck på adminstrer. Där kan du sluta
+            prenumeration. På Android: Öppna Google Play Butik på din telefon. Gå till Mina Apps via
+            Butiksmenyn i Google Play. På vänster sida av installerade appar finns en lista över din
+            abonnemang. Här kan du välja den prenumeration du vill stoppa.</item>
+
+        <item>Jag kan inte se min egen position.</item>
+        <item>Det innebär att du inte har beviljat appen tillgång till GPS-funktionen på telefonen.
+            Gå till inställningarna på din telefon och ge åtkomst till GPS Ping-appen.</item>
+
+        <item>Jag vill byta namn på spåraren</item>
+        <item>Gå till Trackers och slå din spårare. Edit Tracker öppnas.
+            Här kan du skriva in spårarens namn under "Namn"</item>
+
+        <item>Hur kan jag se trackerens dagliga logg</item>
+        <item>Gå till Logga och tryck på kalendern längst upp till höger.
+            Välj det aktuella datumet och appen hämtar GPS-positionerna för det datumet.</item>
+
+        <item>Hur hittar jag norrut på kartan</item>
+        <item>Öppna karta och spår och sätt två fingrar på kartan och vrid. En kompass kommer att komma upp
+            på vänster sida av skärmen. Kompassen visar norr på kartan.</item>
+
+        <item>Vad visar kompassen som alltid finns på kartan.</item>
+        <item>Denna kompass visar verkligen norr.</item>
+
+        <item>Hur många trackers kan jag få i appen</item>
+        <item>Du kan köpa och titta på så många trackers som du vill.</item>
+
+        <item>Hur är knappen ON / OFF?</item>
+        <item>Den här knappen ligger på spårarens kant / sida. Håll den i minst tre sekunder.</item>
+
+        <item>Hur ser jag om spåraren har GPS-signal</item>
+        <item>Tryck på ON / OFF knappen för att få fram skärmen. Om du har en cirkel inne i hjulet
+            På skärmen har du GPS-signal.</item>
+
+        <item>Hur kan jag ringa till trackeren</item>
+        <item>Tryck på det senaste inlägget i kartan. Tryck på ringsymbolen.</item>
+
+    </string-array>
+</resources>

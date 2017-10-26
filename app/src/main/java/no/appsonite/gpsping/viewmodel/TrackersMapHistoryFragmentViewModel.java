@@ -56,6 +56,8 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
     @Override
     public void onModelAttached() {
         super.onModelAttached();
+        visibilityCalendar.set(true);
+        visibilityUserPosition.set(false);
         historyDate.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
@@ -85,7 +87,8 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
                         geoDevicePoints.getDevice().getName(),
                         geoDevicePoints.getDevice().getImeiNumber(),
                         geoDevicePoints.getDevice().getTrackerNumber(),
-                        geoDevicePoints.getDevice().getLastTimestamp());
+                        geoDevicePoints.getDevice().getLastTimestamp(),
+                        geoDevicePoints.getDevice().getPicUrl());
                 mapPoint.setLast(true);
                 mapPoints.add(mapPoint);
             }
@@ -100,6 +103,9 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
                     geoItem.getUser().lastUpdate);
             userMapPoint.setBelongsToUser(true);
             mapPoints.add(userMapPoint);
+        }
+        for (MapPoint mapPoint : mapPoints) {
+            colorArrowPin.add(mapPoint.getImeiNumber());
         }
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);

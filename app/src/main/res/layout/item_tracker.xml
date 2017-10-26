@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -46,12 +47,21 @@
             android:orientation="horizontal"
             android:tag="@{item}">
 
-            <ImageView
+            <!--<ImageView-->
+            <!--android:layout_width="@dimen/trackerIconSmall"-->
+            <!--android:layout_height="@dimen/trackerIconSmall"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--app:imageRes="@{BindingHelper.getTrackerImage(item.type)}" />-->
+
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="@dimen/trackerIconSmall"
                 android:layout_height="@dimen/trackerIconSmall"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="16dp"
-                app:imageRes="@{BindingHelper.getTrackerImage(item.type)}" />
+                app:civ_border_color="@color/colorPrimary"
+                app:imageFromAmazon="@{item.picUrl}"
+                app:civ_border_width="2dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -59,40 +69,49 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:text="@{item.trackerName}"-->
+                <!--android:textColor="@color/mainTextColor"-->
+                <!--android:textSize="24sp" />-->
+
+                <!--<TextView-->
+                <!--style="@style/AppTheme.widget.FormFieldLabel"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="40sp"-->
+                <!--android:text="@{@string/trackerNumberN(item.trackerNumber.get())}" />-->
+
+                <!--<TextView-->
+                <!--style="@style/AppTheme.widget.FormFieldLabel"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="54sp"-->
+                <!--android:text="@{@string/trackerImeiN(item.imeiNumber.get())}" />-->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:singleLine="true"
+                    android:layout_gravity="center_vertical"
                     android:text="@{item.trackerName}"
                     android:textColor="@color/mainTextColor"
-                    android:textSize="24sp" />
+                    android:textSize="16sp"
+                    tools:text="Bailey" />
 
-                <TextView
-                    style="@style/AppTheme.widget.FormFieldLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40sp"
-                    android:text="@{@string/trackerNumberN(item.trackerNumber.get())}" />
-
-                <TextView
-                    style="@style/AppTheme.widget.FormFieldLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="54sp"
-                    android:text="@{@string/trackerImeiN(item.imeiNumber.get())}" />
-
-                <ImageView
-                    android:id="@+id/enableTracker"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:gravity="center"
-                    android:onClick="@{onClickListener}"
-                    android:scaleType="centerInside"
-                    android:src="@{item.isEnabled?@drawable/checkbox_checked:@drawable/checkbox_unchecked}"
-                    android:tag="@{item}" />
+                <!--<ImageView-->
+                <!--android:id="@+id/enableTracker"-->
+                <!--android:background="?attr/selectableItemBackground"-->
+                <!--android:layout_width="48dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:gravity="center"-->
+                <!--android:onClick="@{onClickListener}"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:src="@{item.isEnabled?@drawable/checkbox_checked:@drawable/checkbox_unchecked}"-->
+                <!--android:tag="@{item}" />-->
 
                 <View
                     android:layout_width="match_parent"

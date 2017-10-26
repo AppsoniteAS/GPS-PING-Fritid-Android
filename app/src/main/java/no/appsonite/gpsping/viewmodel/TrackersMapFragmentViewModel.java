@@ -1,11 +1,13 @@
 package no.appsonite.gpsping.viewmodel;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -33,19 +35,24 @@ import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.PoiAnswer;
 import no.appsonite.gpsping.api.content.Profile;
+import no.appsonite.gpsping.api.content.TrackersAnswer;
+import no.appsonite.gpsping.api.content.geo.GeoDevice;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPoint;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
+import no.appsonite.gpsping.data_structures.ColorArrowPin;
+import no.appsonite.gpsping.data_structures.LatLonData;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.model.SMS;
+import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
+import no.appsonite.gpsping.utils.TrackingHistoryTime;
+import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
@@ -56,11 +63,8 @@ import rx.subjects.PublishSubject;
  * Company: APPGRANULA LLC
  * Date: 20.01.2016
  */
-public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
+public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     private static final long INTERVAL = 10;
-    private Date removeTracksDate = new Date(0l);
-    private MediaPlayer mediaPlayer;
-    private int standSound = R.raw.bleep;
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
@@ -68,53 +72,44 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
+    public ColorArrowPin colorArrowPin = new ColorArrowPin();
+    public ObservableBoolean visibilityCalendar = new ObservableBoolean(false);
+    public ObservableBoolean visibilityUserPosition = new ObservableBoolean(true);
+    private PublishSubject<Object> cancelRequest = PublishSubject.create();
+    private MediaPlayer mediaPlayer;
+    private int standSound = R.raw.bleep;
+    private LatLonData latLonData = new LatLonData();
+    public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
 
-    public Observable<FriendsAnswer> requestFriends() {
-        Observable<FriendsAnswer> observable = execute(ApiFactory.getService().getFriends());
-        observable.subscribe(new Observer<FriendsAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(FriendsAnswer friendsAnswer) {
-                friendList.clear();
-                Friend all = new Friend();
-                all.firstName.set(Application.getContext().getString(R.string.all));
-                friendList.add(all);
-                Friend you = new Friend();
-                LoginAnswer loginAnswer = AuthHelper.getCredentials();
-                Profile profile = loginAnswer.getUser();
-                you.id.set(profile.id.get());
-                you.firstName.set(Application.getContext().getString(R.string.you));
-                friendList.add(you);
-                for (Friend friend : friendsAnswer.getFriends()) {
-                    if (friend.username != null) {
-                        friendList.add(friend);
-                    }
-                }
-
-            }
-        });
-        return observable;
+    public void requestFriends() {
+        execute(ApiFactory.getService().getFriends())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::requestFriendsOnNext, Throwable::printStackTrace);
     }
 
-    public void setRemoveTracksDate(Date removeTracksDate) {
-        this.removeTracksDate = removeTracksDate;
-        restartRequest();
+    private void requestFriendsOnNext(FriendsAnswer friendsAnswer) {
+        friendList.clear();
+        Friend all = new Friend();
+        all.firstName.set(Application.getContext().getString(R.string.all));
+        friendList.add(all);
+        Friend you = new Friend();
+        LoginAnswer loginAnswer = AuthHelper.getCredentials();
+        Profile profile = loginAnswer.getUser();
+        you.id.set(profile.id.get());
+        you.firstName.set(Application.getContext().getString(R.string.you));
+        friendList.add(you);
+        for (Friend friend : friendsAnswer.getFriends()) {
+            if (friend.username != null) {
+                friendList.add(friend);
+            }
+        }
     }
 
     @Override
     public void onViewCreated() {
         super.onViewCreated();
         requestPoints();
-
         currentFriend.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
@@ -130,17 +125,15 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         requestPois();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         cancelRequest.onNext(new Object());
     }
 
-    PublishSubject<Object> cancelRequest = PublishSubject.create();
-
     protected long getFrom() {
-        return Math.max(removeTracksDate.getTime() / 1000l, getTo() - DisplayOptionsFragmentViewModel.getHistoryValueSeconds());
+        return Math.max(new Date().getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
+//        return ((new Date().getTime() / 1000l) - 10 * 365 * 24 * 60 * 60);
     }
 
     protected long getTo() {
@@ -179,46 +172,35 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
 
-        observable.subscribe(new Observer<GeoPointsAnswer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(GeoPointsAnswer geoPointsAnswer) {
-                parseGeoPointsAnswer(geoPointsAnswer);
-            }
-        });
+        observable.subscribe(this::parseGeoPointsAnswer, Throwable::printStackTrace);
         return observable;
     }
 
     protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
+        latLonData.clear();
         ArrayList<MapPoint> mapPoints = new ArrayList<>();
         for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
             for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
+                mapPoints.add(createMainPointWithAvatar(geoDevicePoints, geoItem));
                 ArrayList<MapPoint> devicePoints = new ArrayList<>();
                 for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
-                    MapPoint mapPoint = new MapPoint(geoItem.getUser(),
-                            geoPoint.getLat(),
-                            geoPoint.getLon(),
-                            geoDevicePoints.getDevice().getName(),
-                            geoDevicePoints.getDevice().getImeiNumber(),
-                            geoDevicePoints.getDevice().getTrackerNumber(),
-                            geoPoint.getTimestamp());
-                    devicePoints.add(mapPoint);
-                    mapPoints.add(mapPoint);
+                    if (!latLonData.contains(geoPoint.getLat(), geoPoint.getLon())) {
+                        MapPoint mapPoint = new MapPoint(geoItem.getUser(),
+                                geoPoint.getLat(),
+                                geoPoint.getLon(),
+                                geoDevicePoints.getDevice().getName(),
+                                geoDevicePoints.getDevice().getImeiNumber(),
+                                geoDevicePoints.getDevice().getTrackerNumber(),
+                                geoPoint.getTimestamp());
+                        devicePoints.add(mapPoint);
+                        mapPoints.add(mapPoint);
+                    }
                 }
                 try {
                     if (devicePoints.isEmpty()) {
                         MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevicePoints.getDevice().getLastLat(), geoDevicePoints.getDevice().getLastLon(),
                                 geoDevicePoints.getDevice().getName(), geoDevicePoints.getDevice().getImeiNumber(), geoDevicePoints.getDevice().getTrackerNumber(),
-                                geoDevicePoints.getDevice().getLastTimestamp());
+                                geoDevicePoints.getDevice().getLastTimestamp(), geoDevicePoints.getDevice().getPicUrl());
                         devicePoints.add(mapPoint);
                         mapPoints.add(mapPoint);
                     }
@@ -242,33 +224,41 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             userMapPoint.setBelongsToUser(true);
             mapPoints.add(userMapPoint);
         }
-        TrackersMapFragmentViewModel.this.mapPoints.clear();
-        TrackersMapFragmentViewModel.this.mapPoints.addAll(mapPoints);
+        for (MapPoint mapPoint : mapPoints) {
+            colorArrowPin.add(mapPoint.getImeiNumber());
+        }
+        this.mapPoints.clear();
+        this.mapPoints.addAll(mapPoints);
+    }
+
+    private MapPoint createMainPointWithAvatar(GeoDevicePoints geoDevicePoints, GeoItem geoItem) {
+        GeoDevice geoDevice = geoDevicePoints.getDevice();
+        latLonData.add(geoDevice.getLastLat(), geoDevice.getLastLon());
+        MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevice.getLastLat(),
+                geoDevice.getLastLon(), geoDevice.getName(),
+                geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
+                geoDevice.getLastTimestamp(), geoDevice.getPicUrl());
+        mapPoint.setMainAvatar(true);
+        return mapPoint;
     }
 
     private void checkForStand(ArrayList<MapPoint> mapPoints) {
         if (mapPoints.size() > 1) {
             final MapPoint last = mapPoints.get(mapPoints.size() - 1);
             final MapPoint prev = mapPoints.get(mapPoints.size() - 2);
-            Observable.defer(new Func0<Observable<Boolean>>() {
-                @Override
-                public Observable<Boolean> call() {
-                    Realm realm = Realm.getDefaultInstance();
-                    RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", prev.getImeiNumber()).findFirst();
-                    Boolean checkForStand = false;
-                    if (tracker != null) {
-                        checkForStand = tracker.isCheckForStand();
-                    }
-                    realm.close();
-                    return Observable.just(checkForStand);
+            Observable.defer(() -> {
+                Realm realm = Realm.getDefaultInstance();
+                RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", prev.getImeiNumber()).findFirst();
+                Boolean checkForStand = false;
+                if (tracker != null) {
+                    checkForStand = tracker.isCheckForStand();
                 }
-            }).subscribe(new Action1<Boolean>() {
-                @Override
-                public void call(Boolean checkForStand) {
-                    if (checkForStand) {
-                        if (Math.abs(prev.getDistanceFor(last)) <= 10) {
-                            playStandSound();
-                        }
+                realm.close();
+                return Observable.just(checkForStand);
+            }).subscribe(checkForStand -> {
+                if (checkForStand) {
+                    if (Math.abs(prev.getDistanceFor(last)) <= 10) {
+                        playStandSound();
                     }
                 }
             });
@@ -280,21 +270,16 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         return requestPoints(true);
     }
 
+    public Observable<TrackersAnswer> getTrackers() {
+        return execute(ApiFactory.getService().getTrackers())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
     public void saveBitmap(final Bitmap bitmap) {
-        Observable.defer(new Func0<Observable<String>>() {
-            @Override
-            public Observable<String> call() {
-                return saveBitmapToGallery(bitmap);
-            }
-        })
+        Observable.defer(() -> saveBitmapToGallery(bitmap))
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String filePath) {
-                        notifyBitmapSaved(filePath);
-                    }
-                });
+                .subscribe(this::notifyBitmapSaved);
     }
 
     private void notifyBitmapSaved(String filePath) {
@@ -348,12 +333,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             return;
         mediaPlayer = MediaPlayer.create(Application.getContext(), standSound);
         mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
     }
 
     private Friend getFriendById(long id) {
@@ -385,17 +365,26 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 }
                 return Observable.just(result);
             }
-        }).subscribe(new Action1<ArrayList<Poi>>() {
-            @Override
-            public void call(ArrayList<Poi> pois) {
-                TrackersMapFragmentViewModel.this.pois.clear();
-                TrackersMapFragmentViewModel.this.pois.addAll(pois);
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
+        }).subscribe(pois1 -> {
+            TrackersMapFragmentViewModel.this.pois.clear();
+            TrackersMapFragmentViewModel.this.pois.addAll(pois1);
+        }, Throwable::printStackTrace);
+    }
+
+    public Observable<TrackersAnswer> hasTrackers() {
+        return execute(ApiFactory.getService().getTrackers())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void resetTrackers(Activity activity, ArrayList<Tracker> trackers) {
+        ArrayList<SMS> smses = new ArrayList<>();
+        for (Tracker tracker : trackers) {
+            SMS sms = tracker.getResetSmsIp(EditTrackerFragmentViewModel.TRACCAR_IP);
+            if (sms != null)
+                smses.add(sms);
+        }
+        sendSmses(activity, smses);
+        Utils.setUpdateTracker();
     }
 }

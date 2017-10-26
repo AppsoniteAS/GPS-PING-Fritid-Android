@@ -1,7 +1,6 @@
 package no.appsonite.gpsping.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import no.appsonite.gpsping.R;
@@ -13,7 +12,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_container);
+        setContentView(R.layout.activity_login);
         if (savedInstanceState == null) {
             replaceFragment(LoginFragment.newInstance(), false);
         }

@@ -26,6 +26,8 @@ public class MapPoint {
     private String imeiNumber;
     private String trackerNumber;
     private long logTime;
+    private String picUrl;
+    private boolean mainAvatar;
 
     public String getImeiNumber() {
         if (imeiNumber == null)
@@ -104,6 +106,17 @@ public class MapPoint {
         this.logTime = logTime;
     }
 
+    public MapPoint(Friend user, double lat, double lon, String name, String imeiNumber, String trackerNumber, long logTime, String picUrl) {
+        this.user = user;
+        this.lat = lat;
+        this.lon = lon;
+        this.name = name;
+        this.imeiNumber = imeiNumber;
+        this.trackerNumber = trackerNumber;
+        this.logTime = logTime;
+        this.picUrl = picUrl;
+    }
+
     public Friend getUser() {
         return user;
     }
@@ -136,5 +149,21 @@ public class MapPoint {
         float[] results = new float[1];
         Location.distanceBetween(lat, lon, mapPoint.lat, mapPoint.lon, results);
         return results[0];
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public boolean isMainAvatar() {
+        return mainAvatar;
+    }
+
+    public void setMainAvatar(boolean mainAvatar) {
+        this.mainAvatar = mainAvatar;
     }
 }
