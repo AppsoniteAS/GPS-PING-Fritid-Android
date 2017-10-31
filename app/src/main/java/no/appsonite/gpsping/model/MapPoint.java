@@ -207,12 +207,44 @@ public class MapPoint {
         return gsmSignal;
     }
 
+    public int getGsmSignalInt() {
+        if (gsmSignal == null) {
+            return 0;
+        }
+        int signal = 0;
+        try {
+            signal = Integer.parseInt(gsmSignal);
+        } catch (Exception e) {
+
+        }
+        if (signal >= 0 && signal <=5) {
+            return signal;
+        }
+        return 0;
+    }
+
     public void setGsmSignal(String gsmSignal) {
         this.gsmSignal = gsmSignal;
     }
 
     public String getGpsSignal() {
         return gpsSignal;
+    }
+
+    public int getGpsSignalInt() {
+        if (gpsSignal == null) {
+            return 0;
+        }
+        int signal = 0;
+        try {
+            signal = Integer.parseInt(gpsSignal);
+        } catch (Exception e) {
+
+        }
+        if (signal >= 0 && signal <= 5) {
+            return signal;
+        }
+        return 0;
     }
 
     public void setGpsSignal(String gpsSignal) {

@@ -320,10 +320,14 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="4dp">
 
+                    <ImageView
+                        android:src="@drawable/ic_background_dog_pin"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_background_dog_pin"
                         app:civ_border_color="@color/colorPrimary"
                         app:civ_border_width="2dp"
                         app:imageFromAmazon="@{viewModel.currentMapPoint.getPicUrl()}" />
@@ -521,6 +525,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
@@ -535,7 +540,8 @@
                                 android:layout_width="28dp"
                                 android:layout_height="17dp"
                                 android:layout_marginLeft="16dp"
-                                tools:src="@drawable/signal_4" />
+                                android:src="@{DrawableSetHelper.getDrawableSignal(viewModel.currentMapPoint.getGsmSignalInt)}"
+                                tools:src="@drawable/ic_signal_0" />
 
                         </LinearLayout>
 
@@ -543,6 +549,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
@@ -558,7 +565,8 @@
                                 android:layout_width="28dp"
                                 android:layout_height="17dp"
                                 android:layout_marginLeft="16dp"
-                                tools:src="@drawable/signal_2" />
+                                android:src="@{DrawableSetHelper.getDrawableSignal(viewModel.currentMapPoint.getGpsSignalInt)}"
+                                tools:src="@drawable/ic_signal_0" />
 
                         </LinearLayout>
 

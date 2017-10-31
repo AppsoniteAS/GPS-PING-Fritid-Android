@@ -23,7 +23,10 @@ public class GeoAttributes {
         return battery;
     }
 
-    public String getBatteryValidate() {
+    public int getBatteryValidate() {
+        if (battery == null) {
+            return 0;
+        }
         int bat = 0;
         try {
             bat = Integer.parseInt(battery);
@@ -31,9 +34,9 @@ public class GeoAttributes {
 
         }
         if (bat < 0 || bat > 100) {
-            return "0";
+            return 0;
         }
-        return battery;
+        return bat;
     }
 
     public void setBattery(String battery) {
