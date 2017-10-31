@@ -89,7 +89,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initSleepModeBlock();
         initBikeTrackingBlock();
         initGeofenceBlock();
-        initResetBtn();
+//        initResetBtn();
         initTrackerHistoryBlock();
         initUploadPhotoBtn();
         initUpdateBtn();
@@ -431,9 +431,9 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-    private void initResetBtn() {
+//    private void initResetBtn() {
 //        getBinding().resetButton.setOnClickListener(view -> resetTracker());
-    }
+//    }
 
     private void getPermission() {
         new RxPermissions(getActivity())
