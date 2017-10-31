@@ -67,11 +67,6 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
     }
 
     @Override
-    protected void playStandSound() {
-        //ignore
-    }
-
-    @Override
     protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
         if (historyDate.get() != null) {
             super.parseGeoPointsAnswer(geoPointsAnswer);

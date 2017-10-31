@@ -2,6 +2,8 @@ package no.appsonite.gpsping.api.content.geo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
@@ -23,6 +25,13 @@ public class GeoDevice {
     public String imeiNumber;
     @SerializedName("picUrl")
     private String picUrl;
+    @SerializedName("heading")
+    private int heading;
+    @SerializedName("GSM_Signal")
+    private String gsmSignal;
+    @SerializedName("GPS_Signal")
+    private String gpsSignal;
+    private List<GeoAttributes> geoAttributes;
 
     public String getTrackerNumber() {
         return trackerNumber;
@@ -86,5 +95,37 @@ public class GeoDevice {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public int getHeading() {
+        return heading;
+    }
+
+    public void setHeading(int heading) {
+        this.heading = heading;
+    }
+
+    public String getGsmSignal() {
+        return gsmSignal;
+    }
+
+    public void setGsmSignal(String gsmSignal) {
+        this.gsmSignal = gsmSignal;
+    }
+
+    public String getGpsSignal() {
+        return gpsSignal;
+    }
+
+    public void setGpsSignal(String gpsSignal) {
+        this.gpsSignal = gpsSignal;
+    }
+
+    public List<GeoAttributes> getGeoAttributes() {
+        return geoAttributes;
+    }
+
+    public void setGeoAttributes(List<GeoAttributes> geoAttributes) {
+        this.geoAttributes = geoAttributes;
     }
 }

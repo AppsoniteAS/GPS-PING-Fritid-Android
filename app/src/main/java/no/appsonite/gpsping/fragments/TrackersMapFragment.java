@@ -45,7 +45,7 @@ import static android.Manifest.permission.SEND_SMS;
  */
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
     private static final String TAG = TrackersMapFragment.class.getSimpleName();
-    private static final int PERMISSION_COARSE_FINE_LOCATION = 1;
+    private static final int PERMISSION_LOCATION = 1;
     private static final int PERMISSION_SMS = 2;
     private Marker userMarker;
     private MapPoint userMapPoint;
@@ -168,7 +168,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         if (granted) {
             LocationMapService.startService(context);
         } else {
-            showInfoDeniedPermission(context, PERMISSION_COARSE_FINE_LOCATION,
+            showInfoDeniedPermission(context, PERMISSION_LOCATION,
                     ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
         }
     }
@@ -252,7 +252,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case PERMISSION_COARSE_FINE_LOCATION:
+            case PERMISSION_LOCATION:
                 startLocationMapService(getContext());
                 break;
             case PERMISSION_SMS:

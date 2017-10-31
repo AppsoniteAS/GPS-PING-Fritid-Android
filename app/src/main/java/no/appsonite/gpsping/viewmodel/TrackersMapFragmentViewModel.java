@@ -76,8 +76,6 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableBoolean visibilityCalendar = new ObservableBoolean(false);
     public ObservableBoolean visibilityUserPosition = new ObservableBoolean(true);
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
-    private MediaPlayer mediaPlayer;
-    private int standSound = R.raw.bleep;
     private LatLonData latLonData = new LatLonData();
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
 
@@ -151,22 +149,19 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         }
 
         Observable<GeoPointsAnswer> observable = intervalObservable
-                .flatMap(new Func1<TimeInterval<Long>, Observable<GeoPointsAnswer>>() {
-                    @Override
-                    public Observable<GeoPointsAnswer> call(TimeInterval<Long> aLong) {
-                        if (currentFriend.get() == null || currentFriend.get().id.get() == -1) {
-                            return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo()))
-                                    .cache()
-                                    .subscribeOn(Schedulers.newThread())
-                                    .observeOn(AndroidSchedulers.mainThread());
-                        } else {
-                            return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo(), currentFriend.get().id.get()))
-                                    .cache()
-                                    .subscribeOn(Schedulers.newThread())
-                                    .observeOn(AndroidSchedulers.mainThread());
-                        }
-
+                .flatMap(aLong -> {
+                    if (currentFriend.get() == null || currentFriend.get().id.get() == -1) {
+                        return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo()))
+                                .cache()
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
+                    } else {
+                        return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo(), currentFriend.get().id.get()))
+                                .cache()
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread());
                     }
+
                 })
                 .cache()
                 .subscribeOn(Schedulers.newThread())
@@ -244,7 +239,6 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
 
     private void checkForStand(ArrayList<MapPoint> mapPoints) {
         if (mapPoints.size() > 1) {
-            final MapPoint last = mapPoints.get(mapPoints.size() - 1);
             final MapPoint prev = mapPoints.get(mapPoints.size() - 2);
             Observable.defer(() -> {
                 Realm realm = Realm.getDefaultInstance();
@@ -256,13 +250,8 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
                 realm.close();
                 return Observable.just(checkForStand);
             }).subscribe(checkForStand -> {
-                if (checkForStand) {
-                    if (Math.abs(prev.getDistanceFor(last)) <= 10) {
-                        playStandSound();
-                    }
-                }
-            });
 
+            });
         }
     }
 
@@ -274,66 +263,6 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         return execute(ApiFactory.getService().getTrackers())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    public void saveBitmap(final Bitmap bitmap) {
-        Observable.defer(() -> saveBitmapToGallery(bitmap))
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::notifyBitmapSaved);
-    }
-
-    private void notifyBitmapSaved(String filePath) {
-        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse("file://" + filePath), "image/*");
-        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 12, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext())
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setAutoCancel(true)
-                .setContentTitle(getContext().getString(R.string.notify_photo_title))
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentText(getContext().getString(R.string.notify_photo_text));
-        notificationManager.notify(100, builder.build());
-    }
-
-    private Observable<String> saveBitmapToGallery(Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, bytes);
-        File directory = new File(Environment.getExternalStorageDirectory()
-                + File.separator + getContext().getString(R.string.app_name) + File.separator);
-        directory.mkdirs();
-        File outputFile = new File(directory, new Date().toString() + ".png");
-        try {
-            outputFile.createNewFile();
-            FileOutputStream fo = new FileOutputStream(outputFile);
-            fo.write(bytes.toByteArray());
-            fo.close();
-
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.DATA, outputFile.getPath());
-            values.put(MediaStore.Images.Media.DATE_TAKEN, outputFile.lastModified());
-            if (getContext().getContentResolver() != null) {
-                getContext().getContentResolver()
-                        .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                getContext().getContentResolver().notifyChange(
-                        Uri.parse("file://" + outputFile.getPath()), null);
-            }
-            return Observable.just(outputFile.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    protected void playStandSound() {
-        if (true)
-            return;
-        mediaPlayer = MediaPlayer.create(Application.getContext(), standSound);
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
     }
 
     private Friend getFriendById(long id) {
@@ -352,20 +281,17 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         }
         execute(ApiFactory.getService().getPois(currentFriendId)).cache()
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<PoiAnswer, Observable<ArrayList<Poi>>>() {
-            @Override
-            public Observable<ArrayList<Poi>> call(PoiAnswer poiAnswer) {
-                ArrayList<Poi> result = new ArrayList<>();
-                for (Poi poi : poiAnswer.getPoi()) {
-                    Friend friend = getFriendById(poi.getUserId());
-                    if (friend != null) {
-                        poi.setUser(friend);
-                        result.add(poi);
+                .observeOn(AndroidSchedulers.mainThread()).flatMap(poiAnswer -> {
+                    ArrayList<Poi> result = new ArrayList<>();
+                    for (Poi poi : poiAnswer.getPoi()) {
+                        Friend friend = getFriendById(poi.getUserId());
+                        if (friend != null) {
+                            poi.setUser(friend);
+                            result.add(poi);
+                        }
                     }
-                }
-                return Observable.just(result);
-            }
-        }).subscribe(pois1 -> {
+                    return Observable.just(result);
+                }).subscribe(pois1 -> {
             TrackersMapFragmentViewModel.this.pois.clear();
             TrackersMapFragmentViewModel.this.pois.addAll(pois1);
         }, Throwable::printStackTrace);
