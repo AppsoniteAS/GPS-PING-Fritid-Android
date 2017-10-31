@@ -1,14 +1,15 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Rect;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.UrlTileProvider;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,6 +59,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.Manifest.permission.CALL_PHONE;
+
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
@@ -65,6 +69,7 @@ import rx.schedulers.Schedulers;
 public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseBindingFragment<FragmentTrackersMapBinding, T>
         implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback {
     private static final String INSTANCE_STATE = "mapViewSaveState";
+    private static final int PERMISSION_PHONE = 1;
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
@@ -315,7 +320,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         getBinding().deletePoi.setOnClickListener(view -> deletePoi());
 
-        getBinding().callBtn.setOnClickListener(view -> Log.i("TAG", "CallClick"));
+        getBinding().callBtn.setOnClickListener(view -> callBtn());
 
         getBinding().mapBtn.setOnClickListener(onInfoClick);
 
@@ -324,6 +329,33 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         subscribeOnPoints();
         subscribeOnPois();
         initCompass();
+    }
+
+    private void callBtn() {
+        boolean check = getModel().validateCallForS1Tracker(getModel().currentMapPoint.get().getImeiNumber());
+        if (check) {
+            checkPhonePermission();
+        }
+    }
+
+    private void checkPhonePermission() {
+        new RxPermissions(getActivity())
+                .request(CALL_PHONE)
+                .subscribe(this::checkPhonePermissionOnNext);
+    }
+
+    private void checkPhonePermissionOnNext(boolean granted) {
+        if (granted) {
+            callToS1Tracker();
+        } else {
+            showInfoDeniedPermission(getContext(), PERMISSION_PHONE, CALL_PHONE);
+        }
+    }
+
+    private void callToS1Tracker() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + getModel().currentMapPoint.get().getTrackerNumber()));
+        startActivity(intent);
     }
 
     private void editBtn() {

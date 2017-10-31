@@ -36,6 +36,7 @@ import no.appsonite.gpsping.utils.ObservableString;
 import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
@@ -239,6 +240,17 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
 
             });
         }
+    }
+
+    public boolean validateCallForS1Tracker(String imei) {
+        if (imei.isEmpty()) {
+            return false;
+        }
+        Realm realm = Realm.getDefaultInstance();
+        RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", imei).findFirst();
+        boolean check = tracker.getType().equals(Tracker.Type.S1.toString());
+        realm.close();
+        return check;
     }
 
     public Observable<GeoPointsAnswer> requestPoints() {
