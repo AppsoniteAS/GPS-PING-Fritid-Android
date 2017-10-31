@@ -23,6 +23,19 @@ public class GeoAttributes {
         return battery;
     }
 
+    public String getBatteryValidate() {
+        int bat = 0;
+        try {
+            bat = Integer.parseInt(battery);
+        } catch (Exception e) {
+
+        }
+        if (bat < 0 || bat > 100) {
+            return "0";
+        }
+        return battery;
+    }
+
     public void setBattery(String battery) {
         this.battery = battery;
     }

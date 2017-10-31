@@ -9,6 +9,8 @@
 
         <import type="no.appsonite.gpsping.utils.MarkerHelper" />
 
+        <import type="no.appsonite.gpsping.utils.DrawableSetHelper" />
+
         <variable
             name="viewModel"
             type="no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel" />
@@ -349,10 +351,11 @@
 
                             <ImageView
                                 android:id="@+id/ivBattery"
-                                android:layout_width="24dp"
-                                android:layout_height="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                tools:src="@drawable/battery_75" />
+                                android:src="@{viewModel.currentMapPoint.getAttributes != null ? DrawableSetHelper.getDrawableBattery(viewModel.currentMapPoint.getAttributes.getBatteryValidate) : null}"
+                                tools:src="@drawable/ic_battery_0" />
 
                             <TextView
                                 android:id="@+id/tvPercentages"
@@ -360,6 +363,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="4dp"
+                                android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/chargeInfo(viewModel.currentMapPoint.getAttributes.getBatteryValidate) : null}"
                                 android:textColor="@color/green"
                                 android:textStyle="bold"
                                 tools:text="@string/seventy_five_tools" />
