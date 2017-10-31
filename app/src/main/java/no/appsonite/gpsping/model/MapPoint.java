@@ -6,9 +6,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.coords.MGRSCoord;
+import no.appsonite.gpsping.api.content.geo.GeoAttributes;
 
 /**
  * Created: Belozerov
@@ -26,8 +28,14 @@ public class MapPoint {
     private String imeiNumber;
     private String trackerNumber;
     private long logTime;
-    private String picUrl;
+
     private boolean mainAvatar;
+
+    private String picUrl;
+    private int direction;
+    private String gsmSignal;
+    private String gpsSignal;
+    private GeoAttributes attributes;
 
     public String getImeiNumber() {
         if (imeiNumber == null)
@@ -106,7 +114,8 @@ public class MapPoint {
         this.logTime = logTime;
     }
 
-    public MapPoint(Friend user, double lat, double lon, String name, String imeiNumber, String trackerNumber, long logTime, String picUrl) {
+    public MapPoint(Friend user, double lat, double lon, String name, String imeiNumber, String trackerNumber, long logTime,
+                    String picUrl, int direction, String gsmSignal, String gpsSignal, GeoAttributes attributes) {
         this.user = user;
         this.lat = lat;
         this.lon = lon;
@@ -115,6 +124,10 @@ public class MapPoint {
         this.trackerNumber = trackerNumber;
         this.logTime = logTime;
         this.picUrl = picUrl;
+        this.direction = direction;
+        this.gsmSignal = gsmSignal;
+        this.gpsSignal = gpsSignal;
+        this.attributes = attributes;
     }
 
     public Friend getUser() {
@@ -165,5 +178,37 @@ public class MapPoint {
 
     public void setMainAvatar(boolean mainAvatar) {
         this.mainAvatar = mainAvatar;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public String getGsmSignal() {
+        return gsmSignal;
+    }
+
+    public void setGsmSignal(String gsmSignal) {
+        this.gsmSignal = gsmSignal;
+    }
+
+    public String getGpsSignal() {
+        return gpsSignal;
+    }
+
+    public void setGpsSignal(String gpsSignal) {
+        this.gpsSignal = gpsSignal;
+    }
+
+    public GeoAttributes getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(GeoAttributes attributes) {
+        this.attributes = attributes;
     }
 }

@@ -46,6 +46,7 @@ import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.enums.SizeArrowPin;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
+import no.appsonite.gpsping.utils.CalculateDirection;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.PinUtils;
 import no.appsonite.gpsping.utils.RxBus;
@@ -582,20 +583,24 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (url == null || url.isEmpty()) {
             setArrowPin(colorPin, mapPoint, marker);
         } else {
-            setAvatarPin(colorPin, url, marker);
+            setAvatarPin(colorPin, mapPoint, marker);
         }
     }
 
     private void setArrowPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
         if (mapPoint.isMainAvatar()) {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, DirectionPin.SOUTHEAST, SizeArrowPin.BIG));
+            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.BIG));
         } else {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, DirectionPin.SOUTHEAST, SizeArrowPin.MID));
+            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.MID));
         }
     }
 
-    private void setAvatarPin(ColorPin colorPin, String url, Marker marker) {
-        PinUtils.getPinDog(url, colorPin, DirectionPin.SOUTHEAST)
+    private DirectionPin getDirection(int direction) {
+        return CalculateDirection.getDirection(direction);
+    }
+
+    private void setAvatarPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
+        PinUtils.getPinDog(mapPoint.getPicUrl(), colorPin, getDirection(mapPoint.getDirection()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bitmap -> {

@@ -1,26 +1,10 @@
 package no.appsonite.gpsping.viewmodel;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.graphics.Bitmap;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.NotificationCompat;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -33,9 +17,9 @@ import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Poi;
-import no.appsonite.gpsping.api.content.PoiAnswer;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
+import no.appsonite.gpsping.api.content.geo.GeoAttributes;
 import no.appsonite.gpsping.api.content.geo.GeoDevice;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
@@ -53,7 +37,6 @@ import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
 import rx.subjects.PublishSubject;
@@ -176,7 +159,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         ArrayList<MapPoint> mapPoints = new ArrayList<>();
         for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
             for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
-                mapPoints.add(createMainPointWithAvatar(geoDevicePoints, geoItem));
+                mapPoints.add(createPoint(geoDevicePoints, geoItem, true));
                 ArrayList<MapPoint> devicePoints = new ArrayList<>();
                 for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
                     if (!latLonData.contains(geoPoint.getLat(), geoPoint.getLon())) {
@@ -193,9 +176,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
                 }
                 try {
                     if (devicePoints.isEmpty()) {
-                        MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevicePoints.getDevice().getLastLat(), geoDevicePoints.getDevice().getLastLon(),
-                                geoDevicePoints.getDevice().getName(), geoDevicePoints.getDevice().getImeiNumber(), geoDevicePoints.getDevice().getTrackerNumber(),
-                                geoDevicePoints.getDevice().getLastTimestamp(), geoDevicePoints.getDevice().getPicUrl());
+                        MapPoint mapPoint = createPoint(geoDevicePoints, geoItem, false);
                         devicePoints.add(mapPoint);
                         mapPoints.add(mapPoint);
                     }
@@ -226,14 +207,18 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         this.mapPoints.addAll(mapPoints);
     }
 
-    private MapPoint createMainPointWithAvatar(GeoDevicePoints geoDevicePoints, GeoItem geoItem) {
+    private MapPoint createPoint(GeoDevicePoints geoDevicePoints, GeoItem geoItem, boolean avatar) {
         GeoDevice geoDevice = geoDevicePoints.getDevice();
         latLonData.add(geoDevice.getLastLat(), geoDevice.getLastLon());
-        MapPoint mapPoint = new MapPoint(geoItem.getUser(), geoDevice.getLastLat(),
+
+        MapPoint mapPoint = new MapPoint(
+                geoItem.getUser(), geoDevice.getLastLat(),
                 geoDevice.getLastLon(), geoDevice.getName(),
                 geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
-                geoDevice.getLastTimestamp(), geoDevice.getPicUrl());
-        mapPoint.setMainAvatar(true);
+                geoDevice.getLastTimestamp(), geoDevice.getPicUrl(),
+                geoDevice.getDirection(), geoDevice.getGsmSignal(),
+                geoDevice.getGpsSignal(), geoDevice.getAttributes());
+        mapPoint.setMainAvatar(avatar);
         return mapPoint;
     }
 

@@ -26,12 +26,13 @@ public class GeoDevice {
     @SerializedName("picUrl")
     private String picUrl;
     @SerializedName("heading")
-    private int heading;
+    private int direction;
     @SerializedName("GSM_Signal")
     private String gsmSignal;
     @SerializedName("GPS_Signal")
     private String gpsSignal;
-    private List<GeoAttributes> geoAttributes;
+    @SerializedName("attributes")
+    private GeoAttributes attributes;
 
     public String getTrackerNumber() {
         return trackerNumber;
@@ -97,12 +98,12 @@ public class GeoDevice {
         this.picUrl = picUrl;
     }
 
-    public int getHeading() {
-        return heading;
+    public int getDirection() {
+        return direction;
     }
 
-    public void setHeading(int heading) {
-        this.heading = heading;
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 
     public String getGsmSignal() {
@@ -121,11 +122,11 @@ public class GeoDevice {
         this.gpsSignal = gpsSignal;
     }
 
-    public List<GeoAttributes> getGeoAttributes() {
-        return geoAttributes;
+    public GeoAttributes getAttributes() {
+        return attributes;
     }
 
-    public void setGeoAttributes(List<GeoAttributes> geoAttributes) {
-        this.geoAttributes = geoAttributes;
+    public void setAttributes(GeoAttributes attributes) {
+        this.attributes = attributes;
     }
 }
