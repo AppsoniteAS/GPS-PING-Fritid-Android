@@ -301,144 +301,6 @@
 
             </FrameLayout>
 
-            <!--<FrameLayout-->
-            <!--android:id="@+id/mapPointInfo"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:layout_marginLeft="12dp"-->
-            <!--android:layout_marginRight="12dp"-->
-            <!--android:background="@color/mapHoverBg"-->
-            <!--android:visibility="@{viewModel.currentMapPoint == null ? View.GONE: View.VISIBLE}">-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="?attr/actionBarSize"-->
-            <!--android:orientation="vertical"-->
-            <!--android:padding="4dp"-->
-            <!--tools:ignore="SmallSp">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{viewModel.currentMapPoint.getName()}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="14sp" />-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:weightSum="5">-->
-
-            <!--<FrameLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="3">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/owner"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="12sp" />-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="end|center_vertical"-->
-            <!--android:gravity="center_vertical">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:src="@{MarkerHelper.getUserBitmap(viewModel.currentMapPoint.getUser())}" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="4dp"-->
-            <!--android:text="@{viewModel.currentMapPoint.getUser().getName()}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="12sp" />-->
-            <!--</LinearLayout>-->
-
-            <!--</FrameLayout>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="10"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{@string/trackerNumberNMap(viewModel.currentMapPoint.getTrackerNumber())}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="10sp"-->
-            <!--app:typeface="Roboto-Light.ttf" />-->
-
-            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{@string/trackerImeiNMap(viewModel.currentMapPoint.getImeiNumber())}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="10sp"-->
-            <!--app:typeface="Roboto-Light.ttf" />-->
-
-            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{@string/logTimeNMap(viewModel.currentMapPoint.getLogTime())}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="10sp"-->
-            <!--app:typeface="Roboto-Light.ttf" />-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="8"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{@string/latNMap(viewModel.currentMapPoint.getLat())}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="10sp"-->
-            <!--app:typeface="Roboto-Light.ttf" />-->
-
-            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{@string/lonNMap(viewModel.currentMapPoint.getLon())}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="10sp"-->
-            <!--app:typeface="Roboto-Light.ttf" />-->
-
-            <!--<no.appsonite.gpsping.widget.CustomFontTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@{@string/grsmNMap(viewModel.currentMapPoint.getGRSM())}"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="10sp"-->
-            <!--app:typeface="Roboto-Light.ttf" />-->
-            <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
-
-            <!--</FrameLayout>-->
-
             <LinearLayout
                 android:id="@+id/mapPointInfo"
                 android:layout_width="match_parent"
@@ -569,6 +431,7 @@
                             android:id="@+id/tvSpeed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{@string/speedInfo(viewModel.currentMapPoint.getSpeedStr)}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/speed_tools" />
@@ -592,6 +455,7 @@
                             android:id="@+id/tvDistance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/distanceInfo(viewModel.currentMapPoint.getAttributes.getDistanceStr) : null}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/distance_tools" />
@@ -615,6 +479,7 @@
                             android:id="@+id/tvDistanceTravelled"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/distanceTravelledInfo(viewModel.currentMapPoint.getAttributes.getTotalDistanceStr) : null}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/distance_travelled_tools" />
@@ -739,6 +604,5 @@
 
             </LinearLayout>
         </FrameLayout>
-
     </FrameLayout>
 </layout>

@@ -173,6 +173,9 @@
     <string name="permission_denied_info">Without this permission, the application will not work</string>
     <string name="allow">Allow</string>
     <string name="imsure">I\'M Sure</string>
+    <string name="speedInfo">%1$s km/h</string>
+    <string name="distanceInfo">%1$s km</string>
+    <string name="distanceTravelledInfo">%1$s km</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

@@ -16,7 +16,7 @@ import static no.appsonite.gpsping.enums.DirectionPin.WEST;
  */
 
 public class CalculateDirection {
-    public static DirectionPin getDirection(int direction) {
+    public DirectionPin getDirection(int direction) {
         if (direction < 23 || direction >= 338) {
             return NORTH;
         } else if (direction >=23 && direction < 68) {

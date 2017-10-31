@@ -4,9 +4,9 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.coords.MGRSCoord;
@@ -19,6 +19,7 @@ import no.appsonite.gpsping.api.content.geo.GeoAttributes;
  */
 public class MapPoint {
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static DecimalFormat decimalFormat = new DecimalFormat("#.#");
     private Friend user;
     private double lat;
     private double lon;
@@ -33,6 +34,7 @@ public class MapPoint {
 
     private String picUrl;
     private int direction;
+    private double speed;
     private String gsmSignal;
     private String gpsSignal;
     private GeoAttributes attributes;
@@ -115,7 +117,7 @@ public class MapPoint {
     }
 
     public MapPoint(Friend user, double lat, double lon, String name, String imeiNumber, String trackerNumber, long logTime,
-                    String picUrl, int direction, String gsmSignal, String gpsSignal, GeoAttributes attributes) {
+                    String picUrl, int direction, double speed, String gsmSignal, String gpsSignal, GeoAttributes attributes) {
         this.user = user;
         this.lat = lat;
         this.lon = lon;
@@ -125,6 +127,7 @@ public class MapPoint {
         this.logTime = logTime;
         this.picUrl = picUrl;
         this.direction = direction;
+        this.speed = speed;
         this.gsmSignal = gsmSignal;
         this.gpsSignal = gpsSignal;
         this.attributes = attributes;
@@ -186,6 +189,18 @@ public class MapPoint {
 
     public void setDirection(int direction) {
         this.direction = direction;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public String getSpeedStr() {
+        return decimalFormat.format(speed);
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     public String getGsmSignal() {

@@ -216,8 +216,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
                 geoDevice.getLastLon(), geoDevice.getName(),
                 geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
                 geoDevice.getLastTimestamp(), geoDevice.getPicUrl(),
-                geoDevice.getDirection(), geoDevice.getGsmSignal(),
-                geoDevice.getGpsSignal(), geoDevice.getAttributes());
+                geoDevice.getDirection(), geoDevice.getSpeed(),
+                geoDevice.getGsmSignal(), geoDevice.getGpsSignal(),
+                geoDevice.getAttributes());
         mapPoint.setMainAvatar(avatar);
         return mapPoint;
     }
@@ -267,16 +268,16 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         execute(ApiFactory.getService().getPois(currentFriendId)).cache()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread()).flatMap(poiAnswer -> {
-                    ArrayList<Poi> result = new ArrayList<>();
-                    for (Poi poi : poiAnswer.getPoi()) {
-                        Friend friend = getFriendById(poi.getUserId());
-                        if (friend != null) {
-                            poi.setUser(friend);
-                            result.add(poi);
-                        }
-                    }
-                    return Observable.just(result);
-                }).subscribe(pois1 -> {
+            ArrayList<Poi> result = new ArrayList<>();
+            for (Poi poi : poiAnswer.getPoi()) {
+                Friend friend = getFriendById(poi.getUserId());
+                if (friend != null) {
+                    poi.setUser(friend);
+                    result.add(poi);
+                }
+            }
+            return Observable.just(result);
+        }).subscribe(pois1 -> {
             TrackersMapFragmentViewModel.this.pois.clear();
             TrackersMapFragmentViewModel.this.pois.addAll(pois1);
         }, Throwable::printStackTrace);

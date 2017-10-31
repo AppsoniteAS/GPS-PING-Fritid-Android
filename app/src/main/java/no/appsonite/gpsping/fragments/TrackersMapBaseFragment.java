@@ -78,6 +78,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
     private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
     private List<Tracker> trackers = new ArrayList<>();
+    private ColorMarkerHelper markerHelper = new ColorMarkerHelper();
+    private CalculateDirection calculateDirection = new CalculateDirection();
 
     private void clearTile() {
         if (topoNorwayOverlay != null) {
@@ -589,14 +591,14 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setArrowPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
         if (mapPoint.isMainAvatar()) {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.BIG));
+            marker.setIcon(markerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.BIG));
         } else {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.MID));
+            marker.setIcon(markerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.MID));
         }
     }
 
     private DirectionPin getDirection(int direction) {
-        return CalculateDirection.getDirection(direction);
+        return calculateDirection.getDirection(direction);
     }
 
     private void setAvatarPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {

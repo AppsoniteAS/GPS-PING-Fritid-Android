@@ -2,8 +2,6 @@ package no.appsonite.gpsping.api.content.geo;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
@@ -27,6 +25,8 @@ public class GeoDevice {
     private String picUrl;
     @SerializedName("heading")
     private int direction;
+    @SerializedName("speedKPH")
+    private int speed;
     @SerializedName("GSM_Signal")
     private String gsmSignal;
     @SerializedName("GPS_Signal")
@@ -104,6 +104,14 @@ public class GeoDevice {
 
     public void setDirection(int direction) {
         this.direction = direction;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public String getGsmSignal() {

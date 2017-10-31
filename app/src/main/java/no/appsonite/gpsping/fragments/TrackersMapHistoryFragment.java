@@ -32,7 +32,7 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
 
     @Override
     protected String getTitle() {
-        return getString(R.string.history);
+        return null;
     }
 
     @Override

@@ -2,17 +2,20 @@ package no.appsonite.gpsping.api.content.geo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by taras on 10/31/17.
  */
 
 public class GeoAttributes {
+    private static DecimalFormat decimalFormat = new DecimalFormat("#.#");
     @SerializedName("battery")
     private String battery;
     @SerializedName("ip")
     private String ip;
     @SerializedName("distance")
-    private int distance;
+    private double distance;
     @SerializedName("totalDistance")
     private double totalDistance;
 
@@ -32,16 +35,24 @@ public class GeoAttributes {
         this.ip = ip;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public String getDistanceStr() {
+        return decimalFormat.format(distance);
+    }
+
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
     public double getTotalDistance() {
         return totalDistance;
+    }
+
+    public String getTotalDistanceStr() {
+        return decimalFormat.format(totalDistance);
     }
 
     public void setTotalDistance(double totalDistance) {
