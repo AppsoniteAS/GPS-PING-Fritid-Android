@@ -176,10 +176,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
                     }
                 }
                 try {
-                    if (devicePoints.isEmpty()) {
-                        MapPoint mapPoint = createPoint(geoDevicePoints, geoItem, false);
-                        devicePoints.add(mapPoint);
-                        mapPoints.add(mapPoint);
+                    if (!latLonData.contains(geoDevicePoints.getDevice().getLastLat(), geoDevicePoints.getDevice().getLastLon())) {
+                        if (devicePoints.isEmpty()) {
+                            MapPoint mapPoint = createPoint(geoDevicePoints, geoItem, false);
+                            devicePoints.add(mapPoint);
+                            mapPoints.add(mapPoint);
+                        }
                     }
                 } catch (Exception ignore) {
 
