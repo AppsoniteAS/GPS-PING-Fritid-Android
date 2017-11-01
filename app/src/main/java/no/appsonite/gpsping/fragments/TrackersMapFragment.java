@@ -50,7 +50,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     private Marker userMarker;
     private MapPoint userMapPoint;
     private Location lastLocation;
-    private long myId = AuthHelper.getCredentials().getUser().id.get();
+    private long myId = AuthHelper.getCredentials() != null ? AuthHelper.getCredentials().getUser().id.get() : 0;
     private Handler refreshHandler = new Handler();
     private Runnable refreshRunnable = new Runnable() {
         @Override

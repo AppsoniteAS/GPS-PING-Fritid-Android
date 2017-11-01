@@ -16,7 +16,6 @@ import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.data_structures.ArrowLocationPin;
-import no.appsonite.gpsping.data_structures.ColorArrowPin;
 import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.utils.image_transdormation.CircleSizeTransformation;
@@ -30,6 +29,7 @@ import rx.exceptions.Exceptions;
 
 public class PinUtils {
     public static Observable<Bitmap> getPinDog(String url, ColorPin colorPin, DirectionPin direction) {
+        int avatarSize = Application.getContext().getResources().getDimensionPixelSize(R.dimen.dog_photo_transform);
         Context context = Application.getContext();
         return Observable.just(BuildConfig.AMAZON_ADDRESS + url)
                 .map(s -> {
@@ -37,7 +37,7 @@ public class PinUtils {
                         return Picasso.with(context)
                                 .load(s)
                                 .transform(new MaxSizeTextureTransformation(context))
-                                .transform(new CircleSizeTransformation(44))
+                                .transform(new CircleSizeTransformation(avatarSize))
                                 .get();
                     } catch (IOException e) {
                         throw Exceptions.propagate(e);
@@ -47,16 +47,17 @@ public class PinUtils {
     }
 
     private static Bitmap generatePinWithPhoto(Context context, Bitmap photo, ColorPin colors, DirectionPin direction) {
+        int indentation = Application.getContext().getResources().getDimensionPixelSize(R.dimen.dog_photo_indentation);
         ArrowLocationPin arrowLocationPin = new ArrowLocationPin(direction);
         float leftForArrow = arrowLocationPin.getLeft();
         float topForArrow = arrowLocationPin.getTop();
         float rotate = arrowLocationPin.getRotate();
-        Bitmap pin = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_white_round_for_pin);
+        Bitmap pin = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_white_round_for_pes);
         Bitmap result = Bitmap.createBitmap(pin.getWidth(), pin.getHeight(), pin.getConfig());
         Canvas canvas = new Canvas(result);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(pin, 0, 0, paint);
-        canvas.drawBitmap(photo, 8, 8, paint);
+        canvas.drawBitmap(photo, indentation, indentation, paint);
         Bitmap arrow = getArrowBitmap(context, rotate, colors);
         canvas.drawBitmap(arrow, leftForArrow, topForArrow, paint);
         pin.recycle();

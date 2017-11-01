@@ -12,4 +12,10 @@
     <dimen name="button_margin_top">6dp</dimen>
     <dimen name="sixteen_margin">16dp</dimen>
     <dimen name="twelve_margin">12dp</dimen>
+
+    <dimen name="dog_photo_transform">32dp</dimen>
+    <dimen name="dog_photo_indentation">8dp</dimen>
+    <dimen name="d16">16dp</dimen>
+    <dimen name="d24">24dp</dimen>
+    <dimen name="d32">32dp</dimen>
 </resources>

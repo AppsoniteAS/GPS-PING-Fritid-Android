@@ -21,7 +21,7 @@ import no.appsonite.gpsping.viewmodel.TrackersMapHistoryFragmentViewModel;
  */
 public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<TrackersMapHistoryFragmentViewModel> implements CalendarDialogFragment.CalendarListener {
     private static final String TAG = TrackersMapHistoryFragment.class.getSimpleName();
-    private long myId = AuthHelper.getCredentials().getUser().id.get();
+    private long myId = AuthHelper.getCredentials() != null ? AuthHelper.getCredentials().getUser().id.get() : 0;
 
     public static TrackersMapHistoryFragment newInstance() {
         Bundle args = new Bundle();

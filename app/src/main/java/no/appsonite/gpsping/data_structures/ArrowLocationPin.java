@@ -1,5 +1,7 @@
 package no.appsonite.gpsping.data_structures;
 
+import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.enums.DirectionPin;
 
 /**
@@ -7,30 +9,43 @@ import no.appsonite.gpsping.enums.DirectionPin;
  */
 
 public class ArrowLocationPin {
+    private int d16;
+    private int d24;
+    private int d32;
     private float left;
     private float top;
     private float rotate;
 
+    {
+        d16 = getDimenSize(R.dimen.d16);
+        d24 = getDimenSize(R.dimen.d24);
+        d32 = getDimenSize(R.dimen.d32);
+    }
+
+    private int getDimenSize(int dimenId) {
+        return Application.getContext().getResources().getDimensionPixelSize(dimenId);
+    }
+
     public ArrowLocationPin(DirectionPin direction) {
         switch (direction) {
             case NORTH:
-                left = 20;
-                top = -4;
+                left = d16;
+                top = 0;
                 rotate = 0;
                 break;
             case SOUTH:
-                left = 20;
-                top = 44;
+                left = d16;
+                top = d32;
                 rotate = 180;
                 break;
             case WEST:
-                left = -4;
-                top = 20;
+                left = 0;
+                top = d16;
                 rotate = 270;
                 break;
             case EAST:
-                left = 44;
-                top = 20;
+                left = d32;
+                top = d16;
                 rotate = 90;
                 break;
             case NORTHWEST:
@@ -39,18 +54,18 @@ public class ArrowLocationPin {
                 rotate = 315;
                 break;
             case NORTHEAST:
-                left = 32;
-                top = -4;
+                left = d24;
+                top = 0;
                 rotate = 45;
                 break;
             case SOUTHWEST:
                 left = 0;
-                top = 32;
+                top = d24;
                 rotate = 225;
                 break;
             case SOUTHEAST:
-                left = 32;
-                top = 32;
+                left = d24;
+                top = d24;
                 rotate = 135;
                 break;
         }

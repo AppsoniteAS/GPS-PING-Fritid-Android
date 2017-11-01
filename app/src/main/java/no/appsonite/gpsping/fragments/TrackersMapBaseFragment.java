@@ -429,6 +429,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mapView != null)
         mapView.onDestroy();
     }
 
@@ -601,7 +602,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setDogMarker(MapPoint mapPoint) {
         MarkerOptions markerOptions = new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_round_for_pin))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_round_for_pes))
                 .position(mapPoint.getLatLng());
 
         Marker marker = getMap().addMarker(markerOptions);
