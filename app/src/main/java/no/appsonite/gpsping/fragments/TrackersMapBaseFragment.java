@@ -158,7 +158,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         TileOverlayOptions swedenOptions = new TileOverlayOptions();
         swedenOptions.tileProvider(new WMSTileProvider(256, 256) {
-            final String URL = "http://industri.gpsping.no:6057/service?LAYERS=sweden&FORMAT=image/png&" +
+            final String URL = "http://fritid.gpsping.no:6057/service?LAYERS=sweden&FORMAT=image/png&" +
                     "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
                     "BBOX=%f,%f,%f,%f&" +
@@ -183,7 +183,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         TileOverlayOptions finnishOptions = new TileOverlayOptions();
         finnishOptions.tileProvider(new WMSTileProvider(256, 256) {
-            final String URL = "http://industri.gpsping.no:6057/service?LAYERS=finnish&FORMAT=image/png&" +
+            final String URL = "http://fritid.gpsping.no:6057/service?LAYERS=finnish&FORMAT=image/png&" +
                     "SRS=EPSG:3857&EXCEPTIONS=application.vnd.ogc.se_inimage&" +
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&" +
                     "BBOX=%f,%f,%f,%f&" +

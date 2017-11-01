@@ -208,6 +208,8 @@ public class Tracker implements Serializable {
 
     public SMS getResetSmsIp(String address) {
         SMS sms = null;
+        if (trackerNumber == null)
+            return null;
         String trackerNumber = this.trackerNumber.get();
         try {
             switch (Tracker.Type.valueOf(this.type.get())) {

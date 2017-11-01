@@ -25,7 +25,7 @@ android {
         applicationId "no.appsonite.gpsping"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 60
+        versionCode 66
         versionName "1.2"
         buildConfigField("String", "AMAZON_ADDRESS", '"https://s3-eu-west-1.amazonaws.com/fritidbucket/"')
     }
