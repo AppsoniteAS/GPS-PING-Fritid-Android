@@ -32,7 +32,7 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
 
     @Override
     protected String getTitle() {
-        return getString(R.string.history);
+        return null;
     }
 
     @Override
@@ -67,11 +67,5 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
         if (mapPoint.isBelongsToUser() && mapPoint.getUser().id.get() == myId) {
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
         }
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        getBinding().showUserPosition.setVisibility(View.INVISIBLE);
     }
 }

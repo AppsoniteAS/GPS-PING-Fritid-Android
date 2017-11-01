@@ -252,6 +252,10 @@
     <string name="select_image">Vælg billede</string>
     <string name="delete_image">Slet billede</string>
     <string name="could_not_upload_image">Kunne ikke uploade billedet</string>
+    <string name="permission_denied">Adgang nægtet</string>
+    <string name="permission_denied_info">Uden denne tilladelse vil ansøgningen ikke fungere</string>
+    <string name="allow">Give lov til</string>
+    <string name="imsure">Jeg er sikker</string>
 
 
     <string-array name="receiveSignalTime">

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import no.appsonite.gpsping.api.content.geo.GeoDevice;
 import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
 import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
@@ -67,11 +68,6 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
     }
 
     @Override
-    protected void playStandSound() {
-        //ignore
-    }
-
-    @Override
     protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
         if (historyDate.get() != null) {
             super.parseGeoPointsAnswer(geoPointsAnswer);
@@ -81,14 +77,7 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
         ArrayList<MapPoint> mapPoints = new ArrayList<>();
         for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
             for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
-                MapPoint mapPoint = new MapPoint(geoItem.getUser(),
-                        geoDevicePoints.getDevice().getLastLat(),
-                        geoDevicePoints.getDevice().getLastLon(),
-                        geoDevicePoints.getDevice().getName(),
-                        geoDevicePoints.getDevice().getImeiNumber(),
-                        geoDevicePoints.getDevice().getTrackerNumber(),
-                        geoDevicePoints.getDevice().getLastTimestamp(),
-                        geoDevicePoints.getDevice().getPicUrl());
+                MapPoint mapPoint = createPoint(geoDevicePoints, geoItem);
                 mapPoint.setLast(true);
                 mapPoints.add(mapPoint);
             }
@@ -109,5 +98,17 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
         }
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);
+    }
+
+    private MapPoint createPoint(GeoDevicePoints geoDevicePoints, GeoItem geoItem) {
+        GeoDevice geoDevice = geoDevicePoints.getDevice();
+        return new MapPoint(
+                geoItem.getUser(), geoDevice.getLastLat(),
+                geoDevice.getLastLon(), geoDevice.getName(),
+                geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
+                geoDevice.getLastTimestamp(), geoDevice.getPicUrl(),
+                geoDevice.getDirection(), geoDevice.getSpeed(),
+                geoDevice.getGsmSignal(), geoDevice.getGpsSignal(),
+                geoDevice.getAttributes());
     }
 }

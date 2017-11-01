@@ -1,6 +1,9 @@
 package no.appsonite.gpsping.viewmodel;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 
 import java.util.ArrayList;
 
@@ -8,7 +11,6 @@ import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.utils.SMSHelper;
-import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 /**
@@ -20,7 +22,6 @@ public class BaseFragmentSMSViewModel extends BaseFragmentViewModel {
     private PublishSubject<SMS> smsPublishSubject;
     private static final CharSequence FINLAND_CODE = "358";
 
-
     public void onNewSms(SMS sms) {
         if (smsPublishSubject != null) {
             smsPublishSubject.onNext(sms);
@@ -30,6 +31,11 @@ public class BaseFragmentSMSViewModel extends BaseFragmentViewModel {
     public PublishSubject<SMS> sendSmses(final Activity activity, final ArrayList<SMS> smses) {
         fixFinlandTracker(smses);
         smsPublishSubject = PublishSubject.create();
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            return smsPublishSubject;
+        }
         smsPublishSubject.
                 subscribe(sms -> {
                     smses.remove(sms);

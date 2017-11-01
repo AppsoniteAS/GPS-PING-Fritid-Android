@@ -9,11 +9,17 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
+
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.MainActivity;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerWithPinCodeBinding;
 import no.appsonite.gpsping.viewmodel.AddTrackerWithPinCodeViewModel;
 import rx.Observable;
+
+import static android.Manifest.permission.READ_SMS;
+import static android.Manifest.permission.RECEIVE_SMS;
+import static android.Manifest.permission.SEND_SMS;
 
 /**
  * Created: Belozerov Sergei
@@ -24,6 +30,7 @@ import rx.Observable;
 public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentAddTrackerWithPinCodeBinding, AddTrackerWithPinCodeViewModel> {
     private static final String ARG_AFTER_REG = "arg_after_reg";
     private static final String TAG = AddTrackerWithPinCodeFragment.class.getSimpleName();
+    private static final int PERMISSION_SMS = 1;
 
     public static AddTrackerWithPinCodeFragment newInstance() {
         return newInstance(false);
@@ -50,7 +57,7 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
     @Override
     protected void onViewModelCreated(AddTrackerWithPinCodeViewModel model) {
         super.onViewModelCreated(model);
-        getBinding().addTrackerBtn.setOnClickListener(view -> bindTracker());
+        getBinding().addTrackerBtn.setOnClickListener(view -> bindPreTracker());
 
         getBinding().skipAddTrackerBtn.setOnClickListener(view -> skipAddTracker());
 
@@ -68,6 +75,20 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
     private void newTrackerHelp() {
         HelpBottomSheet helpBottomSheet = new HelpBottomSheet();
         helpBottomSheet.show(getChildFragmentManager(), "Help");
+    }
+
+    private void bindPreTracker() {
+        new RxPermissions(getActivity())
+                .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
+                .subscribe(this::onNextBindTracker);
+    }
+
+    private void onNextBindTracker(boolean granted) {
+        if (granted) {
+            bindTracker();
+        } else {
+            showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS);
+        }
     }
 
     private void bindTracker() {
@@ -101,6 +122,16 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
                     .setView(view);
             view.findViewById(R.id.closeDialog).setOnClickListener(view1 -> dismiss());
             return alertDialog.create();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PERMISSION_SMS:
+                bindPreTracker();
+                break;
         }
     }
 }

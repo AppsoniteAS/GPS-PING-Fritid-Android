@@ -1,14 +1,15 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.graphics.Rect;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.UrlTileProvider;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
@@ -47,7 +48,7 @@ import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.enums.SizeArrowPin;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
-import no.appsonite.gpsping.services.LocationMapService;
+import no.appsonite.gpsping.utils.CalculateDirection;
 import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.PinUtils;
 import no.appsonite.gpsping.utils.RxBus;
@@ -58,6 +59,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.Manifest.permission.CALL_PHONE;
+
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
@@ -66,6 +69,7 @@ import rx.schedulers.Schedulers;
 public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewModel> extends BaseBindingFragment<FragmentTrackersMapBinding, T>
         implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback {
     private static final String INSTANCE_STATE = "mapViewSaveState";
+    private static final int PERMISSION_PHONE = 1;
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
@@ -79,6 +83,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
     private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
     private List<Tracker> trackers = new ArrayList<>();
+    private ColorMarkerHelper markerHelper = new ColorMarkerHelper();
+    private CalculateDirection calculateDirection = new CalculateDirection();
 
     private void clearTile() {
         if (topoNorwayOverlay != null) {
@@ -258,9 +264,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (trackUserLocation()) {
-            LocationMapService.startService(context);
-        }
         locationSubscription = RxBus.getInstance().register(Location.class, this::onLocationUpdate);
     }
 
@@ -271,7 +274,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onDetach() {
         super.onDetach();
-        LocationMapService.stopService(Application.getContext());
         locationSubscription.unsubscribe();
     }
 
@@ -318,7 +320,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         getBinding().deletePoi.setOnClickListener(view -> deletePoi());
 
-        getBinding().callBtn.setOnClickListener(view -> Log.i("TAG", "CallClick"));
+        getBinding().callBtn.setOnClickListener(view -> callBtn());
 
         getBinding().mapBtn.setOnClickListener(onInfoClick);
 
@@ -327,6 +329,33 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         subscribeOnPoints();
         subscribeOnPois();
         initCompass();
+    }
+
+    private void callBtn() {
+        boolean check = getModel().validateCallForS1Tracker(getModel().currentMapPoint.get().getImeiNumber());
+        if (check) {
+            checkPhonePermission();
+        }
+    }
+
+    private void checkPhonePermission() {
+        new RxPermissions(getActivity())
+                .request(CALL_PHONE)
+                .subscribe(this::checkPhonePermissionOnNext);
+    }
+
+    private void checkPhonePermissionOnNext(boolean granted) {
+        if (granted) {
+            callToS1Tracker();
+        } else {
+            showInfoDeniedPermission(getContext(), PERMISSION_PHONE, CALL_PHONE);
+        }
+    }
+
+    private void callToS1Tracker() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + getModel().currentMapPoint.get().getTrackerNumber()));
+        startActivity(intent);
     }
 
     private void editBtn() {
@@ -459,10 +488,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         return mapPoint.getLat() == 0 && mapPoint.getLon() == 0;
     }
 
-    protected boolean trackUserLocation() {
-        return false;
-    }
-
     private void subscribeOnPois() {
         getModel().pois.addOnListChangedCallback(new ObservableList.OnListChangedCallback() {
             @Override
@@ -592,20 +617,24 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (url == null || url.isEmpty()) {
             setArrowPin(colorPin, mapPoint, marker);
         } else {
-            setAvatarPin(colorPin, url, marker);
+            setAvatarPin(colorPin, mapPoint, marker);
         }
     }
 
     private void setArrowPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
         if (mapPoint.isMainAvatar()) {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, DirectionPin.SOUTHEAST, SizeArrowPin.BIG));
+            marker.setIcon(markerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.BIG));
         } else {
-            marker.setIcon(ColorMarkerHelper.getArrowPin(colorPin, DirectionPin.SOUTHEAST, SizeArrowPin.MID));
+            marker.setIcon(markerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.MID));
         }
     }
 
-    private void setAvatarPin(ColorPin colorPin, String url, Marker marker) {
-        PinUtils.getPinDog(url, colorPin, DirectionPin.SOUTHEAST)
+    private DirectionPin getDirection(int direction) {
+        return calculateDirection.getDirection(direction);
+    }
+
+    private void setAvatarPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
+        PinUtils.getPinDog(mapPoint.getPicUrl(), colorPin, getDirection(mapPoint.getDirection()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bitmap -> {

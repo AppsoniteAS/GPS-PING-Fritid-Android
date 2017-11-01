@@ -23,6 +23,16 @@ public class GeoDevice {
     public String imeiNumber;
     @SerializedName("picUrl")
     private String picUrl;
+    @SerializedName("heading")
+    private int direction;
+    @SerializedName("speedKPH")
+    private int speed;
+    @SerializedName("GSM_Signal")
+    private String gsmSignal;
+    @SerializedName("GPS_Signal")
+    private String gpsSignal;
+    @SerializedName("attributes")
+    private GeoAttributes attributes;
 
     public String getTrackerNumber() {
         return trackerNumber;
@@ -86,5 +96,45 @@ public class GeoDevice {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public String getGsmSignal() {
+        return gsmSignal;
+    }
+
+    public void setGsmSignal(String gsmSignal) {
+        this.gsmSignal = gsmSignal;
+    }
+
+    public String getGpsSignal() {
+        return gpsSignal;
+    }
+
+    public void setGpsSignal(String gpsSignal) {
+        this.gpsSignal = gpsSignal;
+    }
+
+    public GeoAttributes getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(GeoAttributes attributes) {
+        this.attributes = attributes;
     }
 }

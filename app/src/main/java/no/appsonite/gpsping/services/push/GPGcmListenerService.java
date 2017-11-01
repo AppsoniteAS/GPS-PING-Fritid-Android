@@ -39,7 +39,6 @@ public class GPGcmListenerService extends GcmListenerService {
                                 PendingIntent.getActivity(this, REQUEST_FRIENDS, MainActivity.getFriendsIntent(), PendingIntent.FLAG_UPDATE_CURRENT));
                         break;
                     case "device_is_froze":
-//                        playStandSound();
                         showNotify(getString(R.string.PUSH_MESSSAGE_CHECK_FOR_STAND), getString(R.string.app_name),
                                 PendingIntent.getActivity(this, 1, new Intent(Application.getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
                         break;
@@ -48,17 +47,6 @@ public class GPGcmListenerService extends GcmListenerService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void playStandSound() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(Application.getContext(), R.raw.bleep);
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
     }
 
     private void showNotify(String message, String title, PendingIntent pendingIntent) {

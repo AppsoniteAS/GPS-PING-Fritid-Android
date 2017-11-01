@@ -34,14 +34,11 @@ public class SMSHelper {
                 if (sms.getMessage() != null) {
                     Toast.makeText(activity, sms.getNumber() + " " + sms.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            pendingIntent.send();
-                        } catch (PendingIntent.CanceledException e) {
-                            e.printStackTrace();
-                        }
+                new Handler().postDelayed(() -> {
+                    try {
+                        pendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
                     }
                 }, 300);
             }

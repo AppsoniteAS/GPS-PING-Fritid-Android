@@ -20,13 +20,15 @@ import no.appsonite.gpsping.enums.SizeArrowPin;
  */
 
 public class ColorMarkerHelper {
+    private Resources resources;
+
+    public ColorMarkerHelper() {
+        resources = Application.getContext().getResources();
+    }
 
     @NonNull
-    public static BitmapDescriptor getArrowPin(ColorPin colorPin, DirectionPin direction, SizeArrowPin sizeArrowPin) {
-        ArrowLocationPin locationPin = new ArrowLocationPin(direction);
-        float rotate = locationPin.getRotate();
+    public BitmapDescriptor getArrowPin(ColorPin colorPin, DirectionPin direction, SizeArrowPin sizeArrowPin) {
         Bitmap bitmap;
-        Resources resources = Application.getContext().getResources();
         int resourceId;
         boolean isBigArrow = sizeArrowPin == SizeArrowPin.BIG;
         switch (colorPin) {
@@ -49,6 +51,7 @@ public class ColorMarkerHelper {
                 break;
         }
 
+        float rotate = new ArrowLocationPin(direction).getRotate();
         if (rotate == 0) {
             return BitmapDescriptorFactory.fromBitmap(bitmap);
         } else {
