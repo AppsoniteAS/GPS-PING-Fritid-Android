@@ -370,6 +370,9 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
     private void uploadResult(Intent data) {
         try {
+            if (data == null) {
+                return;
+            }
             Uri imageUri = data.getData();
 
             String path = imageUri.toString();

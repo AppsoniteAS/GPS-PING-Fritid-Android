@@ -65,9 +65,10 @@ public class MainActivity extends BaseActivity implements DialogInterface.OnCanc
     }
 
     private void initBottomNavigationView() {
-        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_navigation);
+        BottomNavigationViewEx bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.enableAnimation(false);
         bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.enableItemShiftingMode(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_map:
