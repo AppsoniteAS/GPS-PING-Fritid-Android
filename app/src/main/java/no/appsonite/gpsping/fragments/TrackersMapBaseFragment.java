@@ -688,7 +688,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     public boolean onMarkerClick(Marker marker) {
         getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
         getModel().currentPoi.set(markerPoiHashMap.get(marker));
-        setClickableEditBtn();
+        if (getModel().currentMapPoint.get() != null) {
+            setClickableEditBtn();
+        }
         return false;
     }
 
