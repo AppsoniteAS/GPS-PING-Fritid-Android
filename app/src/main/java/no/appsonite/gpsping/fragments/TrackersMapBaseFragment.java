@@ -45,6 +45,7 @@ import no.appsonite.gpsping.data_structures.ColorMarkerHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
 import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
+import no.appsonite.gpsping.enums.MapStyle;
 import no.appsonite.gpsping.enums.SizeArrowPin;
 import no.appsonite.gpsping.model.MapPoint;
 import no.appsonite.gpsping.model.Tracker;
@@ -85,6 +86,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private List<Tracker> trackers = new ArrayList<>();
     private ColorMarkerHelper markerHelper = new ColorMarkerHelper();
     private CalculateDirection calculateDirection = new CalculateDirection();
+    private MapStyle mapStyle = MapStyle.TOPO;
 
     private void clearTile() {
         if (topoNorwayOverlay != null) {
@@ -287,12 +289,15 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             switch (checkedId) {
                 case R.id.satellite:
                     showSatellite();
+                    mapStyle = MapStyle.SATELLITE;
                     break;
                 case R.id.standard:
                     showStandard();
+                    mapStyle = MapStyle.STANDARD;
                     break;
                 case R.id.topo:
                     showTopo();
+                    mapStyle = MapStyle.TOPO;
                     break;
             }
         });
@@ -451,7 +456,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getMap().getUiSettings().setMapToolbarEnabled(false);
         getMap().getUiSettings().setCompassEnabled(true);
 
-        showTopo();
+        showCurrentStyle();
         getMap().setOnMarkerClickListener(this);
 
         getBinding().friendSpinner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -470,6 +475,20 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
 
         getMap().setOnMapLongClickListener(this);
+    }
+
+    private void showCurrentStyle() {
+        switch (mapStyle) {
+            case TOPO:
+                showTopo();
+                break;
+            case STANDARD:
+                showStandard();
+                break;
+            case SATELLITE:
+                showSatellite();
+                break;
+        }
     }
 
     private void deletePoi() {
