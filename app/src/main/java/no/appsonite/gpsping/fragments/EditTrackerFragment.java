@@ -1,10 +1,13 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,20 +22,25 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.BuildConfig;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.WTFileProvider;
 import no.appsonite.gpsping.amazon.AmazonFileLoader;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.databinding.FragmentEditTrackerBinding;
+import no.appsonite.gpsping.managers.ProfileUpdateManager;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
+import no.appsonite.gpsping.utils.FileUtils;
 import no.appsonite.gpsping.utils.ImageUtils;
+import no.appsonite.gpsping.utils.image_transdormation.BitmapRotator;
 import no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,6 +51,7 @@ import static android.Manifest.permission.READ_SMS;
 import static android.Manifest.permission.RECEIVE_SMS;
 import static android.Manifest.permission.SEND_SMS;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created: Belozerov
@@ -287,9 +296,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void uploadPhoto() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Complete action using"), RESULT_LOAD_IMG);
+        startActivityForResult(getModel().getImagePickerIntent(), RESULT_LOAD_IMG);
     }
 
     private void initUpdateBtn() {
@@ -355,7 +362,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RESULT_LOAD_IMG:
-                uploadResult(data);
+                uploadResult(data, resultCode);
                 break;
             case PERMISSION_SMS:
                 getPermission();
@@ -368,25 +375,47 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-    private void uploadResult(Intent data) {
-        try {
+    private void uploadResult(Intent data, int resultCode) {
+        if (resultCode == RESULT_OK) {
+            final boolean isCamera;
             if (data == null) {
-                return;
+                isCamera = true;
+            } else {
+                final String action = data.getAction();
+                isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
             }
-            Uri imageUri = data.getData();
 
-            String path = imageUri.toString();
-            uploadPhotoToAmazon(path);
+            Uri selectedImageUri;
+            if (isCamera) {
+                selectedImageUri = getModel().outputFileUri;
+            } else {
+                selectedImageUri = data.getData();
+                if (selectedImageUri == null) {
+                    selectedImageUri = getModel().outputFileUri;
+                }
+            }
 
-            InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
-            Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-
-            selectedImage = ImageUtils.compressBitmap(selectedImage, 1280, 960);
-
-            getBinding().photo.setImageBitmap(selectedImage);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            try {
+                Uri uri = scaleUserPic(selectedImageUri.toString());
+                getBinding().photo.setImageURI(uri);
+                uploadPhotoToAmazon(uri.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private Uri scaleUserPic(String userPic) {
+        File file;
+        try {
+            file = FileUtils.getFile(Application.getContext(), Uri.parse(userPic));
+            if (file == null || !file.exists())
+                file = ProfileUpdateManager.copyFileFromUri(userPic);
+        } catch (Exception e) {
+            file = ProfileUpdateManager.copyFileFromUri(userPic);
+        }
+        File uploadFile = ProfileUpdateManager.loadImage(file, 960, 960);
+        return FileProvider.getUriForFile(getContext(), WTFileProvider.AUTHORITY, uploadFile);
     }
 
     private void uploadPhotoToAmazon(String path) {
@@ -430,7 +459,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     private void downloadPhoto() {
         if (getModel().tracker.get().picUrl != null) {
             String url = BuildConfig.AMAZON_ADDRESS + getModel().tracker.get().picUrl.get();
-            Picasso.with(getContext()).load(url).fit().into(getBinding().photo);
+            Picasso.with(getContext()).load(url).resize(720, 720).centerCrop().into(getBinding().photo);
         }
     }
 

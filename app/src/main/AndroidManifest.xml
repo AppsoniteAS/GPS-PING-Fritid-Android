@@ -106,6 +106,16 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3a07a946aea34bb88040f1c6289e132a980f7e0c" />
+
+        <provider
+            android:name=".WTFileProvider"
+            android:authorities="${applicationId}.wtfileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

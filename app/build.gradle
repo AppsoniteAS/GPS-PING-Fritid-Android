@@ -40,6 +40,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'java.lang.String', 'FILE_PROVIDER_AUTHORITY', "\"no.appsonite.gpsping.wtfileprovider\""
+        }
+        debug {
+            buildConfigField 'java.lang.String', 'FILE_PROVIDER_AUTHORITY', "\"no.appsonite.gpsping.wtfileprovider\""
         }
     }
     dexOptions {
@@ -82,7 +86,7 @@ dependencies {
         transitive = true;
     }
     compile 'gov.nasa:worldwind:2.0.0-986'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
     compile 'com.anjlab.android.iab.v3:library:1.0.31'
     compile 'com.cesards.android:cropimageview:1.0.2.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'

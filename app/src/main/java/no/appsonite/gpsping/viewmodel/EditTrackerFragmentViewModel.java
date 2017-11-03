@@ -1,20 +1,38 @@
 package no.appsonite.gpsping.viewmodel;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.WTFileProvider;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.db.Geofence;
 import no.appsonite.gpsping.db.RealmTracker;
+import no.appsonite.gpsping.managers.ProfileUpdateManager;
 import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
@@ -44,6 +62,8 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
 
     public ObservableString yards = new ObservableString();
     public ObservableString yardsError = new ObservableString();
+
+    public Uri outputFileUri;
 
     @Override
     public void onModelAttached() {
@@ -442,6 +462,87 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         realm.beginTransaction();
         realmTracker.setIsGeofenceRunning(isRunning);
         realm.commitTransaction();
+    }
+
+
+    public Intent getImagePickerIntent() {
+        File output = null;
+        try {
+            output = ProfileUpdateManager.createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        outputFileUri = FileProvider.getUriForFile(getContext(), WTFileProvider.AUTHORITY, output);//Uri.fromFile(output);
+        final HashMap<String, Intent> cameraIntents = new HashMap<>();
+        final PackageManager packageManager = getContext().getPackageManager();
+
+
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                intent.setClipData(ClipData.newRawUri("", outputFileUri));
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            cameraIntents.put(res.activityInfo.name, intent);
+        }
+
+        //gallery
+        final Intent galleryIntent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        final List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(galleryIntent);
+            intent.setAction(Intent.ACTION_PICK);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            cameraIntents.put(res.activityInfo.name, intent);
+        }
+
+        // Filesystem.
+        final Intent documentIntent = new Intent();
+        documentIntent.setType("image/*");
+        documentIntent.setAction(Intent.ACTION_GET_CONTENT);
+        final List<ResolveInfo> listDoc = packageManager.queryIntentActivities(documentIntent, 0);
+        for (ResolveInfo res : listDoc) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(documentIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            cameraIntents.put(res.activityInfo.name, intent);
+        }
+
+        ArrayList<Intent> intents = new ArrayList<>();
+        Intent firstIntent = null;
+        for (Intent intent : cameraIntents.values()) {
+            if (firstIntent == null) {
+                firstIntent = intent;
+                continue;
+            }
+            intents.add(intent);
+        }
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(firstIntent, Application.getContext().getString(R.string.choosePhoto));
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toArray(new Parcelable[]{}));
+        return chooserIntent;
     }
 
 //    public Observable<SMS> resetTracker(final Activity activity) {
