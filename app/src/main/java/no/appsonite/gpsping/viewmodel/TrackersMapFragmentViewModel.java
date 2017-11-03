@@ -250,6 +250,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         }
         Realm realm = Realm.getDefaultInstance();
         RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", imei).findFirst();
+        if (tracker == null) {
+            return false;
+        }
         boolean check = tracker.getType().equals(Tracker.Type.S1.toString());
         realm.close();
         return check;
