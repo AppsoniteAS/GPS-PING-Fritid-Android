@@ -256,6 +256,7 @@
     <string name="permission_denied_info">Ilman tätä lupaa sovellus ei toimi</string>
     <string name="allow">Sallia</string>
     <string name="imsure">Olen varma</string>
+    <string name="choosePhoto">Lataa kuva</string>
 
 
     <string-array name="receiveSignalTime">

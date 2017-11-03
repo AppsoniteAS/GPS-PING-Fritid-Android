@@ -146,6 +146,7 @@
     <string name="permission_denied_info">Uten denne tillatelsen vil applikasjonen ikke fungere</string>
     <string name="allow">Tillate</string>
     <string name="imsure">Jeg er sikker</string>
+    <string name="choosePhoto">Last opp bildet ditt</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

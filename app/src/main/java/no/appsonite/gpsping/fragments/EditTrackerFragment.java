@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -296,7 +297,13 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void uploadPhoto() {
-        startActivityForResult(getModel().getImagePickerIntent(), RESULT_LOAD_IMG);
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent, "Complete action using"), RESULT_LOAD_IMG);
+        } else {
+            startActivityForResult(getModel().getImagePickerIntent(), RESULT_LOAD_IMG);
+        }
     }
 
     private void initUpdateBtn() {
@@ -362,7 +369,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RESULT_LOAD_IMG:
-                uploadResult(data, resultCode);
+                loadPhoto(data, resultCode);
                 break;
             case PERMISSION_SMS:
                 getPermission();
@@ -373,6 +380,72 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
             default:
                 break;
         }
+    }
+
+    private void loadPhoto(Intent data, int resultCode) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            uploadForApi15(data, resultCode);
+        } else {
+            uploadResult(data, resultCode);
+        }
+    }
+
+    private void uploadForApi15(Intent data, int resultCode) {
+        if (resultCode == RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            Uri imageUri = data.getData();
+            Bitmap selectedImage = null;
+            try {
+                if (imageUri != null) {
+                    InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                    selectedImage = BitmapFactory.decodeStream(imageStream);
+                    selectedImage = ImageUtils.compressBitmap(selectedImage, 960, 960);
+                    if (imageStream != null) {
+                        imageStream.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                String path = getRealPathFromURI(getImageUri(selectedImage));
+                if (path != null) {
+                    selectedImage = rotateImage(selectedImage, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            getBinding().photo.setImageBitmap(selectedImage);
+            uploadPhotoToAmazon(getImageUri(selectedImage).toString());
+        }
+    }
+
+    private Bitmap rotateImage(Bitmap bitmap, String path) {
+        BitmapRotator bitmapRotator = new BitmapRotator();
+        return bitmapRotator.rotateBitmapIfNecessary(path, bitmap);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        String string = null;
+        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+        if (cursor != null) {
+            try {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                string = cursor.getString(idx);
+                cursor.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return string;
+    }
+
+    private Uri getImageUri(Bitmap bitmap) {
+        String path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
     }
 
     private void uploadResult(Intent data, int resultCode) {

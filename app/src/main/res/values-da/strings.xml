@@ -256,6 +256,7 @@
     <string name="permission_denied_info">Uden denne tilladelse vil ansøgningen ikke fungere</string>
     <string name="allow">Give lov til</string>
     <string name="imsure">Jeg er sikker</string>
+    <string name="choosePhoto">Upload dit billede</string>
 
 
     <string-array name="receiveSignalTime">
