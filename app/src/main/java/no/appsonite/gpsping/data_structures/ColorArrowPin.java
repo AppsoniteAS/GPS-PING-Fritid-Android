@@ -34,31 +34,31 @@ public class ColorArrowPin {
     }
 
     private static class ColorNumber {
-        private ColorPin colors;
+        private ColorPin colorPin;
 
         ColorNumber() {
-            colors = RED;
+            colorPin = RED;
         }
 
         ColorPin getState() {
-            ColorPin colors = this.colors;
+            ColorPin colors = this.colorPin;
             incrementState();
             return colors;
         }
 
         private void incrementState() {
-            switch (colors) {
+            switch (colorPin) {
                 case RED:
-                    colors = ORANGE;
+                    colorPin = ORANGE;
                     break;
                 case ORANGE:
-                    colors = YELLOW;
+                    colorPin = YELLOW;
                     break;
                 case YELLOW:
-                    colors = GREEN;
+                    colorPin = GREEN;
                     break;
                 case GREEN:
-                    colors = RED;
+                    colorPin = RED;
             }
         }
 

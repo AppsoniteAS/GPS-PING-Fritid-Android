@@ -633,7 +633,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setPhotoForDogMarker(Marker marker, MapPoint mapPoint) {
         String url = mapPoint.getPicUrl();
-        ColorPin colorPin = getModel().colorArrowPin.get(mapPoint.getImeiNumber());
+        ColorPin colorPin = getModel().colorArrowPin.get(mapPoint.getName());
         if (url == null || url.isEmpty()) {
             setArrowPin(colorPin, mapPoint, marker);
         } else {

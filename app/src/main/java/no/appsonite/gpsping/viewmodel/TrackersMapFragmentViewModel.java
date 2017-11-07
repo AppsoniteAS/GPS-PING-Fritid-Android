@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -204,7 +205,18 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
             mapPoints.add(userMapPoint);
         }
         for (MapPoint mapPoint : mapPoints) {
-            colorArrowPin.add(mapPoint.getImeiNumber());
+            if (!mapPoint.isBelongsToUser()) {
+                if (!mapPoint.getImeiNumber().isEmpty()) {
+                    colorArrowPin.add(mapPoint.getName());
+                }
+            }
+        }
+        for (MapPoint mapPoint: mapPoints) {
+            if (!mapPoint.isBelongsToUser()) {
+                if (mapPoint.getImeiNumber().isEmpty()) {
+                    colorArrowPin.add(mapPoint.getName());
+                }
+            }
         }
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);
