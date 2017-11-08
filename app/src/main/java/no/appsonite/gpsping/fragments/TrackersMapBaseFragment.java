@@ -21,6 +21,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -87,6 +88,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private ColorMarkerHelper markerHelper = new ColorMarkerHelper();
     private CalculateDirection calculateDirection = new CalculateDirection();
     private MapStyle mapStyle = MapStyle.TOPO;
+    private CameraPosition cameraPosition;
 
     private void clearTile() {
         if (topoNorwayOverlay != null) {
@@ -426,6 +428,12 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        cameraPosition = getMap().getCameraPosition();
+    }
+
+    @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
@@ -435,7 +443,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     public void onDestroy() {
         super.onDestroy();
         if (mapView != null)
-        mapView.onDestroy();
+            mapView.onDestroy();
     }
 
     @Override
@@ -473,6 +481,10 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
                 getBinding().friendSpinner.getGlobalVisibleRect(rect);
             }
         });
+
+        if (cameraPosition != null) {
+            getMap().moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
 
         getMap().setOnMapLongClickListener(this);
     }
