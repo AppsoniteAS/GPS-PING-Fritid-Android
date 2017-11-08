@@ -49,15 +49,15 @@ public class ColorArrowPin {
         private void incrementState() {
             switch (colorPin) {
                 case RED:
+                    colorPin = GREEN;
+                    break;
+                case GREEN:
                     colorPin = ORANGE;
                     break;
                 case ORANGE:
                     colorPin = YELLOW;
                     break;
                 case YELLOW:
-                    colorPin = GREEN;
-                    break;
-                case GREEN:
                     colorPin = RED;
             }
         }
