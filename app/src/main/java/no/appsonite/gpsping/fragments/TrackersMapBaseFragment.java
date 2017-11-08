@@ -89,6 +89,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private CalculateDirection calculateDirection = new CalculateDirection();
     private MapStyle mapStyle = MapStyle.TOPO;
     private CameraPosition cameraPosition;
+    protected boolean isBelongingMarkerToMap = true;
 
     private void clearTile() {
         if (topoNorwayOverlay != null) {
@@ -378,9 +379,14 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void getTrackerFromCache() {
         for (Tracker tracker : trackers) {
-            if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
-                getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
-            }
+            callEditTrackerFragment(tracker);
+        }
+    }
+
+    private void callEditTrackerFragment(Tracker tracker) {
+        if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
+            isBelongingMarkerToMap = false;
+            getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
         }
     }
 
@@ -400,9 +406,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void showEditTrackerScreenIfBelonging(Tracker tracker) {
-        if (tracker.imeiNumber.get().equals(getModel().currentMapPoint.get().getImeiNumber())) {
-            getBaseActivity().replaceFragment(EditTrackerFragment.newInstance(tracker), true);
-        }
+        callEditTrackerFragment(tracker);
     }
 
     private void initCompass() {

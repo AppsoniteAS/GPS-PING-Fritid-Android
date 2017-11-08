@@ -113,6 +113,14 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
                 getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(userMarker.getPosition(), 15));
 
             } else {
+                if (!isBelongingMarkerToMap) {
+                    userMarker = getMap().addMarker(new MarkerOptions()
+                            .position(userMapPoint.getLatLng())
+                            .icon((
+                                    MarkerHelper.getUserBitmapDescriptor(userMapPoint.getUser()))
+                            ));
+                    isBelongingMarkerToMap = true;
+                }
                 userMapPoint.setLat(location.getLatitude());
                 userMapPoint.setLon(location.getLongitude());
                 userMapPoint.setLogTime(location.getTime() / 1000l);
