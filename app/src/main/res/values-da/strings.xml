@@ -257,7 +257,7 @@
     <string name="allow">Give lov til</string>
     <string name="imsure">Jeg er sikker</string>
     <string name="choosePhoto">Upload dit billede</string>
-
+    <string name="buy">Købe</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

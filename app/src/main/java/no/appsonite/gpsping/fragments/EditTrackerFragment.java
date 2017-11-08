@@ -99,7 +99,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initSleepModeBlock();
         initBikeTrackingBlock();
         initGeofenceBlock();
-//        initResetBtn();
+        initResetBtn();
         initTrackerHistoryBlock();
         initUploadPhotoBtn();
         initUpdateBtn();
@@ -536,9 +536,9 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-//    private void initResetBtn() {
-//        getBinding().resetButton.setOnClickListener(view -> resetTracker());
-//    }
+    private void initResetBtn() {
+        getBinding().resetButton.setOnClickListener(view -> resetTracker());
+    }
 
     private void getPermission() {
         new RxPermissions(getActivity())
@@ -554,27 +554,15 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-    //    private void resetTracker() {
-//        Observable<SMS> observable = getModel().resetTracker(getActivity());
-//        if (observable != null) {
-//            showProgress();
-//            observable.subscribe(new Observer<SMS>() {
-//                @Override
-//                public void onCompleted() {
-//
-//                }
-//
-//                @Override
-//                public void onError(Throwable e) {
-//                    showError(e);
-//                }
-//
-//                @Override
-//                public void onNext(SMS sms) {
-//                    hideProgress();
-//                    Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
+        private void resetTracker() {
+        Observable<SMS> observable = getModel().resetTracker(getActivity());
+        if (observable != null) {
+            showProgress();
+            observable.subscribe(sms -> resetTrackerOnNext(), this::showError);
+        }
+    }
+    private void resetTrackerOnNext() {
+        hideProgress();
+        Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+    }
 }

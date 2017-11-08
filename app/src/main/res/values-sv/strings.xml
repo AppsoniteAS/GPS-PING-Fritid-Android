@@ -146,6 +146,7 @@
     <string name="allow">Tillåta</string>
     <string name="imsure">Jag är säker</string>
     <string name="choosePhoto">Ladda upp ditt foto</string>
+    <string name="buy">Köpa</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

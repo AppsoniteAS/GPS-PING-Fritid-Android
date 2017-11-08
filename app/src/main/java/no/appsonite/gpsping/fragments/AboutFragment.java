@@ -37,9 +37,9 @@ public class AboutFragment extends BaseBindingFragment<FragmentAboutBinding, Bas
     @Override
     protected void onViewModelCreated(BaseFragmentViewModel model) {
         super.onViewModelCreated(model);
-        getBinding().contactUs.setOnClickListener(v -> WebViewActivity.open(getActivity(), CONTACT_URL, getString(R.string.contactUs)));
+        getBinding().contactUs.setOnClickListener(v -> WebViewActivity.open(getActivity(), CONTACT_URL, getString(R.string.contactUs), false));
 
-        getBinding().website.setOnClickListener(v -> WebViewActivity.open(getActivity(), WEBSITE_URL, getString(R.string.visitWebsite)));
+        getBinding().website.setOnClickListener(v -> WebViewActivity.open(getActivity(), WEBSITE_URL, getString(R.string.visitWebsite), false));
 
         getBinding().aboutApp.setOnClickListener(v -> getBaseActivity().replaceFragment(AboutAppFragment.newInstance(), true));
     }

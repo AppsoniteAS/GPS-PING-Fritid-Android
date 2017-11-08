@@ -178,6 +178,7 @@
     <string name="distanceTravelledInfo">%1$s km</string>
     <string name="chargeInfo">%1$s %%</string>
     <string name="choosePhoto">Upload your photo</string>
+    <string name="buy">Buy</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

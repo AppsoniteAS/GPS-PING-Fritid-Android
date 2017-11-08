@@ -257,7 +257,7 @@
     <string name="allow">Sallia</string>
     <string name="imsure">Olen varma</string>
     <string name="choosePhoto">Lataa kuva</string>
-
+    <string name="buy">Ostaa</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekuntia</item>

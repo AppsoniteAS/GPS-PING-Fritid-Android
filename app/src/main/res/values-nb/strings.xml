@@ -147,6 +147,7 @@
     <string name="allow">Tillate</string>
     <string name="imsure">Jeg er sikker</string>
     <string name="choosePhoto">Last opp bildet ditt</string>
+    <string name="buy">Kjøpe</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
