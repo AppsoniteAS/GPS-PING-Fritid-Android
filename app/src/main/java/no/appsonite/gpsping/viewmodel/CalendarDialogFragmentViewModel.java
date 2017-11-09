@@ -45,20 +45,8 @@ public class CalendarDialogFragmentViewModel extends BaseFragmentViewModel {
             }
         });
 
-        initFakeEvents();
-
         Calendar calendar = Calendar.getInstance();
         selectedDate.set(new SimpleDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
-    }
-
-    private void initFakeEvents() {
-//        Calendar calendar = Calendar.getInstance();
-//        eventList.add(new SimpleDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
-//
-//        for (int i = 0; i < 30; i++) {
-//            calendar.add(Calendar.DAY_OF_MONTH, new Random().nextInt(30) * ((i % 2 == 0) ? -1 : 1));
-//            eventList.add(new SimpleDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
-//        }
     }
 
     @Override
