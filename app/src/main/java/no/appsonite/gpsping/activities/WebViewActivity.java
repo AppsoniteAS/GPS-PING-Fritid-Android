@@ -2,11 +2,14 @@ package no.appsonite.gpsping.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.klarna.checkout.KlarnaCheckout;
 
@@ -22,7 +25,8 @@ public class WebViewActivity extends BaseActivity {
     private static final String EXTRA_TITLE = "extra_title";
     private static final String EXTRA_KLARNA = "extra_klarna";
 
-    WebView webView;
+    private WebView webView;
+    private ProgressBar progressBar;
 
     public static void open(Context context, String url, String title, boolean klarna) {
         Intent intent = new Intent(context, WebViewActivity.class);
@@ -38,6 +42,8 @@ public class WebViewActivity extends BaseActivity {
         setContentView(R.layout.activity_webview);
 
         boolean isKlarna = getIntent().getBooleanExtra(EXTRA_KLARNA, false);
+
+        progressBar = findViewById(R.id.progressBar);
 
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -72,6 +78,18 @@ public class WebViewActivity extends BaseActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
