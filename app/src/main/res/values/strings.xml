@@ -175,11 +175,11 @@
     <string name="allow">Allow</string>
     <string name="imsure">I\'M Sure</string>
     <string name="speedInfo">%1$s km/h</string>
-    <string name="distanceInfo">%1$s km</string>
-    <string name="distanceTravelledInfo">%1$s km</string>
     <string name="chargeInfo">%1$s %%</string>
     <string name="choosePhoto">Upload your photo</string>
     <string name="buy">Buy</string>
+    <string name="meters">\tm</string>
+    <string name="kilometers">\tkm</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

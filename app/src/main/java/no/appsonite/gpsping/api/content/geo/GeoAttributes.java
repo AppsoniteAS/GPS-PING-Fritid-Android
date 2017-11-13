@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.text.DecimalFormat;
 
+import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.R;
+
 /**
  * Created by taras on 10/31/17.
  */
@@ -56,7 +59,10 @@ public class GeoAttributes {
     }
 
     public String getDistanceStr() {
-        return decimalFormat.format(distance);
+        if (distance > 1000) {
+            return decimalFormat.format(distance / 1000) + Application.getContext().getResources().getString(R.string.kilometers);
+        }
+        return decimalFormat.format(distance) + Application.getContext().getResources().getString(R.string.meters);
     }
 
     public void setDistance(double distance) {
@@ -68,7 +74,10 @@ public class GeoAttributes {
     }
 
     public String getTotalDistanceStr() {
-        return decimalFormat.format(totalDistance);
+        if (totalDistance > 1000) {
+            return decimalFormat.format(totalDistance / 1000) + Application.getContext().getResources().getString(R.string.kilometers);
+        }
+        return decimalFormat.format(totalDistance) + Application.getContext().getResources().getString(R.string.meters);
     }
 
     public void setTotalDistance(double totalDistance) {
