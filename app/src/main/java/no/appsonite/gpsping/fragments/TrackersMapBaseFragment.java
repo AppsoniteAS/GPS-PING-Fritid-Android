@@ -724,17 +724,14 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
         getModel().currentPoi.set(markerPoiHashMap.get(marker));
         if (getModel().currentMapPoint.get() != null) {
+            setClickableCallBtn();
             setClickableEditBtn();
         }
         return false;
     }
 
     private void setClickableEditBtn() {
-        if (getModel().currentMapPoint.get().getImeiNumber().isEmpty()) {
-            getModel().clickableEditBtn.set(false);
-        } else {
-            getModel().clickableEditBtn.set(true);
-        }
+        getModel().setClickableEditBtn();
     }
 
     @Override
@@ -752,5 +749,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             getModel().requestPois();
             getModel().currentPoi.set(null);
         });
+    }
+
+    private void setClickableCallBtn() {
+        getModel().setClickableCallBtn();
     }
 }

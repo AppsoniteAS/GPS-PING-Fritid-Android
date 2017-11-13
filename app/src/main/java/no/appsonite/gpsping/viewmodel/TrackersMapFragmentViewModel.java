@@ -63,6 +63,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
     private LatLonData latLonData = new LatLonData();
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
+    public ObservableBoolean clickableCallBtn = new ObservableBoolean(false);
 
     public void requestFriends() {
         execute(ApiFactory.getService().getFriends())
@@ -265,7 +266,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         if (tracker == null) {
             return false;
         }
-        boolean check = tracker.getType().equals(Tracker.Type.S1.toString());
+        boolean check = tracker.getType().equals(Tracker.Type.S1.toString()) || tracker.getType().equals(Tracker.Type.A9.toString());
         realm.close();
         return check;
     }
@@ -327,5 +328,33 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
         }
         sendSmses(activity, smses);
         Utils.setUpdateTracker();
+    }
+
+    public void setClickableEditBtn() {
+        if (currentMapPoint.get().getImeiNumber().isEmpty()) {
+            clickableEditBtn.set(false);
+        } else {
+            clickableEditBtn.set(true);
+        }
+    }
+
+    public void setClickableCallBtn() {
+        if (currentMapPoint.get().getImeiNumber().isEmpty()) {
+            clickableCallBtn.set(false);
+        } else {
+            String imei = currentMapPoint.get().getImeiNumber();
+            Realm realm = Realm.getDefaultInstance();
+            RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", imei).findFirst();
+            if (tracker == null) {
+                clickableCallBtn.set(false);
+            } else {
+                boolean check = tracker.getType().equals(Tracker.Type.S1.toString()) || tracker.getType().equals(Tracker.Type.A9.toString());
+                if (check) {
+                    clickableCallBtn.set(true);
+                } else {
+                    clickableCallBtn.set(false);
+                }
+            }
+        }
     }
 }
