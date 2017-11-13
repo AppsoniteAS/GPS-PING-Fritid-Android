@@ -177,6 +177,11 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 Tracker.Type.TK_STAR_BIKE.toString().equalsIgnoreCase(tracker.get().type.get());
     }
 
+    public boolean isS1OrA9Tracker() {
+        return Tracker.Type.S1.toString().equalsIgnoreCase(tracker.get().type.get()) ||
+                Tracker.Type.A9.toString().equalsIgnoreCase(tracker.get().type.get());
+    }
+
     public Observable<Boolean> updateLed(Activity activity) {
         ArrayList<SMS> smses = new ArrayList<>();
         if (tracker.get().ledActive.get()) {
@@ -222,12 +227,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public Observable<Boolean> updateSleepMode(Activity activity) {
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.get().trackerNumber.get(), tracker.get().sleepMode.get() ? "sleep123456" : "sleep123456 off"));
-        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
-            @Override
-            public Observable<Boolean> call(SMS sms) {
-                saveTrackerToDb();
-                return Observable.just(true);
-            }
+        return sendSmses(activity, smses).flatMap(sms -> {
+            saveTrackerToDb();
+            return Observable.just(true);
         });
     }
 
@@ -526,5 +528,17 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     private Observable<String> resolveAddress() {
         return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<SMS> shutDown(Activity activity) {
+        Tracker tracker = this.tracker.get();
+        String message = "";
+        if (Tracker.Type.S1.toString().equals(this.tracker.get().type.get())) {
+            message = "pw,123456,poweroff#";
+        }
+        if (Tracker.Type.A9.toString().equals(this.tracker.get().type.get())) {
+            message = "pw,123456,poweroff#";
+        }
+        return sendSmsToTracker(tracker, message, activity);
     }
 }

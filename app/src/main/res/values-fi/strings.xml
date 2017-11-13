@@ -225,6 +225,7 @@
     <string name="friendsRequiresSubscription">Tämän ominaisuuden käyttämiseksi sinun tulee lisätä ensin paikannin tai ostaa lisenssi</string>
     <string name="buySubscription">Osta lisenssi</string>
     <string name="reset">Palauta</string>
+    <string name="shutdown">Sammuttaa</string>
     <string name="bikeTracking">Pyörän paikannus</string>
     <string name="ledLight">LED-valo</string>
     <string name="active">Aktiivinen</string>

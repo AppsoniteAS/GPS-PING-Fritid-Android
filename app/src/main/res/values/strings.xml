@@ -123,6 +123,7 @@
     <string name="friendsRequiresSubscription">To use this action you should add your tracker first or buy annual subscription.</string>
     <string name="buySubscription">Buy subscription</string>
     <string name="reset">Reset</string>
+    <string name="shutdown">Shutdown</string>
     <string name="bikeTracking">Bike Tracking</string>
     <string name="ledLight">LED Light</string>
     <string name="active">Active</string>

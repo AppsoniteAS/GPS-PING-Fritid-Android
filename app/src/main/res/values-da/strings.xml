@@ -225,6 +225,7 @@
     <string name="friendsRequiresSubscription">For at benytte denne handling, bør du først tilføje din sporer, eller købe et årligt abonnement. </string>
     <string name="buySubscription">Køb abonnement</string>
     <string name="reset">Genstart</string>
+    <string name="shutdown">Lukke ned</string>
     <string name="bikeTracking">Cykel Sporing</string>
     <string name="ledLight">LED Lys</string>
     <string name="active">Aktiv</string>

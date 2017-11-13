@@ -99,11 +99,12 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         initSleepModeBlock();
         initBikeTrackingBlock();
         initGeofenceBlock();
-        initResetBtn();
         initTrackerHistoryBlock();
         initUploadPhotoBtn();
         initUpdateBtn();
         initPauseSubscriptionBtn();
+        initResetBtn();
+        initShutDownBtn();
         downloadPhoto();
     }
 
@@ -536,10 +537,6 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-    private void initResetBtn() {
-        getBinding().resetButton.setOnClickListener(view -> resetTracker());
-    }
-
     private void getPermission() {
         new RxPermissions(getActivity())
                 .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
@@ -554,15 +551,33 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-        private void resetTracker() {
+    private void initResetBtn() {
+        getBinding().resetButton.setOnClickListener(view -> resetTracker());
+    }
+
+    private void resetTracker() {
         Observable<SMS> observable = getModel().resetTracker(getActivity());
         if (observable != null) {
             showProgress();
             observable.subscribe(sms -> resetTrackerOnNext(), this::showError);
         }
     }
+
     private void resetTrackerOnNext() {
         hideProgress();
         Toast.makeText(getActivity(), getString(R.string.trackerUpdated), Toast.LENGTH_SHORT).show();
+    }
+
+    private void initShutDownBtn() {
+        getBinding().shutDownBtn.setOnClickListener(v -> shutDownBtn());
+    }
+
+    private void shutDownBtn() {
+        if (getModel().tracker.get() == null)
+            return;
+        showProgress();
+        getModel().shutDown(getActivity()).subscribe(sms -> {
+
+        }, this::showError, this::hideProgress);
     }
 }
