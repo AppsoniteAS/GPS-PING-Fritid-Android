@@ -87,8 +87,8 @@
     <string name="confirm">Confirm</string>
     <string name="owner">Owner:</string>
     <string name="originalGpsTracker">Original GPS Tracker</string>
-    <string name="gpsPingMarcelTracker">GPS PingMarcel Tracker</string>
-    <string name="gpsCatTracker">GPS Cattracker</string>
+    <string name="gpsPingMarcel">GPS Ping Marcel</string>
+    <string name="gpsPingIsabella">GPS Ping Isabella</string>
 
     <string name="trackerNumberNMap">Tracker Number:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI Number:\t\t\t%1$s</string>

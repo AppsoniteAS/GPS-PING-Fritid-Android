@@ -37,7 +37,10 @@ public class FAQChoiceFragment extends BaseBindingFragment<FragmentFaqChoiceBind
         getBinding().originalBtn.setOnClickListener(v -> getBaseActivity()
                 .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.ORIGINAL_GPS_TRACKER), true));
 
-        getBinding().cattrackerBtn.setOnClickListener(v -> getBaseActivity()
-                .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.GPS_CAT_TRACKER), true));
+        getBinding().marcelBtn.setOnClickListener(v -> getBaseActivity()
+                .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.GPS_MARCEL_AND_ISABELLA_TRACKER), true));
+
+        getBinding().isabellaBtn.setOnClickListener(v -> getBaseActivity()
+                .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.GPS_MARCEL_AND_ISABELLA_TRACKER), true));
     }
 }
