@@ -1,6 +1,5 @@
 package no.appsonite.gpsping.viewmodel;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ComponentName;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
@@ -29,7 +27,6 @@ import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.WTFileProvider;
 import no.appsonite.gpsping.api.ApiFactory;
-import no.appsonite.gpsping.api.content.ApiAnswer;
 import no.appsonite.gpsping.db.Geofence;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.managers.ProfileUpdateManager;
@@ -156,36 +153,33 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             }
         }
         return observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).last().cache().flatMap(new Func1<SMS, Observable<Boolean>>() {
-                    @Override
-                    public Observable<Boolean> call(SMS sms) {
-                        return execute(ApiFactory.getService().updateTracker(
-                                tracker.get().imeiNumber.get(),
-                                tracker.get().trackerName.get(),
-                                tracker.get().getRepeatTime(),
-                                tracker.get().checkForStand.get()))
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .flatMap(new Func1<ApiAnswer, Observable<Boolean>>() {
-                                    @Override
-                                    public Observable<Boolean> call(ApiAnswer apiAnswer) {
-                                        Realm realm = Realm.getDefaultInstance();
-                                        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
-                                        realm.beginTransaction();
-                                        RealmTracker.initWithTracker(realmTracker, tracker.get());
-                                        realm.copyToRealm(realmTracker);
-                                        realm.commitTransaction();
-                                        realm.close();
-                                        return Observable.just(false);
-                                    }
-                                });
-                    }
-                });
+                .observeOn(AndroidSchedulers.mainThread()).last().cache().flatMap(sms -> execute(ApiFactory.getService().updateTracker(
+                        tracker.get().imeiNumber.get(),
+                        tracker.get().trackerName.get(),
+                        tracker.get().getRepeatTime(),
+                        tracker.get().checkForStand.get()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .flatMap(apiAnswer -> {
+                            Realm realm = Realm.getDefaultInstance();
+                            RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.get().imeiNumber.get()).findFirst();
+                            realm.beginTransaction();
+                            RealmTracker.initWithTracker(realmTracker, tracker.get());
+                            realm.copyToRealm(realmTracker);
+                            realm.commitTransaction();
+                            realm.close();
+                            return Observable.just(false);
+                        }));
     }
 
     public boolean isBikeTracker() {
         return Tracker.Type.TK_BIKE.toString().equalsIgnoreCase(tracker.get().type.get()) ||
                 Tracker.Type.TK_STAR_BIKE.toString().equalsIgnoreCase(tracker.get().type.get());
+    }
+
+    public boolean isS1OrA9Tracker() {
+        return Tracker.Type.S1.toString().equalsIgnoreCase(tracker.get().type.get()) ||
+                Tracker.Type.A9.toString().equalsIgnoreCase(tracker.get().type.get());
     }
 
     public Observable<Boolean> updateLed(Activity activity) {
@@ -195,13 +189,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         } else {
             smses.add(new SMS(tracker.get().trackerNumber.get(), "Led123456 off"));
         }
-        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
-            @Override
-            public Observable<Boolean> call(SMS sms) {
-                saveTrackerToDb();
-
-                return Observable.just(true);
-            }
+        return sendSmses(activity, smses).flatMap(sms -> {
+            saveTrackerToDb();
+            return Observable.just(true);
         });
     }
 
@@ -212,12 +202,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         } else {
             smses.add(new SMS(tracker.get().trackerNumber.get(), "sleep123456 time"));
         }
-        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
-            @Override
-            public Observable<Boolean> call(SMS sms) {
-                saveTrackerToDb();
-                return Observable.just(true);
-            }
+        return sendSmses(activity, smses).flatMap(sms -> {
+            saveTrackerToDb();
+            return Observable.just(true);
         });
     }
 
@@ -225,12 +212,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         if (tracker.get().shockFlashActive.get()) {
             ArrayList<SMS> smses = new ArrayList<>();
             smses.add(new SMS(tracker.get().trackerNumber.get(), "LED123456 shock"));
-            return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
-                @Override
-                public Observable<Boolean> call(SMS sms) {
-                    saveTrackerToDb();
-                    return Observable.just(true);
-                }
+            return sendSmses(activity, smses).flatMap(sms -> {
+                saveTrackerToDb();
+                return Observable.just(true);
             });
         } else {
             saveTrackerToDb();
@@ -243,12 +227,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
     public Observable<Boolean> updateSleepMode(Activity activity) {
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.get().trackerNumber.get(), tracker.get().sleepMode.get() ? "sleep123456" : "sleep123456 off"));
-        return sendSmses(activity, smses).flatMap(new Func1<SMS, Observable<Boolean>>() {
-            @Override
-            public Observable<Boolean> call(SMS sms) {
-                saveTrackerToDb();
-                return Observable.just(true);
-            }
+        return sendSmses(activity, smses).flatMap(sms -> {
+            saveTrackerToDb();
+            return Observable.just(true);
         });
     }
 
@@ -266,14 +247,6 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         ArrayList<SMS> smses = new ArrayList<>();
         smses.add(new SMS(tracker.get().trackerNumber.get(), "G123456#"));
         return sendSmses(activity, smses);
-    }
-
-    public Observable<SMS> switchState(Activity activity) {
-        if (tracker.get().isRunning.get()) {
-            return stopTracker(activity);
-        } else {
-            return startTracker(activity);
-        }
     }
 
     public Observable<SMS> stopTracker(Activity activity) {
@@ -447,7 +420,6 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 smses.add(new SMS(tracker.trackerNumber.get(), String.format("move123456 %s", yards.get())));
                 break;
         }
-        //smses.add(new SMS(tracker.trackerNumber.get(), String.format("admin123456 %s", activeTracker.get().trackerNumber.get())));
 
         return sendSmses(activity, smses).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -545,40 +517,28 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         return chooserIntent;
     }
 
-//    public Observable<SMS> resetTracker(final Activity activity) {
-//        return resolveAddress().flatMap(new Func1<String, Observable<SMS>>() {
-//            @Override
-//            public Observable<SMS> call(String address) {
-//                return sendSmses(activity, tracker.get().getResetSms(address));
-//            }
-//        })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .last()
-//                .cache();
-//    }
+    public Observable<SMS> resetTracker(final Activity activity) {
+        return resolveAddress().flatMap(address -> sendSmses(activity, tracker.get().getResetSms(address)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .last()
+                .cache();
+    }
 
     private Observable<String> resolveAddress() {
-//        if (BuildConfig.DEBUG) {
-//            return Observable.defer(new Func0<Observable<String>>() {
-//                @Override
-//                public Observable<String> call() {
-//                    String ipAddress;
-//                    InetAddress address = null;
-//                    try {
-//                        address = InetAddress.getByName("appgranula.mooo.com");
-//                        ipAddress = address.getHostAddress();
-//                    } catch (UnknownHostException e) {
-//                        ipAddress = "null";
-//                    }
-//                    return Observable.just(ipAddress).subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread());
-//                }
-//            });
-//        } else {
         return Observable.just(TRACCAR_IP).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-//        }
-        //http://appgranula.mooo.com
+    }
+
+    public Observable<SMS> shutDown(Activity activity) {
+        Tracker tracker = this.tracker.get();
+        String message = "";
+        if (Tracker.Type.S1.toString().equals(this.tracker.get().type.get())) {
+            message = "pw,123456,poweroff#";
+        }
+        if (Tracker.Type.A9.toString().equals(this.tracker.get().type.get())) {
+            message = "pw,123456,poweroff#";
+        }
+        return sendSmsToTracker(tracker, message, activity);
     }
 }

@@ -114,6 +114,7 @@
     <string name="friendsRequiresSubscription"> For å bruke denne funksjonen må du kjøpe abbonnement. </string>
     <string name="buySubscription">Kjøp abbonnement</string>
     <string name="reset">Reset</string>
+    <string name="shutdown">Skru av</string>
     <string name="bikeTracking">Sykkel Tracking</string>
     <string name="ledLight">LED Lys</string>
     <string name="active">Aktiv</string>
@@ -147,6 +148,7 @@
     <string name="allow">Tillate</string>
     <string name="imsure">Jeg er sikker</string>
     <string name="choosePhoto">Last opp bildet ditt</string>
+    <string name="buy">Kjøpe</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

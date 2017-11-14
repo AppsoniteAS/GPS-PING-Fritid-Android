@@ -87,8 +87,8 @@
     <string name="confirm">Confirm</string>
     <string name="owner">Owner:</string>
     <string name="originalGpsTracker">Original GPS Tracker</string>
-    <string name="gpsPingMarcelTracker">GPS PingMarcel Tracker</string>
-    <string name="gpsCatTracker">GPS Cattracker</string>
+    <string name="gpsPingMarcel">GPS Ping Marcel</string>
+    <string name="gpsPingIsabella">GPS Ping Isabella</string>
 
     <string name="trackerNumberNMap">Tracker Number:\t%1$s</string>
     <string name="trackerImeiNMap">IMEI Number:\t\t\t%1$s</string>
@@ -123,6 +123,7 @@
     <string name="friendsRequiresSubscription">To use this action you should add your tracker first or buy annual subscription.</string>
     <string name="buySubscription">Buy subscription</string>
     <string name="reset">Reset</string>
+    <string name="shutdown">Shutdown</string>
     <string name="bikeTracking">Bike Tracking</string>
     <string name="ledLight">LED Light</string>
     <string name="active">Active</string>
@@ -174,10 +175,11 @@
     <string name="allow">Allow</string>
     <string name="imsure">I\'M Sure</string>
     <string name="speedInfo">%1$s km/h</string>
-    <string name="distanceInfo">%1$s km</string>
-    <string name="distanceTravelledInfo">%1$s km</string>
     <string name="chargeInfo">%1$s %%</string>
     <string name="choosePhoto">Upload your photo</string>
+    <string name="buy">Buy</string>
+    <string name="meters">\tm</string>
+    <string name="kilometers">\tkm</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

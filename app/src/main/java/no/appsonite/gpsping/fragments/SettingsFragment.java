@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import no.appsonite.gpsping.activities.WebViewActivity;
 import no.appsonite.gpsping.databinding.FragmentSettingsBinding;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
@@ -42,5 +43,11 @@ public class SettingsFragment extends BaseBindingFragment<FragmentSettingsBindin
         getBinding().faq.setOnClickListener(v -> getBaseActivity().replaceFragment(FAQChoiceFragment.newInstance(), true));
 
         getBinding().about.setOnClickListener(v -> getBaseActivity().replaceFragment(AboutFragment.newInstance(), true));
+
+        getBinding().buy.setOnClickListener(v -> buyClick());
+    }
+
+    private void buyClick() {
+        WebViewActivity.open(getContext(), "https://shop.gpsping.no/shop/123", "Klarna", true);
     }
 }

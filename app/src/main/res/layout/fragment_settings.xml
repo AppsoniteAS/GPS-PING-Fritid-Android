@@ -55,6 +55,14 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/button_margin_top"
                     android:text="@string/about" />
+
+                <TextView
+                    android:id="@+id/buy"
+                    style="@style/AppTheme.widget.Button.Green"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/button_margin_top"
+                    android:text="@string/buy"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
 

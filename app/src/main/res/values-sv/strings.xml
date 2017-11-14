@@ -114,6 +114,7 @@
     <string name="friendsRequiresSubscription">För att använda den här funktionen måste du först lägga till din GPS-spårare eller köpa en årlig prenumeration.</string>
     <string name="buySubscription">Köp prenumeration</string>
     <string name="reset">Återställ</string>
+    <string name="shutdown">Stänga av</string>
     <string name="bikeTracking">Cykelspårning</string>
     <string name="ledLight">LED-lampa</string>
     <string name="active">Aktiv</string>
@@ -146,6 +147,7 @@
     <string name="allow">Tillåta</string>
     <string name="imsure">Jag är säker</string>
     <string name="choosePhoto">Ladda upp ditt foto</string>
+    <string name="buy">Köpa</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
