@@ -132,7 +132,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     @Override
     public void onMapReady() {
         super.onMapReady();
-        getMap().setOnCameraChangeListener(cameraPosition -> updateDistance());
+        getMap().setOnCameraMoveListener(this::updateDistance);
     }
 
     private void updateDistance() {

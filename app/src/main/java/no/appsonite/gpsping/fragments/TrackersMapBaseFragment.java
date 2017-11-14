@@ -213,22 +213,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
         TileOverlayOptions danishOptions = new TileOverlayOptions();
         danishOptions.tileProvider(new WMSTileProvider(256, 256) {
-//            final String URL = "http://services.kortforsyningen.dk/service?servicename=topo_skaermkort&service=WMS&version=1.1.1&request=GetMap" +
-//                    "&LAYERS=dtk_skaermkort_774&srs=EPSG:3857&" +
-//                    "bbox=%f,%f,%f,%f&" +
-//                    "width=256&height=256&format=image/png&" +
-//                    "styles=default&bgcolor=0xff0000&transparent=TRUE&" +
-//                    "ignoreillegallayers=TRUE&exceptions=application/vnd.ogc.se_inimage&" +
-//                    "login=kms1&password=adgang";
-
-//            final String URL = "http://services.kortforsyningen.dk/service?servicename=topo25&service=WMS&version=1.1.1&request=GetMap" +
-//                    "&LAYERS=topo25_graa&srs=EPSG:3857&" +
-//                    "bbox=%f,%f,%f,%f&" +
-//                    "width=256&height=256&format=image/png&" +
-//                    "styles=default&bgcolor=0xffffff&transparent=TRUE&" +
-//                    "ignoreillegallayers=TRUE&exceptions=application/vnd.ogc.se_inimage&" +
-//                    "login=kms1&password=adgang";
-
             final String URL = "http://kortforsyningen.kms.dk/topo100?LAYERS=dtk_1cm&FORMAT=image/png&" +
                     "BGCOLOR=0xFFFFFF&TICKET=8b4e36fe4c851004fd1e69463fbabe3b&PROJECTION=EPSG:3857&" +
                     "TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&" +

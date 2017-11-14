@@ -41,7 +41,7 @@ import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.FileUtils;
 import no.appsonite.gpsping.utils.ImageUtils;
-import no.appsonite.gpsping.utils.image_transdormation.BitmapRotator;
+import no.appsonite.gpsping.utils.image_transformation.BitmapRotator;
 import no.appsonite.gpsping.viewmodel.EditTrackerFragmentViewModel;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

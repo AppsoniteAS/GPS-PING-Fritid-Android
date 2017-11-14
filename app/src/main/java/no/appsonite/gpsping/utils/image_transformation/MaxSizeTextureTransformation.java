@@ -1,4 +1,4 @@
-package no.appsonite.gpsping.utils.image_transdormation;
+package no.appsonite.gpsping.utils.image_transformation;
 
 import android.content.Context;
 import android.graphics.Bitmap;

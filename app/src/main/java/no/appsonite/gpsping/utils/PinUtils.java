@@ -18,8 +18,8 @@ import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.data_structures.ArrowLocationPin;
 import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
-import no.appsonite.gpsping.utils.image_transdormation.CircleSizeTransformation;
-import no.appsonite.gpsping.utils.image_transdormation.MaxSizeTextureTransformation;
+import no.appsonite.gpsping.utils.image_transformation.CircleSizeTransformation;
+import no.appsonite.gpsping.utils.image_transformation.MaxSizeTextureTransformation;
 import rx.Observable;
 import rx.exceptions.Exceptions;
 
