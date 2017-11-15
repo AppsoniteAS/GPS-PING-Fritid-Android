@@ -633,7 +633,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
 
     private void setPhotoForDogMarker(Marker marker, MapPoint mapPoint) {
         String url = mapPoint.getPicUrl();
-        ColorPin colorPin = getModel().colorArrowPin.get(mapPoint.getName());
+        ColorPin colorPin = getModel().createPointManager.getColorPin(mapPoint.getName());
         if (url == null || url.isEmpty()) {
             setArrowPin(colorPin, mapPoint, marker);
         } else {
@@ -654,16 +654,20 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     private void setAvatarPin(ColorPin colorPin, MapPoint mapPoint, Marker marker) {
-        PinUtils.getPinDog(mapPoint.getPicUrl(), colorPin, getDirection(mapPoint.getDirection()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bitmap -> {
-                            if (marker.getTag() != null) {
-                                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
-                                marker.setIcon(bitmapDescriptor);
-                            }
-                        },
-                        Throwable::printStackTrace);
+        if (mapPoint.isMainAvatar()) {
+            PinUtils.getPinDog(mapPoint.getPicUrl(), colorPin, getDirection(mapPoint.getDirection()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bitmap -> {
+                                if (marker.getTag() != null) {
+                                    BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
+                                    marker.setIcon(bitmapDescriptor);
+                                }
+                            },
+                            Throwable::printStackTrace);
+        } else {
+            marker.setIcon(markerHelper.getArrowPin(colorPin, getDirection(mapPoint.getDirection()), SizeArrowPin.MID));
+        }
     }
 
     private void includeThisPointForBuildingOfTheBounds(MapPoint mapPoint, LatLngBounds.Builder builder) {

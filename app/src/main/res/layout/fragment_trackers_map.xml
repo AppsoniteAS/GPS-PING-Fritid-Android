@@ -464,7 +464,7 @@
                             android:id="@+id/tvDistance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.currentMapPoint.getAttributes != null ? viewModel.currentMapPoint.getAttributes.getDistanceStr : null}"
+                            android:text="@{viewModel.currentMapPoint.getDistanceStr}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/distance_tools" />
@@ -488,7 +488,7 @@
                             android:id="@+id/tvDistanceTravelled"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.currentMapPoint.getAttributes != null ? viewModel.currentMapPoint.getAttributes.getTotalDistanceStr : null}"
+                            android:text="@{viewModel.currentMapPoint.getTotalDistanceStr}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/distance_travelled_tools" />

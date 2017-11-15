@@ -26,13 +26,17 @@ public class GeoDevice {
     @SerializedName("heading")
     private int direction;
     @SerializedName("speedKPH")
-    private int speed;
+    private double speed;
     @SerializedName("GSM_Signal")
     private String gsmSignal;
     @SerializedName("GPS_Signal")
     private String gpsSignal;
     @SerializedName("attributes")
     private GeoAttributes attributes;
+    @SerializedName("t_distance")
+    private double distance;
+    @SerializedName("real_dist")
+    private double distanceTravelled;
 
     public String getTrackerNumber() {
         return trackerNumber;
@@ -106,11 +110,11 @@ public class GeoDevice {
         this.direction = direction;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -136,5 +140,21 @@ public class GeoDevice {
 
     public void setAttributes(GeoAttributes attributes) {
         this.attributes = attributes;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getDistanceTravelled() {
+        return distanceTravelled;
+    }
+
+    public void setDistanceTravelled(double distanceTravelled) {
+        this.distanceTravelled = distanceTravelled;
     }
 }

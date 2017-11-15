@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
@@ -20,14 +20,7 @@ import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.api.content.TrackersAnswer;
-import no.appsonite.gpsping.api.content.geo.GeoAttributes;
-import no.appsonite.gpsping.api.content.geo.GeoDevice;
-import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
-import no.appsonite.gpsping.api.content.geo.GeoItem;
-import no.appsonite.gpsping.api.content.geo.GeoPoint;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
-import no.appsonite.gpsping.data_structures.ColorArrowPin;
-import no.appsonite.gpsping.data_structures.LatLonData;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
@@ -35,9 +28,9 @@ import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
 import no.appsonite.gpsping.utils.TrackingHistoryTime;
+import no.appsonite.gpsping.utils.point.CreatePointManager;
 import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TimeInterval;
@@ -57,13 +50,12 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     public ObservableField<MapPoint> currentMapPoint = new ObservableField<>();
     public ObservableField<Poi> currentPoi = new ObservableField<>();
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
-    public ColorArrowPin colorArrowPin = new ColorArrowPin();
     public ObservableBoolean visibilityCalendar = new ObservableBoolean(false);
     public ObservableBoolean visibilityUserPosition = new ObservableBoolean(true);
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
-    private LatLonData latLonData = new LatLonData();
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
     public ObservableBoolean clickableCallBtn = new ObservableBoolean(false);
+    public CreatePointManager createPointManager;
 
     public void requestFriends() {
         execute(ApiFactory.getService().getFriends())
@@ -117,7 +109,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
 
     protected long getFrom() {
         return Math.max(new Date().getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
-//        return ((new Date().getTime() / 1000l) - 10 * 365 * 24 * 60 * 60);
+//        return ((new Date().getTime() / 1000l) - 10 * 24 * 60 * 60);
     }
 
     protected long getTo() {
@@ -158,103 +150,11 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
     }
 
     protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
-        latLonData.clear();
-        ArrayList<MapPoint> mapPoints = new ArrayList<>();
-        for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
-            for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
-                mapPoints.add(createPoint(geoDevicePoints, geoItem, true));
-                ArrayList<MapPoint> devicePoints = new ArrayList<>();
-                for (GeoPoint geoPoint : geoDevicePoints.getPoints()) {
-                    if (!latLonData.contains(geoPoint.getLat(), geoPoint.getLon())) {
-                        MapPoint mapPoint = new MapPoint(geoItem.getUser(),
-                                geoPoint.getLat(),
-                                geoPoint.getLon(),
-                                geoDevicePoints.getDevice().getName(),
-                                geoDevicePoints.getDevice().getImeiNumber(),
-                                geoDevicePoints.getDevice().getTrackerNumber(),
-                                geoPoint.getTimestamp());
-                        devicePoints.add(mapPoint);
-                        mapPoints.add(mapPoint);
-                    }
-                }
-                try {
-                    if (!latLonData.contains(geoDevicePoints.getDevice().getLastLat(), geoDevicePoints.getDevice().getLastLon())) {
-                        if (devicePoints.isEmpty()) {
-                            MapPoint mapPoint = createPoint(geoDevicePoints, geoItem, false);
-                            devicePoints.add(mapPoint);
-                            mapPoints.add(mapPoint);
-                        }
-                    }
-                } catch (Exception ignore) {
+        createPointManager = new CreatePointManager();
+        List<MapPoint> mapPoints = createPointManager.getMapPoints(geoPointsAnswer);
 
-                }
-                if (mapPoints.size() > 0) {
-                    mapPoints.get(mapPoints.size() - 1).setLast(true);
-                }
-                checkForStand(devicePoints);
-            }
-
-            MapPoint userMapPoint = new MapPoint(
-                    geoItem.getUser(),
-                    geoItem.getUser().lat,
-                    geoItem.getUser().lon,
-                    geoItem.getUser().getName(),
-                    null,
-                    null,
-                    geoItem.getUser().lastUpdate);
-            userMapPoint.setBelongsToUser(true);
-            mapPoints.add(userMapPoint);
-        }
-        for (MapPoint mapPoint : mapPoints) {
-            if (!mapPoint.isBelongsToUser()) {
-                if (!mapPoint.getImeiNumber().isEmpty()) {
-                    colorArrowPin.add(mapPoint.getName());
-                }
-            }
-        }
-        for (MapPoint mapPoint: mapPoints) {
-            if (!mapPoint.isBelongsToUser()) {
-                if (mapPoint.getImeiNumber().isEmpty()) {
-                    colorArrowPin.add(mapPoint.getName());
-                }
-            }
-        }
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);
-    }
-
-    private MapPoint createPoint(GeoDevicePoints geoDevicePoints, GeoItem geoItem, boolean avatar) {
-        GeoDevice geoDevice = geoDevicePoints.getDevice();
-        latLonData.add(geoDevice.getLastLat(), geoDevice.getLastLon());
-
-        MapPoint mapPoint = new MapPoint(
-                geoItem.getUser(), geoDevice.getLastLat(),
-                geoDevice.getLastLon(), geoDevice.getName(),
-                geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
-                geoDevice.getLastTimestamp(), geoDevice.getPicUrl(),
-                geoDevice.getDirection(), geoDevice.getSpeed(),
-                geoDevice.getGsmSignal(), geoDevice.getGpsSignal(),
-                geoDevice.getAttributes());
-        mapPoint.setMainAvatar(avatar);
-        return mapPoint;
-    }
-
-    private void checkForStand(ArrayList<MapPoint> mapPoints) {
-        if (mapPoints.size() > 1) {
-            final MapPoint prev = mapPoints.get(mapPoints.size() - 2);
-            Observable.defer(() -> {
-                Realm realm = Realm.getDefaultInstance();
-                RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", prev.getImeiNumber()).findFirst();
-                Boolean checkForStand = false;
-                if (tracker != null) {
-                    checkForStand = tracker.isCheckForStand();
-                }
-                realm.close();
-                return Observable.just(checkForStand);
-            }).subscribe(checkForStand -> {
-
-            });
-        }
     }
 
     public boolean validateCallForS1Tracker(String imei) {

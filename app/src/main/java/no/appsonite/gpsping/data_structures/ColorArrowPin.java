@@ -23,9 +23,9 @@ public class ColorArrowPin {
         colorNumber = new ColorNumber();
     }
 
-    public void add(String imei) {
-        if (!map.containsKey(imei)) {
-            map.put(imei, colorNumber.getState());
+    public void add(String name) {
+        if (!map.containsKey(name)) {
+            map.put(name, colorNumber.getState());
         }
     }
 

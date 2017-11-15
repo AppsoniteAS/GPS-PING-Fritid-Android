@@ -1,17 +1,14 @@
 package no.appsonite.gpsping.viewmodel;
 
 import android.databinding.ObservableField;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-import no.appsonite.gpsping.api.content.geo.GeoDevice;
-import no.appsonite.gpsping.api.content.geo.GeoDevicePoints;
-import no.appsonite.gpsping.api.content.geo.GeoItem;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import no.appsonite.gpsping.model.MapPoint;
+import no.appsonite.gpsping.utils.point.CreatePointManager;
 import rx.Observable;
 
 /**
@@ -74,53 +71,9 @@ public class TrackersMapHistoryFragmentViewModel extends TrackersMapFragmentView
             super.parseGeoPointsAnswer(geoPointsAnswer);
             return;
         }
-
-        ArrayList<MapPoint> mapPoints = new ArrayList<>();
-        for (GeoItem geoItem : geoPointsAnswer.getUsers()) {
-            for (GeoDevicePoints geoDevicePoints : geoItem.getDevices()) {
-                MapPoint mapPoint = createPoint(geoDevicePoints, geoItem);
-                mapPoint.setLast(true);
-                mapPoints.add(mapPoint);
-            }
-
-            MapPoint userMapPoint = new MapPoint(
-                    geoItem.getUser(),
-                    geoItem.getUser().lat,
-                    geoItem.getUser().lon,
-                    geoItem.getUser().getName(),
-                    null,
-                    null,
-                    geoItem.getUser().lastUpdate);
-            userMapPoint.setBelongsToUser(true);
-            mapPoints.add(userMapPoint);
-        }
-        for (MapPoint mapPoint : mapPoints) {
-            if (!mapPoint.isBelongsToUser()) {
-                if (!mapPoint.getImeiNumber().isEmpty()) {
-                    colorArrowPin.add(mapPoint.getName());
-                }
-            }
-        }
-        for (MapPoint mapPoint: mapPoints) {
-            if (!mapPoint.isBelongsToUser()) {
-                if (mapPoint.getImeiNumber().isEmpty()) {
-                    colorArrowPin.add(mapPoint.getName());
-                }
-            }
-        }
+        createPointManager = new CreatePointManager();
+        List<MapPoint> mapPoints = createPointManager.getMapPointsHistory(geoPointsAnswer);
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);
-    }
-
-    private MapPoint createPoint(GeoDevicePoints geoDevicePoints, GeoItem geoItem) {
-        GeoDevice geoDevice = geoDevicePoints.getDevice();
-        return new MapPoint(
-                geoItem.getUser(), geoDevice.getLastLat(),
-                geoDevice.getLastLon(), geoDevice.getName(),
-                geoDevice.getImeiNumber(), geoDevice.getTrackerNumber(),
-                geoDevice.getLastTimestamp(), geoDevice.getPicUrl(),
-                geoDevice.getDirection(), geoDevice.getSpeed(),
-                geoDevice.getGsmSignal(), geoDevice.getGpsSignal(),
-                geoDevice.getAttributes());
     }
 }

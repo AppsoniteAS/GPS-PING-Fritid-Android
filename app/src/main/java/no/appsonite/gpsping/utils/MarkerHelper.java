@@ -36,25 +36,11 @@ public class MarkerHelper {
             "#E00000", "#00E000", "#0000E0", "#E0E000", "#E000E0", "#00E0E0", "#E0E0E0"
     };
 
-
     private static HashMap<Long, Integer> colorsMap = new HashMap<>();
     private static int lastColor = -1;
 
-//    static {
-//        SharedPreferences sharedPreferences = Application.getContext().getSharedPreferences("Colors", Context.MODE_PRIVATE);
-//        String json = sharedPreferences.getString("ColorsMap", null);
-//        lastColor = sharedPreferences.getInt("LastColor", -1);
-//        if (!TextUtils.isEmpty(json)) {
-//            colorsMap = new Gson().fromJson(json, HashMap.class);
-//        } else {
-//            colorsMap = new HashMap<>();
-//        }
-//    }
-
     private static HashMap<Long, BitmapDescriptor> userBitmaps = new HashMap<>();
     private static HashMap<Long, BitmapDescriptor> poiBitmaps = new HashMap<>();
-    private static HashMap<Long, BitmapDescriptor> trackerBitmaps = new HashMap<>();
-    private static HashMap<Long, BitmapDescriptor> trackerHistoryBitmaps = new HashMap<>();
 
     public static BitmapDescriptor getPoiBitmapDescriptor(Friend friend) {
         BitmapDescriptor bitmap = poiBitmaps.get(friend.id.get());
@@ -78,25 +64,7 @@ public class MarkerHelper {
         return getMarkerBitmap(getFriendColor(friend), R.drawable.ic_ellipse, R.drawable.ic_user_marker);
     }
 
-    public static BitmapDescriptor getTrackerBitmapDescriptor(Friend friend) {
-        BitmapDescriptor bitmap = trackerBitmaps.get(friend.id.get());
-        if (bitmap == null) {
-            bitmap = BitmapDescriptorFactory.fromBitmap(getMarkerBitmap(getFriendColor(friend), R.drawable.ic_triangle, R.drawable.ic_triangle_marker));
-            trackerBitmaps.put(friend.id.get(), bitmap);
-        }
-        return bitmap;
-    }
-
-    public static BitmapDescriptor getTrackerHistoryBitmapDescriptor(Friend friend) {
-        BitmapDescriptor bitmap = trackerHistoryBitmaps.get(friend.id.get());
-        if (bitmap == null) {
-            bitmap = BitmapDescriptorFactory.fromBitmap(getMarkerBitmap(getFriendColor(friend), R.drawable.ic_small_ellipse, R.drawable.ic_ellipse_marker));
-            trackerHistoryBitmaps.put(friend.id.get(), bitmap);
-        }
-        return bitmap;
-    }
-
-    public static int getFriendColor(Friend friend) {
+    private static int getFriendColor(Friend friend) {
         if (friend == null || friend.id == null)
             return 0;
         Integer color = colorsMap.get(friend.id.get());
@@ -106,11 +74,6 @@ public class MarkerHelper {
             }
             color = Color.parseColor(COLORS[lastColor]);
             colorsMap.put(friend.id.get(), color);
-//            SharedPreferences sharedPreferences = Application.getContext().getSharedPreferences("Colors", Context.MODE_PRIVATE);
-//            sharedPreferences.edit()
-//                    .putString("ColorsMap", new Gson().toJson(colorsMap))
-//                    .putInt("LastColor", lastColor)
-//                    .apply();
         }
         return color;
     }

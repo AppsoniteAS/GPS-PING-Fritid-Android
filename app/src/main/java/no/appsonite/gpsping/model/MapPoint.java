@@ -10,6 +10,8 @@ import java.util.Date;
 
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.coords.MGRSCoord;
+import no.appsonite.gpsping.Application;
+import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.content.geo.GeoAttributes;
 
 /**
@@ -38,6 +40,9 @@ public class MapPoint {
     private String gsmSignal;
     private String gpsSignal;
     private GeoAttributes attributes;
+
+    private double distance;
+    private double distanceTravelled;
 
     public String getImeiNumber() {
         if (imeiNumber == null)
@@ -117,7 +122,8 @@ public class MapPoint {
     }
 
     public MapPoint(Friend user, double lat, double lon, String name, String imeiNumber, String trackerNumber, long logTime,
-                    String picUrl, int direction, double speed, String gsmSignal, String gpsSignal, GeoAttributes attributes) {
+                    String picUrl, int direction, double speed, String gsmSignal, String gpsSignal, GeoAttributes attributes,
+                    double distance, double distanceTravelled, boolean mainAvatar) {
         this.user = user;
         this.lat = lat;
         this.lon = lon;
@@ -131,6 +137,9 @@ public class MapPoint {
         this.gsmSignal = gsmSignal;
         this.gpsSignal = gpsSignal;
         this.attributes = attributes;
+        this.distance = distance;
+        this.distanceTravelled = distanceTravelled;
+        this.mainAvatar = mainAvatar;
     }
 
     public Friend getUser() {
@@ -217,7 +226,7 @@ public class MapPoint {
         } catch (Exception e) {
 
         }
-        if (signal >= 0 && signal <=5) {
+        if (signal >= 0 && signal <= 5) {
             return signal;
         }
         return 0;
@@ -257,5 +266,19 @@ public class MapPoint {
 
     public void setAttributes(GeoAttributes attributes) {
         this.attributes = attributes;
+    }
+
+    public String getTotalDistanceStr() {
+        if (distanceTravelled > 1000) {
+            return decimalFormat.format(distanceTravelled / 1000) + Application.getContext().getResources().getString(R.string.kilometers);
+        }
+        return decimalFormat.format(distanceTravelled) + Application.getContext().getResources().getString(R.string.meters);
+    }
+
+    public String getDistanceStr() {
+        if (distance > 1000) {
+            return decimalFormat.format(distance / 1000) + Application.getContext().getResources().getString(R.string.kilometers);
+        }
+        return decimalFormat.format(distance) + Application.getContext().getResources().getString(R.string.meters);
     }
 }
