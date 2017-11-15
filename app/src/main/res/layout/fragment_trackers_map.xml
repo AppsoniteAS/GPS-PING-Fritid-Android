@@ -317,15 +317,17 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="44dp"
                     android:layout_marginBottom="4dp">
 
                     <ImageView
+                        android:layout_gravity="bottom"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/ic_background_dog_pin" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_gravity="bottom"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:civ_border_color="@color/colorPrimary"
@@ -355,8 +357,8 @@
 
                             <ImageView
                                 android:id="@+id/ivBattery"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="36dp"
+                                android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
                                 android:src="@{viewModel.currentMapPoint.getAttributes != null ? DrawableSetHelper.getDrawableBattery(viewModel.currentMapPoint.getAttributes.getBatteryValidate) : null}"
                                 tools:src="@drawable/ic_battery_0" />
@@ -368,6 +370,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="4dp"
                                 android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/chargeInfo(viewModel.currentMapPoint.getAttributes.getBatteryValidate) : null}"
+                                android:textSize="16sp"
                                 android:textColor="@color/green"
                                 android:textStyle="bold"
                                 tools:text="@string/seventy_five_tools" />
@@ -377,10 +380,11 @@
                     </FrameLayout>
 
                     <ImageView
+
                         android:id="@+id/callBtn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_gravity="end"
+                        android:layout_gravity="end|bottom"
                         android:background="@drawable/call_button"
                         android:clickable="@{viewModel.clickableCallBtn}"
                         android:padding="8dp"
@@ -505,83 +509,83 @@
                     android:layout_marginTop="16dp"
                     android:background="@color/grey" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/signalStrength"
-                        android:textSize="12sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/signalStrength"-->
+                        <!--android:textSize="12sp" />-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:orientation="horizontal">-->
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center_vertical"-->
+                            <!--android:orientation="horizontal">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/gsm"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="@string/gsm"-->
+                                <!--android:textSize="18sp"-->
+                                <!--android:textStyle="bold" />-->
 
-                            <ImageView
-                                android:id="@+id/ivGsmSignal"
-                                android:layout_width="28dp"
-                                android:layout_height="17dp"
-                                android:layout_marginLeft="16dp"
-                                android:src="@{DrawableSetHelper.getDrawableSignal(viewModel.currentMapPoint.getGsmSignalInt)}"
-                                tools:src="@drawable/ic_signal_0" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/ivGsmSignal"-->
+                                <!--android:layout_width="28dp"-->
+                                <!--android:layout_height="17dp"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:src="@{DrawableSetHelper.getDrawableSignal(viewModel.currentMapPoint.getGsmSignalInt)}"-->
+                                <!--tools:src="@drawable/ic_signal_0" />-->
 
-                        </LinearLayout>
+                        <!--</LinearLayout>-->
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center_vertical"-->
+                            <!--android:orientation="horizontal">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:text="@string/gps"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:text="@string/gps"-->
+                                <!--android:textSize="18sp"-->
+                                <!--android:textStyle="bold" />-->
 
-                            <ImageView
-                                android:id="@+id/ivGpsSignal"
-                                android:layout_width="28dp"
-                                android:layout_height="17dp"
-                                android:layout_marginLeft="16dp"
-                                android:src="@{DrawableSetHelper.getDrawableSignal(viewModel.currentMapPoint.getGpsSignalInt)}"
-                                tools:src="@drawable/ic_signal_0" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/ivGpsSignal"-->
+                                <!--android:layout_width="28dp"-->
+                                <!--android:layout_height="17dp"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:src="@{DrawableSetHelper.getDrawableSignal(viewModel.currentMapPoint.getGpsSignalInt)}"-->
+                                <!--tools:src="@drawable/ic_signal_0" />-->
 
-                        </LinearLayout>
+                        <!--</LinearLayout>-->
 
-                    </LinearLayout>
+                    <!--</LinearLayout>-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/grey" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:layout_marginBottom="12dp"-->
+                    <!--android:layout_marginTop="16dp"-->
+                    <!--android:background="@color/grey" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
