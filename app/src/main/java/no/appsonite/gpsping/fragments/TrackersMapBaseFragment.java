@@ -418,7 +418,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onStop() {
         super.onStop();
-        cameraPosition = getMap().getCameraPosition();
+        if (getMap() != null)
+            cameraPosition = getMap().getCameraPosition();
     }
 
     @Override

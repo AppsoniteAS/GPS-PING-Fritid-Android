@@ -360,7 +360,7 @@
                                 android:layout_width="36dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@{viewModel.currentMapPoint.getAttributes != null ? DrawableSetHelper.getDrawableBattery(viewModel.currentMapPoint.getAttributes.getBatteryValidate) : null}"
+                                android:src="@{viewModel.currentMapPoint.getAttributes != null ? DrawableSetHelper.getDrawableBattery(viewModel.currentMapPoint.getAttributes.getChargeLevel) : null}"
                                 tools:src="@drawable/ic_battery_0" />
 
                             <TextView
@@ -369,7 +369,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="4dp"
-                                android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/chargeInfo(viewModel.currentMapPoint.getAttributes.getBatteryValidate) : null}"
+                                android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/chargeInfo(viewModel.currentMapPoint.getAttributes.getChargeLevel) : null}"
                                 android:textSize="16sp"
                                 android:textColor="@color/green"
                                 android:textStyle="bold"
