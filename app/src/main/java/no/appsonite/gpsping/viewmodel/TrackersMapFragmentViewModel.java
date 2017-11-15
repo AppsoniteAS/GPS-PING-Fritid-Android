@@ -1,6 +1,5 @@
 package no.appsonite.gpsping.viewmodel;
 
-import android.app.Activity;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -24,12 +23,10 @@ import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
-import no.appsonite.gpsping.model.SMS;
 import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.utils.ObservableString;
 import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import no.appsonite.gpsping.utils.point.CreatePointManager;
-import no.appsonite.gpsping.utils.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,7 +38,7 @@ import rx.subjects.PublishSubject;
  * Company: APPGRANULA LLC
  * Date: 20.01.2016
  */
-public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
+public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private static final long INTERVAL = 10;
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
@@ -211,23 +208,6 @@ public class TrackersMapFragmentViewModel extends BaseFragmentSMSViewModel {
             TrackersMapFragmentViewModel.this.pois.clear();
             TrackersMapFragmentViewModel.this.pois.addAll(pois1);
         }, Throwable::printStackTrace);
-    }
-
-    public Observable<TrackersAnswer> hasTrackers() {
-        return execute(ApiFactory.getService().getTrackers())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    public void resetTrackers(Activity activity, ArrayList<Tracker> trackers) {
-        ArrayList<SMS> smses = new ArrayList<>();
-        for (Tracker tracker : trackers) {
-            SMS sms = tracker.getResetSmsIp(EditTrackerFragmentViewModel.TRACCAR_IP);
-            if (sms != null)
-                smses.add(sms);
-        }
-        sendSmses(activity, smses);
-        Utils.setUpdateTracker();
     }
 
     public void setClickableEditBtn() {

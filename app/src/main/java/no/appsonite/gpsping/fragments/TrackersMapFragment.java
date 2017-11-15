@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,15 +16,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.util.ArrayList;
-
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
 import no.appsonite.gpsping.model.Friend;
 import no.appsonite.gpsping.model.MapPoint;
-import no.appsonite.gpsping.model.Tracker;
 import no.appsonite.gpsping.services.LocationMapService;
 import no.appsonite.gpsping.services.LocationTrackerService;
 import no.appsonite.gpsping.utils.MarkerHelper;
@@ -34,9 +30,6 @@ import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.READ_SMS;
-import static android.Manifest.permission.RECEIVE_SMS;
-import static android.Manifest.permission.SEND_SMS;
 
 /**
  * Created: Belozerov
@@ -46,7 +39,6 @@ import static android.Manifest.permission.SEND_SMS;
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
     private static final String TAG = TrackersMapFragment.class.getSimpleName();
     private static final int PERMISSION_LOCATION = 1;
-    private static final int PERMISSION_SMS = 2;
     private Marker userMarker;
     private MapPoint userMapPoint;
     private Location lastLocation;
@@ -201,7 +193,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         super.onViewCreated(view, savedInstanceState);
         getBinding().showUserPositionBtn.setOnClickListener(v -> showUserPositionUserBtn());
         updateShowPositionButton();
-        showAlertUpdateTrackers();
     }
 
 
@@ -224,47 +215,12 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         getBinding().showUserPositionBtn.setImageResource(R.drawable.ic_invisible_white);
     }
 
-    private void showAlertUpdateTrackers() {
-        if (!Utils.isUpdateTracker()) {
-            getModel().hasTrackers().subscribe(trackersAnswer -> {
-                if (trackersAnswer.getTrackers() != null && !trackersAnswer.getTrackers().isEmpty()) {
-                    showAlertDialog(trackersAnswer.getTrackers());
-                }
-            });
-        }
-    }
-
-    private void showAlertDialog(final ArrayList<Tracker> trackers) {
-        new AlertDialog.Builder(getContext())
-                .setCancelable(false)
-                .setMessage(R.string.updateTracker)
-                .setPositiveButton(R.string.update, (dialog, which) -> resetTrackers(trackers))
-                .show();
-    }
-
-    private void resetTrackers(ArrayList<Tracker> trackers) {
-        new RxPermissions(getActivity())
-                .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
-                .subscribe(granted -> onNextResetTrackers(granted, trackers));
-    }
-
-    private void onNextResetTrackers(boolean granted, ArrayList<Tracker> trackers) {
-        if (granted) {
-            getModel().resetTrackers(getActivity(), trackers);
-        } else {
-            showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case PERMISSION_LOCATION:
                 startLocationMapService(getContext());
-                break;
-            case PERMISSION_SMS:
-                showAlertUpdateTrackers();
                 break;
         }
     }

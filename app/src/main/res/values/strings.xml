@@ -158,7 +158,6 @@
     <string name="faq">FAQ</string>
     <string name="sleepMode">Sleep mode</string>
     <string name="checkBattery">Check Battery</string>
-    <string name="updateTracker">You need to update the tracker with new ip-adress for it to work. Please press button and send the preprogrammed SMS to the tracker</string>
 
     <string name="last_seen_tools">Last seen 17:22 14.09.17</string>
     <string name="joe_tools">Joe</string>

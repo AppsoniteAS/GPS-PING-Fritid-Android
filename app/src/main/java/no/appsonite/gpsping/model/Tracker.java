@@ -206,40 +206,6 @@ public class Tracker implements Serializable {
         return smses;
     }
 
-    public SMS getResetSmsIp(String address) {
-        SMS sms = null;
-        if (trackerNumber == null)
-            return null;
-        String trackerNumber = this.trackerNumber.get();
-        try {
-            switch (Tracker.Type.valueOf(this.type.get())) {
-                case TK_ANYWHERE:
-                case TK_STAR:
-                case TK_STAR_PET:
-                    sms = new SMS(trackerNumber, String.format("adminip123456 %s 5013", address));
-                    break;
-                case TK_BIKE:
-                case TK_STAR_BIKE:
-                    sms = new SMS(trackerNumber, String.format("adminip123456 %s 5093", address));
-                    break;
-                case LK209:
-                case LK330:
-                    sms = new SMS(trackerNumber, String.format("adminip123456 %s 5013", address));
-                    break;
-                case VT600:
-                    sms = new SMS(trackerNumber, String.format("W000000,012,%s,5009", address));
-                    break;
-                case S1:
-                case A9:
-                    sms = new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address));
-                    break;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(Application.getContext().getString(R.string.inputPhoneInProfileError));
-        }
-        return sms;
-    }
-
     public enum Type {
         TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, TK_STAR_BIKE, LK209, VT600, LK330, S1, A9
     }

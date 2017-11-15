@@ -89,7 +89,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         super.onViewModelCreated(model);
         model.tracker.set((Tracker) getArguments().getSerializable(ARG_TRACKER));
         initBlocks();
-        getPermission();
+        getSMSPermission();
     }
 
     private void initBlocks() {
@@ -373,7 +373,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
                 loadPhoto(data, resultCode);
                 break;
             case PERMISSION_SMS:
-                getPermission();
+                getSMSPermission();
                 break;
             case PERMISSION_STORAGE:
                 actionSelect();
@@ -537,17 +537,18 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         }
     }
 
-    private void getPermission() {
+    private void getSMSPermission() {
         new RxPermissions(getActivity())
                 .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
-                .subscribe(this::getPermissionOnNext);
+                .subscribe(this::getSMSPermissionOnNext);
     }
 
-    private void getPermissionOnNext(boolean granted) {
+    private void getSMSPermissionOnNext(boolean granted) {
         if (granted) {
 
         } else {
             showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS);
+            getBaseActivity().onBackPressed();
         }
     }
 

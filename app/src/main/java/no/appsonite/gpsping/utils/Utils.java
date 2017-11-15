@@ -23,15 +23,6 @@ import no.appsonite.gpsping.R;
  * Date: 19.01.2016
  */
 public class Utils {
-    private static SharedPreferences prefs = Application.getContext().getSharedPreferences("UPDATE_TRACKER", Context.MODE_PRIVATE);
-
-    public static boolean isUpdateTracker() {
-        return prefs.getBoolean("UPDATE_TRACKER", false);
-    }
-
-    public static void setUpdateTracker() {
-        prefs.edit().putBoolean("UPDATE_TRACKER", true).apply();
-    }
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager im = (InputMethodManager) activity.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
