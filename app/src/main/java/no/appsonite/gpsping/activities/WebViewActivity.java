@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 
 import com.klarna.checkout.KlarnaCheckout;
 
+import org.json.JSONException;
+
 import no.appsonite.gpsping.R;
 
 /**
@@ -50,7 +52,7 @@ public class WebViewActivity extends BaseActivity {
         webView.setWebViewClient(new MyWebViewClient());
 
         if (isKlarna) {
-            KlarnaCheckout checkout = new KlarnaCheckout(this, "https://shop.gpsping.no/shop/123");
+            KlarnaCheckout checkout = new KlarnaCheckout(this, "no.appsonite.gpsping://checkout");
             checkout.setWebView(webView);
             createSignalListener(checkout);
         }
@@ -68,6 +70,12 @@ public class WebViewActivity extends BaseActivity {
     private void createSignalListener(KlarnaCheckout checkout) {
         checkout.setSignalListener((s, jsonObject) -> {
             if (s.equals("complete")) {
+                try {
+                    String url = jsonObject.getString("uri");
+                    webView.loadUrl(url);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.i("TAG", "Success");
             }
         });
