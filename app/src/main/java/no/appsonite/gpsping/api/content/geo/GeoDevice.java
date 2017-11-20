@@ -34,9 +34,9 @@ public class GeoDevice {
     @SerializedName("attributes")
     private GeoAttributes attributes;
     @SerializedName("t_distance")
-    private double distance;
-    @SerializedName("real_dist")
     private double distanceTravelled;
+    @SerializedName("real_dist")
+    private double distance;
 
     public String getTrackerNumber() {
         return trackerNumber;

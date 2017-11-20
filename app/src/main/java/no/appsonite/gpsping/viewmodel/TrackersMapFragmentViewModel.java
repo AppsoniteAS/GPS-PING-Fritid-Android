@@ -51,7 +51,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableBoolean visibilityUserPosition = new ObservableBoolean(true);
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
-    public ObservableBoolean clickableCallBtn = new ObservableBoolean(false);
+    public ObservableBoolean visibilityCallBtn = new ObservableBoolean(false);
     public CreatePointManager createPointManager;
 
     public void requestFriends() {
@@ -218,21 +218,21 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         }
     }
 
-    public void setClickableCallBtn() {
+    public void setVisibilityCallBtn() {
         if (currentMapPoint.get().getImeiNumber().isEmpty()) {
-            clickableCallBtn.set(false);
+            visibilityCallBtn.set(false);
         } else {
             String imei = currentMapPoint.get().getImeiNumber();
             Realm realm = Realm.getDefaultInstance();
             RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", imei).findFirst();
             if (tracker == null) {
-                clickableCallBtn.set(false);
+                visibilityCallBtn.set(false);
             } else {
                 boolean check = tracker.getType().equals(Tracker.Type.S1.toString()) || tracker.getType().equals(Tracker.Type.A9.toString());
                 if (check) {
-                    clickableCallBtn.set(true);
+                    visibilityCallBtn.set(true);
                 } else {
-                    clickableCallBtn.set(false);
+                    visibilityCallBtn.set(false);
                 }
             }
         }

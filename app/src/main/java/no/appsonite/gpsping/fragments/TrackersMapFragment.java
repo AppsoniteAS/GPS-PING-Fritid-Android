@@ -177,6 +177,9 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(userMarker)) {
             getModel().currentMapPoint.set(userMapPoint);
+            getModel().clickableEditBtn.set(false);
+            getModel().visibilityCallBtn.set(false);
+
             getModel().currentPoi.set(null);
             return false;
         }

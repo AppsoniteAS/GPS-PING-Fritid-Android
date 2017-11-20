@@ -16,9 +16,9 @@ public class GeoPoint {
     @SerializedName("speedKPH")
     private double speed;
     @SerializedName("t_distance")
-    private double distance;
-    @SerializedName("real_dist")
     private double distanceTravelled;
+    @SerializedName("real_dist")
+    private double distance;
     @SerializedName("GSM_Signal")
     private String gsmSignal;
     @SerializedName("GPS_Signal")

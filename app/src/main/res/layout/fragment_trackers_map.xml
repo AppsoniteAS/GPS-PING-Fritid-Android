@@ -380,13 +380,12 @@
                     </FrameLayout>
 
                     <ImageView
-
                         android:id="@+id/callBtn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="end|bottom"
                         android:background="@drawable/call_button"
-                        android:clickable="@{viewModel.clickableCallBtn}"
+                        android:visibility="@{viewModel.visibilityCallBtn}"
                         android:padding="8dp"
                         android:src="@drawable/ic_call" />
 
