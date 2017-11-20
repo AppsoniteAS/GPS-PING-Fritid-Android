@@ -13,8 +13,6 @@ import no.appsonite.gpsping.R;
 
 public class GeoAttributes {
     private static DecimalFormat decimalFormat = new DecimalFormat("#.#");
-    @SerializedName("power")
-    private int power;
     @SerializedName("battery")
     private String battery;
     @SerializedName("ip")
@@ -41,41 +39,6 @@ public class GeoAttributes {
         return bat;
     }
 
-    private int getPowerValidate() {
-        int bat = 0;
-
-        if (power >=0 && power <= 6) {
-            bat = power;
-        } else {
-            return bat;
-        }
-
-        switch (bat) {
-            case 0:
-                bat = 0;
-                break;
-            case 1:
-                bat = 15;
-                break;
-            case 2:
-                bat = 30;
-                break;
-            case 3:
-                bat = 45;
-                break;
-            case 4:
-                bat = 60;
-                break;
-            case 5:
-                bat = 80;
-                break;
-            case 6:
-                bat = 100;
-                break;
-        }
-        return bat;
-    }
-
     public int getChargeLevel() {
         if (battery == null) {
             return 0;
@@ -83,16 +46,6 @@ public class GeoAttributes {
             return getBatteryValidate();
         }
     }
-
-//    public int getChargeLevel() {
-//        int chargeLevel;
-//        if (battery != null) {
-//            chargeLevel = getBatteryValidate();
-//        } else {
-//            chargeLevel = getPowerValidate();
-//        }
-//        return chargeLevel;
-//    }
 
     public void setBattery(String battery) {
         this.battery = battery;
