@@ -14,7 +14,7 @@ import no.appsonite.gpsping.R;
 public class GeoAttributes {
     private static DecimalFormat decimalFormat = new DecimalFormat("#.#");
     @SerializedName("battery")
-    private String battery;
+    private int battery;
     @SerializedName("ip")
     private String ip;
     @SerializedName("distance")
@@ -22,32 +22,11 @@ public class GeoAttributes {
     @SerializedName("totalDistance")
     private double totalDistance;
 
-    public String getBattery() {
+    public int getBattery() {
         return battery;
     }
 
-    private int getBatteryValidate() {
-        int bat = 0;
-        try {
-            bat = Integer.parseInt(battery);
-        } catch (Exception e) {
-
-        }
-        if (bat < 0 || bat > 100) {
-            return 0;
-        }
-        return bat;
-    }
-
-    public int getChargeLevel() {
-        if (battery == null) {
-            return 0;
-        } else {
-            return getBatteryValidate();
-        }
-    }
-
-    public void setBattery(String battery) {
+    public void setBattery(int battery) {
         this.battery = battery;
     }
 

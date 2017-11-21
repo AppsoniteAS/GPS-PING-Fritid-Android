@@ -360,7 +360,7 @@
                                 android:layout_width="36dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@{viewModel.currentMapPoint.getAttributes != null ? DrawableSetHelper.getDrawableBattery(viewModel.currentMapPoint.getAttributes.getChargeLevel) : null}"
+                                android:src="@{viewModel.currentMapPoint.getAttributes != null ? DrawableSetHelper.getDrawableBattery(viewModel.currentMapPoint.getAttributes.getBattery) : null}"
                                 tools:src="@drawable/ic_battery_0" />
 
                             <TextView
@@ -369,7 +369,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="4dp"
-                                android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/chargeInfo(viewModel.currentMapPoint.getAttributes.getChargeLevel) : null}"
+                                android:text="@{viewModel.currentMapPoint.getAttributes != null ? @string/chargeInfo(viewModel.currentMapPoint.getAttributes.getBattery) : null}"
                                 android:textSize="16sp"
                                 android:textColor="@color/green"
                                 android:textStyle="bold"
@@ -467,7 +467,7 @@
                             android:id="@+id/tvDistance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.currentMapPoint.getDistanceStr}"
+                            android:text="@{viewModel.distanceBetweenUserAndMapPoint}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/distance_tools" />
@@ -491,7 +491,7 @@
                             android:id="@+id/tvDistanceTravelled"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.currentMapPoint.getTotalDistanceStr}"
+                            android:text="@{viewModel.currentMapPoint.getDailyTrackStr}"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             tools:text="@string/distance_travelled_tools" />

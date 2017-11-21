@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.Date;
 
@@ -67,5 +68,16 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
         if (mapPoint.isBelongsToUser() && mapPoint.getUser().id.get() == myId) {
             getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(mapPoint.getLatLng(), 15));
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
+        getModel().currentPoi.set(markerPoiHashMap.get(marker));
+        if (getModel().currentMapPoint.get() != null) {
+            getModel().setVisibilityCallBtn();
+            getModel().setClickableEditBtn();
+        }
+        return false;
     }
 }

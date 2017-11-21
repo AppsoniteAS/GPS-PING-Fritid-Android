@@ -54,6 +54,7 @@ public class PointCreator {
                 geoDevice.getAttributes(),
                 geoDevice.getDistance(),
                 geoDevice.getDistanceTravelled(),
+                geoDevice.getDailyTrack(),
                 isAvatar);
     }
 
@@ -76,6 +77,7 @@ public class PointCreator {
                     geoPoint.getAttributes(),
                     geoPoint.getDistance(),
                     geoPoint.getDistanceTravelled(),
+                    geoPoint.getDailyTrack(),
                     false);
         }
         return mapPoint;

@@ -43,6 +43,7 @@ public class MapPoint {
 
     private double distance;
     private double distanceTravelled;
+    private double dailyTrack;
 
     public String getImeiNumber() {
         if (imeiNumber == null)
@@ -123,7 +124,7 @@ public class MapPoint {
 
     public MapPoint(Friend user, double lat, double lon, String name, String imeiNumber, String trackerNumber, long logTime,
                     String picUrl, int direction, double speed, String gsmSignal, String gpsSignal, GeoAttributes attributes,
-                    double distance, double distanceTravelled, boolean mainAvatar) {
+                    double distance, double distanceTravelled, double dailyTrack , boolean mainAvatar) {
         this.user = user;
         this.lat = lat;
         this.lon = lon;
@@ -139,6 +140,7 @@ public class MapPoint {
         this.attributes = attributes;
         this.distance = distance;
         this.distanceTravelled = distanceTravelled;
+        this.dailyTrack = dailyTrack;
         this.mainAvatar = mainAvatar;
     }
 
@@ -280,5 +282,12 @@ public class MapPoint {
             return decimalFormat.format(distance / 1000) + Application.getContext().getResources().getString(R.string.kilometers);
         }
         return decimalFormat.format(distance) + Application.getContext().getResources().getString(R.string.meters);
+    }
+
+    public String getDailyTrackStr() {
+        if (dailyTrack > 1000) {
+            return decimalFormat.format(dailyTrack / 1000) + Application.getContext().getResources().getString(R.string.kilometers);
+        }
+        return decimalFormat.format(dailyTrack) + Application.getContext().getResources().getString(R.string.meters);
     }
 }

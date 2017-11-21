@@ -25,6 +25,8 @@ public class GeoPoint {
     private String gpsSignal;
     @SerializedName("attributes")
     private GeoAttributes attributes;
+    @SerializedName("daily_track")
+    private double dailyTrack;
 
     public double getLat() {
         return lat;
@@ -104,5 +106,13 @@ public class GeoPoint {
 
     public void setAttributes(GeoAttributes attributes) {
         this.attributes = attributes;
+    }
+
+    public double getDailyTrack() {
+        return dailyTrack;
+    }
+
+    public void setDailyTrack(double dailyTrack) {
+        this.dailyTrack = dailyTrack;
     }
 }

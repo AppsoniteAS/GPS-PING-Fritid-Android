@@ -82,8 +82,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     private boolean firstTime = false;
     private GoogleMap googleMap;
     private MapView mapView;
-    private HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
-    private HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
+    protected HashMap<Marker, MapPoint> markerMapPointHashMap = new HashMap<>();
+    protected HashMap<Marker, Poi> markerPoiHashMap = new HashMap<>();
     private List<Tracker> trackers = new ArrayList<>();
     private ColorMarkerHelper markerHelper = new ColorMarkerHelper();
     private CalculateDirection calculateDirection = new CalculateDirection();
@@ -709,21 +709,6 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
-        getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
-        getModel().currentPoi.set(markerPoiHashMap.get(marker));
-        if (getModel().currentMapPoint.get() != null) {
-            setVisibilityCallBtn();
-            setClickableEditBtn();
-        }
-        return false;
-    }
-
-    private void setClickableEditBtn() {
-        getModel().setClickableEditBtn();
-    }
-
-    @Override
     public void onMapLongClick(LatLng latLng) {
         Poi poi = new Poi();
         poi.setLat(latLng.latitude);
@@ -740,7 +725,4 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         });
     }
 
-    private void setVisibilityCallBtn() {
-        getModel().setVisibilityCallBtn();
-    }
 }

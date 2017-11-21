@@ -37,6 +37,8 @@ public class GeoDevice {
     private double distanceTravelled;
     @SerializedName("real_dist")
     private double distance;
+    @SerializedName("daily_track")
+    private double dailyTrack;
 
     public String getTrackerNumber() {
         return trackerNumber;
@@ -156,5 +158,13 @@ public class GeoDevice {
 
     public void setDistanceTravelled(double distanceTravelled) {
         this.distanceTravelled = distanceTravelled;
+    }
+
+    public double getDailyTrack() {
+        return dailyTrack;
+    }
+
+    public void setDailyTrack(double dailyTrack) {
+        this.dailyTrack = dailyTrack;
     }
 }

@@ -53,6 +53,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
     public ObservableBoolean visibilityCallBtn = new ObservableBoolean(false);
     public CreatePointManager createPointManager;
+    public ObservableString distanceBetweenUserAndMapPoint = new ObservableString();
 
     public void requestFriends() {
         execute(ApiFactory.getService().getFriends())
@@ -106,7 +107,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
 
     protected long getFrom() {
         return Math.max(new Date().getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
-//        return ((new Date().getTime() / 1000l) - 10 * 24 * 60 * 60);
+//        return ((new Date().getTime() / 1000l) - 1 * 24 * 60 * 60);
     }
 
     protected long getTo() {

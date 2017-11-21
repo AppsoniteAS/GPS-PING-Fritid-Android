@@ -16,6 +16,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
+import java.text.DecimalFormat;
+
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
@@ -37,6 +39,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
  * Date: 20.01.2016
  */
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
+    private DecimalFormat decimalFormat = new DecimalFormat("#.#");
     private static final String TAG = TrackersMapFragment.class.getSimpleName();
     private static final int PERMISSION_LOCATION = 1;
     private Marker userMarker;
@@ -179,11 +182,38 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
             getModel().currentMapPoint.set(userMapPoint);
             getModel().clickableEditBtn.set(false);
             getModel().visibilityCallBtn.set(false);
-
+            getModel().distanceBetweenUserAndMapPoint.set("");
             getModel().currentPoi.set(null);
-            return false;
+
+        } else {
+            getModel().currentMapPoint.set(markerMapPointHashMap.get(marker));
+            getModel().currentPoi.set(markerPoiHashMap.get(marker));
+            if (getModel().currentMapPoint.get() != null) {
+                getDistanceBetweenUserAndMapPoint();
+                getModel().setVisibilityCallBtn();
+                getModel().setClickableEditBtn();
+            }
         }
-        return super.onMarkerClick(marker);
+        return false;
+    }
+
+    private void getDistanceBetweenUserAndMapPoint() {
+        if (userMapPoint == null) {
+            return;
+        }
+        double latUser = userMapPoint.getLat();
+        double lonUser = userMapPoint.getLon();
+        double latPoint = getModel().currentMapPoint.get().getLat();
+        double lonPoint = getModel().currentMapPoint.get().getLon();
+        float[] results = new float[1];
+        Location.distanceBetween(latUser, lonUser, latPoint, lonPoint, results);
+        if (results[0] > 1000) {
+            String distance = "" + decimalFormat.format(results[0] / 1000) + " km";
+            getModel().distanceBetweenUserAndMapPoint.set(distance);
+        } else {
+            String distance = "" + decimalFormat.format(results[0]) + " m";
+            getModel().distanceBetweenUserAndMapPoint.set(distance);
+        }
     }
 
     @Override
@@ -197,7 +227,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         getBinding().showUserPositionBtn.setOnClickListener(v -> showUserPositionUserBtn());
         updateShowPositionButton();
     }
-
 
     private void showUserPositionUserBtn() {
         boolean isRunning = LocationTrackerService.isRunning();
