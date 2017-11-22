@@ -61,17 +61,9 @@ public class LocationTrackerService extends LocationService {
         ApiFactory.getService().setUserPosition(location.getLatitude(), location.getLongitude())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ApiAnswer>() {
-                    @Override
-                    public void call(ApiAnswer apiAnswer) {
+                .subscribe(apiAnswer -> {
 
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                });
+                }, Throwable::printStackTrace);
     }
 
     public static boolean isRunning() {

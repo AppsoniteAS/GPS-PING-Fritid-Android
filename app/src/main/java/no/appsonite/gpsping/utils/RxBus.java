@@ -21,17 +21,9 @@ public class RxBus {
     }
 
     public <T> Subscription register(final Class<T> eventClass, Action1<T> onNext) {
-        return busSubject.filter(new Func1<Object, Boolean>() {
-            @Override
-            public Boolean call(Object event) {
-                return event.getClass().equals(eventClass);
-            }
-        }).map(new Func1<Object, T>() {
-            @Override
-            public T call(Object o) {
-                return (T) o;
-            }
-        }).subscribe(onNext);
+        return busSubject.filter(event -> event.getClass().equals(eventClass))
+                .map(o -> (T) o)
+                .subscribe(onNext);
     }
 
     public void post(Object event) {

@@ -11,8 +11,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 /**
@@ -22,6 +25,8 @@ import com.google.android.gms.location.LocationServices;
  */
 public abstract class LocationService extends Service implements GoogleApiClient.ConnectionCallbacks, LocationListener {
     private GoogleApiClient client;
+    private FusedLocationProviderClient providerClient;
+    private LocationCallback locationCallback;
 
     public abstract long getLocationInterval();
 
@@ -33,7 +38,6 @@ public abstract class LocationService extends Service implements GoogleApiClient
         return null;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,28 +48,41 @@ public abstract class LocationService extends Service implements GoogleApiClient
         client = new GoogleApiClient.Builder(getBaseContext()).addApi(LocationServices.API)
                 .addConnectionCallbacks(this).build();
         client.connect();
+
+        providerClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    onLocationChanged(location);
+                }
+            }
+        };
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        startLocationRequest();
+        startLocationUpdates();
     }
 
-    private void startLocationRequest() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
+    private void startLocationUpdates() {
+        providerClient.removeLocationUpdates(locationCallback);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(client, createLocationRequest(), LocationService.this);
+        providerClient.requestLocationUpdates(createLocationRequest(), locationCallback, null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (client != null && client.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
             client.disconnect();
+        }
+        if (providerClient != null) {
+            providerClient.removeLocationUpdates(locationCallback);
         }
     }
 

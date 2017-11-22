@@ -3,7 +3,9 @@ package no.appsonite.gpsping.viewmodel;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.location.Location;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,7 @@ import rx.subjects.PublishSubject;
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private static final long INTERVAL = 10;
+    private DecimalFormat decimalFormat = new DecimalFormat("#.#");
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
@@ -106,7 +109,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     }
 
     protected long getFrom() {
-        return Math.max(new Date().getTime() / 1000l, getTo() - TrackingHistoryTime.getTrackingHistorySeconds());
+        return getTo() - TrackingHistoryTime.getTrackingHistorySeconds();
 //        return ((new Date().getTime() / 1000l) - 1 * 24 * 60 * 60);
     }
 
@@ -236,6 +239,20 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                     visibilityCallBtn.set(false);
                 }
             }
+        }
+    }
+
+    public void getDistanceBetweenUserAndMapPointMain(double latUser, double lonUser) {
+        double latPoint = currentMapPoint.get().getLat();
+        double lonPoint = currentMapPoint.get().getLon();
+        float[] results = new float[1];
+        Location.distanceBetween(latUser, lonUser, latPoint, lonPoint, results);
+        if (results[0] > 1000) {
+            String distance = "" + decimalFormat.format(results[0] / 1000) + " km";
+            distanceBetweenUserAndMapPoint.set(distance);
+        } else {
+            String distance = "" + decimalFormat.format(results[0]) + " m";
+            distanceBetweenUserAndMapPoint.set(distance);
         }
     }
 }

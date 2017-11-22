@@ -16,9 +16,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.text.DecimalFormat;
-
-import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Profile;
@@ -39,7 +36,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
  * Date: 20.01.2016
  */
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
-    private DecimalFormat decimalFormat = new DecimalFormat("#.#");
     private static final String TAG = TrackersMapFragment.class.getSimpleName();
     private static final int PERMISSION_LOCATION = 1;
     private Marker userMarker;
@@ -157,7 +153,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     public void onDetach() {
         super.onDetach();
         refreshHandler.removeCallbacks(refreshRunnable);
-        LocationMapService.stopService(Application.getContext());
+        LocationMapService.stopService(getContext());
     }
 
     private void startLocationMapService(Context context) {
@@ -203,17 +199,8 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         }
         double latUser = userMapPoint.getLat();
         double lonUser = userMapPoint.getLon();
-        double latPoint = getModel().currentMapPoint.get().getLat();
-        double lonPoint = getModel().currentMapPoint.get().getLon();
-        float[] results = new float[1];
-        Location.distanceBetween(latUser, lonUser, latPoint, lonPoint, results);
-        if (results[0] > 1000) {
-            String distance = "" + decimalFormat.format(results[0] / 1000) + " km";
-            getModel().distanceBetweenUserAndMapPoint.set(distance);
-        } else {
-            String distance = "" + decimalFormat.format(results[0]) + " m";
-            getModel().distanceBetweenUserAndMapPoint.set(distance);
-        }
+
+        getModel().getDistanceBetweenUserAndMapPointMain(latUser, lonUser);
     }
 
     @Override
