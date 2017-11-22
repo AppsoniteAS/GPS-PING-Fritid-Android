@@ -14,7 +14,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
@@ -27,9 +26,6 @@ import no.appsonite.gpsping.utils.MarkerHelper;
 import no.appsonite.gpsping.utils.Utils;
 import no.appsonite.gpsping.viewmodel.TrackersMapFragmentViewModel;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
 /**
  * Created: Belozerov
  * Company: APPGRANULA LLC
@@ -37,7 +33,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
  */
 public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFragmentViewModel> {
     private static final String TAG = TrackersMapFragment.class.getSimpleName();
-    private static final int PERMISSION_LOCATION = 1;
     private Marker userMarker;
     private MapPoint userMapPoint;
     private Location lastLocation;
@@ -146,7 +141,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     public void onAttach(Context context) {
         super.onAttach(context);
         refreshHandler.post(refreshRunnable);
-        startLocationMapService(context);
     }
 
     @Override
@@ -154,22 +148,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
         super.onDetach();
         refreshHandler.removeCallbacks(refreshRunnable);
         LocationMapService.stopService(getContext());
-    }
-
-    private void startLocationMapService(Context context) {
-        new RxPermissions(getActivity())
-                .request(ACCESS_FINE_LOCATION,
-                        ACCESS_COARSE_LOCATION)
-                .subscribe(granted -> onNextStartLocationMapService(granted, context));
-    }
-
-    private void onNextStartLocationMapService(boolean granted, Context context) {
-        if (granted) {
-            LocationMapService.startService(context);
-        } else {
-            showInfoDeniedPermission(context, PERMISSION_LOCATION,
-                    ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
-        }
     }
 
     @Override
@@ -209,6 +187,11 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     }
 
     @Override
+    protected void locationUpdater() {
+        LocationMapService.startService(getContext());
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getBinding().showUserPositionBtn.setOnClickListener(v -> showUserPositionUserBtn());
@@ -232,16 +215,6 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
     private void startService() {
         LocationTrackerService.startService(getContext());
         getBinding().showUserPositionBtn.setImageResource(R.drawable.ic_invisible_white);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case PERMISSION_LOCATION:
-                startLocationMapService(getContext());
-                break;
-        }
     }
 
     private void updateShowPositionButton() {

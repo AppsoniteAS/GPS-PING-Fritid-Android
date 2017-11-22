@@ -61,6 +61,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CALL_PHONE;
 
 /**
@@ -72,6 +74,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback {
     private static final String INSTANCE_STATE = "mapViewSaveState";
     private static final int PERMISSION_PHONE = 1;
+    private static final int PERMISSION_LOCATION = 2;
     private TileOverlay topoNorwayOverlay;
     private TileOverlay topoWorldOverlay;
     private TileOverlay topoSwedenOverlay;
@@ -254,6 +257,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     public void onAttach(Context context) {
         super.onAttach(context);
         locationSubscription = RxBus.getInstance().register(Location.class, this::onLocationUpdate);
+        startLocation(context);
     }
 
     protected void onLocationUpdate(Location location) {
@@ -724,5 +728,33 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             getModel().currentPoi.set(null);
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PERMISSION_LOCATION:
+                startLocation(getContext());
+                break;
+        }
+    }
+
+    private void startLocation(Context context) {
+        new RxPermissions(getActivity())
+                .request(ACCESS_FINE_LOCATION,
+                        ACCESS_COARSE_LOCATION)
+                .subscribe(granted -> onNextStartLocation(granted, context));
+    }
+
+    private void onNextStartLocation(boolean granted, Context context) {
+        if (granted) {
+            locationUpdater();
+        } else {
+            showInfoDeniedPermission(context, PERMISSION_LOCATION,
+                    ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
+        }
+    }
+
+    protected abstract void locationUpdater();
 
 }
