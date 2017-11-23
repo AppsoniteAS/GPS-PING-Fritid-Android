@@ -31,7 +31,7 @@ public class LocationTrackerService extends LocationService {
     }
 
     private Notification getNotification() {
-        return new NotificationCompat.Builder(this)
+        return new NotificationCompat.Builder(this, "default")
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.locationMessage))
                 .setSmallIcon(R.mipmap.ic_launcher)
