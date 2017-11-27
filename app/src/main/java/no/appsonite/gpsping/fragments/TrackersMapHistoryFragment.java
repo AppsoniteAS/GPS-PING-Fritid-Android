@@ -93,6 +93,7 @@ public class TrackersMapHistoryFragment extends TrackersMapBaseFragment<Trackers
             getDistanceBetweenUserAndMapPoint();
             getModel().setVisibilityCallBtn();
             getModel().setClickableEditBtn();
+            getModel().setVisibilityBattery();
         }
         return false;
     }

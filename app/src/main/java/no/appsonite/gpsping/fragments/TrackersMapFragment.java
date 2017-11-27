@@ -166,6 +166,7 @@ public class TrackersMapFragment extends TrackersMapBaseFragment<TrackersMapFrag
                 getDistanceBetweenUserAndMapPoint();
                 getModel().setVisibilityCallBtn();
                 getModel().setClickableEditBtn();
+                getModel().setVisibilityBattery();
             }
         }
         return false;

@@ -55,6 +55,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private PublishSubject<Object> cancelRequest = PublishSubject.create();
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
     public ObservableBoolean visibilityCallBtn = new ObservableBoolean(false);
+    public ObservableBoolean visibilityBattery = new ObservableBoolean(false);
     public CreatePointManager createPointManager;
     public ObservableString distanceBetweenUserAndMapPoint = new ObservableString();
 
@@ -237,6 +238,26 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                     visibilityCallBtn.set(true);
                 } else {
                     visibilityCallBtn.set(false);
+                }
+            }
+        }
+    }
+
+    public void setVisibilityBattery() {
+        if (currentMapPoint.get().getImeiNumber().isEmpty()) {
+            visibilityBattery.set(true);
+        } else {
+            String imei = currentMapPoint.get().getImeiNumber();
+            Realm realm = Realm.getDefaultInstance();
+            RealmTracker tracker = realm.where(RealmTracker.class).equalTo("imeiNumber", imei).findFirst();
+            if (tracker == null) {
+                visibilityBattery.set(true);
+            } else {
+                boolean check = tracker.getType().equals(Tracker.Type.TK_STAR_PET.toString());
+                if (check) {
+                    visibilityBattery.set(false);
+                } else {
+                    visibilityBattery.set(true);
                 }
             }
         }
