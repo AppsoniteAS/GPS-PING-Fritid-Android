@@ -41,9 +41,9 @@ import java.util.Locale;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.AuthHelper;
 import no.appsonite.gpsping.api.content.Poi;
-import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.data_structures.ColorMarkerHelper;
 import no.appsonite.gpsping.databinding.FragmentTrackersMapBinding;
+import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.enums.ColorPin;
 import no.appsonite.gpsping.enums.DirectionPin;
 import no.appsonite.gpsping.enums.MapStyle;
@@ -358,17 +358,7 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         if (getModel().currentMapPoint.get().getImeiNumber().isEmpty()) {
             return;
         }
-        if (!trackers.isEmpty()) {
-            getTrackerFromCache();
-        } else {
-            getTrackerFromNetwork();
-        }
-    }
-
-    private void getTrackerFromCache() {
-        for (Tracker tracker : trackers) {
-            callEditTrackerFragment(tracker);
-        }
+        getTracker();
     }
 
     private void callEditTrackerFragment(Tracker tracker) {
@@ -378,23 +368,22 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
         }
     }
 
-    private void getTrackerFromNetwork() {
+    private void getTracker() {
         showProgress();
-        getModel().getTrackers()
-                .subscribe(this::editBtnOnNext, this::showError, this::hideProgress);
+        getModel().requestTrackers(this.trackers)
+                .subscribe(this::editBtnOnNext, this::requestTrackersThrowable, this::hideProgress);
     }
 
-    private void editBtnOnNext(TrackersAnswer trackersAnswer) {
-        if (trackersAnswer.getTrackers() != null || !trackersAnswer.getTrackers().isEmpty()) {
-            trackers = trackersAnswer.getTrackers();
-            for (Tracker tracker : trackersAnswer.getTrackers()) {
-                showEditTrackerScreenIfBelonging(tracker);
-            }
+    private void editBtnOnNext(ArrayList<Tracker> trackers) {
+        RealmTracker.requestTrackersFromRealm(this.trackers);
+        for (Tracker tracker : trackers) {
+            callEditTrackerFragment(tracker);
         }
     }
 
-    private void showEditTrackerScreenIfBelonging(Tracker tracker) {
-        callEditTrackerFragment(tracker);
+    private void requestTrackersThrowable(Throwable throwable) {
+        RealmTracker.requestTrackersFromRealm(trackers);
+        throwable.printStackTrace();
     }
 
     private void initCompass() {

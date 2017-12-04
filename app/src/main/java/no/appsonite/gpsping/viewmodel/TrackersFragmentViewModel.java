@@ -25,17 +25,14 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
 
     public Observable<ApiAnswer> removeTracker(final Tracker tracker) {
         Observable<ApiAnswer> observable = execute(ApiFactory.getService().removeTracker(tracker.imeiNumber.get()))
-                .flatMap(new Func1<ApiAnswer, Observable<ApiAnswer>>() {
-                    @Override
-                    public Observable<ApiAnswer> call(ApiAnswer apiAnswer) {
-                        Realm realm = Realm.getDefaultInstance();
-                        RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
-                        realm.beginTransaction();
-                        realmTracker.removeFromRealm();
-                        realm.commitTransaction();
-                        realm.close();
-                        return Observable.just(apiAnswer);
-                    }
+                .flatMap(apiAnswer -> {
+                    Realm realm = Realm.getDefaultInstance();
+                    RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
+                    realm.beginTransaction();
+                    realmTracker.removeFromRealm();
+                    realm.commitTransaction();
+                    realm.close();
+                    return Observable.just(apiAnswer);
                 })
                 .cache()
                 .subscribeOn(Schedulers.io())
@@ -48,13 +45,10 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
 
     public void requestTrackers() {
         RealmTracker.requestTrackersFromRealm(trackers);
-        execute(ApiFactory.getService().getTrackers()).flatMap(new Func1<TrackersAnswer, Observable<ArrayList<Tracker>>>() {
-            @Override
-            public Observable<ArrayList<Tracker>> call(TrackersAnswer trackersAnswer) {
-                ArrayList<Tracker> trackers = trackersAnswer.getTrackers();
-                RealmTracker.sync(trackers);
-                return Observable.just(trackers);
-            }
+        execute(ApiFactory.getService().getTrackers()).flatMap(trackersAnswer -> {
+            ArrayList<Tracker> trackers = trackersAnswer.getTrackers();
+            RealmTracker.sync(trackers);
+            return Observable.just(trackers);
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(trackers1 -> RealmTracker.requestTrackersFromRealm(TrackersFragmentViewModel.this.trackers),

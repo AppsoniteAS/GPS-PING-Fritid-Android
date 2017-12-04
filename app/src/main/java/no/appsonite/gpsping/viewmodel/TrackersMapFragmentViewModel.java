@@ -20,7 +20,6 @@ import no.appsonite.gpsping.api.content.FriendsAnswer;
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.content.Poi;
 import no.appsonite.gpsping.api.content.Profile;
-import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.api.content.geo.GeoPointsAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Friend;
@@ -177,9 +176,13 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         return requestPoints(true);
     }
 
-    public Observable<TrackersAnswer> getTrackers() {
-        return execute(ApiFactory.getService().getTrackers())
-                .subscribeOn(Schedulers.io())
+    public Observable<ArrayList<Tracker>> requestTrackers(List<Tracker> trackers) {
+        RealmTracker.requestTrackersFromRealm(trackers);
+        return execute(ApiFactory.getService().getTrackers()).flatMap(trackersAnswer -> {
+            ArrayList<Tracker> trackersLocal = trackersAnswer.getTrackers();
+            RealmTracker.sync(trackersLocal);
+            return Observable.just(trackersLocal);
+        }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
