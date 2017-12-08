@@ -48,6 +48,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.READ_SMS;
 import static android.Manifest.permission.RECEIVE_SMS;
 import static android.Manifest.permission.SEND_SMS;
@@ -539,7 +540,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
     private void getSMSPermission() {
         new RxPermissions(getActivity())
-                .request(SEND_SMS, READ_SMS, RECEIVE_SMS)
+                .request(SEND_SMS, READ_SMS, RECEIVE_SMS, READ_PHONE_STATE)
                 .subscribe(this::getSMSPermissionOnNext);
     }
 
@@ -547,7 +548,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
         if (granted) {
 
         } else {
-            showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS);
+            showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS, READ_PHONE_STATE);
             getBaseActivity().onBackPressed();
         }
     }
