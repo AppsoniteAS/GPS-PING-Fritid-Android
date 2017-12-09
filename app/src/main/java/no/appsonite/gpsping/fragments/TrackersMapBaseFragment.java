@@ -395,7 +395,9 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+        if (mapView != null) {
+            mapView.onResume();
+        }
         if (compass != null)
             compass.start();
     }
@@ -411,21 +413,25 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
     @Override
     public void onStop() {
         super.onStop();
-        if (getMap() != null)
+        if (getMap() != null) {
             cameraPosition = getMap().getCameraPosition();
+        }
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        if (mapView != null) {
+            mapView.onLowMemory();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mapView != null)
+        if (mapView != null) {
             mapView.onDestroy();
+        }
     }
 
     @Override
