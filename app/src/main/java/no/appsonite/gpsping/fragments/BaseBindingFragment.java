@@ -127,7 +127,9 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
     }
 
     private void setVisibleNavigationBottom() {
-        getBaseActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
+        if (getBaseActivity().findViewById(R.id.bottom_navigation) != null) {
+            getBaseActivity().findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
+        }
     }
 
     private void setGoneNavigationBottom() {
