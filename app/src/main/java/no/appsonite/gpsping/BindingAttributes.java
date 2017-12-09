@@ -113,7 +113,9 @@ public class BindingAttributes {
 
                 public void onTextChanged(CharSequence s,
                                           int start, int before, int count) {
-                    observableString.set(s.toString());
+                    if (observableString != null) {
+                        observableString.set(s.toString());
+                    }
                 }
 
                 @Override
