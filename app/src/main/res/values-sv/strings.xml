@@ -148,6 +148,8 @@
     <string name="imsure">Jag är säker</string>
     <string name="choosePhoto">Ladda upp ditt foto</string>
     <string name="buy">Köpa</string>
+    <string name="addTrackerInfo">Lägga till en spårare utlöser ett SIM-kort prenumerationsorder</string>
+    <string name="addTrackerInfoCheckBox">Jag har läst och accepterar prenumerationsvillkoren</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

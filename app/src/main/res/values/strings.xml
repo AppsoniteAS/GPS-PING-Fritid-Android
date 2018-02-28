@@ -179,6 +179,8 @@
     <string name="buy">Buy</string>
     <string name="meters">\tm</string>
     <string name="kilometers">\tkm</string>
+    <string name="addTrackerInfo">Adding a tracker triggers a sim card subscription order</string>
+    <string name="addTrackerInfoCheckBox">I have read and accept the subscription conditions</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

@@ -25,6 +25,19 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
     public ObservableString trackerLast4DigitsOfNumber = new ObservableString();
     public ObservableString trackerLast4DigitsOfNumberError = new ObservableString();
     public ObservableBoolean afterReg = new ObservableBoolean(false);
+    public ObservableBoolean permission = new ObservableBoolean(false);
+    public ObservableBoolean visibilityErrorPermission = new ObservableBoolean(false);
+
+    public AddTrackerWithPinCodeViewModel() {
+        permission.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(android.databinding.Observable observable, int i) {
+                if (permission.get()) {
+                    visibilityErrorPermission.set(false);
+                }
+            }
+        });
+    }
 
     private boolean isTrackerValid() {
         if (TextUtils.isEmpty(trackerIMEI.get())) {
@@ -38,6 +51,13 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
             return false;
         }
         trackerLast4DigitsOfNumberError.set(null);
+
+        if (!permission.get()) {
+            visibilityErrorPermission.set(true);
+            return false;
+        }
+        visibilityErrorPermission.set(false);
+
         return true;
     }
 

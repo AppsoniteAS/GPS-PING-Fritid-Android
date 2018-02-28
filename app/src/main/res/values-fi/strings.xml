@@ -259,6 +259,8 @@
     <string name="imsure">Olen varma</string>
     <string name="choosePhoto">Lataa kuva</string>
     <string name="buy">Ostaa</string>
+    <string name="addTrackerInfo">Trackerin lisääminen käynnistää SIM-kortin tilausjärjestyksen</string>
+    <string name="addTrackerInfoCheckBox">Olen lukenut ja hyväksyn tilauksen ehdot</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekuntia</item>
