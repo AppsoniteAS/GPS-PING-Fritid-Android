@@ -2,10 +2,14 @@ package no.appsonite.gpsping.viewmodel;
 
 import android.app.Activity;
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 
 import java.util.ArrayList;
 
+import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.db.RealmTracker;
@@ -24,11 +28,13 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
     public ObservableString trackerIMEIError = new ObservableString();
     public ObservableString trackerLast4DigitsOfNumber = new ObservableString();
     public ObservableString trackerLast4DigitsOfNumberError = new ObservableString();
+    public ObservableField<CharSequence> textLink = new ObservableField<>();
     public ObservableBoolean afterReg = new ObservableBoolean(false);
     public ObservableBoolean permission = new ObservableBoolean(false);
     public ObservableBoolean visibilityErrorPermission = new ObservableBoolean(false);
 
     public AddTrackerWithPinCodeViewModel() {
+        addLinkText();
         permission.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable observable, int i) {
@@ -37,6 +43,12 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
                 }
             }
         });
+    }
+
+    private void addLinkText() {
+        SpannableString text = new SpannableString(Application.getContext().getString(R.string.addTrackerInfoCheckBox));
+        text.setSpan(new UnderlineSpan(), 0, text.length(), 0);
+        textLink.set(text);
     }
 
     private boolean isTrackerValid() {

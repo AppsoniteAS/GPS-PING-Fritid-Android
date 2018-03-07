@@ -150,6 +150,7 @@
     <string name="buy">Kjøpe</string>
     <string name="addTrackerInfo">Når du legger til en tracker starter du et simkort abonnement til 99kr pr måned</string>
     <string name="addTrackerInfoCheckBox">Jeg har lest og godtatt abonnements vilkårene</string>
+    <string name="subscription_terms">Abonnementsvilkår</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

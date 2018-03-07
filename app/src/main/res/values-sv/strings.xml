@@ -150,6 +150,7 @@
     <string name="buy">Köpa</string>
     <string name="addTrackerInfo">Lägga till en spårare utlöser ett SIM-kort prenumerationsorder</string>
     <string name="addTrackerInfoCheckBox">Jag har läst och accepterar prenumerationsvillkoren</string>
+    <string name="subscription_terms">Prenumerationsvillkor</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

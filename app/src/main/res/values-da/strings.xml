@@ -261,6 +261,7 @@
     <string name="buy">Købe</string>
     <string name="addTrackerInfo">Tilføjelse af en tracker udløser et simkort abonnementsordre</string>
     <string name="addTrackerInfoCheckBox">Jeg har læst og accepterer abonnementsbetingelserne</string>
+    <string name="subscription_terms">Abonnementsbetingelser</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

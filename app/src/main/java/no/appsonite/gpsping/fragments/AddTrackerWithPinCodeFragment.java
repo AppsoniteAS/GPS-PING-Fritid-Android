@@ -13,6 +13,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 
 import no.appsonite.gpsping.R;
 import no.appsonite.gpsping.activities.MainActivity;
+import no.appsonite.gpsping.activities.WebViewActivity;
 import no.appsonite.gpsping.databinding.FragmentAddTrackerWithPinCodeBinding;
 import no.appsonite.gpsping.viewmodel.AddTrackerWithPinCodeViewModel;
 import rx.Observable;
@@ -29,6 +30,7 @@ import static android.Manifest.permission.SEND_SMS;
  */
 public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentAddTrackerWithPinCodeBinding, AddTrackerWithPinCodeViewModel> {
     private static final String ARG_AFTER_REG = "arg_after_reg";
+    private static final String SUBSCRIPTION_TERMS_URL = "https://shop.gpsping.no/terms-and-conditions/";
     private static final String TAG = AddTrackerWithPinCodeFragment.class.getSimpleName();
     private static final int PERMISSION_SMS = 1;
 
@@ -65,6 +67,8 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
         getModel().afterReg.set(afterReg);
 
         getBinding().newTrackerHelpBtn.setOnClickListener(view -> newTrackerHelp());
+
+        getBinding().tvLink.setOnClickListener(v -> WebViewActivity.open(getContext(), SUBSCRIPTION_TERMS_URL, getString(R.string.subscription_terms), false));
     }
 
     private void skipAddTracker() {
@@ -111,6 +115,16 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PERMISSION_SMS:
+                bindPreTracker();
+                break;
+        }
+    }
+
     public static class HelpBottomSheet extends DialogFragment {
         @NonNull
         @Override
@@ -122,16 +136,6 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
                     .setView(view);
             view.findViewById(R.id.closeDialog).setOnClickListener(view1 -> dismiss());
             return alertDialog.create();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case PERMISSION_SMS:
-                bindPreTracker();
-                break;
         }
     }
 }

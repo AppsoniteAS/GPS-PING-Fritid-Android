@@ -35,10 +35,10 @@
                     android:layout_margin="16dp"
                     android:background="@drawable/form_bg"
                     android:orientation="vertical"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="4dp">
+                    android:paddingTop="16dp">
 
                     <no.appsonite.gpsping.widget.CustomFontTextView
                         style="@style/AppTheme.widget.FormTitle"
@@ -114,10 +114,12 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/tvLink"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="4dp"
-                            android:text="@string/addTrackerInfoCheckBox" />
+                            android:text="@{viewModel.textLink}"
+                            tools:text="@string/addTrackerInfoCheckBox" />
 
                     </LinearLayout>
 
