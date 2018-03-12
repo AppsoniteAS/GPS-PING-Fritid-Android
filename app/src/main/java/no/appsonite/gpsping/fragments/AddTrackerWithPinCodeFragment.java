@@ -30,7 +30,7 @@ import static android.Manifest.permission.SEND_SMS;
  */
 public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentAddTrackerWithPinCodeBinding, AddTrackerWithPinCodeViewModel> {
     private static final String ARG_AFTER_REG = "arg_after_reg";
-    private static final String SUBSCRIPTION_TERMS_URL = "https://shop.gpsping.no/terms-and-conditions/";
+    private static final String SUBSCRIPTION_TERMS_URL = "https://fritid.gpsping.no/subscription_agreement/";
     private static final String TAG = AddTrackerWithPinCodeFragment.class.getSimpleName();
     private static final int PERMISSION_SMS = 1;
 
@@ -68,7 +68,7 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
 
         getBinding().newTrackerHelpBtn.setOnClickListener(view -> newTrackerHelp());
 
-        getBinding().tvLink.setOnClickListener(v -> WebViewActivity.open(getContext(), SUBSCRIPTION_TERMS_URL, getString(R.string.subscription_terms), false));
+        getBinding().tvLink.setOnClickListener(v -> WebViewActivity.open(getContext(), SUBSCRIPTION_TERMS_URL, getString(R.string.subscription_agreement), false));
     }
 
     private void skipAddTracker() {

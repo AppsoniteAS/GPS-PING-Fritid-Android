@@ -261,7 +261,7 @@
     <string name="buy">Ostaa</string>
     <string name="addTrackerInfo">Trackerin lisääminen käynnistää SIM-kortin tilausjärjestyksen</string>
     <string name="addTrackerInfoCheckBox">Olen lukenut ja hyväksyn tilauksen ehdot</string>
-    <string name="subscription_terms">Tilauslausekkeet</string>
+    <string name="subscription_agreement">Tilaussopimus</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekuntia</item>

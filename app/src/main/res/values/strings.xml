@@ -181,7 +181,7 @@
     <string name="kilometers">\tkm</string>
     <string name="addTrackerInfo">Adding a tracker triggers a sim card subscription order</string>
     <string name="addTrackerInfoCheckBox">I have read and accept the subscription conditions</string>
-    <string name="subscription_terms">Subscription terms</string>
+    <string name="subscription_agreement">Subscription agreement</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>
