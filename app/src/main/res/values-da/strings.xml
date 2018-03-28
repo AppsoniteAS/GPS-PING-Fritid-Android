@@ -79,6 +79,8 @@
 
     <string name="trackerNumber">Sporingsenheds Nummer</string>
 
+    <string name="imeiAndTrackerNumber">IMEI og tracker nummer</string>
+
     <string name="addTrackerButton">Tilføj Sporingsenhed</string>
 
     <string name="signal">Signal</string>
@@ -316,6 +318,7 @@
 
     <string name="faq">Problemløsning</string>
     <string name="canBeFoundInside">finder du inde i sporerens boks</string>
+    <string name="canBeFoundSticker">kan findes på et klistermærke på kassens side:</string>
     <string name="helpNewTracker">Hvor finder jeg sporerens <b>mobil</b>- og <b>IMEI nummer</b>?</string>
     <string name="isPlacedOnTheBack">findes på bagsiden af selve sporeren</string>
     <string name="pauseSubscription">Sæt abonnement i bero</string>

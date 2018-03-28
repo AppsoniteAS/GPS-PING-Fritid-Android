@@ -79,6 +79,8 @@
 
     <string name="trackerNumber">Paikantimen Numero</string>
 
+    <string name="imeiAndTrackerNumber">IMEI ja seuranta numero</string>
+
     <string name="addTrackerButton">Lisää paikannin</string>
 
     <string name="signal">Signaali</string>
@@ -314,6 +316,7 @@
     <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
     <string name="faq">Vianmääritys</string>
     <string name="canBeFoundInside">on paketin sisällä yhdessä paikantimen kanssa</string>
+    <string name="canBeFoundSticker">löytyy laatikon sivulta:</string>
     <string name="helpNewTracker">Mistä löydän paikantimen <b>matkapuhelinnumeron</b> ja <b>imei-numeron</b></string>
     <string name="isPlacedOnTheBack">sijaitsee paikantimen takakuoressa</string>
     <string name="pauseSubscription">Keskeytä Tilaus</string>

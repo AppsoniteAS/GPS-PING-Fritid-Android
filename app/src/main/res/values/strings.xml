@@ -38,6 +38,7 @@
     <string name="name">Name</string>
     <string name="imeiNumber">IMEI Number</string>
     <string name="trackerNumber">Tracker Number</string>
+    <string name="imeiAndTrackerNumber">IMEI and tracker number</string>
     <string name="addTrackerButton">Add Tracker</string>
     <string name="signal">Signal</string>
     <string name="receiveSignalEvery">Receive signal every</string>
@@ -154,6 +155,7 @@
     <string name="inputPhoneInProfileError">Please input phone number in settings before resetting</string>
     <string name="helpNewTracker">Where can I find my\n<b>Tracker Number</b> and <b>IMEI</b>?</string>
     <string name="canBeFoundInside">can be found inside the box with tracker:</string>
+    <string name="canBeFoundSticker">can be found on a sticker on the box side:</string>
     <string name="isPlacedOnTheBack">is placed on the back side of your tracker:</string>
     <string name="faq">FAQ</string>
     <string name="sleepMode">Sleep mode</string>

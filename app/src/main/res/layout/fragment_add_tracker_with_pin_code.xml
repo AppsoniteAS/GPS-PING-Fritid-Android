@@ -140,7 +140,6 @@
                     android:layout_height="32dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="8dp"
-                    android:clickable="true"
                     android:gravity="center"
                     android:text="@string/skip"
                     android:textColor="#000"
@@ -151,31 +150,67 @@
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/newTrackerHelpBtn"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:background="#a0ffffff">
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/helpFrame"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/ic_add_new_help" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="-140dp"
                 android:layout_marginLeft="24dp"
-                android:text="@string/helpNewTracker"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
+                android:layout_marginRight="24dp"
+                android:background="#a0ffffff"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp"
+                        android:src="@drawable/ic_add_new_help" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="24dp"
+                        android:text="@string/helpNewTracker"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="240dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:id="@+id/trackerNormal"
+                        android:layout_width="108dp"
+                        android:layout_height="108dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/tracker_normal" />
+
+                    <ImageView
+                        android:id="@+id/trackerMarcel"
+                        android:layout_width="108dp"
+                        android:layout_height="108dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:background="?attr/selectableItemBackground"
+                        android:src="@drawable/tracker_marcel" />
+
+                </FrameLayout>
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
 </layout>

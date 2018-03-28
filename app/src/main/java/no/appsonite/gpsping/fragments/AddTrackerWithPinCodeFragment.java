@@ -1,13 +1,17 @@
 package no.appsonite.gpsping.fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -33,6 +37,10 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
     private static final String SUBSCRIPTION_TERMS_URL = "https://fritid.gpsping.no/subscription_agreement/";
     private static final String TAG = AddTrackerWithPinCodeFragment.class.getSimpleName();
     private static final int PERMISSION_SMS = 1;
+    private HelpBottomSheet helpBottomSheet;
+    private int bottomMargin;
+    private AnimatorSet animatorSet;
+    private boolean isOpenBottomView;
 
     public static AddTrackerWithPinCodeFragment newInstance() {
         return newInstance(false);
@@ -66,9 +74,23 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
         boolean afterReg = getArguments().getBoolean(ARG_AFTER_REG, false);
         getModel().afterReg.set(afterReg);
 
-        getBinding().newTrackerHelpBtn.setOnClickListener(view -> newTrackerHelp());
+        getBinding().helpFrame.setOnClickListener(view -> openClosedAnimation());
 
         getBinding().tvLink.setOnClickListener(v -> WebViewActivity.open(getContext(), SUBSCRIPTION_TERMS_URL, getString(R.string.subscription_agreement), false));
+
+        getBinding().trackerNormal.setOnClickListener(v -> showInfoTrackerNormal());
+        
+        getBinding().trackerMarcel.setOnClickListener(v -> showInfoTrackerMarcel());
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        LinearLayout.LayoutParams params;
+        params = (LinearLayout.LayoutParams) getBinding().helpFrame.getLayoutParams();
+        bottomMargin = params.bottomMargin;
+        animatorSet = new AnimatorSet();
+        animatorSet.setDuration(300);
     }
 
     private void skipAddTracker() {
@@ -76,9 +98,35 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
         getActivity().finish();
     }
 
-    private void newTrackerHelp() {
-        HelpBottomSheet helpBottomSheet = new HelpBottomSheet();
+    private void showInfoTrackerNormal() {
+        if (helpBottomSheet == null) {
+            helpBottomSheet = new HelpBottomSheet();
+        }
+        helpBottomSheet.layoutId = R.layout.dialog_new_tracker_help;
         helpBottomSheet.show(getChildFragmentManager(), "Help");
+    }
+
+    private void showInfoTrackerMarcel() {
+        if (helpBottomSheet == null) {
+            helpBottomSheet = new HelpBottomSheet();
+        }
+        helpBottomSheet.layoutId = R.layout.dialog_new_tracker_help_marcel;
+        helpBottomSheet.show(getChildFragmentManager(), "Help");
+    }
+
+    private void openClosedAnimation() {
+        if (isOpenBottomView) {
+            isOpenBottomView = false;
+            animatorSet.play(ObjectAnimator.ofFloat(getBinding().helpFrame, "Y",
+                    getBinding().helpFrame.getY(), getBinding().helpFrame.getY() - bottomMargin));
+            animatorSet.start();
+        } else {
+            isOpenBottomView = true;
+            animatorSet.play(ObjectAnimator.ofFloat(getBinding().helpFrame, "Y",
+                    getBinding().helpFrame.getY(), getBinding().helpFrame.getY() + bottomMargin));
+            animatorSet.start();
+
+        }
     }
 
     private void bindPreTracker() {
@@ -126,11 +174,13 @@ public class AddTrackerWithPinCodeFragment extends BaseBindingFragment<FragmentA
     }
 
     public static class HelpBottomSheet extends DialogFragment {
+        private int layoutId;
+
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-            View view = layoutInflater.inflate(R.layout.dialog_new_tracker_help, null);
+            View view = layoutInflater.inflate(layoutId, null);
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog_FullScreen)
                     .setTitle(null)
                     .setView(view);
