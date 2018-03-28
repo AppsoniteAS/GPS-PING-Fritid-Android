@@ -35,67 +35,31 @@
                     android:padding="12dp"
                     android:text="@string/selectYourTracker" />
 
-                <ImageView
-                    android:id="@+id/originalBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/tk_star_pet" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/originalGpsTracker"
-                    android:textColor="@color/mainTextColor" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/marcelBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/s1"
-                    app:civ_border_color="@color/colorPrimary"
-                    app:civ_border_width="3dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/gpsPingMarcel"
-                    android:textColor="@color/mainTextColor" />
-
-                <FrameLayout
-                    android:id="@+id/isabellaBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/ic_round_white" />
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="64dp"
+                        android:id="@+id/originalBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_tracker_faq" />
+                        android:layout_marginTop="20dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/tracker_normal" />
 
-                </FrameLayout>
+                    <ImageView
+                        android:id="@+id/marcelBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/tracker_marcel" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/gpsPingIsabella"
-                    android:textColor="@color/mainTextColor" />
-
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 </layout>

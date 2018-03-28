@@ -79,9 +79,6 @@ public class TrackersFragment extends BaseBindingFragment<FragmentTrackersBindin
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-//                    case R.id.enableTracker:
-//                        getModel().enableTracker((Tracker) v.getTag());
-//                        break;
                     case R.id.removeTracker:
                         removeTracker((Tracker) v.getTag());
                         break;

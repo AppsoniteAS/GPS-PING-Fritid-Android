@@ -84,7 +84,7 @@ public class FAQFragment extends BaseBindingFragment<FragmentFaqBinding, BaseFra
         switch (faqChooser) {
             case ORIGINAL_GPS_TRACKER:
                 return getResources().getStringArray(R.array.faq_questions_answers);
-            case GPS_MARCEL_AND_ISABELLA_TRACKER:
+            case GPS_MARCEL_TRACKER:
                 return getResources().getStringArray(R.array.faq_questions_answers_s1_cat);
             default:
                 return getResources().getStringArray(R.array.faq_questions_answers_s1_cat);
@@ -92,7 +92,7 @@ public class FAQFragment extends BaseBindingFragment<FragmentFaqBinding, BaseFra
     }
 
     public enum FaqChooser {
-        ORIGINAL_GPS_TRACKER, GPS_MARCEL_AND_ISABELLA_TRACKER
+        ORIGINAL_GPS_TRACKER, GPS_MARCEL_TRACKER
     }
 
     public static class FAQItem implements Serializable {
