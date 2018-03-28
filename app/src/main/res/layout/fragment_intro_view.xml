@@ -1,49 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#278c1f"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/introImage"
-            tools:src="@drawable/intro_01"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            />
-    </FrameLayout>
-
-
-    <LinearLayout
+    <ImageView
+        android:id="@+id/introImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1660" />
-
-        <TextView
-            android:id="@+id/introText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:layout_weight="540"
-            android:autoLink="all"
-            android:gravity="center"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:textColor="#fff"
-            android:textColorLink="#fff"
-            android:textSize="17sp"
-            tools:text="Velkommen til GPS Ping! Hvis du har kjøpt en GPS Tracker skal vi vise deg hvordan du setter den opp. Hvis ikke, vennligst gå til vår nettbutikk og kjøp din GPS Tracker: www.gpsping.no" />
-    </LinearLayout>
-
+        android:scaleType="fitXY"
+        tools:src="@drawable/intro_01" />
 </FrameLayout>

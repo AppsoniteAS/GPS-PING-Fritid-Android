@@ -1,7 +1,6 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Location;

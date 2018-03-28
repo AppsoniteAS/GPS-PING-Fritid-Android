@@ -7,16 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import no.appsonite.gpsping.R;
 
@@ -47,22 +46,16 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         Adapter adapter = new Adapter(getSupportFragmentManager());
         viewPager.setOffscreenPageLimit(adapter.getCount());
         viewPager.setAdapter(adapter);
 
-        findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences sharedPreferences = getSharedPreferences("INTRO", MODE_PRIVATE);
-                sharedPreferences.edit().putBoolean("INTRO_COMPLETED", true).commit();
-                finish();
-            }
+        findViewById(R.id.close).setOnClickListener(view -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("INTRO", MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean("INTRO_COMPLETED", true).apply();
+            finish();
         });
-
-//        nextScreenHandler.removeCallbacks(nextScreen);
-//        nextScreenHandler.postDelayed(nextScreen, DELAY);
     }
 
     @Override
@@ -76,15 +69,14 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private static class Adapter extends FragmentStatePagerAdapter {
-        private static ArrayList<Pair<Integer, Integer>> items = new ArrayList<>();
+        private static List<Integer> items = new ArrayList<>();
 
         static {
-            items.add(new Pair<>(R.drawable.intro_01, R.string.intro_step_1));
-            items.add(new Pair<>(R.drawable.intro_02, R.string.intro_step_2));
-            items.add(new Pair<>(R.drawable.intro_03, R.string.intro_step_3));
-            items.add(new Pair<>(R.drawable.intro_04, R.string.intro_step_4));
-            items.add(new Pair<>(R.drawable.intro_05, R.string.intro_step_5));
-            items.add(new Pair<>(R.drawable.intro_04, R.string.intro_step_6));
+            items.add(R.drawable.intro_01);
+            items.add(R.drawable.intro_02);
+            items.add(R.drawable.intro_03);
+            items.add(R.drawable.intro_04);
+            items.add(R.drawable.intro_05);
         }
 
         public Adapter(FragmentManager fm) {
@@ -93,8 +85,8 @@ public class IntroActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Pair<Integer, Integer> item = items.get(position);
-            return IntroFragment.newInstance(item.first, item.second);
+            Integer item = items.get(position);
+            return IntroFragment.newInstance(item);
         }
 
         @Override
@@ -105,12 +97,10 @@ public class IntroActivity extends AppCompatActivity {
 
     public static class IntroFragment extends Fragment {
         private static final String ARG_IMAGE = "arg_image";
-        private static final String ARG_TEXT = "arg_text";
 
-        public static IntroFragment newInstance(int imageId, int textId) {
+        public static IntroFragment newInstance(int imageId) {
             Bundle args = new Bundle();
             args.putInt(ARG_IMAGE, imageId);
-            args.putInt(ARG_TEXT, textId);
             IntroFragment fragment = new IntroFragment();
             fragment.setArguments(args);
             return fragment;
@@ -127,7 +117,6 @@ public class IntroActivity extends AppCompatActivity {
             super.onViewCreated(view, savedInstanceState);
 
             ((ImageView) view.findViewById(R.id.introImage)).setImageResource(getArguments().getInt(ARG_IMAGE));
-            ((TextView) view.findViewById(R.id.introText)).setText(getArguments().getInt(ARG_TEXT));
         }
     }
 }
