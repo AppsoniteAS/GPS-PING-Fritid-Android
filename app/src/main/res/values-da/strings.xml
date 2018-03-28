@@ -198,7 +198,7 @@
 
     <string name="emailSent">Et link til gendannelsen af dit kodeord er blevet e-mailet til dig. Check venligst din e-mail. </string>
 
-    <string name="forgetYourPassword"><u>Har du glemt dit kodeord?</u></string>
+    <string name="forgetYourPassword">Har du glemt dit kodeord?</string>
 
     <string name="editPoi"><u>Rediger Interessepunkt</u></string>
 
@@ -262,6 +262,7 @@
     <string name="addTrackerInfo">Tilføjelse af en tracker udløser et simkort abonnementsordre</string>
     <string name="addTrackerInfoCheckBox">Jeg har læst og accepterer abonnementsbetingelserne</string>
     <string name="subscription_agreement">Abonnementsaftale</string>
+    <string name="thisTrackerAlreadyExists">Denne tracker eksisterer allerede</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

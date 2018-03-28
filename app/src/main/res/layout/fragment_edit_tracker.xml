@@ -556,13 +556,6 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/pauseSubscriptionBtn"
-                    style="@style/AppTheme.widget.Button.Green"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/pauseSubscription" />
-
             </LinearLayout>
         </ScrollView>
 

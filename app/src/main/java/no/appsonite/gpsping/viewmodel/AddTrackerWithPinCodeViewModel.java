@@ -6,8 +6,10 @@ import android.databinding.ObservableField;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import no.appsonite.gpsping.Application;
 import no.appsonite.gpsping.R;
@@ -32,6 +34,7 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
     public ObservableBoolean afterReg = new ObservableBoolean(false);
     public ObservableBoolean permission = new ObservableBoolean(false);
     public ObservableBoolean visibilityErrorPermission = new ObservableBoolean(false);
+    public List<Tracker> trackers;
 
     public AddTrackerWithPinCodeViewModel() {
         addLinkText();
@@ -43,6 +46,8 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
                 }
             }
         });
+        trackers = new ArrayList<>();
+        RealmTracker.requestTrackersFromRealm(trackers);
     }
 
     private void addLinkText() {
@@ -75,21 +80,34 @@ public class AddTrackerWithPinCodeViewModel extends BaseFragmentSMSViewModel {
 
     public Observable<Boolean> addTracker(final Activity activity) {
         if (isTrackerValid()) {
-            return execute(ApiFactory.getService().bindTracker(trackerIMEI.get(), trackerLast4DigitsOfNumber.get()))
-                    .flatMap(apiAnswer -> execute(ApiFactory.getService().getTrackers())).flatMap(trackersAnswer -> {
-                        ArrayList<Tracker> trackers = trackersAnswer.getTrackers();
-                        RealmTracker.sync(trackers);
-                        return Observable.just(trackers);
-                    }).flatMap(trackers -> {
-                        for (Tracker tracker : trackers) {
-                            if (TextUtils.equals(trackerIMEI.get(), tracker.imeiNumber.get())) {
-                                return sendSmses(activity, tracker.getResetSms(EditTrackerFragmentViewModel.TRACCAR_IP));
+            if (trackerNoExist()) {
+                return execute(ApiFactory.getService().bindTracker(trackerIMEI.get(), trackerLast4DigitsOfNumber.get()))
+                        .flatMap(apiAnswer -> execute(ApiFactory.getService().getTrackers())).flatMap(trackersAnswer -> {
+                            ArrayList<Tracker> trackers = trackersAnswer.getTrackers();
+                            RealmTracker.sync(trackers);
+                            return Observable.just(trackers);
+                        }).flatMap(trackers -> {
+                            for (Tracker tracker : trackers) {
+                                if (TextUtils.equals(trackerIMEI.get(), tracker.imeiNumber.get())) {
+                                    return sendSmses(activity, tracker.getResetSms(EditTrackerFragmentViewModel.TRACCAR_IP));
+                                }
                             }
-                        }
-                        Observable.error(new Throwable("No tracker"));
-                        return null;
-                    }).flatMap(sms -> Observable.just(true));
+                            Observable.error(new Throwable("No tracker"));
+                            return null;
+                        }).flatMap(sms -> Observable.just(true));
+            } else {
+                Toast.makeText(activity, activity.getString(R.string.thisTrackerAlreadyExists), Toast.LENGTH_SHORT).show();
+            }
         }
         return null;
+    }
+
+    private boolean trackerNoExist() {
+        for (Tracker tracker : trackers) {
+            if (TextUtils.equals(tracker.imeiNumber.get(), trackerIMEI.get())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

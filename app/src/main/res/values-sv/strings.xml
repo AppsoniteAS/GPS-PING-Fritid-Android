@@ -99,7 +99,7 @@
     <string name="restore">Återställ</string>
     <string name="passwordRestoreDesc">Fyll i din e-postadress så skickar vi instruktioner om hur du återställer ditt lösenord </string>
     <string name="emailSent">En länk som du kan använder för att återställa ditt lösenord har skickats till dig. Kolla dina mejl. </string>
-    <string name="forgetYourPassword"><u>Har du glömt ditt lösenord? </u></string>
+    <string name="forgetYourPassword">Har du glömt ditt lösenord?</string>
     <string name="editPoi"><u>Redigera intressepunkt </u></string>
     <string name="editPoiTitle"> Redigera intressepunkt </string>
     <string name="createPoiTitle">Skapa intressepunkt</string>
@@ -151,6 +151,7 @@
     <string name="addTrackerInfo">Lägga till en spårare utlöser ett SIM-kort prenumerationsorder</string>
     <string name="addTrackerInfoCheckBox">Jag har läst och accepterar prenumerationsvillkoren</string>
     <string name="subscription_agreement">Prenumerationsavtal</string>
+    <string name="thisTrackerAlreadyExists">Denna spårare finns redan</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>

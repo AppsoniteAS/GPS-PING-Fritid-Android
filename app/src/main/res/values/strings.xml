@@ -108,7 +108,7 @@
     <string name="restore">Restore</string>
     <string name="passwordRestoreDesc">Input your email and we will send you instructions for password restore</string>
     <string name="emailSent">Link for password reset has been emailed to you. Please check your email.</string>
-    <string name="forgetYourPassword"><u>Forget your password?</u></string>
+    <string name="forgetYourPassword">Forget your password?</string>
     <string name="editPoi"><u>Edit Point of Interest</u></string>
     <string name="editPoiTitle">Edit Point of Interest</string>
     <string name="createPoiTitle">Create Point of Interest</string>
@@ -182,6 +182,7 @@
     <string name="addTrackerInfo">Adding a tracker triggers a sim card subscription order</string>
     <string name="addTrackerInfoCheckBox">I have read and accept the subscription conditions</string>
     <string name="subscription_agreement">Subscription agreement</string>
+    <string name="thisTrackerAlreadyExists">This tracker already exists</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>

@@ -83,14 +83,9 @@
 
             <TextView
                 android:id="@+id/forgetPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:clickable="true"
-                android:text="@string/forgetYourPassword"
-                android:textColor="#000"
-                android:textSize="12sp" />
+                style="@style/AppTheme.widget.Button.Gray"
+                android:layout_marginTop="6dp"
+                android:text="@string/forgetYourPassword" />
         </LinearLayout>
     </ScrollView>
 

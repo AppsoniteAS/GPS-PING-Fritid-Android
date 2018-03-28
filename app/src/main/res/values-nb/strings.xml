@@ -27,13 +27,13 @@
     <string name="youCanOrder">Du kan bestille tracker på vår hjemmeside</string>
     <string name="geofenceDesc">Legg inn antall meter i diameter for Geofence <b>Husk å slå av Geofence når du slår av trackeren</b></string>
     <string name="yards">Meter</string>
-    <string name="phoneNumber">Telefon nummer</string>
+    <string name="phoneNumber">Telefon</string>
     <string name="save">Lagre</string>
     <string name="phoneNumberCanNotBeEmpty">Vennligst legg inn telefonnummer</string>
     <string name="yardsCanNotBeEmpty">Vennligst legg inn antall meter</string>
     <string name="logout">Logg ut</string>
     <string name="chooseTracker">Velg tracker</string>
-    <string name="addTracker">Legg til tracker</string>
+    <string name="addTracker">Legg til</string>
     <string name="tracker">Tracker</string>
     <string name="name">Navn</string>
     <string name="imeiNumber">IMEI Nummer</string>
@@ -66,7 +66,7 @@
     <string name="satellite">Satellitt</string>
     <string name="standard">Standard</string>
     <string name="topo">Topo</string>
-    <string name="photo">Foto</string>
+    <string name="photo">Blide</string>
     <string name="removeTracks">Fjern spor</string>
     <string name="map">Kart</string>
     <string name="all">Alle</string>
@@ -99,13 +99,13 @@
     <string name="restore">Restore</string>
     <string name="passwordRestoreDesc">Legg inn epost adresse så sender vi deg passor reset instruksjoner</string>
     <string name="emailSent">Link til passord reset er sendt til deg. Vennligst sjekk eposten din.</string>
-    <string name="forgetYourPassword"><u>Glemt passordet?</u></string>
+    <string name="forgetYourPassword">Glemt passordet?</string>
     <string name="editPoi"><u>Endre interesse punkt</u></string>
     <string name="editPoiTitle">Endre interesse punkt</string>
     <string name="createPoiTitle">Lag interesse punkt</string>
     <string name="deletePoi"><u>Slett interesse punkt</u></string>
-    <string name="showOnMapTracker">Vis trackere :</string>
-    <string name="trackingHistory">Tracking Historie</string>
+    <string name="showOnMapTracker">Vis spor på aktiv kart i :</string>
+    <string name="trackingHistory">Logg</string>
     <string name="poiName">Navn på interesse punkt</string>
     <string name="poiNameCanNotBeEmpty">Vennligst legg inn navn på interesse punkt</string>
     <string name="areYouSureRemovePoi">Er du sikker på at du vil slette dette interesse punktet</string>
@@ -113,7 +113,7 @@
     <string name="remove">Slett</string>
     <string name="friendsRequiresSubscription"> For å bruke denne funksjonen må du kjøpe abbonnement. </string>
     <string name="buySubscription">Kjøp abbonnement</string>
-    <string name="reset">Reset</string>
+    <string name="reset">Resett</string>
     <string name="shutdown">Skru av</string>
     <string name="bikeTracking">Sykkel Tracking</string>
     <string name="ledLight">LED Lys</string>
@@ -123,17 +123,17 @@
     <string name="inactive">Inaktiv</string>
     <string name="shockAlarm">Shock Alarm</string>
     <string name="shockFlashAlarm">Shock Flash Alarm</string>
-    <string name="code">Kode</string>
+    <string name="code">Land kode</string>
     <string name="phoneCodeCanNotBeEmpty">Vennligst fyll inn alle felt</string>
     <string name="pinCode">PIN Kode</string>
     <string name="pinCodeLengthError">Legg inn %1$s sifret PIN Kode</string>
     <string name="trackerPinCode">Tracker PIN Kode</string>
     <string name="last4DigitsError">Legg inn tracker simkort nummer, fire siffer. </string>
-    <string name="trackerLast4Digits">Tracker nummer siste 4 siffer</string>
+    <string name="trackerLast4Digits">Siste fire siffer i tracker simkort nr</string>
     <string name="address">Adresse</string>
     <string name="country">Land</string>
-    <string name="city">By</string>
-    <string name="zipCode">Postnummer</string>
+    <string name="city">Sted</string>
+    <string name="zipCode">Post sted</string>
     <string name="addressCanNotBeEmpty">Vennligst fyll inn adresse</string>
     <string name="cityCanNotBeEmpty">Vennlist legg inn by</string>
     <string name="countryCanNotBeEmpty">Vennligst legg inn land</string>
@@ -151,6 +151,7 @@
     <string name="addTrackerInfo">Når du legger til en tracker starter du et simkort abonnement til 99kr pr måned</string>
     <string name="addTrackerInfoCheckBox">Jeg har lest og godtatt abonnements vilkårene</string>
     <string name="subscription_agreement">Abonnementsavtale</string>
+    <string name="thisTrackerAlreadyExists">Denne sporet finnes allerede</string>
 
     <string-array name="receiveSignalTime">
         <item>20 sekunder</item>
