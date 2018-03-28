@@ -67,19 +67,10 @@ public class PinUtils {
     private static Bitmap getArrowBitmap(Context context, float rotate, ColorPin colorPin) {
         Bitmap bitmap;
         Resources resources = context.getResources();
-        switch (colorPin) {
-            case RED:
-                bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_red_small);
-                break;
-            case ORANGE:
-                bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_orange_small);
-                break;
-            case YELLOW:
-                bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_yellow_small);
-                break;
-            default:
-                bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_green_small);
-
+        if (colorPin == ColorPin.RED) {
+            bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_red_small);
+        } else {
+            bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_arrow_orange_small);
         }
         if (rotate == 0) {
             return bitmap;

@@ -5,10 +5,8 @@ import java.util.Map;
 
 import no.appsonite.gpsping.enums.ColorPin;
 
-import static no.appsonite.gpsping.enums.ColorPin.GREEN;
 import static no.appsonite.gpsping.enums.ColorPin.ORANGE;
 import static no.appsonite.gpsping.enums.ColorPin.RED;
-import static no.appsonite.gpsping.enums.ColorPin.YELLOW;
 
 /**
  * Created by taras on 10/24/17.
@@ -47,21 +45,12 @@ public class ColorArrowPin {
         }
 
         private void incrementState() {
-            switch (colorPin) {
-                case RED:
-                    colorPin = GREEN;
-                    break;
-                case GREEN:
-                    colorPin = ORANGE;
-                    break;
-                case ORANGE:
-                    colorPin = YELLOW;
-                    break;
-                case YELLOW:
-                    colorPin = RED;
+            if (colorPin == RED) {
+                colorPin = ORANGE;
+            } else {
+                colorPin = RED;
             }
         }
-
     }
 
 }

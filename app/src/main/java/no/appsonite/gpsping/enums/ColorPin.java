@@ -5,5 +5,5 @@ package no.appsonite.gpsping.enums;
  */
 
 public enum ColorPin {
-    RED, ORANGE, YELLOW, GREEN
+    RED, ORANGE
 }

@@ -31,24 +31,12 @@ public class ColorMarkerHelper {
         Bitmap bitmap;
         int resourceId;
         boolean isBigArrow = sizeArrowPin == SizeArrowPin.BIG;
-        switch (colorPin) {
-            case RED:
-                resourceId = isBigArrow ? R.drawable.ic_arrow_red_big : R.drawable.ic_arrow_red_mid;
-                bitmap = BitmapFactory.decodeResource(resources, resourceId);
-                break;
-            case ORANGE:
-                resourceId = isBigArrow ? R.drawable.ic_arrow_orange_big : R.drawable.ic_arrow_orange_mid;
-                bitmap = BitmapFactory.decodeResource(resources, resourceId);
-                break;
-            case YELLOW:
-                resourceId = isBigArrow ? R.drawable.ic_arrow_yellow_big : R.drawable.ic_arrow_yellow_mid;
-                bitmap = BitmapFactory.decodeResource(resources, resourceId);
-                break;
-            //case GREEN:
-            default:
-                resourceId = isBigArrow ? R.drawable.ic_arrow_green_big : R.drawable.ic_arrow_green_mid;
-                bitmap = BitmapFactory.decodeResource(resources, resourceId);
-                break;
+        if (colorPin == ColorPin.RED) {
+            resourceId = isBigArrow ? R.drawable.ic_arrow_red_big : R.drawable.ic_arrow_red_mid;
+            bitmap = BitmapFactory.decodeResource(resources, resourceId);
+        } else {
+            resourceId = isBigArrow ? R.drawable.ic_arrow_orange_big : R.drawable.ic_arrow_orange_mid;
+            bitmap = BitmapFactory.decodeResource(resources, resourceId);
         }
 
         float rotate = new ArrowLocationPin(direction).getRotate();
