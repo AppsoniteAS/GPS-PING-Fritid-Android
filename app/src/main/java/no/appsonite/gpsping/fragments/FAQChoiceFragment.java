@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import no.appsonite.gpsping.R;
+import no.appsonite.gpsping.activities.WebViewActivity;
 import no.appsonite.gpsping.databinding.FragmentFaqChoiceBinding;
 import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
@@ -13,6 +15,7 @@ import no.appsonite.gpsping.viewmodel.BaseFragmentViewModel;
 
 public class FAQChoiceFragment extends BaseBindingFragment<FragmentFaqChoiceBinding, BaseFragmentViewModel> {
     private static final String TAG = FAQChoiceFragment.class.getSimpleName();
+    private static final String MARCEL_URL = "https://fritid.gpsping.no/brukerveiledning_marcel/";
 
     public static FAQChoiceFragment newInstance() {
         Bundle args = new Bundle();
@@ -37,8 +40,7 @@ public class FAQChoiceFragment extends BaseBindingFragment<FragmentFaqChoiceBind
         getBinding().originalBtn.setOnClickListener(v -> getBaseActivity()
                 .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.ORIGINAL_GPS_TRACKER), true));
 
-        getBinding().marcelBtn.setOnClickListener(v -> getBaseActivity()
-                .replaceFragment(FAQFragment.newInstance(FAQFragment.FaqChooser.GPS_MARCEL_TRACKER), true));
+        getBinding().marcelBtn.setOnClickListener(v -> WebViewActivity.open(getContext(), MARCEL_URL, getString(R.string.marcel), false));
 
     }
 }
