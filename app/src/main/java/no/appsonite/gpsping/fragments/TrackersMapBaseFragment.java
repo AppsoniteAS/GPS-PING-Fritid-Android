@@ -154,7 +154,8 @@ public abstract class TrackersMapBaseFragment<T extends TrackersMapFragmentViewM
             @Override
             public URL getTileUrl(int x, int y, int zoom) {
                 try {
-                    return new URL(String.format("http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom=%d&x=%d&y=%d&format=image/png", zoom, x, y));
+                    //http://opencache.statkart.no/gatekeeper/gk/gk.open_wmts?&layer=topo4&style=default&tilematrixset=EPSG%3A3857&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=EPSG%3A3857%3A2&TileCol=2&TileRow=1
+                    return new URL(String.format("http://opencache.statkart.no/gatekeeper/gk/gk.open_wmts?&layer=topo4&style=default&tilematrixset=EPSG:3857&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix=EPSG:3857:%s&TileCol=%s&TileRow=%s", zoom, x, y));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     return null;
