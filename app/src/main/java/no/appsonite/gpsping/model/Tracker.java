@@ -199,6 +199,12 @@ public class Tracker implements Serializable {
                     smses.add(new SMS(trackerNumber, "pw,123456,apn,internet.ts.m2m,,,23820#"));
                     smses.add(new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address)));
                     break;
+                case D79:
+                    smses.add(new SMS(trackerNumber, "pw,123456,apn,telenor#"));
+                    break;
+                case TK_NEW:
+                    smses.add(new SMS(trackerNumber, "apn123456,telenor"));
+                    break;
             }
         } catch (Exception e) {
             throw new RuntimeException(Application.getContext().getString(R.string.inputPhoneInProfileError));
@@ -207,6 +213,6 @@ public class Tracker implements Serializable {
     }
 
     public enum Type {
-        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, TK_STAR_BIKE, LK209, VT600, LK330, S1, A9
+        TK_STAR, TK_STAR_PET, TK_ANYWHERE, TK_BIKE, TK_STAR_BIKE, LK209, VT600, LK330, S1, A9, D79, TK_NEW
     }
 }
