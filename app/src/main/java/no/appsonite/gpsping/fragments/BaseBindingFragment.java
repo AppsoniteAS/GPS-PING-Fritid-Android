@@ -39,11 +39,11 @@ import rx.Subscription;
  */
 public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends BaseFragmentViewModel> extends Fragment {
     public static final String ADD_TO_BACK_STACK = "add_to_back_stack";
+    private static final String EXTRA_MODEL = "extra_model";
     private final Class<B> bindingClass;
     private final Class<M> modelClass;
     private B binding;
     private M model;
-    private static final String EXTRA_MODEL = "extra_model";
     private Subscription logoutSubscription;
 
 
@@ -235,7 +235,7 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
         }
 
         if (checked) {
-            Toast.makeText(context, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.tracker_will_not_work, Toast.LENGTH_LONG).show();
         } else {
             showAlertDialogOfDeniedPermission(CODE_PERMISSION);
         }
@@ -251,7 +251,11 @@ public abstract class BaseBindingFragment<B extends ViewDataBinding, M extends B
                 .setTitle(R.string.permission_denied)
                 .setMessage(R.string.permission_denied_info)
                 .setPositiveButton(R.string.allow, (dialog, which) -> goToApplicationSettings(CODE_PERMISSION))
-                .setNegativeButton(R.string.imsure, null)
+                .setNegativeButton(R.string.imsure, ((dialog, which) -> {
+                    if (this instanceof EditTrackerFragment) {
+                        getBaseActivity().onBackPressed();
+                    }
+                }))
                 .show();
     }
 

@@ -1,6 +1,7 @@
 package no.appsonite.gpsping.fragments;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -504,9 +506,20 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void getSMSPermission() {
-        new RxPermissions(getActivity())
-                .request(SEND_SMS, READ_SMS, RECEIVE_SMS, READ_PHONE_STATE)
-                .subscribe(this::getSMSPermissionOnNext);
+        if (ContextCompat.checkSelfPermission(getActivity(), SEND_SMS) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getActivity(), READ_SMS) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getActivity(), RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getActivity(), READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // show warning
+            PermissionsDialogFragment permissionsDialogFragment = new PermissionsDialogFragment();
+            permissionsDialogFragment.show(getChildFragmentManager(), "permissions");
+            permissionsDialogFragment.setNegativeButtonClickListener((dialog, which) -> getSMSPermissionOnNext(false));
+            permissionsDialogFragment.setPositiveButtonClickListener((dialog, which) ->
+                    new RxPermissions(getActivity())
+                            .request(SEND_SMS, READ_SMS, RECEIVE_SMS, READ_PHONE_STATE)
+                            .subscribe(this::getSMSPermissionOnNext)
+            );
+        }
     }
 
     private void getSMSPermissionOnNext(boolean granted) {
@@ -514,7 +527,7 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
 
         } else {
             showInfoDeniedPermission(getContext(), PERMISSION_SMS, SEND_SMS, READ_SMS, RECEIVE_SMS, READ_PHONE_STATE);
-            getBaseActivity().onBackPressed();
+//            getBaseActivity().onBackPressed();
         }
     }
 

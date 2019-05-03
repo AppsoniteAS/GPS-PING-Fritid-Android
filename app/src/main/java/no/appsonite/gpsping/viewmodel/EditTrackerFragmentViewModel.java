@@ -36,7 +36,6 @@ import no.appsonite.gpsping.utils.ObservableString;
 import no.appsonite.gpsping.utils.TrackingHistoryTime;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -177,9 +176,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 Tracker.Type.TK_STAR_BIKE.toString().equalsIgnoreCase(tracker.get().type.get());
     }
 
-    public boolean isS1OrA9Tracker() {
+    public boolean isS1OrD79Tracker() {
         return Tracker.Type.S1.toString().equalsIgnoreCase(tracker.get().type.get()) ||
-                Tracker.Type.A9.toString().equalsIgnoreCase(tracker.get().type.get());
+                Tracker.Type.D79.toString().equalsIgnoreCase(tracker.get().type.get());
     }
 
     public Observable<Boolean> updateLed(Activity activity) {
@@ -287,11 +286,30 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             case TK_STAR_BIKE:
                 message = String.format("Upload123456 %s", tracker.getRepeatTime());
                 break;
-            case TK_STAR_PET:
-            case TK_STAR:
-                message = "gprs123456";
+            case TK_STAR_PET: {
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("upload123456 %s", repeatTime);
                 break;
-            case LK209:
+            }
+            case TK_STAR: {
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("upload123456 %s", repeatTime);
+                break;
+            }
+            case LK209: {
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("upload123456 %s", repeatTime);
+                break;
+            }
             case LK330: {
                 long timeHours = tracker.getRepeatTime() / 60 / 60;
                 String formattedTime = timeHours + "";
@@ -309,14 +327,30 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
                 message = String.format("W00000,014,%s", formattedTime);
                 break;
             }
-            case S1:
-            case A9:
+            case S1: {
                 String repeatTime = tracker.getRepeatTime() + "";
                 if (repeatTime.length() == 2) {
                     repeatTime = "0" + repeatTime;
                 }
                 message = String.format("pw,123456,upload,%s#", repeatTime);
                 break;
+            }
+            case A9: {
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("pw,123456,upload,%s#", repeatTime);
+                break;
+            }
+            case D79: {
+                String repeatTime = tracker.getRepeatTime() + "";
+                if (repeatTime.length() == 2) {
+                    repeatTime = "0" + repeatTime;
+                }
+                message = String.format("pw,123456,upload,%s#", repeatTime);
+                break;
+            }
             default:
                 message = String.format("T%ss***n123456", tracker.getRepeatTime());
                 break;

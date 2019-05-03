@@ -552,7 +552,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/shutdown"
-                        android:visibility="@{viewModel.isS1OrA9Tracker()}" />
+                        android:visibility="@{viewModel.isS1OrD79Tracker()}" />
 
                 </LinearLayout>
 

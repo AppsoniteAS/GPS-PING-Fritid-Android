@@ -26,15 +26,21 @@ android {
             storeFile file('/Users/bnt/Downloads/gps_ping.keystore')
             storePassword '5Zg4BvlG6ED4YQeXHYXf'
         }
+        config1 {
+            keyAlias 'nordic_tracker'
+            keyPassword 'NordicTracker2019'
+            storeFile file('/Users/bnt/Downloads/gps_ping.keystore')
+            storePassword '5Zg4BvlG6ED4YQeXHYXf'
+        }
     }
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         multiDexEnabled true
-        applicationId "no.appsonite.gpsping"
+        applicationId "no.appsonite.nordictracker"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 99
+        versionCode 2
         versionName "1.2"
         buildConfigField("String", "AMAZON_ADDRESS", '"https://s3-eu-west-1.amazonaws.com/fritidbucket/"')
     }
@@ -47,10 +53,11 @@ android {
     }
     buildTypes {
         release {
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'java.lang.String', 'FILE_PROVIDER_AUTHORITY', "\"no.appsonite.gpsping.wtfileprovider\""
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config1
         }
         debug {
             buildConfigField 'java.lang.String', 'FILE_PROVIDER_AUTHORITY', "\"no.appsonite.gpsping.wtfileprovider\""
@@ -90,7 +97,7 @@ dependencies {
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
     compile 'com.google.android.gms:play-services-gcm:11.4.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
+        transitive = true
     }
     compile 'gov.nasa:worldwind:2.0.0-986'
     compile 'com.android.support:multidex:1.0.2'

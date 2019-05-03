@@ -186,6 +186,9 @@
     <string name="subscription_agreement">Subscription agreement</string>
     <string name="thisTrackerAlreadyExists">This tracker already exists</string>
     <string name="marcel">MARCEL</string>
+    <string name="persmissions_warning">Now you will be asked to grant app access to SMS and calls.\n\nSMS permissions are required for communication between smartphone and your GPS trackers.\n\n Without these permissions you won\'t be able to control (swich on/off, set signal period, update internet settings) your trackers</string>
+    <string name="no_thanks">No thanks</string>
+    <string name="tracker_will_not_work">As you didn\'t grant app access to SMS you trackers won\'t work.</string>
 
     <string-array name="receiveSignalTime">
         <item>20 seconds</item>
