@@ -153,6 +153,9 @@ public class Tracker implements Serializable {
             case TK_BIKE:
             case TK_STAR_BIKE:
                 break;
+            case D79:
+                smses.add(new SMS(trackerNumber.get(), String.format("pw,123456,upload,%s#", getRepeatTime())));
+                break;
         }
         return smses;
     }
@@ -203,7 +206,7 @@ public class Tracker implements Serializable {
                     break;
                 case S1:
                     smses.add(new SMS(trackerNumber, "pw,123456,apn,internet.ts.m2m,,,23820#"));
-                    smses.add(new SMS(trackerNumber, String.format("pw123456,ip,%s,5093#", address)));
+                    smses.add(new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address)));
                     break;
                 case A9:
                     smses.add(new SMS(trackerNumber, "pw,123456,apn,internet.ts.m2m,,,23820#"));
@@ -211,7 +214,7 @@ public class Tracker implements Serializable {
                     break;
                 case D79:
                     smses.add(new SMS(trackerNumber, "pw,123456,apn,telenor#"));
-                    smses.add(new SMS(trackerNumber, String.format("pw123456,ip,%s,5093#", address)));
+                    smses.add(new SMS(trackerNumber, String.format("pw,123456,ip %s,5093#", address)));
                     break;
                 case TK_NEW:
                     smses.add(new SMS(trackerNumber, "apn123456,telenor"));

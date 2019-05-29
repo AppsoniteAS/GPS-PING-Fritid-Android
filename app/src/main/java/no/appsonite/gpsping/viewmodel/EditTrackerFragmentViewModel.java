@@ -573,6 +573,9 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
         if (Tracker.Type.A9.toString().equals(this.tracker.get().type.get())) {
             message = "pw,123456,poweroff#";
         }
+        if (Tracker.Type.D79.toString().equals(this.tracker.get().type.get())) {
+            message = "pw,123456,poweroff#";
+        }
         return sendSmsToTracker(tracker, message, activity);
     }
 }

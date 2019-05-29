@@ -236,7 +236,9 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
             if (tracker == null) {
                 visibilityCallBtn.set(false);
             } else {
-                boolean check = tracker.getType().equals(Tracker.Type.S1.toString()) || tracker.getType().equals(Tracker.Type.A9.toString());
+                boolean check = tracker.getType().equals(Tracker.Type.S1.toString())
+                        || tracker.getType().equals(Tracker.Type.A9.toString())
+                        || tracker.getType().equals(Tracker.Type.D79.toString());
                 if (check) {
                     visibilityCallBtn.set(true);
                 } else {
