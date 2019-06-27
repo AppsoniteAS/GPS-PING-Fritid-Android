@@ -1,5 +1,7 @@
 package no.appsonite.gpsping.db;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +86,7 @@ public class RealmTracker extends RealmObject {
     }
 
     public static void add(Tracker tracker) {
+        Log.e("FIND_REALM", "Add tracker method called");
         Realm realm = Realm.getDefaultInstance();
         RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
         realm.beginTransaction();
@@ -100,6 +103,7 @@ public class RealmTracker extends RealmObject {
     }
 
     public static void sync(ArrayList<Tracker> trackers) {
+        Log.e("FIND_REALM", "Sync tracker method called");
         if (trackers.size() == 1) {
             trackers.get(0).isEnabled.set(true);
         }

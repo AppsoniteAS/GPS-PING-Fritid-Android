@@ -40,7 +40,7 @@ android {
         applicationId "no.appsonite.nordictracker"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 6
+        versionCode 9
         versionName "1.2"
         buildConfigField("String", "AMAZON_ADDRESS", '"https://s3-eu-west-1.amazonaws.com/fritidbucket/"')
     }
@@ -107,6 +107,6 @@ dependencies {
     compile 'com.amazonaws:aws-android-sdk-s3:2.6.5'
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0'
     compile(name: 'klarna-checkout', ext: 'aar')
 }

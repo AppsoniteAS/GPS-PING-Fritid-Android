@@ -3,6 +3,7 @@ package no.appsonite.gpsping.api;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableLong;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,17 +14,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import no.appsonite.gpsping.api.content.LoginAnswer;
 import no.appsonite.gpsping.api.typeadapters.ObservableBooleanTypeAdapter;
@@ -45,7 +36,7 @@ public class ApiFactory {
     //    private static final String BASE_URL = "http://192.168.139.201/api/";
 //    private static final String BASE_URL = BuildConfig.DEBUG ? "http://appgranula.mooo.com/api/" : "https://fritid.gpsping.no/api/";
     private static final String BASE_URL = "https://fritid.gpsping.no/api/";
-//    private static final String BASE_URL = "http://54.77.4.166/api/";
+    //    private static final String BASE_URL = "http://54.77.4.166/api/";
 //    private static final String BASE_URL = "https://industri.gpsping.no/api/";
     private static final int CONNECT_TIMEOUT = 60;
     private static final int WRITE_TIMEOUT = 60;
@@ -105,6 +96,7 @@ public class ApiFactory {
                 HttpUrl url = request.httpUrl().newBuilder().addQueryParameter("cookie", loginAnswer.getCookie().get()).build();
                 request = request.newBuilder().url(url).build();
             }
+            Log.d(TAG, "endpoint: " + request.httpUrl());
             Response response = chain.proceed(request);
 //            Log.d(TAG, response.body().string());
             return response;

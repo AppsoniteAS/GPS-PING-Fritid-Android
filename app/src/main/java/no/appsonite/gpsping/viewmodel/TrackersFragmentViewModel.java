@@ -1,18 +1,17 @@
 package no.appsonite.gpsping.viewmodel;
 
 import android.databinding.ObservableArrayList;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import no.appsonite.gpsping.api.ApiFactory;
 import no.appsonite.gpsping.api.content.ApiAnswer;
-import no.appsonite.gpsping.api.content.TrackersAnswer;
 import no.appsonite.gpsping.db.RealmTracker;
 import no.appsonite.gpsping.model.Tracker;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -26,6 +25,7 @@ public class TrackersFragmentViewModel extends BaseFragmentViewModel {
     public Observable<ApiAnswer> removeTracker(final Tracker tracker) {
         Observable<ApiAnswer> observable = execute(ApiFactory.getService().removeTracker(tracker.imeiNumber.get()))
                 .flatMap(apiAnswer -> {
+                    Log.e("FIND_REALM", "Remove tracker method called");
                     Realm realm = Realm.getDefaultInstance();
                     RealmTracker realmTracker = realm.where(RealmTracker.class).equalTo("imeiNumber", tracker.imeiNumber.get()).findFirst();
                     realm.beginTransaction();

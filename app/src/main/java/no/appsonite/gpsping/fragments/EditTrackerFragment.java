@@ -233,7 +233,12 @@ public class EditTrackerFragment extends BaseBindingFragment<FragmentEditTracker
     }
 
     private void initTrackerHistoryBlock() {
-        getBinding().saveTrackingHistory.setOnClickListener(v -> saveTrackingHistory());
+        if (Tracker.Type.valueOf(getModel().tracker.get().type.get()) == Tracker.Type.D79) {
+            getBinding().trackerHistoryBlock.setVisibility(View.GONE);
+        } else {
+            getBinding().trackerHistoryBlock.setVisibility(View.VISIBLE);
+            getBinding().saveTrackingHistory.setOnClickListener(v -> saveTrackingHistory());
+        }
     }
 
     private void saveTrackingHistory() {

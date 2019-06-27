@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.location.Location;
+import android.util.Log;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ import rx.subjects.PublishSubject;
  */
 public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     private static final long INTERVAL = 10;
-    private DecimalFormat decimalFormat = new DecimalFormat("#.#");
     public ObservableString distance = new ObservableString("");
     public ObservableField<Friend> currentFriend = new ObservableField<>();
     public ObservableArrayList<Friend> friendList = new ObservableArrayList<>();
@@ -51,12 +51,13 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     public ObservableArrayList<Poi> pois = new ObservableArrayList<>();
     public ObservableBoolean visibilityCalendar = new ObservableBoolean(false);
     public ObservableBoolean visibilityUserPosition = new ObservableBoolean(true);
-    private PublishSubject<Object> cancelRequest = PublishSubject.create();
     public ObservableBoolean clickableEditBtn = new ObservableBoolean(false);
     public ObservableBoolean visibilityCallBtn = new ObservableBoolean(false);
     public ObservableBoolean visibilityBattery = new ObservableBoolean(false);
     public CreatePointManager createPointManager;
     public ObservableString distanceBetweenUserAndMapPoint = new ObservableString();
+    private DecimalFormat decimalFormat = new DecimalFormat("#.#");
+    private PublishSubject<Object> cancelRequest = PublishSubject.create();
 
     public void requestFriends() {
         execute(ApiFactory.getService().getFriends())
@@ -81,6 +82,17 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 friendList.add(friend);
             }
         }
+        requestTrackers();
+    }
+
+    private void requestTrackers() {
+        execute(ApiFactory.getService().getTrackers()).flatMap(trackersAnswer -> {
+            ArrayList<Tracker> trackers = trackersAnswer.getTrackers();
+            RealmTracker.sync(trackers);
+            return Observable.just(trackers);
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     @Override
@@ -93,6 +105,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
                 restartRequest();
             }
         });
+
 
     }
 
@@ -130,11 +143,13 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         Observable<GeoPointsAnswer> observable = intervalObservable
                 .flatMap(aLong -> {
                     if (currentFriend.get() == null || currentFriend.get().id.get() == -1) {
+                        Log.e("TIME", "from:" + getFrom() + " to:" + getTo());
                         return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo()))
                                 .cache()
                                 .subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread());
                     } else {
+                        Log.e("TIME", "from:" + getFrom() + " to:" + getTo());
                         return execute(ApiFactory.getService().getGeoPoints(getFrom(), getTo(), currentFriend.get().id.get()))
                                 .cache()
                                 .subscribeOn(Schedulers.newThread())
@@ -153,6 +168,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
     protected void parseGeoPointsAnswer(GeoPointsAnswer geoPointsAnswer) {
         createPointManager = new CreatePointManager();
         List<MapPoint> mapPoints = createPointManager.getMapPoints(geoPointsAnswer);
+        Log.d("DFSDF", "parseGeoPointsAnswer: " + mapPoints.get(0).getPicUrl());
 
         this.mapPoints.clear();
         this.mapPoints.addAll(mapPoints);
@@ -167,7 +183,7 @@ public class TrackersMapFragmentViewModel extends BaseFragmentViewModel {
         if (tracker == null) {
             return false;
         }
-        boolean check = tracker.getType().equals(Tracker.Type.S1.toString()) || tracker.getType().equals(Tracker.Type.A9.toString());
+        boolean check = tracker.getType().equals(Tracker.Type.S1.toString()) || tracker.getType().equals(Tracker.Type.A9.toString()) || tracker.getType().equals(Tracker.Type.D79.toString());
         realm.close();
         return check;
     }

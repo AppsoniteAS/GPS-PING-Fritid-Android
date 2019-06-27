@@ -171,14 +171,14 @@ public class Tracker implements Serializable {
             switch (Tracker.Type.valueOf(this.type.get())) {
                 case TK_ANYWHERE:
                 case TK_STAR:
-                    smses.add(new SMS(trackerNumber, "apn123456 apn,telenor"));
+                    smses.add(new SMS(trackerNumber, "apn123456 apn,telenor.smart"));
                     smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
                     break;
                 case TK_STAR_PET:
-                    smses.add(new SMS(trackerNumber, String.format("admin123456 %s%s", phoneCode, phoneNumber)));
-                    smses.add(new SMS(trackerNumber, "apn123456 internet.ts.m2m"));
-                    smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5013", address)));
-                    smses.add(new SMS(trackerNumber, "sleep123456 off"));
+//                    smses.add(new SMS(trackerNumber, String.format("admin123456 %s%s", phoneCode, phoneNumber)));
+                    smses.add(new SMS(trackerNumber, "apn123456 apn,internet.ts.m2m"));
+                    smses.add(new SMS(trackerNumber, String.format("adminip123456 %s 5093", address)));
+//                    smses.add(new SMS(trackerNumber, "sleep123456 off"));
                     break;
                 case TK_BIKE:
                 case TK_STAR_BIKE:
@@ -213,8 +213,8 @@ public class Tracker implements Serializable {
                     smses.add(new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address)));
                     break;
                 case D79:
-                    smses.add(new SMS(trackerNumber, "pw,123456,apn,telenor#"));
-                    smses.add(new SMS(trackerNumber, String.format("pw,123456,ip %s,5093#", address)));
+                    smses.add(new SMS(trackerNumber, "pw,123456,apn,telenor.smart#"));
+                    smses.add(new SMS(trackerNumber, String.format("pw,123456,ip,%s,5093#", address)));
                     break;
                 case TK_NEW:
                     smses.add(new SMS(trackerNumber, "apn123456,telenor"));

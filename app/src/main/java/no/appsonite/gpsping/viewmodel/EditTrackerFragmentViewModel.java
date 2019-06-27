@@ -86,6 +86,8 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
             case VT600:
             case LK330:
             case S1:
+//            case D79:
+//                sleepModeVisible.set(false);
             case A9:
                 sleepModeVisible.set(false);
                 break;

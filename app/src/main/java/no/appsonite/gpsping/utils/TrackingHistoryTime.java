@@ -22,7 +22,8 @@ public class TrackingHistoryTime {
         String val = getHTrackingHistory();
         String[] split = val.split(" ");
         long minutes = Long.parseLong(split[0]);
-        return minutes * 60;
+        long sec = minutes * 60;
+        return sec;
     }
 
     public static String getHTrackingHistory() {
