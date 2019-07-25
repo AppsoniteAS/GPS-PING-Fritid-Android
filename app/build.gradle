@@ -23,13 +23,13 @@ android {
         config {
             keyAlias 'gpsping'
             keyPassword '5Zg4BvlG6ED4YQeXHYXf'
-            storeFile file('/Users/bnt/Downloads/gps_ping.keystore')
+            storeFile file('gps_ping.keystore')
             storePassword '5Zg4BvlG6ED4YQeXHYXf'
         }
         config1 {
             keyAlias 'nordic_tracker'
             keyPassword 'NordicTracker2019'
-            storeFile file('/Users/bnt/Downloads/gps_ping.keystore')
+            storeFile file('gps_ping.keystore')
             storePassword '5Zg4BvlG6ED4YQeXHYXf'
         }
     }
@@ -60,7 +60,11 @@ android {
             signingConfig signingConfigs.config1
         }
         debug {
+            debuggable true
+            minifyEnabled false
             buildConfigField 'java.lang.String', 'FILE_PROVIDER_AUTHORITY', "\"no.appsonite.nordictracker.wtfileprovider\""
+            signingConfig signingConfigs.config1
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     dexOptions {

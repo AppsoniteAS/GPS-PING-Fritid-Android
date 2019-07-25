@@ -246,7 +246,7 @@ public class EditTrackerFragmentViewModel extends BaseFragmentSMSViewModel {
 
     public Observable<SMS> checkBattery(Activity activity) {
         ArrayList<SMS> smses = new ArrayList<>();
-        smses.add(new SMS(tracker.get().trackerNumber.get(), "G123456#"));
+        smses.add(new SMS(tracker.get().trackerNumber.get(), "pw,123456,ts#"));
         return sendSmses(activity, smses);
     }
 
