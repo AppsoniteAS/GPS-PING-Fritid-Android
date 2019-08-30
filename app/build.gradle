@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.25.4'
+        classpath 'io.fabric.tools:gradle:1.22.0'
     }
 }
 apply plugin: 'com.android.application'
@@ -33,14 +33,14 @@ android {
             storePassword '5Zg4BvlG6ED4YQeXHYXf'
         }
     }
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         multiDexEnabled true
         applicationId "no.appsonite.nordictracker"
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 10
+        targetSdkVersion 26
+        versionCode 11
         versionName "1.2"
         buildConfigField("String", "AMAZON_ADDRESS", '"https://s3-eu-west-1.amazonaws.com/fritidbucket/"')
     }
@@ -79,38 +79,38 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'io.reactivex:rxandroid:1.1.0'
-    implementation 'io.reactivex:rxjava:1.1.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     annotationProcessor 'io.realm:realm-android:0.87.2'
-    implementation 'io.realm:realm-android:0.87.2'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    implementation 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
-    implementation 'com.squareup.okhttp:okhttp:2.7.2'
-    implementation 'org.slf4j:slf4j-simple:1.6.1'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'info.hoang8f:android-segmented:1.0.6'
-    implementation 'com.p_v:flexiblecalendar:1.2.1'
-    implementation 'com.github.lzyzsd.randomcolor:library:1.0.0'
-    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    compile 'io.realm:realm-android:0.87.2'
+    compile 'com.google.android.gms:play-services-maps:11.4.2'
+    compile 'com.google.android.gms:play-services-location:11.4.2'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    compile 'com.squareup.okhttp:okhttp:2.7.2'
+    compile 'org.slf4j:slf4j-simple:1.6.1'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'info.hoang8f:android-segmented:1.0.6'
+    compile 'com.p_v:flexiblecalendar:1.2.1'
+    compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
+    compile 'com.google.android.gms:play-services-gcm:11.4.2'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true
     }
-    implementation 'gov.nasa:worldwind:2.0.0-986'
-    implementation 'com.android.support:multidex:1.0.2'
-    implementation 'com.anjlab.android.iab.v3:library:1.0.31'
-    implementation 'com.cesards.android:cropimageview:1.0.2.1'
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.6.5'
-    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
-    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.0.0'
-    implementation(name: 'klarna-checkout', ext: 'aar')
+    compile 'gov.nasa:worldwind:2.0.0-986'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.anjlab.android.iab.v3:library:1.0.31'
+    compile 'com.cesards.android:cropimageview:1.0.2.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.amazonaws:aws-android-sdk-s3:2.6.5'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0'
+    compile(name: 'klarna-checkout', ext: 'aar')
 }
